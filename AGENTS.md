@@ -62,20 +62,18 @@
                   └────────┬────────┘
                            │
               ┌──────────────────────────────────┐
-              │           所有评分                │
-              │     都进入修订回路（最多3轮）      │
+              │      修订回路（简化版 2 档）        │
+              │         最多 3 轮迭代              │
               │  >=18: 轻量修复建议项              │
-              │  14-17: 修复阻塞项                 │
-              │  10-13: 结构性重写                 │
-              │  <10: 重新规划                     │
+              │  <18:  结构性重写                  │
               └──────────────┬───────────────────┘
                              │
                              ▼
                   ┌─────────────────────┐
-                  │  prose-polisher/     │
-                  │  chapter-writer/     │
-                  │  syllabus-planner    │
-                  │  （根据评分选择）     │
+                  │  prose-polisher      │
+                  │  （轻量修订）        │
+                  │  chapter-writer      │
+                  │  （结构性重写）      │
                   └──────────┬──────────┘
                              │
                              ▼
@@ -90,43 +88,46 @@
     ┌──────────────────┐       ┌─────────────────────┐
     │ 评分 >= 18        │       │ 评分 < 18           │
     │ 且无阻塞项        │       │ 或仍有阻塞项        │
-    │                  │       │                    │
-    │ → 进入 release   │       │ → 继续修订回路     │
-    │   流程           │       │   （最多3轮）       │
+    │                  │       │ 且轮次 < 3          │
+    │ → 进入 release   │       │                    │
+    │   流程           │       │ → 继续修订回路     │
     └────────┬─────────┘       └──────────┬──────────┘
              │                            │
-             ▼                            ▼
-    ┌────────────────┐          ┌──────────────────┐
-    │consistency-edit.│          │ 根据评分选择     │
-    └───────┬────────┘          │ polisher/writer/ │
-            │                   │ planner          │
-            ▼                   └────────┬─────────┘
-    ┌───────────────┐                    │
-    │  error-fixer   │  ← 修复            │
-    │   （如需要）   │    validate_week   │
-    └───────┬───────┘    报错            │
-            │                            │
+             ▼                            │
+    ┌────────────────┐                     │
+    │ 一致性检查      │                     │
+    │ （Lead agent）  │                     │
+    │ 6b 直接执行     │                     │
+    └───────┬────────┘                     │
+            │                              │
+            ▼                              │
+    ┌───────────────┐                      │
+    │  error-fixer   │  ← 修复             │
+    │  （如需要）    │   validate_week     │
+    └───────┬───────┘   报错              │
+            │                             │
             ▼                            │
        ✅ Release                        │
                                          │
                                          │
     ════════════════════════════════════╪══════════
                                         │
-    修订回路（最多3轮）：                │
-    - 每轮 QA 后根据反馈修订            │
-    - 修订后再跑 student-qa             │
-    - 直到 >= 18 且无阻塞项 或 达3轮上限 │
+    修订回路（简化版 2 档，最多3轮）：    │
+    - ">= 18": prose-polisher 轻量修订   │
+    - "< 18":  chapter-writer 结构性重写 │
+    - 修订后再跑 student-qa 验证          │
+    - 直到 >= 18 且无阻塞项 或 达3轮上限  │
     ════════════════════════════════════╧══════════
 ```
 
-### 质量升级路径
+### 质量升级路径（简化版：2 档处理）
 
 | student-qa 总分 | 处理方式 |
 |----------------|---------|
 | >= 18/20 | 根据 QA 建议项进行轻量修订（prose-polisher）→ 再 QA → release |
-| 14-17/20 | 把具体维度的阻塞项传回 prose-polisher 修复，最多迭代 3 轮 |
-| 10-13/20 | 回传 chapter-writer 做结构性重写，可触发 prose-polisher 二次润色 |
-| < 10/20 | 回传 syllabus-planner 重新规划章节结构，从头走一遍流水线 |
+| < 18/20 | 回传 chapter-writer 做结构性重写，可触发 prose-polisher 二次润色 |
+
+**最多迭代 3 轮**，3 轮后仍 < 18 分则标注 `<!-- 需人工介入 -->` 后强制 release。
 
 ## Agent 团队（9 个专职角色）
 
@@ -139,23 +140,24 @@
 | `example-engineer` | 示例代码 + 反例 + PyHelper 超级线代码 | 与贯穿案例关联 |
 | `test-designer` | pytest 用例矩阵 | 正例 + 边界 + 反例 |
 | `exercise-factory` | 分层作业 + rubric + AI 协作练习 | 基础/进阶/挑战 + 可选 AI 练习 |
-| `consistency-editor` | 术语/格式/引用/角色统一 | 对齐 glossary.yml + characters.yml |
-| `error-fixer` | 修复校验失败 | 逐条修复再验证 |
+| `error-fixer`（可选） | 修复校验失败 | 逐条修复再验证 |
+
+**注意**：`consistency-editor` 已合并到 `prose-polisher`（作为润色最后一步）和 Lead agent 阶段 6b 的直接执行工作（不再作为独立 subagent 调用）。
 
 ## 跨章一致性要求
 
 | 检查项 | 负责 Agent | 检查方式 |
 |--------|-----------|---------|
-| 循环角色性格一致 | consistency-editor | 对照 `shared/characters.yml` |
-| 术语写法统一 | consistency-editor | 对照 `shared/glossary.yml` |
+| 循环角色性格一致 | prose-polisher（润色阶段检查）| 对照 `shared/characters.yml` |
+| 术语写法统一 | Lead agent（阶段 6b）| 同步 TERMS.yml → glossary.yml |
 | 新概念数在预算内 | syllabus-planner + validate_week.py | 对照 `shared/concept_map.yml` |
 | 回顾桥数量达标 | chapter-writer + validate_week.py | 至少引用前几周的指定数量概念 |
 | PyHelper 代码演进连续 | example-engineer | 在上周代码基础上增量修改 |
 | AI 融合阶段匹配 | exercise-factory | 对照 `shared/ai_progression.md` |
-| 章首导入完整 | consistency-editor | 每章有引言格言 + 时代脉搏段落 |
-| 写作元数据已注释 | consistency-editor | 所有规划元数据用 `<!-- -->` 包裹，不在正文渲染 |
+| 章首导入完整 | prose-polisher | 每章有引言格言 + 时代脉搏段落 |
+| 写作元数据已注释 | prose-polisher | 所有规划元数据用 `<!-- -->` 包裹，不在正文渲染 |
 | 代码示例符合当前最佳实践 | chapter-writer | 写作前用 Context7 MCP 查证 |
-| **参考链接真实性** | prose-polisher + consistency-editor | 所有 URL 必须来自 WebSearch/perplexity MCP 搜索结果或 .research_cache.md，禁止编造 |
+| **参考链接真实性** | prose-polisher | 所有 URL 必须来自 WebSearch/Exa MCP 搜索结果或 .research_cache.md，禁止编造 |
 
 ## Skill 命令（9 个）
 

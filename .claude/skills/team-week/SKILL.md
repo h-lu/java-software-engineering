@@ -25,7 +25,8 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 - 交付遵循 `CLAUDE.md` + `shared/style_guide.md`
 - **所有写正文的 subagent 必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
-- **ANCHORS.yml 由阶段 6 的 Consistency 统一管理**：其他阶段如有 anchor 建议，在输出中标注即可，不直接写 ANCHORS.yml
+- **ANCHORS.yml 由阶段 6（收敛阶段）统一管理**：其他阶段如有 anchor 建议，在输出中标注即可，不直接写 ANCHORS.yml
+- **一致性处理由 Lead agent 直接执行**（不再调用独立 subagent）：阶段 6b 的术语同步、格式检查、ANCHORS 整理由 Lead agent 直接完成
 
 ### 写作质量红线（四维评分体系）
 
@@ -208,8 +209,7 @@ python3 scripts/validate_week.py --week week_XX --mode drafting
 **校验**（三个全部完成后执行）：
 
 ```bash
-python3 scripts/validate_week.py --week week_XX --mode task
-python3 -m pytest chapters/week_XX/tests -q
+python3 scripts/validate_week.py --week week_XX --mode idle
 ```
 
 ### 阶段 5：QA（前置：阶段 4 全部完成）
@@ -224,14 +224,12 @@ python3 -m pytest chapters/week_XX/tests -q
 
 ### 阶段 6：收敛（前置：阶段 5 完成，序列执行）
 
-#### 6a. 修订回路
+#### 6a. 修订回路（简化版：2 档处理）
 
 | 总分范围 | 处理方式 | 回传给谁 |
 |---------|---------|---------|
 | >= 18 | 根据 QA 反馈进行轻量修订后通过 | `prose-polisher`（轻量修复，处理建议项） |
-| 14-17 | 把具体维度的阻塞项传回修复 | `prose-polisher` |
-| 10-13 | 结构性重写 | `chapter-writer` |
-| < 10 | 重新规划章节结构 | `syllabus-planner` |
+| < 18 | 结构性重写（需大幅改进） | `chapter-writer` |
 
 **修订规则说明**：
 - 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订（即使是 >= 18 分的建议项也要处理）
@@ -241,16 +239,18 @@ python3 -m pytest chapters/week_XX/tests -q
 2. 标注 `<!-- 需人工介入 -->`
 3. 继续推进到 6b（不再回传修订）
 
-#### 6b. Consistency sweep
+#### 6b. 一致性处理 + 落盘 QA_REPORT + Release 校验
 
-调用 subagent `consistency-editor`：
+**一致性处理（由 Lead agent 直接执行，不再调用独立 subagent）**：
 
-- 术语/格式/引用/角色统一
-- 同步 `TERMS.yml` → `shared/glossary.yml`
-- 管理 `ANCHORS.yml`（统一处理各阶段产出的 anchor 建议）
-- 检查循环角色使用一致性
+在最终 release 前，Lead agent 直接执行以下一致性检查：
 
-#### 6c. 落盘 QA_REPORT + Release 校验
+1. **术语同步**：检查 `TERMS.yml` → `shared/glossary.yml`，如有缺失则同步
+2. **ANCHORS.yml 整理**：确保锚点 ID 周内唯一，claim/evidence/verification 齐全
+3. **角色一致性**：快速检查循环角色使用是否符合 `shared/characters.yml` 人设
+4. **格式统一**：检查标题层级、代码块语言标签、列表格式等
+
+**落盘 QA_REPORT**：
 
 - 把最终 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
   - 四维评分写在顶部
@@ -268,16 +268,14 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ---
 
-## 校验模式速查
+## 校验模式速查（简化后：3 种模式）
 
 | 阶段 | 校验模式 | 说明 |
 |------|---------|------|
 | 阶段 1（规划） | 无 | ASSIGNMENT 等文件不存在是正常的 |
-| 阶段 2（写作） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
-| 阶段 2.5（研究） | 检查 `.research_cache.md` 存在 | Lead agent 亲自执行 |
-| 阶段 3（润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
-| 阶段 4（产出） | `--mode task` + pytest | 所有文件应齐全 |
-| 阶段 6（收敛） | `--mode release` | 完整发布级校验 |
+| 阶段 2-3（写作/润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml（如果存在）|
+| 阶段 4-5（产出/QA） | `--mode idle` | 所有文件 + QA 阻塞项检查，无 pytest |
+| 阶段 6（收敛） | `--mode release` | 完整发布级校验（含 pytest + pedagogical 检查）|
 
 ## 收敛规则
 
