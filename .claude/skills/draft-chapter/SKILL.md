@@ -25,6 +25,16 @@ disable-model-invocation: true
 
 ## 步骤（按顺序）
 
+### 第 0 步：日期校准（立即执行）
+
+生成 `shared/current_date.txt`，供后续所有 agent 读取当前日期：
+
+```bash
+date '+%Y-%m-%d' > shared/current_date.txt
+```
+
+这确保时代脉搏、AI 小专栏、参考链接中的日期使用当前年份，不会因模型训练数据截止日期而过时。
+
 ### 第 1 步：规划结构 + 贯穿案例 + 认知负荷 + 超级线 + 角色
 
 调用 subagent `syllabus-planner`：
@@ -35,19 +45,78 @@ disable-model-invocation: true
 - **必须做认知负荷检查**：新概念数在预算内，回顾桥设计达标
 - **必须规划 PyHelper 超级线推进**
 - **必须规划循环角色出场位置**
+- **必须规划章首导入**：选择一句与本章主题相关的引言格言，并草拟时代脉搏段落的方向
 - 写入 `chapters/week_XX/CHAPTER.md`
+- **所有规划元数据必须用 `<!-- ... -->` HTML 注释包裹**（Bloom 标注、概念预算表、AI 专栏规划、角色出场规划、章节结构骨架等）
+
+### 第 1.5 步：Context7 技术查证
+
+在写正文之前，使用 **Context7 MCP** 查证本章涉及的 Python 官方文档和 API 最佳实践：
+
+1. 从第 1 步的规划中提取本章涉及的 Python 特性、标准库模块、第三方库
+2. 调用 `resolve-library-id` 定位相关库（如 `python`、`pytest` 等）
+3. 调用 `query-docs` 查询具体的最佳实践和 API 用法
+4. 将查证结果传递给第 2 步的 chapter-writer，确保代码示例符合当前 Python 最佳实践
+
+**搜索工具分工**：
+- **Context7**：查证官方文档 API 用法（标准答案）
+- **Exa Code Context**：搜索真实项目代码示例（社区实践）
+- 两者互补，确保代码既正确又实用
 
 ### 第 2 步：场景驱动写正文
 
 调用 subagent `chapter-writer`：
 
 - **必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
+- **必须写章首导入**：在章标题之后、学习目标之前写入引言格言 + 时代脉搏段落（200-300 字，场景化引入 AI/技术趋势与本章关联）。详见 `shared/style_guide.md` 的"章首导入"章节
+- **必须基于第 1.5 步的 Context7 查证结果**确保代码示例使用当前 Python 最佳实践
 - 以贯穿案例为主线，用"场景 → 困惑 → 解法 → 深化"的叙事弧线写每一节
 - 使用循环角色（小北/阿码/老潘）增强代入感，每章至少 2 次出场
 - 写回顾桥：在新场景中自然引用前几周概念
 - 写 PyHelper 进度小节
 - 严禁所有节使用相同的子标题模式
 - 严禁用 bullet list 堆砌做小结
+- **所有写作元数据（每节的 Bloom/叙事入口/建议示例等）必须用 `<!-- ... -->` 注释包裹**
+
+### 第 2.5 步：联网研究收集（Lead agent 亲自执行）
+
+**由你（Lead agent）直接执行**，不委派给 subagent。为第 3 步的 prose-polisher 准备搜索数据。
+
+1. 从 CHAPTER.md 的 HTML 注释中提取 2 个 AI 小专栏的主题和建议搜索词
+2. 读取 `shared/current_date.txt` 获取当前日期
+3. 使用搜索工具收集数据（每个侧栏 2-3 次搜索）：
+
+   **优先级 1: WebSearch**（内置搜索，最可靠）
+   ```
+   WebSearch("GitHub Copilot adoption statistics 2026")
+   ```
+
+   **优先级 2: Exa MCP**（AI 增强搜索，适合深度研究）
+   ```
+   mcp__exa__web_search_exa({
+     "query": "GitHub Copilot adoption statistics 2026",
+     "numResults": 5,
+     "type": "auto"
+   })
+   mcp__exa__company_research_exa({
+     "companyName": "OpenAI",
+     "numResults": 3
+   })
+   ```
+
+   **优先级 3: perplexity MCP**（如可用）
+   ```
+   mcp__perplexity__perplexity_search({
+     "query": "vibe coding trend AI programming 2026",
+     "recency": "year",
+     "response_format": "json"
+   })
+   ```
+
+   - 搜索关键词中必须包含当前年份
+   - 同时搜索时代脉搏段落需要的素材
+
+4. 将所有搜索结果写入 `chapters/week_XX/.research_cache.md`（含事实、URL、访问日期）
 
 ### 第 3 步：深度润色 + AI 小专栏
 
@@ -59,7 +128,9 @@ disable-model-invocation: true
 - 可做结构性重组（不仅仅是换词）
 - **必须插入 2 个 AI 时代小专栏**：
   - 按 `syllabus-planner` 规划的位置和主题插入
-  - 必须尝试联网搜索真实数据（用 WebSearch 或 Bash curl）
+  - **优先读取 `chapters/week_XX/.research_cache.md`** 中的预搜索数据和真实 URL
+  - 如果缓存数据不足，**可以补充搜索**（WebSearch/Exa MCP），并将新结果**追加写入缓存文件**
+  - **绝对禁止编造参考链接**：所有 URL 必须来自搜索工具或研究缓存。搜索失败时写 `<!-- TODO -->` 占位，不得伪造
   - 位置硬约束：一个在前段、一个在中段，禁止全堆章末
 
 ### 第 4 步：学生视角四维审读
@@ -68,24 +139,34 @@ disable-model-invocation: true
 
 - 只读审读，输出四维评分 + 问题清单
 - 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
-- 总分 >= 16/20 才能通过
+- 总分 >= 18/20 才能通过
 
-### 第 5 步：修订回路
+### 第 5 步：修订回路（有硬性迭代上限）
 
-**如果 student-qa 总分 < 16 或有阻塞项**：
+**修订回路规则**：
 
-| 总分范围 | 处理方式 |
-|---------|---------|
-| 12-15 | 把具体维度的阻塞项传回 `prose-polisher` 修复 |
-| 8-11 | 回传 `chapter-writer` 做结构性重写 |
-| < 8 | 回传 `syllabus-planner` 重新规划 |
+| 总分范围 | 处理方式 | 回传给谁 |
+|---------|---------|---------|
+| >= 18 | 根据 QA 反馈进行轻量修订后通过 | `prose-polisher`（轻量修复，处理建议项） |
+| 14-17 | 把具体维度的阻塞项传回修复 | `prose-polisher` |
+| 10-13 | 结构性重写 | `chapter-writer` |
+| < 10 | 重新规划章节结构 | `syllabus-planner` |
 
-**最多迭代 2 轮**。如果 2 轮后仍不达标，记录到 QA_REPORT 中由人工处理。
+**迭代计数规则（防止无限循环）：**
+
+1. 维护一个变量 `revision_round`，初始值为 0。
+2. 每次进入修订回路（回传给 polisher/writer/planner），`revision_round += 1`。
+3. **`revision_round` 达到 3 时，强制停止修订回路**：
+   - 不再回传修订，直接进入第 6 步落盘。
+   - 在 QA_REPORT.md 中标注：`<!-- 修订回路已达上限（3 轮），以下问题需人工介入 -->`
+   - 未解决的阻塞项保留为 `- [ ]` 但添加注释说明已尝试 3 轮修订。
+4. 如果第 1 轮修订后总分 >= 18 且无阻塞项，跳过后续轮次，直接进入第 6 步。
 
 ### 第 6 步：落盘 QA_REPORT
 
 把最终的 StudentQA 输出落盘到 `chapters/week_XX/QA_REPORT.md`：
 
-- 四维评分写在顶部
+- 四维评分写在顶部（标注是第几轮评分）
 - 阻塞项放到"## 阻塞项"下（checkbox）
 - 建议项放到"## 建议项"下（checkbox）
+- 如果经过修订回路，记录每轮评分变化（例如 `第 1 轮：14/20 → 第 2 轮：17/20`）

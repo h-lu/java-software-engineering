@@ -134,11 +134,14 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 3. **QA 阻塞项清零**：`QA_REPORT.md` 的"阻塞项"下不存在未勾选 `- [ ]`
 4. **术语同步**：`TERMS.yml` 中的 `term_zh` 必须已进入 `shared/glossary.yml`
 5. **锚点完整**：`ANCHORS.yml` 的 `id` 周内唯一，`claim/evidence/verification` 齐全
-6. **叙事质量**：`student-qa` 四维评分总分 >= 16/20（详见下方）
+6. **叙事质量**：`student-qa` 四维评分总分 >= 18/20（详见下方）
 7. **认知负荷**：新概念数不超过本阶段预算；回顾桥数量达标
 8. **超级线推进**：CHAPTER.md 包含 `## PyHelper 进度` 小节
 
-上述规则由 `scripts/validate_week.py` 与 `.claude/hooks/` 强制执行。
+上述规则由 `scripts/validate_week.py` 强制执行；`.claude/hooks/` 默认只做提示（非阻塞）。
+
+如需把 hooks 作为"硬闸门"拦截任务完成/空闲事件，可在 Claude Code 的环境变量里设置：
+- `TEXTBOOK_HOOK_STRICT=1`
 
 ### 叙事质量四维评分（student-qa 输出）
 
@@ -149,7 +152,14 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 | 知识覆盖 | 1-5 | 概念准确、覆盖完整、代码可运行 |
 | 认知负荷 | 1-5 | 难度适当、不超载、有回顾桥 |
 
-**总分 >= 16 分才能 release。** 任一维度 <= 2 分视为阻塞项。
+**总分 >= 18 分才能 release。** 任一维度 <= 2 分视为阻塞项。
+
+**修订回路规则**：
+- 评分 >= 18：一轮修改后通过
+- 评分 14-17：修改后需继续评分（回传 polisher）
+- 评分 10-13：结构性重写（回传 writer）
+- 评分 < 10：重新规划（回传 planner）
+- 最多 3 轮修订
 
 ### Git/Gitea 建议项（不作为硬闸门）
 
@@ -157,6 +167,54 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 - 至少 2 次提交（draft + verify）
 - PR 描述引用本周 DoD + 验证通过信息
 - 参考：`shared/gitea_workflow.md`
+
+---
+
+## 时效性约束（防止年份过时）
+
+本书涉及大量 AI/技术动态数据（时代脉搏、AI 小专栏等）。为防止生成内容使用过时的年份：
+
+1. **动态日期文件**：`shared/current_date.txt` 在每次流水线启动时由 lead agent 自动生成（`date '+%Y-%m-%d'`）。所有写正文的 agent **必须先读此文件**，获取当前日期。
+2. **时代脉搏和 AI 小专栏**中引用的数据、事件、统计数字，必须与 `shared/current_date.txt` 中的年份一致（即"近 1-2 年"应基于当前年份往回推算）。
+3. **`参考（访问日期：YYYY-MM-DD）`** 中的日期必须使用 `shared/current_date.txt` 中的实际日期，不要凭记忆填写。
+4. **联网搜索查证**时（使用 `WebSearch` 内置工具 / `perplexity` MCP / Context7 MCP 等），搜索关键词应包含当前年份（如 `"GitHub Copilot statistics {当前年份}"`），不要使用模板示例中的旧年份。
+5. **syllabus-planner** 在规划 AI 小专栏的"建议搜索词"时，也必须使用当前年份。
+
+---
+
+## ⚠️ 参考链接真实性（全局铁律）
+
+**绝对禁止在任何产出文件中编造参考链接。** 这是全书最高优先级的约束之一。
+
+### 禁止行为
+
+- **禁止凭记忆拼 URL**：AI 模型记忆中的 URL 极不可靠，大量"看起来合理"的链接实际并不存在
+- **禁止伪造学术论文链接**：如虚构的 `arxiv.org/abs/XXXX-XXXXX` 编号
+- **禁止伪造新闻/报告链接**：如虚构的 Nature、Stanford、MIT 研究 URL
+- **禁止伪造统计数据**：如编造"XX% 的开发者"这类具体数字
+- **宁可不附参考、不给精确数字，也不能给虚假的**
+
+### 正确做法
+
+1. **使用搜索工具获取真实数据和 URL**（按优先级）：
+   - **优先：研究缓存** → 检查 `chapters/week_XX/.research_cache.md`，这是 Lead agent 在流水线 Stage 2.5 预先搜索的成果
+   - **优先：WebSearch**（Claude Code 内置工具，最可靠，无外部依赖）→ `WebSearch("搜索关键词")`
+   - **备选：perplexity MCP** → `mcp__perplexity__perplexity_search({"query": "...", "recency": "year"})` （AI 增强搜索，带引用）
+   - **备选：WebFetch** → `WebFetch("https://具体URL")` （抓取和验证特定网页内容）
+   - **技术文档：Context7 MCP** → `mcp__plugin_context7_context7__query-docs(...)` （适合查证 Python/库的最佳实践）
+   - **只使用搜索工具返回的 URL**，不要自行修改或拼接
+2. **搜索失败时的兜底**：
+   - 用模糊表述代替精确数字（如"超过千万"代替"1500 万"）
+   - 写 `<!-- TODO: 需联网搜索 "[具体搜索词]" 补充数据和真实参考链接 -->`
+   - 不附任何参考链接（空着好过造假）
+
+### 适用范围
+
+此规则适用于所有 agent 产出的所有文件，包括但不限于：
+- `CHAPTER.md` 中的时代脉搏段落
+- `CHAPTER.md` 中的 AI 时代小专栏
+- `ASSIGNMENT.md` 中引用的外部资源
+- 任何包含 `https://` 的正文内容
 
 ---
 
@@ -171,10 +229,35 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 3. **禁止模板感**：不要每节都用相同的子标题结构；不要 bullet list 堆砌做小结。
 
 **质量闸门**：
-- `student-qa` 四维评分总分 >= 16/20 才能 release
+- `student-qa` 四维评分总分 >= 18/20 才能 release
 - 若正文模板化 → 运行 `/polish-week week_XX`（可做结构性改写）
 - 代码块必须可运行（或注明"伪代码/节选"）
 - 重要结论必须可验证 → 落到 `ANCHORS.yml`
+
+### 章首导入（每章必须）
+
+每章标题之后、学习目标之前，必须包含：
+
+1. **引言格言**：与本章主题相关的名人名言/编程格言，Markdown blockquote 格式
+2. **时代脉搏**：200-300 字导入段落，用近 1-2 年的 AI/技术事件引出本章主题，不加标题
+
+详细格式和示例见 `shared/style_guide.md` 的"章首导入"章节。
+
+### 写作元数据必须注释
+
+CHAPTER.md 中的**写作元数据**（Bloom 标注、概念预算表、AI 专栏规划、角色出场规划、章节结构骨架等）**必须**用 HTML 注释 `<!-- ... -->` 包裹。规划阶段产出的所有中间产物都不能出现在渲染后的正文中。
+
+详细清单见 `shared/style_guide.md` 的"写作元数据注释规范"章节。
+
+### Context7 技术查证（写作前必做）
+
+Python 及其生态持续演进。为确保代码示例是当前版本的正确写法，**所有写正文的 agent 必须在动笔前使用 Context7 MCP 查证本章涉及的核心技术点**：
+
+1. 用 `resolve-library-id` 定位相关库
+2. 用 `query-docs` 查询具体的最佳实践和 API 用法
+3. 将查证结果融入写作，确保示例代码符合当前 Python 最佳实践
+
+详细流程见 `shared/style_guide.md` 的"Context7 技术查证"章节。
 
 ## 术语与一致性
 
@@ -190,5 +273,5 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 - Lead 建议开启 delegate mode：只拆任务与收敛，不写正文
 - **所有写正文的 agent 必须先读 `shared/writing_exemplars.md`**
 - **所有写正文的 agent 必须读 `shared/characters.yml`（循环角色）**
-- 产出阶段的 teammate（Writer/Example/Assignment/Consistency/Error-fixer）完成任务前，必须确保本周校验通过（hooks 会拦截）
+- 产出阶段的 teammate（Writer/Example/Assignment/Consistency/Error-fixer）完成任务前，建议确保本周校验通过（hooks 默认提示；开启 strict 后会拦截）
 - **规划阶段的 syllabus-planner 不需要跑校验**——此时 ASSIGNMENT.md 等文件尚未产出，校验必然报错
