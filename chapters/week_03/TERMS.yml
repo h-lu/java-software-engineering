@@ -1,0 +1,61 @@
+# Week 03 术语表
+
+- term_zh: 函数
+  term_en: function
+  definition_zh: 给一段代码起名字，可以反复调用的代码块。用 def 语句定义。
+  first_seen: week_03
+
+- term_zh: 函数定义
+  term_en: function definition
+  definition_zh: 使用 def 语句创建函数的过程。定义只是"写菜谱"，调用才是"做菜"。
+  first_seen: week_03
+
+- term_zh: 函数调用
+  term_en: function call
+  definition_zh: 使用函数名加括号（如 foo()）来执行函数代码。调用时括号不能省略。
+  first_seen: week_03
+
+- term_zh: 参数
+  term_en: parameter
+  definition_zh: 定义函数时写的"占位符"变量，用于接收调用时传入的值。
+  first_seen: week_03
+
+- term_zh: 实参
+  term_en: argument
+  definition_zh: 调用函数时传入的"实际值"。
+  first_seen: week_03
+
+- term_zh: 返回值
+  term_en: return value
+  definition_zh: 函数执行后交还给调用者的值。用 return 语句返回。return 和 print 不同：print 是给人看，return 是给程序用。
+  first_seen: week_03
+
+- term_zh: 作用域
+  term_en: scope
+  definition_zh: 变量"在哪里能用"的规则。局部变量只能在函数内部用，全局变量处处可见。
+  first_seen: week_03
+
+- term_zh: 局部变量
+  term_en: local variable
+  definition_zh: 在函数内部定义的变量，只能在函数内访问。函数结束后，局部变量会被清空。
+  first_seen: week_03
+
+- term_zh: 全局变量
+  term_en: global variable
+  definition_zh: 在函数外部定义的变量，处处可见。工程上应避免使用，因为会让代码行为难以预测。
+  first_seen: week_03
+
+- term_zh: 函数分解
+  term_en: functional decomposition
+  definition_zh: 把一个大问题拆成多个小函数的思维方式。每个函数只做一件事，职责单一。
+  first_seen: week_03
+
+- term_zh: 重构
+  term_en: refactoring
+  definition_zh: 改善代码结构但不改变功能。比如把一坨代码拆成函数，或给函数改个更好的名字。
+  first_seen: week_03
+
+- term_zh: docstring
+  term_en: docstring
+  definition_zh: 函数内部的第一行字符串，用三引号包裹，用于说明函数的功能。
+  first_seen: week_03

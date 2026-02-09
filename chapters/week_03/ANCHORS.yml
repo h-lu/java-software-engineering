@@ -1,0 +1,41 @@
+# Week 03 锚点（Anchors）
+
+- id: week_03_function_def
+  claim: 使用 def 语句定义函数，可以把重复的代码"打包"
+  evidence: CHAPTER.md 第 104-113 行，展示了 def km_to_miles() 的定义和调用
+  verification: tests/test_functions.py::test_function_definition
+
+- id: week_03_parameter
+  claim: 参数让函数接受不同的输入，像"模板"一样处理各种值
+  evidence: CHAPTER.md 第 164-172 行，展示了带参数的函数和多次调用
+  verification: tests/test_functions.py::test_parameters
+
+- id: week_03_return_value
+  claim: return 返回结果给程序用，print 只是给人看
+  evidence: CHAPTER.md 第 240-256 行，对比了 print 和 return 的区别
+  verification: tests/test_functions.py::test_return_values
+
+- id: week_03_scope
+  claim: 局部变量只能在函数内访问，全局变量处处可见
+  evidence: CHAPTER.md 第 355-365 行，展示了局部变量和全局变量的访问差异
+  verification: tests/test_functions.py::test_scope
+
+- id: week_03_functional_decomposition
+  claim: 把大函数拆成小函数，每个函数只做一件事
+  evidence: CHAPTER.md 第 323-347 行，展示了 show_menu()、get_choice() 等小函数的拆分
+  verification: tests/test_converter.py::test_modular_design
+
+- id: week_03_print_vs_return
+  claim: print 返回 None，不能用于后续计算；return 返回值可以复用
+  evidence: CHAPTER.md 第 276-290 行，add_with_print vs add_with_return 的对比
+  verification: tests/test_functions.py::test_print_vs_return
+
+- id: week_03_definition_vs_call
+  claim: 定义函数只是"写菜谱"，调用才是"做菜"
+  evidence: CHAPTER.md 第 128-136 行，展示了只定义不调用什么都不会发生
+  verification: tests/test_functions.py::test_call_without_definition
+
+- id: week_03_global_warning
+  claim: 工程上应避免使用全局变量，因为会让代码行为难以预测
+  evidence: CHAPTER.md 第 377-404 行，老潘警告全局变量的问题
+  verification: tests/test_functions.py::test_avoid_globals

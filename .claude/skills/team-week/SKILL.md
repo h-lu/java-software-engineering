@@ -216,9 +216,11 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 调用 subagent `student-qa`：
 
-- 只读审读，输出四维评分 + 问题清单
+- **只读审读**，返回四维评分 + 问题清单（通过 tool result 返回，不写文件）
 - 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
 - 总分 >= 18/20 才能通过
+
+**重要**：student-qa 是只读角色（tools: [Read, Grep, Glob]，无 Write 权限），**不要让它写 QA_REPORT.md**。它应该通过返回消息输出评分和清单。
 
 **校验**：无（QA 是只读角色）
 
@@ -250,13 +252,15 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 3. **角色一致性**：快速检查循环角色使用是否符合 `shared/characters.yml` 人设
 4. **格式统一**：检查标题层级、代码块语言标签、列表格式等
 
-**落盘 QA_REPORT**：
+**落盘 QA_REPORT（由 Lead agent 直接写入）**：
 
-- 把最终 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
+- 把 student-qa 返回的 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
   - 四维评分写在顶部
   - 阻塞项放到 `## 阻塞项` 下（checkbox，必须全部勾选）
   - 建议项放到 `## 建议项` 下（checkbox）
   - 如经过修订回路，记录每轮评分变化
+
+**注意**：QA_REPORT.md 是在阶段 6b 由 Lead agent 写入的，不是在阶段 5 由 student-qa 写入的。student-qa 只返回评分和清单，不操作文件。
 
 - 调用 subagent `error-fixer`（如果校验有报错）：逐条修复再验证
 

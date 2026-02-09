@@ -1,0 +1,32 @@
+# Week 01 术语表
+# 本周新概念（4 个，在预算内）
+
+- term_zh: "print 函数"
+  term_en: "print function"
+  definition_zh: "Python 内置函数，用于将信息输出到屏幕。可以输出多个内容，自动用空格分隔。"
+  first_seen: "week_01"
+
+- term_zh: "变量"
+  term_en: "variable"
+  definition_zh: "给数据取的名字，用于存储和复用信息。通过赋值语句 = 创建。"
+  first_seen: "week_01"
+
+- term_zh: "赋值"
+  term_en: "assignment"
+  definition_zh: "使用 = 符号将右边的值存储到左边的变量名中。注意这不是数学上的等于。"
+  first_seen: "week_01"
+
+- term_zh: "input 函数"
+  term_en: "input function"
+  definition_zh: "Python 内置函数，用于获取用户的键盘输入。返回的永远是字符串类型。"
+  first_seen: "week_01"
+
+- term_zh: "f-string"
+  term_en: "formatted string literal"
+  definition_zh: "Python 3.6+ 推荐的字符串格式化方式，在字符串前加 f，用 {} 嵌入变量或表达式。"
+  first_seen: "week_01"
+
+- term_zh: "字符串"
+  term_en: "string"
+  definition_zh: "文本数据类型，用引号（单引号或双引号）包裹。Python 中用 str 表示。"
+  first_seen: "week_01"
