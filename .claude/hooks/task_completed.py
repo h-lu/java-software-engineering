@@ -25,39 +25,35 @@ from _common import python_for_repo, read_current_week  # noqa: E402
 # Stage detection from task subject
 # ---------------------------------------------------------------------------
 
-# Keywords that indicate a planning-stage task (only CHAPTER.md outline needed)
-_PLANNING_KW = [
-    "outline", "plan", "syllabus", "structure",
-    "规划", "大纲", "结构", "syllabus-planner",
-]
-
-# Keywords that indicate a writing/polishing stage (CHAPTER + TERMS needed)
+# Keywords that indicate a writing/polishing stage (CHAPTER.md only)
 # NOTE: "write" alone is too generic (matches "Write assignment") — use specific terms.
 _DRAFTING_KW = [
     "draft", "chapter", "polish", "prose", "rewrite",
-    "写正文", "正文", "润色", "改写", "深度",
-    "chapter-writer", "prose-polisher",
+    "规划", "大纲", "结构", "写正文", "正文", "润色", "改写", "深度",
+    "syllabus-planner", "chapter-writer", "prose-polisher",
 ]
 
-# Keywords that indicate a QA/review stage (read-only, use drafting mode)
-_QA_KW = [
-    "qa", "student-qa", "review", "审读", "评分", "四维",
+# Keywords that indicate a production/QA stage (all files needed, no pytest)
+_IDLE_KW = [
+    "assignment", "exercise", "example", "test", "exercise-factory",
+    "example-engineer", "test-designer",
+    "作业", "练习", "示例", "测试", "qa", "student-qa", "review", "审读", "评分", "四维",
 ]
 
 
 def _detect_validation_mode(task_subject: str) -> str:
     """Determine the appropriate validate_week mode from the task subject.
 
-    Returns one of: planning, drafting, task.
+    Returns one of: drafting, idle.
+    - drafting: early stages (planning, writing, polishing) - only CHAPTER.md
+    - idle: production stages (examples, tests, assignments, QA) - all files, no pytest
     """
     lower = task_subject.lower()
-    if any(kw in lower for kw in _PLANNING_KW):
-        return "planning"
     if any(kw in lower for kw in _DRAFTING_KW):
         return "drafting"
-    if any(kw in lower for kw in _QA_KW):
-        return "drafting"  # QA is read-only; no need to validate all files
-    return "task"
+    if any(kw in lower for kw in _IDLE_KW):
+        return "idle"
+    return "idle"  # Default to idle for unknown tasks
 
 
 def _parse_week_from_task_subject(task_subject: str | None) -> str | None:
@@ -113,9 +109,9 @@ def main() -> int:
         print(f"[TaskCompleted hook] validation OK for {week} (mode={mode}).", file=sys.stderr)
 
     # Decision: should we block?
-    # - planning/drafting stages: NEVER block (issues are expected at this stage)
-    # - task stage: block only if strict mode is enabled
-    if mode in ("planning", "drafting"):
+    # - drafting stage: NEVER block (issues are expected at this stage)
+    # - idle stage: block only if strict mode is enabled
+    if mode == "drafting":
         if proc.returncode != 0:
             print(
                 f"[TaskCompleted hook] NOTE: issues above are informational for "

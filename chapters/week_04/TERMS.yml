@@ -1,0 +1,42 @@
+# Week 04 新增术语
+# 本周新增 4 个核心概念，均需合入 shared/glossary.yml
+
+- term_zh: 列表
+  term_en: list
+  definition_zh: Python 的有序容器，可以存储多个值。通过索引访问（索引从 0 开始），支持增删改查、切片、排序等操作。列表是可变对象。
+  first_seen: week_04
+
+- term_zh: 索引
+  term_en: index
+  definition_zh: 列表或字符串中位置的编号，从 0 开始。可以用 `scores[0]` 访问第一个元素，用 `scores[-1]` 访问最后一个元素。访问不存在的索引会报 IndexError。
+  first_seen: week_04
+
+- term_zh: 字典
+  term_en: dict
+  definition_zh: Python 的键值对容器，通过键（key）快速查找对应的值（value）。用 `scores["小北"]` 语法访问，键必须是不可变类型（如字符串、数字）。字典是可变对象。
+  first_seen: week_04
+
+- term_zh: 键值对
+  term_en: key-value pair
+  definition_zh: 字典中的基本单元，由"键"（key）和"值"（value）组成。例如字典中"小北"对应 85，"小北"是键，85 是值。键必须唯一，值可以重复。
+  first_seen: week_04
+
+- term_zh: 遍历
+  term_en: iteration
+  definition_zh: 用循环逐个访问容器中的元素。常用 `for item in list:` 遍历列表，用 `for key, value in dict.items():` 遍历字典。
+  first_seen: week_04
+
+- term_zh: 切片
+  term_en: slice
+  definition_zh: 获取列表或字符串的一部分。用 `[start:end]` 语法，左闭右开（包含 start，不包含 end）。如 `scores[:3]` 获取前 3 个元素，`scores[-3:]` 获取后 3 个元素。
+  first_seen: week_04
+
+- term_zh: 可变对象
+  term_en: mutable object
+  definition_zh: 可以被修改的对象。列表和字典是可变的——可以原地修改内容（如 `scores.append(95)`）。字符串和数字是不可变的——修改后会创建新对象。
+  first_seen: week_04
+
+- term_zh: 数据驱动设计
+  term_en: data-driven design
+  definition_zh: 一种编程思维方式，把"逻辑"和"数据"分开。用数据结构（列表、字典）来驱动程序行为，而不是在代码里硬编码各种条件判断。数据变了，代码不用变。
+  first_seen: week_04

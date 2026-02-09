@@ -1,0 +1,33 @@
+# Week 05 锚点
+#
+# 锚点用于把"主张"与"可验证证据"绑定在一起
+
+- id: week_05_file_mode_w_overwrites
+  claim: 写入模式 "w" 会覆盖整个文件，而不是追加
+  evidence: CHAPTER.md 第 98-108 行展示了用 "w" 模式写入文件，第二次写入时第一次的内容会被覆盖
+  verification: 运行 examples/01_file_basics.py 中的 `test_write_mode_overwrites()` 函数，验证文件被覆盖
+
+- id: week_05_with_auto_closes
+  claim: with 语句会自动关闭文件，即使发生错误也是如此
+  evidence: CHAPTER.md 第 360-376 行对比了普通写法和 with 写法在出错时的行为差异
+  verification: 运行 examples/02_with_statement.py 中的 `test_with_closes_on_error()` 函数，验证错误时文件也能正确关闭
+
+- id: week_05_utf8_prevents_garbled
+  claim: 统一使用 UTF-8 编码可以避免中文乱码
+  evidence: CHAPTER.md 第 743-761 行展示了同一中文字符用 UTF-8 和 GBK 编码会产生不同的二进制值，导致乱码
+  verification: 运行 examples/04_encoding_demo.py 中的 `test_utf8_chinese()` 函数，验证 UTF-8 正确读写中文
+
+- id: week_05_pathlib_cross_platform
+  claim: pathlib 让路径处理跨平台兼容
+  evidence: CHAPTER.md 第 493-529 行展示了 Path.home() 在 Windows 和 Mac/Linux 上返回正确的路径
+  verification: 运行 examples/03_pathlib_basics.py 中的 `test_path_home_cross_platform()` 函数，验证路径跨平台兼容
+
+- id: week_05_append_mode_accumulates
+  claim: 追加模式 "a" 会在文件末尾添加内容，而不是覆盖
+  evidence: CHAPTER.md 第 700-707 行展示了多次追加后，文件内容会累积
+  verification: 运行 examples/01_file_basics.py 中的 `test_append_mode_accumulates()` 函数，验证内容累积
+
+- id: week_05_read_vs_readlines
+  claim: read() 返回一个字符串，readlines() 返回一个列表
+  evidence: CHAPTER.md 第 254-256 行给出了两者区别的口诀
+  verification: 运行 examples/01_file_basics.py 中的 `test_read_returns_string()` 和 `test_readlines_returns_list()` 函数验证

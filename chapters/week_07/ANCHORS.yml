@@ -1,0 +1,14 @@
+# Week 07 锚点
+# 本文件记录本周的"主张-证据-验证"三元组
+
+- id: week_07_anchor_001
+  claim: "模块化能让代码更易维护"
+  evidence: "在单文件项目中，修改一个函数可能影响其他函数；拆分成模块后，每个模块的职责单一，修改更安全"
+  verification: "通过对比单文件和多模块项目的修改范围来验证"
+  status: pending
+
+- id: week_07_anchor_002
+  claim: "__name__ 守卫让模块既能导入也能运行"
+  evidence: "直接运行模块时 __name__ == '__main__'，导入时 __name__ == '模块名'"
+  verification: "通过打印 __name__ 的值来验证"
+  status: pending

@@ -1,0 +1,62 @@
+# Week 06 锚点文件
+# 格式：每个锚点包含 claim（论点）、evidence（证据）、verification（验证方式）
+
+- id: week06-exception-concept
+  claim: 异常（exception）是程序运行时的"非正常状态"，Python 会用"抛出异常"的方式告诉你出问题了。
+  evidence: CHAPTER.md 第 1 节展示了小北的除法器输入除以零和非数字时抛出 ZeroDivisionError 和 ValueError，程序直接崩溃并显示 Traceback。
+  verification: 运行 examples/01_crashing_calculator.py，输入 0 或 "abc"，观察 Traceback 输出。
+
+- id: week06-try-except-basic
+  claim: try/except 结构可以"捕获"异常，让程序不会崩溃而是执行指定的错误处理代码。
+  evidence: CHAPTER.md 第 2 节展示了用 try/except 包装除法器，无论用户输入什么都不会崩溃。
+  verification: 运行 examples/03_specific_exceptions.py，测试各种错误输入，验证程序不会崩溃。
+
+- id: week06-specific-exceptions
+  claim: 捕获特定异常（如 except ValueError）比用裸 except 捕获所有异常更好，因为你能知道具体出了什么问题。
+  evidence: CHAPTER.md 第 2 节展示了老潘警告"用 except 会掩盖真正的错误"，并演示了如何捕获特定异常。
+  verification: 运行 examples/03_specific_exceptions.py，验证不同错误有不同的提示信息。
+
+- id: week06-else-clause
+  claim: else 子句会在 try 块没有抛出异常时执行，它让代码的意图更清晰。
+  evidence: CHAPTER.md 第 3 节展示了 else 的用法，并解释了为什么要把"成功时的代码"放在 else 而不是 try 里。
+  verification: 运行 examples/06_else_clause.py，观察 else 只在无异常时执行。
+
+- id: week06-finally-clause
+  claim: finally 子句无论是否抛出异常都会执行，最常见的用途是资源释放。
+  evidence: CHAPTER.md 第 3 节展示了 finally 用于确保文件被关闭、临时文件被删除。
+  verification: 运行 examples/07_finally_cleanup.py，验证 finally 在有异常和无异常时都会执行。
+
+- id: week06-eafp-style
+  claim: EAFP（先尝试再道歉）是 Python 社区偏爱的风格，适合"检查的开销比失败大"的场景。
+  evidence: CHAPTER.md 第 4 节展示了 EAFP 风格的字典访问和文件操作，并解释了为什么 EAFP 更好（一次操作 vs 两次遍历、避免竞态条件）。
+  verification: 运行 examples/10_eafp_dict.py，验证 EAFP 风格的代码能正确处理键不存在的情况。
+
+- id: week06-lbyl-style
+  claim: LBYL（先看再跳）适合"失败频繁"或"异常开销大"的场景，如用户输入验证。
+  evidence: CHAPTER.md 第 4 节展示了 LBYL 风格的输入验证，并解释为什么用户输入适合用 LBYL。
+  verification: 运行 examples/12_lbyl_input.py，验证 LBYL 风格的输入验证能高效处理各种输入。
+
+- id: week06-raise-statement
+  claim: raise 语句可以主动抛出异常，让调用者知道"这里有问题"。
+  evidence: CHAPTER.md 第 5 节展示了用 raise 抛出 ValueError，并解释了为什么 raise 比 print 更好（能让调用者捕获并处理）。
+  verification: 运行 examples/15_why_raise.py，验证 raise 能中断程序并让调用者处理错误。
+
+- id: week06-input-validation
+  claim: 输入校验函数能用 while 循环让用户"重试直到输入正确"，实现防御性编程。
+  evidence: CHAPTER.md 第 5 节展示了多个输入校验函数（get_positive_integer、get_choice、get_age），它们都能处理各种坏输入。
+  verification: 运行 examples/18_robust_input_processor.py，测试各种错误输入，验证程序不会崩溃。
+
+- id: week06-retry-limit
+  claim: 可以用 for 循环限制重试次数，超过次数后抛出异常。
+  evidence: CHAPTER.md 第 5 节展示了带 max_attempts 参数的输入函数，重试次数用完后抛出 ValueError。
+  verification: 运行 examples/19_retry_with_limit.py，测试超过重试次数时的行为。
+
+- id: week06-pyhelper-exception
+  claim: PyHelper 添加异常处理后，无论用户输入什么都不会崩溃。
+  evidence: PyHelper 进度小节展示了添加 get_choice、get_date、get_content 等输入校验函数后的代码。
+  verification: 运行 examples/06_pyhelper.py，在菜单选择时输入 "abc"，验证程序不会崩溃。
+
+- id: week06-crowdstrike-example
+  claim: 2024 年 CrowdStrike 事件证明了异常处理的重要性——一个未处理的异常导致全球 850 万台设备崩溃。
+  evidence: 章首导入引用了 CrowdStrike 事件的真实数据（850 万台设备、超过 100 亿美元损失），并指出原因是"未处理的空指针异常"。
+  verification: 参考外部报道（Wikipedia、BBC、CNN 等）验证 CrowdStrike 事件的真实性。

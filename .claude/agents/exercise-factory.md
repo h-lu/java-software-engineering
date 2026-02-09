@@ -21,6 +21,25 @@ tools: [Read, Grep, Glob, Edit, Write]
 - 作业与正文强关联：必须引用本周学习目标与 DoD。
 - 每层至少给出一个输入/输出示例，让学生知道"做对了长什么样"。
 
+## 重要：ASSIGNMENT.md 禁止包含标准答案代码
+
+**ASSIGNMENT.md 中绝对禁止包含完整的参考实现代码。** 学生可能会直接复制答案而不是动手实践。
+
+正确的做法：
+1. ASSIGNMENT.md 只包含作业要求、功能规格、输入/输出示例、提示和常见错误
+2. 参考实现代码放在 `starter_code/solution.py` 中（由 example-engineer 提供）
+3. ASSIGNMENT.md 中可以用一句话提示："如果你遇到困难，可以参考 `starter_code/solution.py`"
+
+禁止在 ASSIGNMENT.md 中出现：
+- ❌ "标准答案要点" 或 "参考答案" 章节
+- ❌ 完整的 Python 实现代码块
+- ❌ 可以直接复制粘贴的解决方案
+
+允许在 ASSIGNMENT.md 中出现：
+- ✅ 伪代码或代码片段（2-3 行，不完整）
+- ✅ 输入/输出示例（文本格式，非代码）
+- ✅ 提示和常见错误分析
+
 ## AI 协作练习（新增！）
 
 根据 `shared/ai_progression.md` 中的阶段，在 ASSIGNMENT.md 中添加可选的 AI 练习：

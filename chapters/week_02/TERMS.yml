@@ -1,0 +1,61 @@
+# Week 02 术语表
+#
+# 本周新概念（4 个，在预算内）：
+# 1. 条件判断（if/elif/else）
+# 2. 布尔表达式
+# 3. for 循环
+# 4. while 循环
+#
+# 延伸概念（不计入预算）：
+# - range 函数
+# - break/continue 语句
+
+- term_zh: 条件判断
+  term_en: conditional statement
+  definition_zh: 使用 if/elif/else 让程序根据不同条件执行不同代码块的控制结构。条件按顺序检查，遇到第一个为真时就执行对应分支。
+  first_seen: week_02
+
+- term_zh: while 循环
+  term_en: while loop
+  definition_zh: 当指定条件为真时重复执行代码块的循环结构。常用于不确定重复次数的场景，通常配合 break 语句使用。
+  first_seen: week_02
+
+- term_zh: for 循环
+  term_en: for loop
+  definition_zh: 遍历序列或可迭代对象的循环结构，通常与 range() 配合实现指定次数的迭代。
+  first_seen: week_02
+
+- term_zh: 布尔表达式
+  term_en: boolean expression
+  definition_zh: 结果为 True 或 False 的表达式，使用比较运算符（==, !=, <, >）和逻辑运算符（and, or, not）构建。
+  first_seen: week_02
+
+- term_zh: range 函数
+  term_en: range function
+  definition_zh: Python 内置函数，生成整数序列。range(n) 产生 0 到 n-1（左闭右开区间）。常用于 for 循环控制迭代次数。
+  first_seen: week_02
+
+- term_zh: break 语句
+  term_en: break statement
+  definition_zh: 用于立即退出当前循环，跳转到循环之后的代码。常在满足特定条件时提前结束循环。
+  first_seen: week_02
+
+- term_zh: continue 语句
+  term_en: continue statement
+  definition_zh: 用于跳过当前循环的剩余代码，直接进入下一次迭代。不退出循环，只是跳过本轮。
+  first_seen: week_02
+
+- term_zh: 无限循环
+  term_en: infinite loop
+  definition_zh: 永远不会结束的循环，通常是因为循环条件永远为真或缺少 break 语句。按 Ctrl+C 可以强制停止。
+  first_seen: week_02
+
+- term_zh: 左闭右开区间
+  term_en: half-open interval
+  definition_zh: 数学上写成 [a, b)，包含 a 但不包含 b。Python 的 range() 函数使用这种区间设计，range(5) 生成 0,1,2,3,4。
+  first_seen: week_02
+
+- term_zh: 逻辑运算符
+  term_en: logical operators
+  definition_zh: 用于组合多个布尔表达式的运算符。and（且）两边都真才真，or（或）一边真就真，not（非）取反。
+  first_seen: week_02

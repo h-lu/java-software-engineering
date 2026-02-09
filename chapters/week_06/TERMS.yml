@@ -1,0 +1,96 @@
+# Week 06 术语表
+
+- term_zh: 异常
+  term_en: exception
+  definition_zh: 程序运行时的非正常状态，比如除以零、访问不存在的列表索引、打开不存在的文件。Python 会用抛出异常的方式告诉你出问题了。
+  first_seen: week_06
+
+- term_zh: Traceback
+  term_en: Traceback
+  definition_zh: 异常的诊断报告，它会告诉你出错的是哪一行文件、错误的类型、错误的原因。
+  first_seen: week_06
+
+- term_zh: try/except 结构
+  term_en: try/except statement
+  definition_zh: Python 提供的捕获异常结构。尝试执行某段代码，如果出错了，执行另一段代码而不是崩溃。
+  first_seen: week_06
+
+- term_zh: 异常类型
+  term_en: exception types
+  definition_zh: Python 内置的异常类别，常见的有 ValueError（值不合法）、TypeError（类型不匹配）、ZeroDivisionError（除以零）、KeyError（字典键不存在）、IndexError（索引越界）、FileNotFoundError（文件不存在）等。
+  first_seen: week_06
+
+- term_zh: ValueError
+  term_en: ValueError
+  definition_zh: 当函数接收到正确类型但不合法的值时抛出。比如将字符串 abc 转换为整数时会抛出此异常。
+  first_seen: week_06
+
+- term_zh: TypeError
+  term_en: TypeError
+  definition_zh: 当操作或函数接收到不正确类型的参数时抛出。比如尝试将字符串和数字直接相加时会抛出此异常。
+  first_seen: week_06
+
+- term_zh: ZeroDivisionError
+  term_en: ZeroDivisionError
+  definition_zh: 当除法或取模运算的第二个参数为零时抛出。比如 10 除以 0 会抛出此异常。
+  first_seen: week_06
+
+- term_zh: KeyError
+  term_en: KeyError
+  definition_zh: 当尝试访问字典中不存在的键时抛出。比如访问字典中不存在的键名时会抛出此异常。
+  first_seen: week_06
+
+- term_zh: IndexError
+  term_en: IndexError
+  definition_zh: 当尝试访问列表或元组中不存在的索引时抛出。比如访问只有 5 个元素的列表的第 10 个元素时会抛出此异常。
+  first_seen: week_06
+
+- term_zh: FileNotFoundError
+  term_en: FileNotFoundError
+  definition_zh: 当尝试打开不存在的文件时抛出。比如打开一个不存在的文件时会抛出此异常。
+  first_seen: week_06
+
+- term_zh: else 子句
+  term_en: else clause
+  definition_zh: 在 try/except 结构中，else 会在 try 块没有抛出任何异常时执行。它让代码的意图更清晰，表示没出错时做什么。
+  first_seen: week_06
+
+- term_zh: finally 子句
+  term_en: finally clause
+  definition_zh: 在 try/except 结构中，finally 无论是否抛出异常都会执行。最常见的用途是资源释放，比如关闭文件、释放网络连接、清理临时文件。
+  first_seen: week_06
+
+- term_zh: raise 语句
+  term_en: raise statement
+  definition_zh: 主动抛出异常的语句。它让你不仅能捕获异常，还能创建异常，告诉调用者这里有问题需要处理。
+  first_seen: week_06
+
+- term_zh: 输入校验
+  term_en: input validation
+  definition_zh: 在程序接受用户输入之前，先检查输入是否合法。如果输入不合法，要么拒绝并提示用户重新输入，要么抛出异常。
+  first_seen: week_06
+
+- term_zh: 防御性编程
+  term_en: defensive programming
+  definition_zh: 一种编程思想。不是防止用户犯错，而是假设用户一定会犯错，然后让程序能优雅地处理这些错误。你不是在防守，而是在容错。
+  first_seen: week_06
+
+- term_zh: LBYL
+  term_en: Look Before You Leap
+  definition_zh: 先看再跳，一种编程风格。在做操作之前先检查条件是否满足。比如用 if 判断分母是否为零再执行除法。
+  first_seen: week_06
+
+- term_zh: EAFP
+  term_en: Easier to Ask Forgiveness than Permission
+  definition_zh: 先尝试再道歉，一种 Python 社区偏爱的编程风格。先尝试执行操作，失败了再捕获异常处理。比如用 try 访问字典键，失败时用 except KeyError 捕获。
+  first_seen: week_06
+
+- term_zh: 竞态条件
+  term_en: race condition
+  definition_zh: 当两个操作检查和执行之间有时间差时，系统的状态可能发生变化，导致原本的检查失效。比如检查文件存在后，在打开之前文件被删除了。
+  first_seen: week_06
+
+- term_zh: 快乐路径
+  term_en: happy path
+  definition_zh: 一切正常时的执行流程。大多数教程只展示快乐路径，但实际编程需要考虑各种异常情况。
+  first_seen: week_06

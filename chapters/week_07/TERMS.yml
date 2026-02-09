@@ -1,0 +1,57 @@
+# Week 07 术语表
+#
+# 本周新概念（4 个，在预算内）：
+# 1. import 与模块（import 语句、模块搜索路径）
+# 2. __name__ 守卫（__name__ == "__main__"）
+# 3. 包结构（package、__init__.py）
+# 4. 重构（拆分代码、改善结构）
+
+- term_zh: 模块
+  term_en: module
+  definition_zh: 一个包含 Python 定义和语句的文件，文件名就是模块名（去掉 .py 后缀）。模块是用来组织代码的方式，让你能把相关功能放在一起，并在其他程序中复用。
+  first_seen: week_07
+
+- term_zh: import 语句
+  term_en: import statement
+  definition_zh: 用于导入模块的语句。常见形式有：`import module`（导入整个模块）、`from module import name`（导入模块中的特定名称）、`import module as alias`（给模块起别名）。
+  first_seen: week_07
+
+- term_zh: 模块搜索路径
+  term_en: module search path
+  definition_zh: Python 在导入模块时查找文件的路径列表，存储在 `sys.path` 中。包括当前目录、标准库目录、PYTHONPATH 环境变量指定的目录等。
+  first_seen: week_07
+
+- term_zh: __name__ 守卫
+  term_en: __name__ guard
+  definition_zh: 使用 `if __name__ == "__main__":` 来判断当前文件是被直接运行还是被导入。直接运行时 `__name__` 的值是 `"__main__"`，被导入时是模块名。这让模块既能作为程序运行，也能被其他代码导入使用。
+  first_seen: week_07
+
+- term_zh: 包
+  term_en: package
+  definition_zh: 包含多个模块的目录，必须有一个 `__init__.py` 文件（可以是空文件）。包让你能用层级结构组织模块，比如 `package.module`。导入包时会自动执行 `__init__.py`。
+  first_seen: week_07
+
+- term_zh: __init__.py
+  term_en: __init__.py
+  definition_zh: 包的标识文件，放在包目录下。它可以是空文件，也可以包含包的初始化代码。Python 3.3+ 支持没有 `__init__.py` 的"命名空间包"，但显式创建仍然是最佳实践。
+  first_seen: week_07
+
+- term_zh: 重构
+  term_en: refactoring
+  definition_zh: 改善代码内部结构但不改变外部行为的过程。比如把一个大函数拆成多个小函数、把重复代码提取成函数、给变量和函数起更好的名字。重构让代码更易读、易维护、易测试。
+  first_seen: week_07
+
+- term_zh: 相对导入
+  term_en: relative import
+  definition_zh: 在包内部导入模块时，使用相对于当前模块的路径。比如 `from . import sibling`（导入同级模块）或 `from .submodule import func`（导入子模块）。相对导入只能在包内使用，不能在顶层脚本中使用。
+  first_seen: week_07
+
+- term_zh: 绝对导入
+  term_en: absolute import
+  definition_zh: 使用完整的包路径导入模块，比如 `from mypackage.submodule import func`。绝对导入更清晰，是 Python 推荐的导入方式。
+  first_seen: week_07
+
+- term_zh: 循环导入
+  term_en: circular import
+  definition_zh: A 模块导入 B 模块，B 模块又导入 A 模块，形成循环。这会导致导入失败或意外行为。解决方法包括：重构代码提取共同依赖、延迟导入（在函数内导入）、重新设计模块结构。
+  first_seen: week_07

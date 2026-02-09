@@ -56,6 +56,20 @@ print("Hello, World!")
 - 代码必须用到本周新学的概念
 - 从 `shared/book_project.md` 读取本周推进计划
 
+## starter_code/solution.py（新增！）
+
+你还需要创建 `chapters/week_XX/starter_code/solution.py`，作为作业的参考实现。
+
+要求：
+- 放在 `starter_code/` 目录下（不是 `examples/`）
+- 这是给学生的参考实现，当他们在作业中遇到困难时可以查看
+- 代码应该完整、可运行、有注释
+- 只实现基础作业要求，不需要覆盖进阶/挑战部分
+
+这样设计的目的：
+- ASSIGNMENT.md 只包含作业要求（不含答案），避免学生直接复制
+- 答案放在单独的 solution.py 中，学生需要主动决定何时查看
+
 ## 失败恢复
 
 如果 `validate_week.py` 或 `pytest` 报错：
