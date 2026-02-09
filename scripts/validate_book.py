@@ -32,9 +32,16 @@ def _norm_title(s: str) -> str:
 
 
 def _strip_week_prefix(week: str, title: str) -> str:
+    """Strip 'Week XX：' prefix from title. The week param is like 'week_01'."""
     t = title.strip()
-    m = re.match(rf"^{re.escape(week)}\s*[:：]\s*(.+)$", t)
-    return _norm_title(m.group(1)) if m else _norm_title(t)
+    # Extract week number from week_01, week_02, etc.
+    week_num_match = re.match(r"week_(\d{2})", week)
+    if week_num_match:
+        week_num = week_num_match.group(1)
+        # Match 'Week 01：', 'Week 01:', etc. with optional leading '#'
+        m = re.match(rf"^#?\s*Week\s+{re.escape(week_num)}\s*[:：]\s*(.+)$", t, re.IGNORECASE)
+        return _norm_title(m.group(1)) if m else _norm_title(t)
+    return _norm_title(t)
 
 
 def _parse_syllabus(path: Path, errors: list[str]) -> dict[str, str]:
