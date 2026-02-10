@@ -1,46 +1,29 @@
-# Week 01 新术语
+# Week 01 术语表
+#
+# 本周引入的新概念（5 个，在预算 6 个内）
+# 所有 term_zh 会自动合并到 shared/glossary.yml
 
-# 格式：
-# - term: 术语（中文）
-#   term_en: 英文（可选）
-#   definition: 定义
+- term_zh: 静态类型
+  term_en: static typing
+  definition_zh: 变量的类型在编译期确定，类型错误在运行前就被检测到。
+  first_seen: week_01
 
-- term: JDK
-  term_en: Java Development Kit
-  definition: Java 开发工具包，包含编译器、运行时环境等开发所需工具
+- term_zh: 变量声明
+  term_en: variable declaration
+  definition_zh: 在使用变量前必须明确指定其类型的语法要求。
+  first_seen: week_01
 
-- term: JRE
-  term_en: Java Runtime Environment
-  definition: Java 运行时环境，用于运行 Java 程序，不包含开发工具
+- term_zh: 基本数据类型
+  term_en: primitive types
+  definition_zh: Java 内置的 8 种基础类型（byte, short, int, long, float, double, char, boolean），不是对象。
+  first_seen: week_01
 
-- term: JVM
-  term_en: Java Virtual Machine
-  definition: Java 虚拟机，负责执行 Java 字节码
+- term_zh: Scanner 输入
+  term_en: Scanner input
+  definition_zh: 使用 java.util.Scanner 类从标准输入读取用户输入的方式。
+  first_seen: week_01
 
-- term: 静态类型
-  term_en: Static Typing
-  definition: 变量必须先声明类型才能使用的类型系统，编译期进行类型检查
-
-- term: 类
-  term_en: Class
-  definition: Java 中封装数据和方法的基本单位，所有代码必须放在类中
-
-- term: 主方法
-  term_en: Main Method
-  definition: Java 程序的入口点，格式为 public static void main(String[] args)
-
-- term: 方法
-  term_en: Method
-  definition: 封装特定功能的代码块，可以被调用执行
-
-- term: Scanner
-  term_en: Scanner
-  definition: Java 标准库中用于读取用户输入的类
-
-- term: 变量声明
-  term_en: Variable Declaration
-  definition: 在 Java 中使用"类型 变量名 = 值"的形式定义变量
-
-- term: 编译
-  term_en: Compile
-  definition: 将源代码（.java）转换为字节码（.class）的过程
+- term_zh: 锚点
+  term_en: anchor
+  definition_zh: 用于把"主张"与"可验证证据"绑定在一起的记录，是工程沟通的基础单元。
+  first_seen: week_01

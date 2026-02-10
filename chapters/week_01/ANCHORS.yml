@@ -1,32 +1,37 @@
-# Week 01 可验证断言（Anchors）
+# Week 01 锚点（Anchor）记录
+#
+# 本周锚点由 consistency-editor 和 student-qa 共同维护
+# 格式参考 shared/anchor_schema.md
 
-# 每条断言必须包含：
-# - id: 周内唯一标识
-# - claim: 一句话主张
-# - evidence: 证据指向
-# - verification: 验证方式
+- id: week_01_static_typing_benefit
+  claim: Java 的静态类型系统把错误从运行时提前到编译期。
+  evidence: |
+    在 Python 中，`age + 10` 当 age 是字符串时会静默拼接成 "2510"；
+    在 Java 中，`String age; age + 10` 在编译期就会报错，无法运行。
+  verification: |
+    - [ ] 能运行 VariableDemo.java 中的类型对比代码
+    - [ ] 能解释为什么 Java 版本编译不通过
+    - [ ] 能用自己的话说明"类型安全"的价值
+  status: pending
 
-- id: W01-A01
-  claim: "学生能在本地正确安装 JDK 17"
-  evidence: "java -version 命令输出显示 17.x"
-  verification: "cmd:java -version | grep '17\\.'"
+- id: week_01_scanner_newline_issue
+  claim: Scanner.nextInt() 会遗留换行符，导致后续 nextLine() 直接跳过。
+  evidence: |
+    输入 "25\n" 后，nextInt() 读走 25，留下 \n；
+    nextLine() 看到 \n 就认为"这一行是空的"，直接返回空字符串。
+  verification: |
+    - [ ] 能演示这个 bug（混用 nextInt 和 nextLine）
+    - [ ] 知道两种修复方法（额外调用 nextLine() 或统一用 nextLine() + parseInt）
+    - [ ] 在 BusinessCard.java 中使用正确的方式读取整数
+  status: pending
 
-- id: W01-A02
-  claim: "学生能编写并运行 HelloWorld.java"
-  evidence: "chapters/week_01/examples/HelloWorld.java 存在且可编译运行"
-  verification: "cmd:cd chapters/week_01/examples && javac HelloWorld.java && java HelloWorld"
-
-- id: W01-A03
-  claim: "HelloWorld 程序包含至少 3 种不同类型的变量声明"
-  evidence: "源代码中包含 String、int、double 等类型声明"
-  verification: "grep -E '(String|int|double|boolean)' chapters/week_01/examples/HelloWorld.java"
-
-- id: W01-A04
-  claim: "学生理解 Scanner 的使用方法"
-  evidence: "ProfileCard.java 使用 Scanner 获取用户输入"
-  verification: "grep 'Scanner' chapters/week_01/examples/ProfileCard.java"
-
-- id: W01-A05
-  claim: "团队 Git 仓库已建立"
-  evidence: "GitHub 仓库链接可访问，包含初始提交"
-  verification: "manual:检查 ASSIGNMENT.md 中提交的仓库链接"
+- id: week_01_anchor_concept
+  claim: 锚点（anchor）是工程决策的基础单元，把"主张"与"可验证证据"绑定。
+  evidence: |
+    在项目 README 中记录"为什么选择 Javalin 而不是 Spring Boot"，
+    并列出具体的验证点（Week 09 启动 API、Week 12 联调成功）。
+  verification: |
+    - [ ] 团队 README 包含"项目锚点"部分
+    - [ ] 锚点包含"主张"和"验证方式"两部分
+    - [ ] 完成锚点思考题，理解"可追溯"的价值
+  status: pending

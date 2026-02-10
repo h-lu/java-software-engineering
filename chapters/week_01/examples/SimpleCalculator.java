@@ -1,48 +1,26 @@
-import java.util.Scanner;
-
+/**
+ * 示例：简单计算器
+ *
+ * 这个示例展示了如何使用不同的基本数据类型和简单的算术运算。
+ */
 public class SimpleCalculator {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.print("请输入第一个数字：");
-        double num1 = scanner.nextDouble();
-        
-        System.out.print("请输入运算符 (+, -, *, /)：");
-        char operator = scanner.next().charAt(0);
-        
-        System.out.print("请输入第二个数字：");
-        double num2 = scanner.nextDouble();
-        
-        double result = 0;
-        boolean isValid = true;
-        
-        switch (operator) {
-            case '+':
-                result = num1 + num2;
-                break;
-            case '-':
-                result = num1 - num2;
-                break;
-            case '*':
-                result = num1 * num2;
-                break;
-            case '/':
-                if (num2 != 0) {
-                    result = num1 / num2;
-                } else {
-                    System.out.println("错误：不能除以零！");
-                    isValid = false;
-                }
-                break;
-            default:
-                System.out.println("错误：无效的运算符！");
-                isValid = false;
-        }
-        
-        if (isValid) {
-            System.out.println("结果：" + num1 + " " + operator + " " + num2 + " = " + result);
-        }
-        
-        scanner.close();
+        // 整数运算
+        int a = 10;
+        int b = 3;
+        System.out.println("整数运算：");
+        System.out.println(a + " + " + b + " = " + (a + b));
+        System.out.println(a + " - " + b + " = " + (a - b));
+        System.out.println(a + " * " + b + " = " + (a * b));
+        System.out.println(a + " / " + b + " = " + (a / b));  // 整数除法，结果是 3
+        System.out.println(a + " % " + b + " = " + (a % b));  // 取模，结果是 1
+
+        System.out.println();
+
+        // 浮点数运算
+        double x = 10.0;
+        double y = 3.0;
+        System.out.println("浮点数运算：");
+        System.out.println(x + " / " + y + " = " + (x / y));  // 浮点除法，结果是 3.333...
     }
 }

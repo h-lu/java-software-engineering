@@ -1,126 +1,129 @@
-package com.campusflow;
-
 import java.util.Scanner;
 
 /**
- * 名片生成器 - 增强版本（带输入验证）
- * 
- * 演示：
- * - 使用循环实现反复输入
- * - 基本的输入验证（邮箱格式、年龄范围）
- * - 异常处理初步
- * 
- * @author CampusFlow Team
- * @version 2.0
+ * 示例：高级名片生成器
+ *
+ * 这个示例展示了更完整的实现，包括：
+ * - 方法抽取
+ * - 输入验证（基础版）
+ * - 循环生成多张名片
+ *
+ * 注：这是挑战练习的参考实现，学生可以先尝试自己实现。
  */
 public class BusinessCardAdvanced {
-    
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("=== 名片生成器（增强版）===\n");
-        
-        // 读取并验证各项输入
-        String name = readNonEmptyString(scanner, "请输入姓名：");
-        String job = readNonEmptyString(scanner, "请输入职业：");
-        String email = readValidEmail(scanner);
-        int age = readValidAge(scanner);
-        
-        // 打印名片
-        printCard(name, job, email, age);
-        
+        boolean continueGenerating = true;
+
+        System.out.println("=== 高级名片生成器 ===");
+        System.out.println();
+
+        while (continueGenerating) {
+            // 读取用户输入
+            System.out.print("请输入姓名：");
+            String name = readNotEmpty(scanner, "姓名不能为空，请重新输入：");
+
+            System.out.print("请输入职位：");
+            String jobTitle = readNotEmpty(scanner, "职位不能为空，请重新输入：");
+
+            System.out.print("请输入邮箱：");
+            String email = readValidEmail(scanner, "邮箱格式不正确，请重新输入：");
+
+            System.out.print("请输入年龄：");
+            int age = readPositiveInt(scanner, "年龄必须是正整数，请重新输入：");
+
+            System.out.print("请输入工作年限：");
+            double yearsOfExp = readPositiveDouble(scanner, "工作年限不能为负数，请重新输入：");
+
+            // 生成名片
+            printBusinessCard(name, jobTitle, email, age, yearsOfExp);
+
+            // 询问是否继续
+            System.out.println();
+            System.out.print("是否继续生成名片？(y/n)：");
+            String choice = scanner.nextLine();
+            if (!choice.equalsIgnoreCase("y")) {
+                continueGenerating = false;
+            }
+            System.out.println();
+        }
+
+        System.out.println("谢谢使用！");
         scanner.close();
     }
-    
+
     /**
      * 读取非空字符串
      */
-    public static String readNonEmptyString(Scanner scanner, String prompt) {
-        while (true) {
+    private static String readNotEmpty(Scanner scanner, String prompt) {
+        String input = scanner.nextLine();
+        while (input.trim().isEmpty()) {
             System.out.print(prompt);
-            String input = scanner.nextLine().trim();
-            if (!input.isEmpty()) {
-                return input;
-            }
-            System.out.println("输入不能为空，请重新输入。");
+            input = scanner.nextLine();
         }
+        return input;
     }
-    
+
     /**
-     * 读取并验证邮箱格式
+     * 读取有效的邮箱地址
      */
-    public static String readValidEmail(Scanner scanner) {
-        while (true) {
-            System.out.print("请输入邮箱：");
-            String email = scanner.nextLine().trim();
-            
-            // 简单验证：必须包含 @ 符号
-            if (email.contains("@") && email.indexOf("@") > 0 && email.indexOf("@") < email.length() - 1) {
-                return email;
-            }
-            System.out.println("邮箱格式不正确，请重新输入（需要包含 @ 符号）。");
+    private static String readValidEmail(Scanner scanner, String prompt) {
+        String email = scanner.nextLine();
+        while (!email.contains("@") || !email.contains(".")) {
+            System.out.print(prompt);
+            email = scanner.nextLine();
         }
+        return email;
     }
-    
+
     /**
-     * 读取并验证年龄
+     * 读取正整数
      */
-    public static int readValidAge(Scanner scanner) {
+    private static int readPositiveInt(Scanner scanner, String prompt) {
         while (true) {
-            System.out.print("请输入年龄（1-120）：");
-            String input = scanner.nextLine().trim();
-            
             try {
-                int age = Integer.parseInt(input);
-                if (age >= 1 && age <= 120) {
-                    return age;
+                int value = Integer.parseInt(scanner.nextLine());
+                if (value > 0 && value <= 120) {
+                    return value;
                 }
-                System.out.println("年龄必须在 1-120 之间。");
+                System.out.print(prompt);
             } catch (NumberFormatException e) {
-                System.out.println("请输入有效的数字。");
+                System.out.print("请输入有效的整数，请重新输入：");
             }
         }
     }
-    
+
     /**
-     * 打印格式化的名片
+     * 读取正浮点数
      */
-    public static void printCard(String name, String job, String email, int age) {
-        String border = "═".repeat(32);
-        
-        System.out.println("\n╔" + border + "╗");
-        System.out.println("║" + centerText("★ 个人名片 ★", 32) + "║");
-        System.out.println("╠" + border + "╣");
-        System.out.println(formatLine("姓名", name));
-        System.out.println(formatLine("职业", job));
-        System.out.println(formatLine("邮箱", email));
-        System.out.println(formatLine("年龄", String.valueOf(age)));
-        System.out.println("╚" + border + "╝");
-    }
-    
-    /**
-     * 格式化一行信息
-     */
-    public static String formatLine(String label, String value) {
-        String content = "  " + label + "：" + value;
-        return "║" + padRight(content, 32) + "║";
-    }
-    
-    /**
-     * 将文本居中
-     */
-    public static String centerText(String text, int width) {
-        int padding = (width - text.length()) / 2;
-        return " ".repeat(padding) + text + " ".repeat(width - text.length() - padding);
-    }
-    
-    /**
-     * 左对齐，右侧填充
-     */
-    public static String padRight(String text, int width) {
-        if (text.length() >= width) {
-            return text.substring(0, width);
+    private static double readPositiveDouble(Scanner scanner, String prompt) {
+        while (true) {
+            try {
+                double value = Double.parseDouble(scanner.nextLine());
+                if (value >= 0) {
+                    return value;
+                }
+                System.out.print(prompt);
+            } catch (NumberFormatException e) {
+                System.out.print("请输入有效的数字，请重新输入：");
+            }
         }
-        return text + " ".repeat(width - text.length());
+    }
+
+    /**
+     * 打印名片
+     */
+    private static void printBusinessCard(String name, String jobTitle,
+                                          String email, int age, double yearsOfExp) {
+        System.out.println();
+        System.out.println("================================");
+        System.out.println("       " + name + " 的个人名片");
+        System.out.println("================================");
+        System.out.println("职位：" + jobTitle);
+        System.out.println("年龄：" + age + "岁");
+        System.out.println("工作经验：" + yearsOfExp + "年");
+        System.out.println("邮箱：" + email);
+        System.out.println("================================");
     }
 }
