@@ -1,33 +1,46 @@
 import java.util.Scanner;
 
+/**
+ * 示例：个人资料卡片（进阶版）
+ *
+ * 这个示例展示了：
+ * - 使用 printf 格式化输出
+ * - 处理多种数据类型
+ * - 更友好的用户界面
+ */
 public class ProfileCard {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        // 获取用户输入
+
+        System.out.println("=== 个人资料卡片生成器 ===");
+        System.out.println();
+
         System.out.print("请输入姓名：");
         String name = scanner.nextLine();
-        
+
+        System.out.print("请输入职业：");
+        String job = scanner.nextLine();
+
+        System.out.print("请输入所在城市：");
+        String city = scanner.nextLine();
+
         System.out.print("请输入年龄：");
-        int age = scanner.nextInt();
-        scanner.nextLine();  // 吃掉换行符
-        
-        System.out.print("请输入专业：");
-        String major = scanner.nextLine();
-        
-        System.out.print("请输入邮箱：");
-        String email = scanner.nextLine();
-        
-        // 输出个人信息卡片
-        System.out.println("\n================================");
-        System.out.println("         个人信息卡片");
-        System.out.println("================================");
-        System.out.println("姓名：" + name);
-        System.out.println("年龄：" + age + " 岁");
-        System.out.println("专业：" + major);
-        System.out.println("邮箱：" + email);
-        System.out.println("================================");
-        
+        int age = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("请输入工作年限：");
+        double yearsOfExp = Double.parseDouble(scanner.nextLine());
+
+        // 使用 printf 格式化输出
+        System.out.println();
+        System.out.println("╔══════════════════════════════════════╗");
+        System.out.printf("║%12s 的个人资料卡片          ║%n", name);
+        System.out.println("╠══════════════════════════════════════╣");
+        System.out.printf("║ 职业：%-30s ║%n", job);
+        System.out.printf("║ 所在地：%-28s ║%n", city);
+        System.out.printf("║ 年龄：%d 岁%24s ║%n", age, "");
+        System.out.printf("║ 工作年限：%.1f 年%20s ║%n", yearsOfExp, "");
+        System.out.println("╚══════════════════════════════════════╝");
+
         scanner.close();
     }
 }

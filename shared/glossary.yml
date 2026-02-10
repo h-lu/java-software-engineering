@@ -12,155 +12,21 @@
 
 - term_zh: 静态类型
   term_en: static typing
-  definition_zh: 变量必须先声明类型才能使用的类型系统。编译器在编译期检查类型安全。
+  definition_zh: 变量的类型在编译期确定，类型错误在运行前就被检测到。
   first_seen: week_01
 
 - term_zh: 变量声明
   term_en: variable declaration
-  definition_zh: 在 Java 中，使用"类型 变量名 = 值"的形式定义变量。
+  definition_zh: 在使用变量前必须明确指定其类型的语法要求。
   first_seen: week_01
 
 - term_zh: 基本数据类型
   term_en: primitive types
-  definition_zh: Java 的基本类型：int, double, boolean, char 等。
+  definition_zh: Java 内置的 8 种基础类型（byte, short, int, long, float, double, char, boolean），不是对象。
   first_seen: week_01
 
 - term_zh: Scanner 输入
   term_en: Scanner input
-  definition_zh: Java 标准库中用于读取键盘输入的类。
+  definition_zh: 使用 java.util.Scanner 类从标准输入读取用户输入的方式。
   first_seen: week_01
 
-- term_zh: ADR
-  term_en: Architecture Decision Record
-  definition_zh: 架构决策记录，用于记录重要的设计决策及其理由。
-  first_seen: week_02
-
-- term_zh: 首席架构师
-  term_en: Chief Architect
-  definition_zh: 团队中负责最终设计决策的角色，每两周轮换一次。
-  first_seen: week_02
-
-- term_zh: 类定义
-  term_en: class definition
-  definition_zh: 使用 class 关键字定义新的类型，包含字段和方法。
-  first_seen: week_02
-
-- term_zh: 封装
-  term_en: encapsulation
-  definition_zh: 将数据和操作数据的方法绑定在一起，对外隐藏内部实现。
-  first_seen: week_02
-
-- term_zh: SOLID 原则
-  term_en: SOLID principles
-  definition_zh: 面向对象设计的五大原则：单一职责、开闭、里氏替换、接口隔离、依赖反转。
-  first_seen: week_02
-
-- term_zh: 受检异常
-  term_en: checked exception
-  definition_zh: Java 中必须在编译期处理的异常，用 try-catch 或 throws 声明。
-  first_seen: week_03
-
-- term_zh: 运行时异常
-  term_en: runtime exception
-  definition_zh: Java 中不需要强制处理的异常，如 NullPointerException。
-  first_seen: week_03
-
-- term_zh: try-catch-finally
-  term_en: try-catch-finally
-  definition_zh: Java 的异常处理结构，try 块中捕获异常，catch 块中处理，finally 块中清理资源。
-  first_seen: week_03
-
-- term_zh: 防御式编程
-  term_en: defensive programming
-  definition_zh: 假设输入可能有问题，主动进行校验和保护的编程风格。
-  first_seen: week_03
-
-- term_zh: Git Flow
-  term_en: Git Flow
-  definition_zh: 一种 Git 分支管理策略，包含 main、develop、feature 等分支。
-  first_seen: week_04
-
-- term_zh: Pull Request
-  term_en: pull request
-  definition_zh: 请求将分支代码合并到主分支的流程，通常伴随代码审查。
-  first_seen: week_04
-
-- term_zh: Code Review
-  term_en: code review
-  definition_zh: 代码审查，团队成员互相检查代码质量的过程。
-  first_seen: week_04
-
-- term_zh: ArrayList
-  term_en: ArrayList
-  definition_zh: Java 的动态数组实现，可自动扩容。
-  first_seen: week_05
-
-- term_zh: HashMap
-  term_en: HashMap
-  definition_zh: Java 的哈希表实现，存储键值对。
-  first_seen: week_05
-
-- term_zh: Stream API
-  term_en: Stream API
-  definition_zh: Java 8 引入的函数式数据处理 API。
-  first_seen: week_05
-
-- term_zh: 泛型
-  term_en: generics
-  definition_zh: Java 的参数化类型机制，如 ArrayList<String>。
-  first_seen: week_05
-
-- term_zh: JUnit
-  term_en: JUnit
-  definition_zh: Java 的单元测试框架。
-  first_seen: week_06
-
-- term_zh: TDD
-  term_en: Test-Driven Development
-  definition_zh: 测试驱动开发，先写测试再写实现。
-  first_seen: week_06
-
-- term_zh: JDBC
-  term_en: JDBC
-  definition_zh: Java Database Connectivity，Java 访问数据库的标准 API。
-  first_seen: week_07
-
-- term_zh: Repository 模式
-  term_en: Repository Pattern
-  definition_zh: 数据访问抽象，将数据访问逻辑与业务逻辑分离。
-  first_seen: week_07
-
-- term_zh: 设计模式
-  term_en: design pattern
-  definition_zh: 软件设计中常见问题的通用解决方案。
-  first_seen: week_08
-
-- term_zh: REST API
-  term_en: REST API
-  definition_zh: 基于 HTTP 协议的 API 设计风格，使用 URL 表示资源。
-  first_seen: week_09
-
-- term_zh: Javalin
-  term_en: Javalin
-  definition_zh: 极简的 Java Web 框架。
-  first_seen: week_09
-
-- term_zh: JSON
-  term_en: JSON
-  definition_zh: JavaScript Object Notation，轻量级数据交换格式。
-  first_seen: week_09
-
-- term_zh: AI 审查
-  term_en: AI code review
-  definition_zh: 使用 AI 辅助代码审查，但由人做最终判断。
-  first_seen: week_10
-
-- term_zh: 技术债
-  term_en: technical debt
-  definition_zh: 为了快速交付而做的妥协，未来需要偿还。
-  first_seen: week_12
-
-- term_zh: 工程复盘
-  term_en: engineering retrospective
-  definition_zh: 项目结束后回顾工程决策，总结经验教训。
-  first_seen: week_16
