@@ -1,32 +1,46 @@
-# Week 01 术语表
-# 本周新概念（4 个，在预算内）
+# Week 01 新术语
 
-- term_zh: "print 函数"
-  term_en: "print function"
-  definition_zh: "Python 内置函数，用于将信息输出到屏幕。可以输出多个内容，自动用空格分隔。"
-  first_seen: "week_01"
+# 格式：
+# - term: 术语（中文）
+#   term_en: 英文（可选）
+#   definition: 定义
 
-- term_zh: "变量"
-  term_en: "variable"
-  definition_zh: "给数据取的名字，用于存储和复用信息。通过赋值语句 = 创建。"
-  first_seen: "week_01"
+- term: JDK
+  term_en: Java Development Kit
+  definition: Java 开发工具包，包含编译器、运行时环境等开发所需工具
 
-- term_zh: "赋值"
-  term_en: "assignment"
-  definition_zh: "使用 = 符号将右边的值存储到左边的变量名中。注意这不是数学上的等于。"
-  first_seen: "week_01"
+- term: JRE
+  term_en: Java Runtime Environment
+  definition: Java 运行时环境，用于运行 Java 程序，不包含开发工具
 
-- term_zh: "input 函数"
-  term_en: "input function"
-  definition_zh: "Python 内置函数，用于获取用户的键盘输入。返回的永远是字符串类型。"
-  first_seen: "week_01"
+- term: JVM
+  term_en: Java Virtual Machine
+  definition: Java 虚拟机，负责执行 Java 字节码
 
-- term_zh: "f-string"
-  term_en: "formatted string literal"
-  definition_zh: "Python 3.6+ 推荐的字符串格式化方式，在字符串前加 f，用 {} 嵌入变量或表达式。"
-  first_seen: "week_01"
+- term: 静态类型
+  term_en: Static Typing
+  definition: 变量必须先声明类型才能使用的类型系统，编译期进行类型检查
 
-- term_zh: "字符串"
-  term_en: "string"
-  definition_zh: "文本数据类型，用引号（单引号或双引号）包裹。Python 中用 str 表示。"
-  first_seen: "week_01"
+- term: 类
+  term_en: Class
+  definition: Java 中封装数据和方法的基本单位，所有代码必须放在类中
+
+- term: 主方法
+  term_en: Main Method
+  definition: Java 程序的入口点，格式为 public static void main(String[] args)
+
+- term: 方法
+  term_en: Method
+  definition: 封装特定功能的代码块，可以被调用执行
+
+- term: Scanner
+  term_en: Scanner
+  definition: Java 标准库中用于读取用户输入的类
+
+- term: 变量声明
+  term_en: Variable Declaration
+  definition: 在 Java 中使用"类型 变量名 = 值"的形式定义变量
+
+- term: 编译
+  term_en: Compile
+  definition: 将源代码（.java）转换为字节码（.class）的过程

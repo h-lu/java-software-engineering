@@ -12,6 +12,12 @@
 建议验证命令：
 
 ```bash
-python3 scripts/validate_week.py --week {week} --mode release
-python3 -m pytest chapters/{week}/tests -q
+# Java 编译检查
+mvn compile -q
+
+# 运行测试
+mvn test -q
+
+# 运行校验脚本
+python3 scripts/validate_week.py --week week_{week} --mode release
 ```
