@@ -1,34 +1,4 @@
-# 全书术语表（term_zh 唯一）
-
-# 约定：
-# - 这里的 term_zh 是校验脚本的主键
-# - term_en 可选
-# - definition_zh 必填
-
-- term_zh: 锚点
-  term_en: anchor
-  definition_zh: 用于把"主张"与"可验证证据"绑定在一起的记录。
-  first_seen: week_01
-
-- term_zh: 静态类型
-  term_en: static typing
-  definition_zh: 变量的类型在编译期确定，类型错误在运行前就被检测到。
-  first_seen: week_01
-
-- term_zh: 变量声明
-  term_en: variable declaration
-  definition_zh: 在使用变量前必须明确指定其类型的语法要求。
-  first_seen: week_01
-
-- term_zh: 基本数据类型
-  term_en: primitive types
-  definition_zh: Java 内置的 8 种基础类型（byte, short, int, long, float, double, char, boolean），不是对象。
-  first_seen: week_01
-
-- term_zh: Scanner 输入
-  term_en: Scanner input
-  definition_zh: 使用 java.util.Scanner 类从标准输入读取用户输入的方式。
-  first_seen: week_01
+# Week 02 新术语
 
 - term_zh: 上帝类
   term_en: God Class
@@ -79,4 +49,3 @@
   term_en: technical debt
   definition_zh: 为了快速交付而选择的不够完美的技术方案，未来需要付出"利息"（额外维护成本）来偿还。
   first_seen: week_02
-

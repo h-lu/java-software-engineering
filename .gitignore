@@ -1,11 +1,21 @@
+# Python
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# Java
+*.class
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# OS
 .DS_Store
+.cursor/
+
+# Environment
 .venv/
 dist/
 build/
 *.bak
-.cursor/
