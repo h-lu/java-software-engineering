@@ -1,0 +1,26 @@
+# Week 10 可验证断言 (ANCHORS)
+
+- id: "week-10-prompt-engineering-four-elements"
+  claim: "Prompt 工程四要素（角色、任务、约束、格式）能显著提升 AI 生成前端代码的质量"
+  evidence: "CHAPTER.md 第 2 节展示了从简单 Prompt 到结构化 Prompt 的对比，结构化 Prompt 生成的代码包含错误处理、加载状态和安全防护"
+  verification: "学生可以自己使用两版 Prompt 生成代码，对比输出质量的差异"
+
+- id: "week-10-xss-innerhtml-risk"
+  claim: "AI 生成的代码倾向于使用 innerHTML 直接插入用户输入，存在 XSS 安全风险"
+  evidence: "CHAPTER.md 第 3 节展示了 AI 生成的代码使用 `element.innerHTML = task.title`，这会让用户输入中的 `<script>` 标签被执行"
+  verification: "使用审查检查清单能识别此风险，修复方案是使用 textContent 或 createElement"
+
+- id: "week-10-cors-configuration-required"
+  claim: "前端从 file:// 协议访问 HTTP API 会遇到 CORS 限制，需要后端配置允许跨域"
+  evidence: "CHAPTER.md 第 4 节展示了浏览器控制台的 CORS 错误，以及 Javalin 的 CORS 配置代码"
+  verification: "学生配置 CORS 后，前端请求从被阻塞变为成功"
+
+- id: "week-10-ai-hallucination-example"
+  claim: "AI 可能生成'幻觉'代码，调用不存在的方法如 response.getJSON()"
+  evidence: "CHAPTER.md 第 5 节展示了 AI 生成的错误代码 `await response.getJSON()`，正确方法是 `response.json()`"
+  verification: "学生实际运行 AI 代码时会看到 TypeError，检查后能识别并修复"
+
+- id: "week-10-review-checklist-five-dimensions"
+  claim: "AI 审查检查清单（功能正确性、边界情况、安全、可维护性、AI 特定问题）能系统化找出代码问题"
+  evidence: "CHAPTER.md 第 3 节提供了完整检查清单，小北用它找出了 3 个问题"
+  verification: "学生使用清单审查 AI 代码，至少找出 3 类不同问题"

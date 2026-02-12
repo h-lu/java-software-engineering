@@ -1,0 +1,54 @@
+anchors:
+  - id: w11-01
+    claim: 静态分析可以发现代码中的潜在问题（如空指针、资源泄漏），而无需运行程序。
+    evidence: |
+      SpotBugs Maven Plugin 配置示例：`<groupId>com.github.spotbugs</groupId><artifactId>spotbugs-maven-plugin</artifactId><version>4.9.8.2</version>`
+    verification: 运行 `mvn spotbugs:check` 会生成分析报告，列出发现的问题类型和数量。
+
+  - id: w11-02
+    claim: 代码覆盖率报告可以识别测试盲区，帮助开发者有针对性地补充测试。
+    evidence: |
+      JaCoCo 配置示例：`<execution><id>report</id><phase>test</phase><goals><goal>report</goal></goals></execution>`
+    verification: 运行 `mvn jacoco:report` 生成 HTML 报告，红色区域表示未覆盖代码。
+
+  - id: w11-03
+    claim: 质量门禁将质量检查自动化，不达标则阻止代码合并。
+    evidence: |
+      示例配置：`{"tool": "spotbugs", "threshold": "high", "action": "block"}`
+    verification: 在 CI/CD 流程中配置质量检查规则，失败则构建终止。
+
+  - id: w11-04
+    claim: 技术债应该按优先级管理，而非一次性全部修复。
+    evidence: |
+      Backlog 示例：P0（本周必须修复）、P1（本周完成）、P2（下周修复）、P3（有空再说）
+    verification: 按优先级偿还技术债，保持代码质量可控。
+
+  - id: w11-05
+    claim: AI 与静态分析工具互补，工具发现问题，AI 解释原因，人做决策。
+    evidence: |
+      时代脉搏：SonarQube 2026.1 集成 AI Code Assurance，支持多平台 AI 助手。
+    verification: 工具擅长模式化问题，LLM 擅长语义理解。工作流：工具发现 → AI 解释 → 人工决策。
+
+  - id: w11-06
+    claim: 渐进式门禁比一刀切规则更有效，核心代码用高标准，实验性功能可临时降低。
+    evidence: |
+      质量门禁实践：核心路径覆盖率 90%+，普通功能 70%，实验功能 50%。
+    verification: DORA 2025 报告：渐进式门禁团队缺陷率下降 35%，速度仅降低 10%。
+
+  - id: w11-07
+    claim: 覆盖率 100% 不代表没有 bug，只是说明代码都执行过。
+    evidence: |
+      覆盖率报告示例：即使是 100% 覆盖，也可能有边界遗漏、设计缺陷等问题。
+    verification: 覆盖率是"指南针"，不是"考试分数"。
+
+  - id: w11-08
+    claim: 静态分析发现的空指针问题与防御式编程理念一致。
+    evidence: |
+      代码示例：添加 `if (existing == null) { throw new NotFoundException(...); }` 检查。
+    verification: Week 03 的防御式编程在本周通过工具得到验证和补充。
+
+  - id: w11-09
+    claim: 质量门禁与 Pull Request 流程结合，形成"工具先扫，人再聚焦设计"的协作模式。
+    evidence: |
+      Git Hooks 示例：pre-commit 脚本运行 `mvn spotbugs:check`。
+    verification: Week 04 的 PR 流程在本周加上自动质量检查。

@@ -1,0 +1,44 @@
+# Week 10 术语表
+# 用于同步到 shared/glossary.yml
+
+- term_zh: "Prompt 工程"
+  term_en: "Prompt Engineering"
+  definition: "通过结构化、精确的输入提示，引导 AI 生成更符合需求的输出的技术。核心要素包括角色定义、任务描述、约束条件和输出格式。"
+  definition_zh: "通过结构化、精确的输入提示，引导 AI 生成更符合需求的输出的技术。核心要素包括角色定义、任务描述、约束条件和输出格式。"
+  first_seen: "week_10"
+  context: "Week 10 AI 生成前端"
+
+- term_zh: "CORS"
+  term_en: "Cross-Origin Resource Sharing"
+  definition: "跨域资源共享，一种浏览器安全机制，用于控制一个域的网页如何请求另一个域的资源。后端需要显式配置允许的来源、方法和头信息。"
+  definition_zh: "跨域资源共享，一种浏览器安全机制，用于控制一个域的网页如何请求另一个域的资源。后端需要显式配置允许的来源、方法和头信息。"
+  first_seen: "week_10"
+  context: "Week 10 前后端联调"
+
+- term_zh: "AI 幻觉"
+  term_en: "AI Hallucination"
+  definition: "AI 生成看似合理但实际不存在或错误的代码、方法或概念的现象。例如调用不存在的 API 方法、引用未定义的变量等。"
+  definition_zh: "AI 生成看似合理但实际不存在或错误的代码、方法或概念的现象。例如调用不存在的 API 方法、引用未定义的变量等。"
+  first_seen: "week_10"
+  context: "Week 10 AI 代码审查"
+
+- term_zh: "前端审查检查清单"
+  term_en: "Frontend Review Checklist"
+  definition: "系统化的 AI 代码审查工具，包含功能正确性、边界情况、安全考虑、可维护性和 AI 特定问题五个维度的检查项。"
+  definition_zh: "系统化的 AI 代码审查工具，包含功能正确性、边界情况、安全考虑、可维护性和 AI 特定问题五个维度的检查项。"
+  first_seen: "week_10"
+  context: "Week 10 审查训练"
+
+- term_zh: "Fetch API"
+  term_en: "Fetch API"
+  definition: "现代浏览器内置的 HTTP 请求接口，返回 Promise，支持 async/await 模式，用于替代 XMLHttpRequest。"
+  definition_zh: "现代浏览器内置的 HTTP 请求接口，返回 Promise，支持 async/await 模式，用于替代 XMLHttpRequest。"
+  first_seen: "week_10"
+  context: "Week 10 前后端通信"
+
+- term_zh: "XSS"
+  term_en: "Cross-Site Scripting"
+  definition: "跨站脚本攻击，通过在网页中注入恶意脚本来窃取用户数据或执行未授权操作。前端防护关键是避免使用 innerHTML 直接插入用户输入。"
+  definition_zh: "跨站脚本攻击，通过在网页中注入恶意脚本来窃取用户数据或执行未授权操作。前端防护关键是避免使用 innerHTML 直接插入用户输入。"
+  first_seen: "week_10"
+  context: "Week 10 安全审查"

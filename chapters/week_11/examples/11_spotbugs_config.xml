@@ -1,0 +1,146 @@
+<!--
+ * 示例：SpotBugs Maven 插件配置
+ * 运行方式：复制到 pom.xml 的 <build><plugins> 部分
+ * 测试命令：mvn spotbugs:check
+ * 预期输出：SpotBugs 扫描代码，报告发现的问题
+ *
+ * 本例演示：
+ * 1. SpotBugs 插件基础配置
+ * 2. 高优先级问题阻断设置
+ * 3. 过滤器配置（排除误报）
+ * 4. 与 CampusFlow 集成
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- ... 其他 pom.xml 配置 ... -->
+
+    <build>
+        <plugins>
+            <!-- SpotBugs 静态分析插件 -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.9.8.2</version>
+                <configuration>
+                    <!-- 发现问题时构建失败 -->
+                    <failOnError>true</failOnError>
+
+                    <!-- 只报告高优先级和中优先级问题 -->
+                    <onlyAnalyze>com.campusflow.-</onlyAnalyze>
+
+                    <!-- 设置最低问题等级为低（确保所有问题都被报告） -->
+                    <effort>Max</effort>
+
+                    <!-- 阈值设置：发现中等及以上问题就报告 -->
+                    <threshold>Low</threshold>
+
+                    <!-- 排除自动生成的代码 -->
+                    <excludeFilterFile>
+                        spotbugs-exclude.xml
+                    </excludeFilterFile>
+
+                    <!-- 生成 HTML 报告 -->
+                    <htmlOutput>true</htmlOutput>
+                    <xmlOutput>true</xmlOutput>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotbugs-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <!-- check: 发现问题则失败 -->
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- SpotBugs 本身 -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>4.9.8</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 示例：spotbugs-exclude.xml - 排除误报的配置文件 -->
+    <!--
+    <FindBugsFilter>
+        &lt;!&ndash; 排除自动生成的代码 &ndash;&gt;
+        <Match>
+            <Class name="~.*\.(AutoValue_.*|.*Dto\$Builder)" />
+        </Match>
+
+        &lt;!&ndash; 排除特定类的特定问题 &ndash;&gt;
+        <Match>
+            <Class name="com.campusflow.App" />
+            <Bug pattern="DM_EXIT" />
+        </Match>
+
+        &lt;!&ndash; 排除测试代码中的某些问题 &ndash;&gt;
+        <Match>
+            <Class name="~.*Test" />
+            <Bug pattern="DM_STRING_CTOR" />
+        </Match>
+    </FindBugsFilter>
+    -->
+
+</project>
+
+<!--
+SpotBugs 常见问题类型：
+
+高优先级（High）：
+1. NP_NULL_ON_SOME_PATH - 可能的空指针解引用
+2. OBL_UNSATISFIED_OBLIGATION - 资源未关闭（流、数据库连接）
+3. RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE - 冗余 null 检查但实际会 NPE
+4. SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE - SQL 注入风险
+5. XSS_REQUEST_PARAMETER_TO_JSP_WRITER - XSS 风险
+
+中优先级（Medium）：
+1. URF_UNREAD_FIELD - 未读取的字段
+2. SIC_INNER_SHOULD_BE_STATIC - 内部类可以是静态的
+3. SS_SHOULD_BE_STATIC - 方法可以是静态的
+4. DLS_DEAD_LOCAL_STORE - 死代码（赋值后未使用）
+
+低优先级（Low）：
+1. EC_NULL_ARG - 方法调用可能传递 null 参数
+2. EI_EXPOSE_REP - 暴露内部表示（可变对象）
+
+常用命令：
+# 运行 SpotBugs 检查
+mvn spotbugs:check
+
+# 只生成报告，不阻断构建
+mvn spotbugs:spotbugs
+
+# 查看报告
+open target/site/spotbugs.html
+
+# 跳过 SpotBugs 检查
+mvn verify -Dspotbugs.skip=true
+
+配置说明：
+- failOnError: 发现问题是否失败（false 只报告，true 阻断）
+- onlyAnalyze: 指定要分析的包（用 - 匹配子包）
+- effort: 分析力度（Min/Default/Max）
+- threshold: 问题阈值（Low/Medium/High/Explosive）
+- excludeFilterFile: 排除规则文件
+
+与 CampusFlow 集成：
+1. 将插件配置复制到 CampusFlow 的 pom.xml
+2. 创建 spotbugs-exclude.xml 文件（如需要）
+3. 运行 mvn spotbugs:check 查看问题
+4. 修复高优先级问题
+5. 将其他问题记录到技术债 Backlog
+
+质量门禁建议：
+- 阻断：SpotBugs 高优先级问题必须为 0
+- 警告：中优先级问题不超过 10 个
+- 记录：所有低优先级问题记录到技术债
+-->

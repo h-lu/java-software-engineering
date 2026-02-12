@@ -1,0 +1,196 @@
+{
+  "_comment": "质量门禁配置示例 - 用于 CI/CD 流程中的自动质量检查",
+  "version": "1.0",
+  "project": "CampusFlow",
+  "rules": [
+    {
+      "id": "spotbugs-high-priority",
+      "name": "SpotBugs 高优先级问题阻断",
+      "tool": "spotbugs",
+      "enabled": true,
+      "severity": "block",
+      "conditions": [
+        {
+          "category": "priority",
+          "level": "high",
+          "operator": "==",
+          "value": 0,
+          "message": "SpotBugs 高优先级问题必须为 0"
+        }
+      ]
+    },
+    {
+      "id": "spotbugs-medium-priority",
+      "name": "SpotBugs 中优先级问题警告",
+      "tool": "spotbugs",
+      "enabled": true,
+      "severity": "warn",
+      "conditions": [
+        {
+          "category": "priority",
+          "level": "medium",
+          "operator": "<=",
+          "value": 10,
+          "message": "SpotBugs 中优先级问题不应超过 10 个"
+        }
+      ]
+    },
+    {
+      "id": "jacoco-line-coverage",
+      "name": "代码行覆盖率检查",
+      "tool": "jacoco",
+      "enabled": true,
+      "severity": "block",
+      "conditions": [
+        {
+          "metric": "line.coverage",
+          "scope": "project",
+          "operator": ">=",
+          "value": 0.70,
+          "message": "项目整体行覆盖率必须达到 70%"
+        }
+      ]
+    },
+    {
+      "id": "jacoco-branch-coverage",
+      "name": "分支覆盖率检查",
+      "tool": "jacoco",
+      "enabled": true,
+      "severity": "warn",
+      "conditions": [
+        {
+          "metric": "branch.coverage",
+          "scope": "project",
+          "operator": ">=",
+          "value": 0.60,
+          "message": "项目整体分支覆盖率应达到 60%"
+        }
+      ]
+    },
+    {
+      "id": "jacoco-service-coverage",
+      "name": "核心业务逻辑覆盖率",
+      "tool": "jacoco",
+      "enabled": true,
+      "severity": "block",
+      "conditions": [
+        {
+          "metric": "line.coverage",
+          "scope": "package",
+          "pattern": "com.campusflow.service.*",
+          "operator": ">=",
+          "value": 0.80,
+          "message": "Service 层行覆盖率必须达到 80%"
+        }
+      ]
+    },
+    {
+      "id": "junit-test-success",
+      "name": "单元测试通过率",
+      "tool": "junit",
+      "enabled": true,
+      "severity": "block",
+      "conditions": [
+        {
+          "metric": "test.pass_rate",
+          "operator": "==",
+          "value": 1.0,
+          "message": "所有单元测试必须通过"
+        }
+      ]
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "temp-cors-config",
+      "reason": "紧急修复：CORS 配置调整，覆盖率暂时不足",
+      "appliedBy": "开发者姓名",
+      "appliedAt": "2026-02-12",
+      "expiresAt": "2026-02-19",
+      "affectedRules": ["jacoco-line-coverage"],
+      "actionRequired": "下周补齐测试"
+    }
+  ],
+  "notifications": {
+    "on_block": {
+      "channels": ["slack", "email"],
+      "message": "质量门禁失败！请检查报告并修复问题。"
+    },
+    "on_warn": {
+      "channels": ["slack"],
+      "message": "质量门禁警告！建议尽快修复。"
+    },
+    "on_pass": {
+      "channels": ["slack"],
+      "message": "质量门禁通过！✅"
+    }
+  },
+  "_examples": {
+    "strict_gate_for_core_module": {
+      "description": "核心模块的严格门禁",
+      "rules": [
+        {
+          "tool": "spotbugs",
+          "severity": "block",
+          "conditions": [
+            {"level": "high", "operator": "==", "value": 0},
+            {"level": "medium", "operator": "==", "value": 0}
+          ]
+        },
+        {
+          "tool": "jacoco",
+          "severity": "block",
+          "conditions": [
+            {"metric": "line.coverage", "operator": ">=", "value": 0.85},
+            {"metric": "branch.coverage", "operator": ">=", "value": 0.75}
+          ]
+        }
+      ]
+    },
+    "lenient_gate_for_experimental": {
+      "description": "实验性功能的宽松门禁",
+      "rules": [
+        {
+          "tool": "spotbugs",
+          "severity": "warn",
+          "conditions": [
+            {"level": "high", "operator": "<=", "value": 3}
+          ]
+        },
+        {
+          "tool": "jacoco",
+          "severity": "warn",
+          "conditions": [
+            {"metric": "line.coverage", "operator": ">=", "value": 0.50}
+          ]
+        }
+      ]
+    },
+    "gradual_rollout": {
+      "description": "渐进式门禁（用于团队适应期）",
+      "phases": [
+        {
+          "week": "1-2",
+          "rules": [
+            {"tool": "spotbugs", "level": "high", "severity": "warn"},
+            {"tool": "jacoco", "metric": "line.coverage", "value": 0.60, "severity": "warn"}
+          ]
+        },
+        {
+          "week": "3-4",
+          "rules": [
+            {"tool": "spotbugs", "level": "high", "severity": "block"},
+            {"tool": "jacoco", "metric": "line.coverage", "value": 0.70, "severity": "block"}
+          ]
+        },
+        {
+          "week": "5+",
+          "rules": [
+            {"tool": "spotbugs", "level": "high", "severity": "block"},
+            {"tool": "jacoco", "metric": "line.coverage", "value": 0.80, "severity": "block"}
+          ]
+        }
+      ]
+    }
+  }
+}

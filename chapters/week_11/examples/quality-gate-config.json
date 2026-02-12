@@ -1,0 +1,108 @@
+{
+  "name": "CampusFlow Quality Gate",
+  "version": "1.0.0",
+  "description": "质量门禁配置 - 定义代码质量检查规则和阈值",
+  "rules": [
+    {
+      "id": "spotbugs-high",
+      "tool": "spotbugs",
+      "metric": "high_priority_bugs",
+      "threshold": 0,
+      "action": "block",
+      "description": "SpotBugs 高优先级问题必须全部修复才能合并"
+    },
+    {
+      "id": "spotbugs-medium",
+      "tool": "spotbugs",
+      "metric": "medium_priority_bugs",
+      "threshold": 5,
+      "action": "warn",
+      "description": "SpotBugs 中优先级问题不应超过 5 个"
+    },
+    {
+      "id": "jacoco-line-coverage",
+      "tool": "jacoco",
+      "metric": "line_coverage",
+      "threshold": 0.70,
+      "action": "warn",
+      "description": "代码行覆盖率应至少达到 70%"
+    },
+    {
+      "id": "jacoco-branch-coverage",
+      "tool": "jacoco",
+      "metric": "branch_coverage",
+      "threshold": 0.50,
+      "action": "warn",
+      "description": "分支覆盖率应至少达到 50%"
+    },
+    {
+      "id": "test-count",
+      "tool": "custom",
+      "metric": "test_count",
+      "threshold": 100,
+      "action": "info",
+      "description": "建议至少有 100 个单元测试"
+    }
+  ],
+  "presets": {
+    "default": {
+      "description": "默认配置：平衡质量和速度",
+      "rules": ["spotbugs-high", "jacoco-line-coverage", "jacoco-branch-coverage"]
+    },
+    "strict": {
+      "description": "严格配置：用于核心库",
+      "rules": ["spotbugs-high", "spotbugs-medium", "jacoco-line-coverage"],
+      "overrides": {
+        "jacoco-line-coverage": {
+          "threshold": 0.90,
+          "action": "block"
+        },
+        "jacoco-branch-coverage": {
+          "threshold": 0.80,
+          "action": "warn"
+        }
+      }
+    },
+    "lenient": {
+      "description": "宽松配置：用于实验性功能",
+      "rules": ["spotbugs-high", "jacoco-line-coverage"],
+      "overrides": {
+        "spotbugs-high": {
+          "action": "warn"
+        },
+        "jacoco-line-coverage": {
+          "threshold": 0.50,
+          "action": "info"
+        }
+      }
+    }
+  },
+  "exceptions": [
+    {
+      "id": "emergency-hotfix",
+      "description": "紧急线上修复",
+      "condition": "PR label contains 'hotfix' and PR label contains 'emergency'",
+      "action": "allow_with_warning",
+      "required_approval": "tech-lead",
+      "auto_create_debt": true,
+      "debt_due_date": "+7 days"
+    },
+    {
+      "id": "experimental-feature",
+      "description": "实验性功能",
+      "condition": "branch name starts with 'exp-'",
+      "action": "use_lenient_gate",
+      "review_required": true
+    }
+  ],
+  "notifications": {
+    "on_block": {
+      "channels": ["pull-request", "slack"],
+      "message": "质量门禁阻断：请修复以下问题后再合并"
+    },
+    "on_warn": {
+      "channels": ["pull-request"],
+      "message": "质量门禁警告：建议修复以下问题"
+    }
+  }
+}

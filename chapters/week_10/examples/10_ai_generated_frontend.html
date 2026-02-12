@@ -1,0 +1,262 @@
+<!--
+ * 示例：AI 生成的前端代码（初始版本，包含典型问题）
+ * 运行方式：直接在浏览器中打开此文件
+ * 预期输出：页面显示，但存在 XSS 风险、错误处理缺失等问题
+ *
+ * 本文件故意包含以下典型 AI 生成问题，供审查训练使用：
+ * 1. XSS 风险：使用 innerHTML 直接插入用户输入
+ * 2. 没有错误处理：API 调用失败时页面会崩溃
+ * 3. 没有加载状态：用户不知道数据正在加载
+ * 4. 没有空状态处理：列表为空时页面一片空白
+ * 5. 硬编码 API 路径：可能导致跨域问题
+ * 6. 幻觉代码：使用了不存在的 response.getJSON() 方法
+ *
+ * 警告：本代码仅供教学演示，不要直接用于生产环境！
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFlow - 任务管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .task-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .task-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .task-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .task-date {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .task-actions button {
+            padding: 6px 12px;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .btn-delete {
+            background: #f44336;
+        }
+
+        .btn-delete:hover {
+            background: #da190b;
+        }
+
+        .btn-complete {
+            background: #2196F3;
+        }
+
+        .completed {
+            opacity: 0.6;
+        }
+
+        .completed h3 {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CampusFlow 任务管理</h1>
+
+        <div class="form-section">
+            <h2>添加新任务</h2>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="title">任务标题 *</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">任务描述</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">截止日期 *</label>
+                    <input type="date" id="dueDate" name="dueDate" required>
+                </div>
+                <button type="submit">添加任务</button>
+            </form>
+        </div>
+
+        <div class="task-list">
+            <h2>任务列表</h2>
+            <!-- 问题 4：没有加载状态指示器 -->
+            <!-- 问题 5：没有空状态提示 -->
+            <div id="taskContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // 问题 5：硬编码 API 路径，没有配置选项
+        const API_URL = '/tasks';
+
+        // 页面加载时获取任务列表
+        document.addEventListener('DOMContentLoaded', loadTasks);
+
+        // 问题 2：没有错误处理，API 失败时页面会崩溃
+        async function loadTasks() {
+            const response = await fetch(API_URL);
+
+            // 问题 6：幻觉代码！response.getJSON() 不存在
+            // 正确的方法应该是 response.json()
+            const result = await response.getJSON();
+
+            const container = document.getElementById('taskContainer');
+
+            // 问题 4：没有处理空状态，如果 result.data 为空，页面显示空白
+
+            // 问题 1：XSS 风险！使用 innerHTML 直接插入用户输入
+            // 如果 task.title 包含 <script>alert('xss')</script>，会被执行
+            container.innerHTML = result.data.map(task => `
+                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}">
+                    <div class="task-info">
+                        <h3>${task.title}</h3>
+                        <p>${task.description || '暂无描述'}</p>
+                        <div class="task-date">截止日期: ${task.dueDate}</div>
+                    </div>
+                    <div class="task-actions">
+                        <button class="btn-complete" onclick="toggleComplete('${task.id}')">
+                            ${task.status === 'completed' ? '标记未完成' : '标记完成'}
+                        </button>
+                        <button class="btn-delete" onclick="deleteTask('${task.id}')">删除</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 问题 2：没有错误处理
+        document.getElementById('taskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                dueDate: document.getElementById('dueDate').value
+            };
+
+            // 问题 5：硬编码 API 路径，没有使用完整 URL
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            // 问题 4：没有处理加载状态，用户不知道正在提交
+            // 问题 4：添加成功后没有清空表单
+
+            loadTasks();
+        });
+
+        // 问题 2：没有错误处理
+        async function deleteTask(id) {
+            // 问题 4：没有确认对话框，一点就删
+            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            loadTasks();
+        }
+
+        // 问题 2：没有错误处理
+        async function toggleComplete(id) {
+            await fetch(`${API_URL}/${id}/complete`, { method: 'POST' });
+            loadTasks();
+        }
+    </script>
+</body>
+</html>

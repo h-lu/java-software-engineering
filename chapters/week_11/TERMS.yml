@@ -1,0 +1,27 @@
+# Week 11 术语表
+# 新术语需要同步到 shared/glossary.yml
+
+- term_zh: 静态分析
+  term_en: Static Analysis
+  definition_zh: 在不实际执行程序的情况下，通过分析代码结构、语法和语义来发现潜在问题或评估代码质量的技术。
+  first_seen: week_11
+
+- term_zh: 代码覆盖率
+  term_en: Code Coverage
+  definition_zh: 衡量测试执行了多少比例代码的指标，包括行覆盖率、分支覆盖率、方法覆盖率等维度。
+  first_seen: week_11
+
+- term_zh: 质量门禁
+  term_en: Quality Gate
+  definition_zh: 在代码合并前自动检查代码是否达标的规则集合，不达标则阻止合并。
+  first_seen: week_11
+
+- term_zh: 技术债管理
+  term_en: Technical Debt Management
+  definition_zh: 评估技术债的优先级、制定偿还计划、平衡功能开发与债修复的决策过程。
+  first_seen: week_11
+
+- term_zh: CI 基础
+  term_en: Continuous Integration
+  definition_zh: 持续集成的实践，开发者频繁地将代码集成到共享仓库，每次集成都自动运行构建和测试。
+  first_seen: week_11

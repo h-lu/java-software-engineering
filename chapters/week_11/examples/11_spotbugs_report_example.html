@@ -1,0 +1,349 @@
+<!--
+ * 示例：SpotBugs 静态分析报告
+ * 用途：展示 SpotBugs 报告的外观和关键信息
+ * 运行方式：在浏览器中打开此文件查看
+ * 预期输出：看到一个模拟的 SpotBugs 报告
+ *
+ * 说明：
+ * - 这是一个简化的 HTML 示例，用于教学目的
+ * - 真实的 SpotBugs 报告由 mvn spotbugs:check 生成
+ * - 真实报告位于 target/site/spotbugs.html
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotBugs 分析报告 - CampusFlow</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .summary-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .summary-card.high .number { color: #e74c3c; }
+        .summary-card.medium .number { color: #f39c12; }
+        .summary-card.low .number { color: #3498db; }
+        .summary-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: 500;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge.high { background: #fadbd8; color: #c0392b; }
+        .badge.medium { background: #fdebd0; color: #e67e22; }
+        .badge.low { background: #d6eaf8; color: #2980b9; }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .code-block .highlight {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .bug-details {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .bug-details h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .fix-suggestion {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CampusFlow - SpotBugs 分析报告</h1>
+        <p>生成时间: 2026-02-12 18:30 | 版本: 4.9.8</p>
+    </div>
+
+    <h2>问题概览</h2>
+    <div class="summary">
+        <div class="summary-card high">
+            <div class="number">3</div>
+            <div class="label">高优先级</div>
+        </div>
+        <div class="summary-card medium">
+            <div class="number">7</div>
+            <div class="label">中优先级</div>
+        </div>
+        <div class="summary-card low">
+            <div class="number">2</div>
+            <div class="label">低优先级</div>
+        </div>
+        <div class="summary-card">
+            <div class="number" style="color: #7f8c8d;">12</div>
+            <div class="label">总计</div>
+        </div>
+    </div>
+
+    <h2>高优先级问题（必须修复）</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>类型</th>
+                <th>类</th>
+                <th>方法</th>
+                <th>优先级</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge high">NP_NULL_ON_SOME_PATH</span></td>
+                <td>TaskController</td>
+                <td>updateTask(String, Task)</td>
+                <td><span class="badge high">High</span></td>
+                <td>可能空指针解引用</td>
+            </tr>
+            <tr>
+                <td><span class="badge high">OBL_UNSATISFIED_OBLIGATION</span></td>
+                <td>DatabaseManager</td>
+                <td>getConnection()</td>
+                <td><span class="badge high">High</span></td>
+                <td>流可能未关闭</td>
+            </tr>
+            <tr>
+                <td><span class="badge high">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</span></td>
+                <td>UserService</td>
+                <td>findUser(String)</td>
+                <td><span class="badge high">High</span></td>
+                <td>冗余 null 检查但实际会 NPE</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>问题详情 #1：空指针解引用</h2>
+    <div class="bug-details">
+        <h3>问题描述</h3>
+        <p>
+            <strong>类型：</strong> NP_NULL_ON_SOME_PATH<br>
+            <strong>位置：</strong> TaskController.java:45<br>
+            <strong>优先级：</strong> <span class="badge high">High</span>
+        </p>
+
+        <h3>有问题的代码</h3>
+        <div class="code-block">
+<span class="highlight">public void updateTask(String id, Task task) {
+    Task existing = taskRepository.findById(id);</span>
+    existing.setTitle(task.getTitle());  // 如果 findById 返回 null，这里会 NPE
+}
+        </div>
+
+        <h3>问题分析</h3>
+        <p>
+            <code>taskRepository.findById(id)</code> 可能返回 <code>null</code>（当任务不存在时）。
+            如果下一行直接调用 <code>existing.setTitle()</code>，会抛出 <code>NullPointerException</code>。
+        </p>
+
+        <div class="fix-suggestion">
+            <strong>修复建议：</strong><br>
+            添加 null 检查，使用防御式编程：
+            <div class="code-block" style="margin-top: 10px;">
+public void updateTask(String id, Task task) {
+    Task existing = taskRepository.findById(id);
+    <span class="highlight">if (existing == null) {
+        throw new NotFoundException("Task not found: " + id);
+    }</span>
+    existing.setTitle(task.getTitle());
+}
+            </div>
+        </div>
+    </div>
+
+    <h2>问题详情 #2：流未关闭</h2>
+    <div class="bug-details">
+        <h3>问题描述</h3>
+        <p>
+            <strong>类型：</strong> OBL_UNSATISFIED_OBLIGATION<br>
+            <strong>位置：</strong> DatabaseManager.java:32<br>
+            <strong>优先级：</strong> <span class="badge high">High</span>
+        </p>
+
+        <h3>有问题的代码</h3>
+        <div class="code-block">
+<span class="highlight">public String readFromFile(String filename) throws IOException {
+    FileInputStream fis = new FileInputStream(filename);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+    String line = reader.readLine();  // 如果这里抛异常，流不会关闭
+    return line;
+}</span>
+        </div>
+
+        <h3>问题分析</h3>
+        <p>
+            如果 <code>readLine()</code> 抛出异常，<code>FileInputStream</code> 和 <code>BufferedReader</code> 不会被关闭，
+            导致资源泄漏。
+        </p>
+
+        <div class="fix-suggestion">
+            <strong>修复建议：</strong><br>
+            使用 try-with-resources 自动关闭资源：
+            <div class="code-block" style="margin-top: 10px;">
+<span class="highlight">public String readFromFile(String filename) throws IOException {
+    try (FileInputStream fis = new FileInputStream(filename);
+         BufferedReader reader = new BufferedReader(new InputStreamReader(fis))) {
+        String line = reader.readLine();
+        return line;
+    }
+    // 流会自动关闭，即使抛出异常
+}</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>中优先级问题（建议修复）</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>类型</th>
+                <th>类</th>
+                <th>描述</th>
+                <th>优先级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge medium">URF_UNREAD_FIELD</span></td>
+                <td>TaskService</td>
+                <td>未读取的字段: cacheEnabled</td>
+                <td><span class="badge medium">Medium</span></td>
+            </tr>
+            <tr>
+                <td><span class="badge medium">SIC_INNER_SHOULD_BE_STATIC</span></td>
+                <td>DateUtil</td>
+                <td>内部类可以是静态的</td>
+                <td><span class="badge medium">Medium</span></td>
+            </tr>
+            <tr>
+                <td><span class="badge medium">DM_STRING_CTOR</span></td>
+                <td>StringUtil</td>
+                <td>使用 String 构造方法</td>
+                <td><span class="badge medium">Medium</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>修复优先级</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>优先级</th>
+                <th>描述</th>
+                <th>修复时间</th>
+                <th>示例</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge high">P0</span></td>
+                <td>影响安全/核心功能，必须立即修复</td>
+                <td>本周</td>
+                <td>空指针、资源泄漏、SQL 注入</td>
+            </tr>
+            <tr>
+                <td><span class="badge medium">P1</span></td>
+                <td>质量基线问题，本周完成</td>
+                <td>本周</td>
+                <td>未使用的字段、代码重复</td>
+            </tr>
+            <tr>
+                <td><span class="badge low">P2</span></td>
+                <td>优化类问题，下周修复</td>
+                <td>下周</td>
+                <td>代码风格、性能优化</td>
+            </tr>
+            <tr>
+                <td><span class="badge low">P3</span></td>
+                <td>累积到 Sprint 结束处理</td>
+                <td>有空时</td>
+                <td>文档完善、重构建议</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <h3 style="margin-top: 0;">如何使用此报告</h3>
+        <ol style="line-height: 1.8;">
+            <li><strong>运行 SpotBugs：</strong><code>mvn spotbugs:check</code></li>
+            <li><strong>查看报告：</strong><code>open target/site/spotbugs.html</code></li>
+            <li><strong>按优先级排序：</strong>先修复高优先级问题</li>
+            <li><strong>补充测试：</strong>为修复的代码添加测试用例</li>
+            <li><strong>验证修复：</strong>重新运行 <code>mvn spotbugs:check</code></li>
+            <li><strong>记录技术债：</strong>将暂不修复的问题记录到 <code>TECHNICAL_DEBT.md</code></li>
+        </ol>
+    </div>
+</body>
+</html>

@@ -344,3 +344,53 @@
   term_en: Integration Testing
   definition_zh: 测试多个组件协作的测试方法。API 集成测试会启动真实服务，发送 HTTP 请求，验证完整请求-响应链路。
   first_seen: week_09
+
+- term_zh: Prompt 工程
+  term_en: Prompt Engineering
+  definition_zh: 通过结构化、精确的输入提示，引导 AI 生成更符合需求的输出的技术。核心要素包括角色定义、任务描述、约束条件和输出格式。
+  first_seen: week_10
+
+- term_zh: CORS
+  term_en: Cross-Origin Resource Sharing
+  definition_zh: 跨域资源共享，一种浏览器安全机制，用于控制一个域的网页如何请求另一个域的资源。后端需要显式配置允许的来源、方法和头信息。
+  first_seen: week_10
+
+- term_zh: AI 幻觉
+  term_en: AI Hallucination
+  definition_zh: AI 生成看似合理但实际不存在或错误的代码、方法或概念的现象。例如调用不存在的 API 方法、引用未定义的变量等。
+  first_seen: week_10
+
+- term_zh: 前端审查检查清单
+  term_en: Frontend Review Checklist
+  definition_zh: 系统化的 AI 代码审查工具，包含功能正确性、边界情况、安全考虑、可维护性和 AI 特定问题五个维度的检查项。
+  first_seen: week_10
+- term_zh: 静态分析
+  term_en: Static Analysis
+  definition_zh: 在不实际执行程序的情况下，通过分析代码结构、语法和语义来发现潜在问题或评估代码质量的技术。
+  first_seen: week_11
+- term_zh: 代码覆盖率
+  term_en: Code Coverage
+  definition_zh: 衡量测试执行了多少比例代码的指标，包括行覆盖率、分支覆盖率、方法覆盖率等维度。
+  first_seen: week_11
+- term_zh: 质量门禁
+  term_en: Quality Gate
+  definition_zh: 在代码合并前自动检查代码是否达标的规则集合，不达标则阻止合并。
+  first_seen: week_11
+- term_zh: 技术债管理
+  term_en: Technical Debt Management
+  definition_zh: 评估技术债的优先级、制定偿还计划、平衡功能开发与债修复的决策过程。
+  first_seen: week_11
+- term_zh: CI 基础
+  term_en: Continuous Integration
+  definition_zh: 持续集成的实践，开发者频繁地将代码集成到共享仓库，每次集成都自动运行构建和测试。
+  first_seen: week_11
+
+- term_zh: Fetch API
+  term_en: Fetch API
+  definition_zh: 现代浏览器内置的 HTTP 请求接口，返回 Promise，支持 async/await 模式，用于替代 XMLHttpRequest。
+  first_seen: week_10
+
+- term_zh: XSS
+  term_en: Cross-Site Scripting
+  definition_zh: 跨站脚本攻击，通过在网页中注入恶意脚本来窃取用户数据或执行未授权操作。前端防护关键是避免使用 innerHTML 直接插入用户输入。
+  first_seen: week_10

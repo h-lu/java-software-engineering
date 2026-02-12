@@ -1,0 +1,203 @@
+<!--
+ * 示例：JaCoCo Maven 插件配置
+ * 运行方式：复制到 pom.xml 的 <build><plugins> 部分
+ * 测试命令：mvn test jacoco:report
+ * 预期输出：生成代码覆盖率报告
+ *
+ * 本例演示：
+ * 1. JaCoCo 插件基础配置
+ * 2. 覆盖率阈值设置
+ * 3. 报告格式配置
+ * 4. 与 CampusFlow 集成
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- ... 其他 pom.xml 配置 ... -->
+
+    <build>
+        <plugins>
+            <!-- JaCoCo 代码覆盖率插件 -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.15</version>
+                <executions>
+                    <!-- 准备代理：在测试前收集覆盖率数据 -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- 生成报告：在 test 阶段后生成报告 -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 生成多种格式的报告 -->
+                            <formats>
+                                <format>HTML</format>
+                                <format>XML</format>
+                                <format>CSV</format>
+                            </formats>
+
+                            <!-- 报告输出目录 -->
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                        </configuration>
+                    </execution>
+
+                    <!-- 检查覆盖率：强制验证覆盖率阈值 -->
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 覆盖率规则 -->
+                            <rules>
+                                <!-- 规则 1：整体项目覆盖率 -->
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <!-- 行覆盖率要求 -->
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.70</minimum>
+                                        </limit>
+                                        <!-- 分支覆盖率要求 -->
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.60</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+
+                                <!-- 规则 2：核心业务逻辑更高要求 -->
+                                <rule>
+                                    <element>CLASS</element>
+                                    <includes>
+                                        <include>com.campusflow.service.*</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+
+                            <!-- 覆盖率不达标时是否失败 -->
+                            <haltOnFailure>false</haltOnFailure>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+<!--
+JaCoCo 覆盖率指标类型：
+
+1. 指标类型（Counter）：
+   - LINE: 行覆盖率（指令是否执行）
+   - BRANCH: 分支覆盖率（if/switch 分支是否执行）
+   - METHOD: 方法覆盖率（方法是否被调用）
+   - CLASS: 类覆盖率（类是否被加载）
+   - INSTRUCTION: 指令覆盖率（字节码指令）
+   - COMPLEXITY: 复杂度覆盖率（圈复杂度）
+
+2. 值类型（Value）：
+   - COVEREDRATIO: 覆盖比例（0.0 - 1.0）
+   - MISSEDCOUNT: 未覆盖数量
+   - COVEREDCOUNT: 已覆盖数量
+   - MISSEDRATIO: 未覆盖比例
+   - TOTALCOUNT: 总数量
+
+3. 元素类型（Element）：
+   - BUNDLE: 整个项目
+   - PACKAGE: 包级别
+   - CLASS: 类级别
+   - METHOD: 方法级别
+   - SOURCEFILE: 源文件级别
+
+常用命令：
+# 运行测试并生成覆盖率报告
+mvn test jacoco:report
+
+# 查看报告（浏览器打开）
+open target/site/jacoco/index.html
+
+# 只运行测试，使用已收集的数据生成报告
+mvn jacoco:report
+
+# 强制覆盖率检查（不达标则失败）
+mvn verify
+
+# 跳过 JaCoCo
+mvn test -Djacoco.skip=true
+
+配置说明：
+- prepare-agent: 准备 JaCoCo 代理，收集执行数据
+- report: 生成覆盖率报告（HTML/XML/CSV）
+- check: 验证覆盖率是否达标
+- haltOnFailure: 不达标是否失败（true 阻断，false 只警告）
+- outputDirectory: 报告输出目录（默认 target/site/jacoco）
+
+报告内容：
+1. HTML 报告：可视化展示，可在浏览器中查看
+   - index.html: 整体覆盖率概览
+   - com/campusflow/index.html: 包级覆盖率
+   - ClassName.java.html: 类级详细覆盖（红色=未覆盖，绿色=已覆盖）
+
+2. XML 报告：机器可读，用于 CI 工具解析
+   - jacoco.xml: 包含所有覆盖率数据
+
+3. CSV 报告：表格格式，可导入 Excel 分析
+   - jacoco.csv: 按类/方法统计覆盖率
+
+与 CampusFlow 集成：
+1. 将插件配置复制到 CampusFlow 的 pom.xml
+2. 运行 mvn test jacoco:report
+3. 打开 target/site/jacoco/index.html
+4. 点击红色代码查看未覆盖部分
+5. 补充测试用例覆盖红色代码
+6. 重新运行并查看覆盖率提升
+
+覆盖率目标建议：
+- 整体项目：行覆盖率 70%+，分支覆盖率 60%+
+- 核心业务逻辑：行覆盖率 80%+
+- 工具类/辅助类：行覆盖率 85%+
+- DTO/实体类：行覆盖率 60%+（主要是 getter/setter）
+
+注意事项：
+1. 覆盖率 100% 不等于没有 bug
+2. 不要为了覆盖率写无意义测试
+3. 边界情况和异常路径更重要
+4. getter/setter 不需要每个都测试
+5. 测试质量 > 测试数量 > 覆盖率数字
+
+质量门禁建议：
+- 阻断：覆盖率低于 70% 则失败
+- 警告：覆盖率低于 80% 但高于 70%
+- 目标：核心业务逻辑 85%+，整体 75%+
+
+报告阅读指南：
+1. 先看整体覆盖率（红/黄/绿色块）
+2. 点击包名，找到覆盖率低的包
+3. 点击类名，查看具体哪些代码未覆盖（红色）
+4. 分析为什么没覆盖（边界？异常？不可能路径？）
+5. 决定是否需要补充测试（可能确实是死代码）
+-->
