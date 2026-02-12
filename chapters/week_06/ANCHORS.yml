@@ -1,0 +1,32 @@
+# Week 06 锚点记录
+# 将重要结论与可验证证据绑定
+
+- id: week06-testing-benefits
+  claim: 自动化测试是代码重构的安全网，能在修改代码时及时发现破坏性变更
+  evidence: 01_manual_testing_pain.java 展示了小北重构 findBook 返回 Optional 但忘记同步修改 borrowBook，导致可以借阅不存在的图书
+  verification: 运行示例代码，观察"不存在的书也被借走了"的输出
+
+- id: week06-junit-lifecycle
+  claim: "@BeforeEach 确保每个测试方法从干净状态开始，实现测试隔离"
+  evidence: 03_test_lifecycle.java 中 setUp() 方法在每个测试前创建新的 LibraryTracker 实例
+  verification: 查看 LibraryTrackerLifecycleTest 类，观察三个测试方法互不影响
+
+- id: week06-exception-testing
+  claim: assertThrows 可以验证防御式编程的异常抛出行为是否符合预期
+  evidence: 04_exception_testing.java 测试了 borrowBook 对 null ISBN、空借阅人、不存在图书的异常抛出
+  verification: 运行 LibraryTrackerExceptionTest，所有异常测试通过
+
+- id: week06-parameterized-test-efficiency
+  claim: "@ParameterizedTest 可以用一行测试代码验证多组边界情况"
+  evidence: 05_parameterized_test.java 使用 @CsvSource 和 @ValueSource 批量测试 10+ 种无效 ISBN
+  verification: 查看 shouldRejectInvalidIsbn 方法，观察单方法覆盖多组输入
+
+- id: week06-coverage-target
+  claim: Repository 层核心方法（save/findById/findAll/delete）应达到 80%+ 测试覆盖率
+  evidence: CampusFlowRepositoryTest.java 包含 20+ 个测试方法，覆盖正常路径、异常路径、边界情况
+  verification: 运行测试并生成 JaCoCo 报告，检查行覆盖率指标
+
+- id: week06-ai-test-correctness-gap
+  claim: AI 生成的测试代码虽然编译通过率高，但正确验证行为的比例仍较低，需要人工审查
+  evidence: 学术研究数据显示 GitHub Copilot 测试生成有效性 91.5%，但正确率仅 28.7%
+  verification: 参考 ACM 研究论文，对比 AI 生成测试与人工审查后的测试差异

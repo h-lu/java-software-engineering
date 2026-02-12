@@ -80,3 +80,217 @@
   definition_zh: 为了快速交付而选择的不够完美的技术方案，未来需要付出"利息"（额外维护成本）来偿还。
   first_seen: week_02
 
+- term_zh: 受检异常
+  term_en: checked exception
+  definition_zh: 必须在编译期处理或声明的异常，继承自 Exception 但不包括 RuntimeException 及其子类。
+  first_seen: week_03
+
+- term_zh: 运行时异常
+  term_en: runtime exception
+  definition_zh: 不需要在编译期强制处理的异常，继承自 RuntimeException。通常表示编程错误。
+  first_seen: week_03
+
+- term_zh: 异常传播
+  term_en: exception propagation
+  definition_zh: 当方法内部抛出异常且未被捕获时，异常会沿着调用栈向上传播，直到被捕获或导致程序终止。
+  first_seen: week_03
+
+- term_zh: 防御式编程
+  term_en: defensive programming
+  definition_zh: 在代码边界处进行输入验证和前置条件检查，预防异常发生而非仅仅捕获异常。
+  first_seen: week_03
+
+- term_zh: 故障模式与影响分析
+  term_en: FMEA
+  definition_zh: 系统性地分析系统可能的故障模式、其影响以及预防措施的方法论，用于提前识别和降低风险。
+  first_seen: week_03
+
+- term_zh: 尽早失败
+  term_en: fail fast
+  definition_zh: 在检测到错误条件时立即抛出异常，而不是让错误数据继续传播导致更难诊断的问题。
+  first_seen: week_03
+
+- term_zh: 优雅降级
+  term_en: graceful degradation
+  definition_zh: 当系统部分功能失败时，保持核心功能可用，而不是完全崩溃。
+  first_seen: week_03
+
+- term_zh: Feature Branch 工作流
+  term_en: Feature Branch Workflow
+  definition_zh: 一种 Git 协作模式，每个新功能在独立分支开发，完成后通过 Pull Request 合并回主分支，避免代码冲突。
+  first_seen: week_04
+
+- term_zh: Pull Request
+  term_en: Pull Request (PR)
+  definition_zh: 向团队请求合并代码的正式流程，包含代码描述、审查清单和讨论记录，是代码审查的入口。
+  first_seen: week_04
+
+- term_zh: Code Review
+  term_en: Code Review
+  definition_zh: 团队成员互相检查代码的过程，目的是发现设计问题、分享知识、确保代码质量，而非挑错。
+  first_seen: week_04
+
+- term_zh: 审查清单
+  term_en: Review Checklist
+  definition_zh: 系统化审查代码的检查项列表，通常包含设计原则、异常处理、输入验证、代码规范等维度。
+  first_seen: week_04
+
+- term_zh: 冲突解决
+  term_en: Conflict Resolution
+  definition_zh: 当多人修改同一文件时，Git 无法自动合并，需要人工介入决定保留哪些改动的过程。
+  first_seen: week_04
+
+- term_zh: 建设性反馈
+  term_en: Constructive Feedback
+  definition_zh: 以改进为目的的代码审查反馈方式，聚焦问题本身而非人，解释原因并提供改进建议。
+  first_seen: week_04
+
+- term_zh: ArrayList
+  term_en: ArrayList
+  definition_zh: Java 集合框架中的动态数组实现，可根据需要自动扩容，支持泛型类型安全。
+  first_seen: week_05
+
+- term_zh: HashMap
+  term_en: HashMap
+  definition_zh: 基于哈希表实现的 Map 接口，提供 O(1) 时间复杂度的键值对存取操作。
+  first_seen: week_05
+
+- term_zh: 泛型
+  term_en: Generics
+  definition_zh: Java 语言特性，允许类、接口和方法使用类型参数，在编译期提供类型检查，避免运行时类型转换错误。
+  first_seen: week_05
+
+- term_zh: 原始类型
+  term_en: Raw Type
+  definition_zh: 不使用类型参数的泛型类型（如 ArrayList 而非 ArrayList<String>），为兼容旧代码保留，但会失去类型安全。
+  first_seen: week_05
+
+- term_zh: 迭代器
+  term_en: Iterator
+  definition_zh: 提供统一遍历集合元素的接口，支持在遍历过程中安全删除元素。
+  first_seen: week_05
+
+- term_zh: 增强 for 循环
+  term_en: Enhanced For Loop
+  definition_zh: "Java 5 引入的简化遍历语法 for (Element e : collection)，适用于所有实现 Iterable 接口的集合。"
+  first_seen: week_05
+
+- term_zh: 菱形操作符
+  term_en: Diamond Operator
+  definition_zh: Java 7 引入的语法特性 <>, 允许编译器从上下文推断泛型类型参数，简化代码书写。
+  first_seen: week_05
+
+- term_zh: Repository 模式
+  term_en: Repository Pattern
+  definition_zh: 领域驱动设计中的数据访问模式，封装对数据源的访问逻辑，为领域层提供统一的数据操作接口。
+  first_seen: week_05
+
+- term_zh: 单元测试
+  term_en: Unit Test
+  definition_zh: 对程序中最小可测试单元（通常是方法）进行验证的测试，确保其在隔离状态下行为正确。
+  first_seen: week_06
+
+- term_zh: 测试生命周期
+  term_en: Test Lifecycle
+  definition_zh: JUnit 5 提供的 @BeforeEach、@AfterEach 等注解，用于在测试方法执行前后执行初始化和清理代码。
+  first_seen: week_06
+
+- term_zh: 参数化测试
+  term_en: Parameterized Test
+  definition_zh: 使用多组数据运行同一测试逻辑的 JUnit 5 特性，通过 @ParameterizedTest 和参数源注解实现。
+  first_seen: week_06
+
+- term_zh: 测试覆盖率
+  term_en: Test Coverage
+  definition_zh: 衡量测试执行了多少比例代码的指标，包括行覆盖率、分支覆盖率、方法覆盖率等维度。
+  first_seen: week_06
+
+- term_zh: 断言
+  term_en: Assertion
+  definition_zh: 测试中用于验证预期结果的语句，如 assertEquals、assertTrue、assertThrows 等。
+  first_seen: week_06
+
+- term_zh: TDD
+  term_en: Test-Driven Development
+  definition_zh: 测试驱动开发，先编写测试再编写实现代码的开发方法，遵循"红-绿-重构"循环。
+  first_seen: week_06
+
+- term_zh: JDBC
+  term_en: Java Database Connectivity
+  definition_zh: Java 标准数据库访问接口，提供统一的 API 连接不同数据库，屏蔽底层差异。
+  first_seen: week_07
+
+- term_zh: SQLite
+  term_en: SQLite
+  definition_zh: 零配置的嵌入式关系型数据库，整个数据库存储在单个文件中，不需要服务器进程。
+  first_seen: week_07
+
+- term_zh: 持久化存储
+  term_en: persistent storage
+  definition_zh: 数据存储在非易失性介质（如磁盘）上，程序关闭后数据不会丢失。
+  first_seen: week_07
+
+- term_zh: try-with-resources
+  term_en: try-with-resources
+  definition_zh: Java 7 引入的语法特性，自动关闭实现了 AutoCloseable 接口的资源，避免资源泄漏。
+  first_seen: week_07
+
+- term_zh: PreparedStatement
+  term_en: PreparedStatement
+  definition_zh: JDBC 预编译语句接口，支持参数化查询，可防止 SQL 注入并提高性能。
+  first_seen: week_07
+
+- term_zh: SQL 注入
+  term_en: SQL injection
+  definition_zh: 通过用户输入拼接恶意 SQL 代码的攻击方式，可用 PreparedStatement 参数化查询防范。
+  first_seen: week_07
+
+- term_zh: 内存数据库
+  term_en: in-memory database
+  definition_zh: 数据存储在内存中的数据库（如 H2），速度快但不持久，适合单元测试。
+  first_seen: week_07
+
+- term_zh: 数据库连接池
+  term_en: connection pool
+  definition_zh: 管理数据库连接复用的技术，避免频繁创建/关闭连接的开销，生产环境必备。
+  first_seen: week_07
+
+- term_zh: Schema
+  term_en: Schema
+  definition_zh: 数据库的结构定义，包括表、字段、约束、索引等元数据信息。
+  first_seen: week_07
+
+- term_zh: CRUD
+  term_en: Create, Read, Update, Delete
+  definition_zh: 数据操作的四种基本类型：创建、读取、更新、删除。
+  first_seen: week_07
+
+- term_zh: 代码坏味道
+  term_en: Code Smells
+  definition_zh: 代码中暗示可能存在更深层次问题的表面迹象，如上帝类、重复代码、长方法等，本身不是bug但影响可维护性。
+  first_seen: week_08
+
+- term_zh: 重构
+  term_en: Refactoring
+  definition_zh: 在不改变代码外部行为的前提下，对代码内部结构进行修改，以提高其可理解性和降低修改成本。
+  first_seen: week_08
+
+- term_zh: 策略模式
+  term_en: Strategy Pattern
+  definition_zh: 定义一系列算法，将它们封装起来，并且使它们可以互相替换。策略模式让算法的变化独立于使用算法的客户。
+  first_seen: week_08
+
+- term_zh: 工厂模式
+  term_en: Factory Pattern
+  definition_zh: 定义一个创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。
+  first_seen: week_08
+
+- term_zh: 静态代码分析
+  term_en: Static Analysis
+  definition_zh: 在不实际执行程序的情况下，通过分析代码结构、语法和语义来发现潜在问题或评估代码质量的技术。
+  first_seen: week_08
+
+- term_zh: 圈复杂度
+  term_en: Cyclomatic Complexity
+  definition_zh: 衡量代码复杂度的指标，表示代码中线性独立路径的数量。数值越高，代码越难测试和维护。
+  first_seen: week_08

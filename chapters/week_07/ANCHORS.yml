@@ -1,0 +1,52 @@
+# Week 07 锚点记录
+# 用于把"主张"与"可验证证据"绑定
+
+- id: w07-memory-volatile
+  claim: "内存存储（如 ArrayList）是易失的，程序关闭后数据丢失"
+  evidence: "examples/01_memory_storage_problem.java 运行后重启程序，数据消失"
+  verification: "运行示例，观察程序重启后列表为空"
+
+- id: w07-jdbc-connection
+  claim: "JDBC 通过 DriverManager.getConnection 建立数据库连接，SQLite 使用 jdbc:sqlite 协议"
+  evidence: "examples/02_sqlite_connection.java 第 35-50 行"
+  verification: "运行示例，观察 library.db 文件被创建"
+
+- id: w07-try-with-resources
+  claim: "try-with-resources 自动关闭实现了 AutoCloseable 接口的资源，避免资源泄漏"
+  evidence: "examples/03_try_with_resources.java 第 108-125 行对比旧方式"
+  verification: "运行测试，确认无资源泄漏警告"
+
+- id: w07-prepared-statement
+  claim: "PreparedStatement 使用参数化查询防止 SQL 注入攻击"
+  evidence: "examples/04_jdbc_crud.java 第 85-105 行"
+  verification: "尝试注入攻击，确认被转义处理"
+
+- id: w07-crud-operations
+  claim: "JDBC 支持完整的 CRUD 操作（增删改查）"
+  evidence: "examples/04_jdbc_crud.java 完整实现"
+  verification: "运行示例，观察数据库记录变化"
+
+- id: w07-schema-design
+  claim: "数据库 schema 设计需要考虑主键、外键、约束和索引"
+  evidence: "examples/05_schema_migration.java 第 45-80 行"
+  verification: "查看生成的 schema.sql 文件内容"
+
+- id: w07-h2-testing
+  claim: "H2 内存数据库适合单元测试，提供测试隔离性和快速执行"
+  evidence: "examples/06_h2_testing.java 第 45-75 行 @BeforeEach 初始化"
+  verification: "运行测试，观察执行时间小于 1 秒"
+
+- id: w07-repository-migration
+  claim: "Repository 模式允许从内存实现平滑迁移到 JDBC 实现"
+  evidence: "examples/07_campusflow_jdbc_repository.java 对比内存版"
+  verification: "运行 CampusFlow，确认数据持久化到 SQLite"
+
+- id: w07-sql-injection-prevention
+  claim: "使用 PreparedStatement 参数化查询是防止 SQL 注入的标准做法"
+  evidence: "starter_code/src/test/java/com/campusflow/repository/BookRepositoryTest.java 安全测试"
+  verification: "运行 SQL 注入测试，全部通过"
+
+- id: w07-transaction-atomicity
+  claim: "JDBC 默认启用自动提交，每条 SQL 语句是一个独立事务"
+  evidence: "CHAPTER.md 第 4 节 增删改查 部分"
+  verification: "观察单条插入后数据立即持久化"

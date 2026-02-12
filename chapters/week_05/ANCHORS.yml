@@ -1,0 +1,42 @@
+# Week 05 锚点声明
+# 重要结论、可验证的声明和证据
+
+- id: "week05-array-vs-arraylist"
+  claim: "ArrayList 相比数组提供自动扩容能力，无需手动处理容量问题"
+  evidence: "01_array_limitations.java 展示了手动扩容需要创建新数组并复制元素；02_arraylist_basic.java 展示了 ArrayList.add() 自动处理扩容"
+  verification: "运行两个示例对比输出，ArrayList 在第 51 次添加时不会崩溃"
+
+- id: "week05-hashmap-o1-lookup"
+  claim: "HashMap 提供 O(1) 时间复杂度的键查找，显著优于线性搜索的 O(n)"
+  evidence: "03_hashmap_lookup.java 性能测试显示：线性搜索 10000 条数据耗时约 1180 微秒，HashMap 仅需约 14 微秒"
+  verification: "运行 HashMapLookupDemo 查看性能对比输出"
+
+- id: "week05-generics-compile-time-safety"
+  claim: "泛型将类型错误从运行期提前到编译期捕获"
+  evidence: "04_generics_safety.java 展示了原始类型 List 可以混入任意类型导致 ClassCastException；泛型 List<Book> 在编译期阻止类型不匹配的操作"
+  verification: "尝试编译 books.add(\"字符串\") 到 ArrayList<Book> 会产生编译错误"
+
+- id: "week05-iterator-safe-removal"
+  claim: "遍历时删除集合元素必须使用 Iterator.remove()，而非集合的 remove() 方法"
+  evidence: "05_iteration_patterns.java 展示了增强 for 中调用 list.remove() 抛出 ConcurrentModificationException；使用 iterator.remove() 则安全"
+  verification: "运行 IterationPatternsDemo 查看异常捕获和安全删除的对比"
+
+- id: "week05-entryset-preferred"
+  claim: "遍历 HashMap 时应优先使用 entrySet() 而非 keySet() + get()"
+  evidence: "05_iteration_patterns.java 说明 keySet() 遍历需要额外的 get() 哈希查找；entrySet() 直接提供键值对"
+  verification: "对比两种遍历方式的时间复杂度：keySet() 是 O(n*2)，entrySet() 是 O(n)"
+
+- id: "week05-repository-pattern"
+  claim: "Repository 模式通过封装数据访问逻辑，使业务层与存储实现解耦"
+  evidence: "CampusFlowRepository.java 实现了 TaskRepository 类，提供 save/find/delete 接口，Service 层只依赖接口不依赖具体存储"
+  verification: "查看 CampusFlowRepository.java 中 TaskRepository 和 TaskService 的分层设计"
+
+- id: "week05-diamond-operator"
+  claim: "Java 7 菱形操作符 <> 允许编译器推断泛型类型参数，简化代码"
+  evidence: "04_generics_safety.java 中 DiamondOperatorDemo 展示了 new ArrayList<>() 与 new ArrayList<String>() 等价"
+  verification: "使用 Java 7+ 编译器编译使用菱形操作符的代码"
+
+- id: "week05-defensive-copy"
+  claim: "返回集合时应返回副本而非原始引用，以保护内部数据不被外部修改"
+  evidence: "02_arraylist_basic.java 和 CampusFlowRepository.java 中 getAllBooks()/findAll() 返回 new ArrayList<>(internalList)"
+  verification: "修改返回的列表，验证内部数据是否被影响"

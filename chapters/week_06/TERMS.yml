@@ -1,0 +1,31 @@
+# Week 06 术语表
+
+- term_zh: 单元测试
+  term_en: Unit Test
+  definition_zh: 对程序中最小可测试单元（通常是方法）进行验证的测试，确保其在隔离状态下行为正确。
+  first_seen: week_06
+
+- term_zh: 测试生命周期
+  term_en: Test Lifecycle
+  definition_zh: JUnit 5 提供的 @BeforeEach、@AfterEach 等注解，用于在测试方法执行前后执行初始化和清理代码。
+  first_seen: week_06
+
+- term_zh: 参数化测试
+  term_en: Parameterized Test
+  definition_zh: 使用多组数据运行同一测试逻辑的 JUnit 5 特性，通过 @ParameterizedTest 和参数源注解实现。
+  first_seen: week_06
+
+- term_zh: 测试覆盖率
+  term_en: Test Coverage
+  definition_zh: 衡量测试执行了多少比例代码的指标，包括行覆盖率、分支覆盖率、方法覆盖率等维度。
+  first_seen: week_06
+
+- term_zh: 断言
+  term_en: Assertion
+  definition_zh: 测试中用于验证预期结果的语句，如 assertEquals、assertTrue、assertThrows 等。
+  first_seen: week_06
+
+- term_zh: TDD
+  term_en: Test-Driven Development
+  definition_zh: 测试驱动开发，先编写测试再编写实现代码的开发方法，遵循"红-绿-重构"循环。
+  first_seen: week_06

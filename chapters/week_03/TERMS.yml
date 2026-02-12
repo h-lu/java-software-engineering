@@ -1,0 +1,37 @@
+# Week 03 术语表
+# 本章新引入的术语，需要同步到 shared/glossary.yml
+
+- term_zh: "受检异常"
+  term_en: "checked exception"
+  definition_zh: "必须在编译期处理或声明的异常，继承自 Exception 但不包括 RuntimeException 及其子类。"
+  first_seen: week_03
+
+- term_zh: "运行时异常"
+  term_en: "runtime exception"
+  definition_zh: "不需要在编译期强制处理的异常，继承自 RuntimeException。通常表示编程错误。"
+  first_seen: week_03
+
+- term_zh: "异常传播"
+  term_en: "exception propagation"
+  definition_zh: "当方法内部抛出异常且未被捕获时，异常会沿着调用栈向上传播，直到被捕获或导致程序终止。"
+  first_seen: week_03
+
+- term_zh: "防御式编程"
+  term_en: "defensive programming"
+  definition_zh: "在代码边界处进行输入验证和前置条件检查，预防异常发生而非仅仅捕获异常。"
+  first_seen: week_03
+
+- term_zh: "故障模式与影响分析"
+  term_en: "FMEA"
+  definition_zh: "系统性地分析系统可能的故障模式、其影响以及预防措施的方法论，用于提前识别和降低风险。"
+  first_seen: week_03
+
+- term_zh: "尽早失败"
+  term_en: "fail fast"
+  definition_zh: "在检测到错误条件时立即抛出异常，而不是让错误数据继续传播导致更难诊断的问题。"
+  first_seen: week_03
+
+- term_zh: "优雅降级"
+  term_en: "graceful degradation"
+  definition_zh: "当系统部分功能失败时，保持核心功能可用，而不是完全崩溃。"
+  first_seen: week_03

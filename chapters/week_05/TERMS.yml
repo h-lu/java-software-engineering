@@ -1,0 +1,44 @@
+# Week 05 术语表
+#
+# 本周引入的新概念（6 个，在预算 6 个内）
+# 所有 term_zh 会自动合并到 shared/glossary.yml
+
+- term_zh: ArrayList
+  term_en: ArrayList
+  definition_zh: Java 集合框架中的动态数组实现，可根据需要自动扩容，支持泛型类型安全。
+  first_seen: week_05
+
+- term_zh: HashMap
+  term_en: HashMap
+  definition_zh: 基于哈希表实现的 Map 接口，提供 O(1) 时间复杂度的键值对存取操作。
+  first_seen: week_05
+
+- term_zh: 泛型
+  term_en: Generics
+  definition_zh: Java 语言特性，允许类、接口和方法使用类型参数，在编译期提供类型检查，避免运行时类型转换错误。
+  first_seen: week_05
+
+- term_zh: 原始类型
+  term_en: Raw Type
+  definition_zh: 不使用类型参数的泛型类型（如 ArrayList 而非 ArrayList<String>），为兼容旧代码保留，但会失去类型安全。
+  first_seen: week_05
+
+- term_zh: 迭代器
+  term_en: Iterator
+  definition_zh: 提供统一遍历集合元素的接口，支持在遍历过程中安全删除元素。
+  first_seen: week_05
+
+- term_zh: 增强 for 循环
+  term_en: Enhanced For Loop
+  definition_zh: "Java 5 引入的简化遍历语法 for (Element e : collection)，适用于所有实现 Iterable 接口的集合。"
+  first_seen: week_05
+
+- term_zh: 菱形操作符
+  term_en: Diamond Operator
+  definition_zh: Java 7 引入的语法特性 <>, 允许编译器从上下文推断泛型类型参数，简化代码书写。
+  first_seen: week_05
+
+- term_zh: Repository 模式
+  term_en: Repository Pattern
+  definition_zh: 领域驱动设计中的数据访问模式，封装对数据源的访问逻辑，为领域层提供统一的数据操作接口。
+  first_seen: week_05

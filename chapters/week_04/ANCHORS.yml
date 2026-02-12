@@ -1,0 +1,51 @@
+# Week 04 锚点记录
+
+# 锚点定义：把"主张"与"可验证证据"绑定在一起的记录
+
+- id: W04-CLAIM-001
+  claim: Feature Branch 工作流可以避免多人协作时的代码覆盖问题
+  evidence: 小北和阿码在 main 分支同时开发导致代码冲突的场景演示
+  verification: 通过创建 feature 分支，两人在独立分支开发后合并，无冲突
+  location: CHAPTER.md 第 1-2 节
+
+- id: W04-CLAIM-002
+  claim: Pull Request 是代码审查的正式入口，不只是请求合并
+  evidence: PR 描述模板包含改动内容、测试方式、审查清单
+  verification: 创建 PR 时必须填写描述，审查者基于清单检查
+  location: CHAPTER.md 第 3 节
+
+- id: W04-CLAIM-003
+  claim: 审查清单应包含 SOLID 原则、异常处理、输入验证等维度
+  evidence: 示例文件 04_code_review_checklist.md 提供完整清单
+  verification: CodeReviewChecklistTest.java 验证清单各项
+  location: examples/04_code_review_checklist.md
+
+- id: W04-CLAIM-004
+  claim: AI 代码审查工具可以提高效率，但无法替代人类对设计决策的判断
+  evidence: GitHub Copilot 使 PR 处理时间减少 75%，但 45% AI 生成代码含安全漏洞
+  verification: 引用 Faros.ai、Qodo.ai、Checkmarx 研究数据
+  location: CHAPTER.md AI 小专栏 #1
+
+- id: W04-CLAIM-005
+  claim: 建设性反馈应聚焦问题而非人，解释原因并提供改进建议
+  evidence: 老潘分享的 Code Review 伤人故事及三点建议
+  verification: 05_feedback_scenario.md 提供对话场景示例
+  location: CHAPTER.md 第 5 节
+
+- id: W04-CLAIM-006
+  claim: ADR 必须由人撰写，不能用 AI 代劳，因为它记录团队的决策过程
+  evidence: 老潘强调 ADR 记录的是"为什么选 A 不选 B"的思考过程
+  verification: ADR-002 模板要求记录替代方案和决策理由
+  location: CHAPTER.md 第 6 节
+
+- id: W04-CLAIM-007
+  claim: Human-in-the-Loop (HITL) 是企业 AI 使用的行业共识
+  evidence: 未经 AI 培训的团队生产力提升比受培训团队低 60%
+  verification: 引用 getdx.com、techbytes.app 企业指南
+  location: CHAPTER.md AI 小专栏 #2
+
+- id: W04-CLAIM-008
+  claim: 团队应建立 AI 使用规范，明确哪些可以用 AI、哪些必须人工审查
+  evidence: 企业 AI 政策要点：明确允许工具、定义使用场景、强制同行审查
+  verification: 引用 NIST AI RMF、EU AI Act、ISO 42001 合规框架
+  location: CHAPTER.md AI 小专栏 #2

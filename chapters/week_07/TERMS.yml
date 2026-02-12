@@ -1,0 +1,51 @@
+# Week 07 术语表
+
+- term_zh: JDBC
+  term_en: Java Database Connectivity
+  definition_zh: Java 标准数据库访问接口，提供统一的 API 连接不同数据库，屏蔽底层差异。
+  first_seen: week_07
+
+- term_zh: SQLite
+  term_en: SQLite
+  definition_zh: 零配置的嵌入式关系型数据库，整个数据库存储在单个文件中，不需要服务器进程。
+  first_seen: week_07
+
+- term_zh: 持久化存储
+  term_en: persistent storage
+  definition_zh: 数据存储在非易失性介质（如磁盘）上，程序关闭后数据不会丢失。
+  first_seen: week_07
+
+- term_zh: try-with-resources
+  term_en: try-with-resources
+  definition_zh: Java 7 引入的语法特性，自动关闭实现了 AutoCloseable 接口的资源，避免资源泄漏。
+  first_seen: week_07
+
+- term_zh: PreparedStatement
+  term_en: PreparedStatement
+  definition_zh: JDBC 预编译语句接口，支持参数化查询，可防止 SQL 注入并提高性能。
+  first_seen: week_07
+
+- term_zh: SQL 注入
+  term_en: SQL injection
+  definition_zh: 通过用户输入拼接恶意 SQL 代码的攻击方式，可用 PreparedStatement 参数化查询防范。
+  first_seen: week_07
+
+- term_zh: 内存数据库
+  term_en: in-memory database
+  definition_zh: 数据存储在内存中的数据库（如 H2），速度快但不持久，适合单元测试。
+  first_seen: week_07
+
+- term_zh: 数据库连接池
+  term_en: connection pool
+  definition_zh: 管理数据库连接复用的技术，避免频繁创建/关闭连接的开销，生产环境必备。
+  first_seen: week_07
+
+- term_zh: Schema
+  term_en: Schema
+  definition_zh: 数据库的结构定义，包括表、字段、约束、索引等元数据信息。
+  first_seen: week_07
+
+- term_zh: CRUD
+  term_en: Create, Read, Update, Delete
+  definition_zh: 数据操作的四种基本类型：创建、读取、更新、删除。
+  first_seen: week_07

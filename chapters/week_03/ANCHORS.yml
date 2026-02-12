@@ -1,0 +1,47 @@
+# Week 03 知识锚点
+# 可验证的事实性陈述，用于追踪和交叉引用
+
+- id: "W03-001"
+  claim: "Java 的受检异常必须在编译期处理或声明，否则编译失败"
+  evidence: "chapters/week_03/CHAPTER.md 第 1 节代码示例：尝试读取不存在的文件时，编译器强制要求处理 FileNotFoundException"
+  verification: "运行 01_crash_demo.java，不添加 try-catch 或 throws 声明，确认编译报错"
+
+- id: "W03-002"
+  claim: "try-catch-finally 结构中，finally 块无论是否发生异常都会执行"
+  evidence: "chapters/week_03/CHAPTER.md 第 2 节代码示例：展示了 finally 块用于关闭资源的场景"
+  verification: "运行 02_try_catch_basic.java，分别测试正常路径和异常路径，确认 finally 都执行"
+
+- id: "W03-003"
+  claim: "RuntimeException 及其子类是运行时异常，不需要强制处理"
+  evidence: "chapters/week_03/CHAPTER.md 第 3 节：NullPointerException 和 IllegalArgumentException 属于运行时异常"
+  verification: "运行 03_checked_vs_unchecked.java，确认运行时异常不强制要求 try-catch 或 throws"
+
+- id: "W03-004"
+  claim: "自定义异常应继承 Exception（受检）或 RuntimeException（非受检），并提供有意义的异常消息"
+  evidence: "chapters/week_03/CHAPTER.md 第 3 节代码示例：CampusFlowException、TaskNotFoundException 等自定义异常类"
+  verification: "检查 starter_code/solution.java 中的自定义异常类定义"
+
+- id: "W03-005"
+  claim: "防御式编程的核心是在边界处验证输入，使用尽早失败原则"
+  evidence: "chapters/week_03/CHAPTER.md 第 4 节：Task 类的 setter 方法在赋值前进行 null 检查、空字符串检查、长度检查"
+  verification: "运行 04_defensive_programming.java，测试无效输入是否立即抛出异常"
+
+- id: "W03-006"
+  claim: "FMEA 分析包含五个要素：功能模块、潜在故障、影响、预防措施、处理策略"
+  evidence: "chapters/week_03/CHAPTER.md 第 5 节 FMEA 表格和 05_fmea_analysis.md 文档"
+  verification: "检查 05_fmea_analysis.md 是否包含完整的 FMEA 表格"
+
+- id: "W03-007"
+  claim: "AI 生成的代码常遗漏异常处理，LinearB 2026 报告显示 AI PR 接受率仅 32.7% 而人工 PR 为 84.4%"
+  evidence: "chapters/week_03/CHAPTER.md AI 时代小专栏 #1，引用 LinearB 2026 基准测试数据"
+  verification: "访问 https://www.secondtalent.com/resources/ai-generated-code-quality-metrics-and-statistics-for-2026/ 验证数据"
+
+- id: "W03-008"
+  claim: "45% 的 AI 生成代码未能通过安全测试，引入 OWASP Top 10 漏洞"
+  evidence: "chapters/week_03/CHAPTER.md AI 时代小专栏 #2，引用 2025 年安全研究数据"
+  verification: "访问 https://cygnostic.io/4-best-practices-for-secure-code-development-in-2025/ 验证数据"
+
+- id: "W03-009"
+  claim: "2024 年 7 月 19 日 CrowdStrike 事件导致全球 850 万台 Windows 设备崩溃，造成超过 50 亿美元损失"
+  evidence: "chapters/week_03/CHAPTER.md 时代脉搏段落，引用 CrowdStrike RCA 报告"
+  verification: "访问 https://www.crowdstrike.com/en-us/blog/channel-file-291-rca-available/ 验证数据"

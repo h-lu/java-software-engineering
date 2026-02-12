@@ -1,0 +1,31 @@
+# Week 04 术语表
+
+- term_zh: Feature Branch 工作流
+  term_en: Feature Branch Workflow
+  definition_zh: 一种 Git 协作模式，每个新功能在独立分支开发，完成后通过 Pull Request 合并回主分支，避免代码冲突。
+  first_seen: week_04
+
+- term_zh: Pull Request
+  term_en: Pull Request (PR)
+  definition_zh: 向团队请求合并代码的正式流程，包含代码描述、审查清单和讨论记录，是代码审查的入口。
+  first_seen: week_04
+
+- term_zh: Code Review
+  term_en: Code Review
+  definition_zh: 团队成员互相检查代码的过程，目的是发现设计问题、分享知识、确保代码质量，而非挑错。
+  first_seen: week_04
+
+- term_zh: 审查清单
+  term_en: Review Checklist
+  definition_zh: 系统化审查代码的检查项列表，通常包含设计原则、异常处理、输入验证、代码规范等维度。
+  first_seen: week_04
+
+- term_zh: 冲突解决
+  term_en: Conflict Resolution
+  definition_zh: 当多人修改同一文件时，Git 无法自动合并，需要人工介入决定保留哪些改动的过程。
+  first_seen: week_04
+
+- term_zh: 建设性反馈
+  term_en: Constructive Feedback
+  definition_zh: 以改进为目的的代码审查反馈方式，聚焦问题本身而非人，解释原因并提供改进建议。
+  first_seen: week_04
