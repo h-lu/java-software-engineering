@@ -34,7 +34,7 @@ python3 scripts/validate_week.py --week week_XX --mode release
   - 叙事流畅度 >= 3 / 趣味性 >= 3 / 知识覆盖 >= 3 / 认知负荷 >= 3
 - 任一维度 <= 2 = 阻塞项
 - 禁止每节都用相同的子标题模式
-- 每章必须有贯穿案例（渐进式小项目）+ PyHelper 超级线推进
+- 每章必须有贯穿案例（渐进式小项目）+ CampusFlow 超级线推进
 - 循环角色（小北/阿码/老潘）每章至少出场 2 次
 - 新概念数不超预算，回顾桥数量达标
 - 禁止连续 6+ 条 bullet list；小结不能全部用 bullet list
@@ -75,7 +75,7 @@ echo "当前日期已写入 shared/current_date.txt: $(cat shared/current_date.t
 - 设计本章贯穿案例（渐进式小项目）
 - 规划 2 个 AI 小专栏的位置和主题（第 1 个在前段，第 2 个在中段；含建议搜索词）
 - 做认知负荷检查：新概念数在预算内，回顾桥设计达标
-- 规划 PyHelper 超级线推进
+- 规划 CampusFlow 超级线推进
 - 规划循环角色出场位置
 - **规划章首导入**：选择引言格言、草拟时代脉搏段落方向
 - 产出写入 `chapters/week_XX/CHAPTER.md`（大纲阶段）
@@ -85,15 +85,15 @@ echo "当前日期已写入 shared/current_date.txt: $(cat shared/current_date.t
 
 ### 阶段 1.5：Context7 技术查证（前置：阶段 1 完成）
 
-在写正文之前，使用 **Context7 MCP** 查证本章涉及的 Python 官方文档和 API 最佳实践：
+在写正文之前，使用 **Context7 MCP** 查证本章涉及的 Java 官方文档和 API 最佳实践：
 
-1. 从阶段 1 的规划中提取本章涉及的 Python 特性、标准库模块、第三方库
-2. 调用 `resolve-library-id` 定位相关库（如 `python`、`pytest`、`argparse` 等）
+1. 从阶段 1 的规划中提取本章涉及的 Java 特性、标准库模块、第三方库
+2. 调用 `resolve-library-id` 定位相关库（如 `junit5`、`javalin`、`sqlite-jdbc` 等）
 3. 调用 `query-docs` 查询具体的最佳实践和 API 用法
 4. 将查证结果作为上下文传递给阶段 2 的 chapter-writer
 
 **搜索工具分工说明**：
-- **Context7**：仅用于查证 Python/库的官方文档 API 用法和最佳实践
+- **Context7**：仅用于查证 Java/库的官方文档 API 用法和最佳实践
 - **Exa Code Context** (`mcp__exa__get_code_context_exa`)：用于搜索真实项目中的代码示例和社区实践
 - 两者互补：Context7 提供官方标准，Exa 提供社区真实用法
 
@@ -105,11 +105,11 @@ echo "当前日期已写入 shared/current_date.txt: $(cat shared/current_date.t
 
 - **必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
 - **必须写章首导入**：在章标题之后、学习目标之前，写入引言格言 + 时代脉搏段落（200-300 字）。详见 `shared/style_guide.md` 的"章首导入"章节
-- **必须基于阶段 1.5 的 Context7 查证结果**确保代码示例使用当前 Python 最佳实践
+- **必须基于阶段 1.5 的 Context7 查证结果**确保代码示例使用当前 Java 最佳实践
 - 以贯穿案例为主线，用"场景 → 困惑 → 解法 → 深化"的叙事弧线写每一节
 - 使用循环角色增强代入感，每章至少 2 次出场
 - 写回顾桥：在新场景中自然引用前几周概念
-- 写 PyHelper 进度小节
+- 写 CampusFlow 进度小节
 - 严禁所有节使用相同子标题模式；严禁 bullet list 堆砌做小结
 - **所有写作元数据必须用 `<!-- ... -->` 注释包裹**，不能出现在渲染正文中
 
@@ -132,7 +132,7 @@ python3 scripts/validate_week.py --week week_XX --mode drafting
    ```
    # 优先级 1: 内置 WebSearch（最可靠，无外部依赖）
    WebSearch("GitHub Copilot adoption statistics 2026")
-   WebSearch("Python popularity TIOBE index 2026")
+   WebSearch("Java ecosystem trends 2026")
 
    # 优先级 2: Exa MCP（AI 增强搜索，适合深度研究）
    mcp__exa__web_search_exa({
@@ -202,8 +202,8 @@ python3 scripts/validate_week.py --week week_XX --mode drafting
 
 同时调用以下 3 个 subagent（**可以并行**）：
 
-1. **`example-engineer`**：产出 `examples/` + PyHelper 示例代码 + 讲解段落
-2. **`test-designer`**：产出 `tests/` pytest 用例矩阵
+1. **`example-engineer`**：产出 `examples/` + CampusFlow 示例代码 + 讲解段落
+2. **`test-designer`**：产出 `starter_code/src/test/java/` JUnit 5 用例矩阵
 3. **`exercise-factory`**：产出 `ASSIGNMENT.md` + `RUBRIC.md` + AI 协作练习
 
 **校验**（三个全部完成后执行）：
@@ -278,11 +278,11 @@ python3 scripts/validate_week.py --week week_XX --mode release
 |------|---------|------|
 | 阶段 1（规划） | 无 | ASSIGNMENT 等文件不存在是正常的 |
 | 阶段 2-3（写作/润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml（如果存在）|
-| 阶段 4-5（产出/QA） | `--mode idle` | 所有文件 + QA 阻塞项检查，无 pytest |
-| 阶段 6（收敛） | `--mode release` | 完整发布级校验（含 pytest + pedagogical 检查）|
+| 阶段 4-5（产出/QA） | `--mode idle` | 所有文件 + QA 阻塞项检查，无 JUnit 5/Maven |
+| 阶段 6（收敛） | `--mode release` | 完整发布级校验（含 JUnit 5/Maven + pedagogical 检查）|
 
 ## 收敛规则
 
 - QA_REPORT 的"阻塞项"必须清零（不允许 `- [ ]`）才能 release
 - 四维评分总分必须 >= 18/20 才能 release（或 3 轮修订后人工豁免）
-- 不要为了"写完"牺牲可运行/可验证：tests/anchors/terms 要能对上
+- 不要为了“写完”牺牲可运行/可验证：`starter_code/src/test/java/` / `ANCHORS.yml` / `TERMS.yml` 要一致

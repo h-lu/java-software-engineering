@@ -28,4 +28,4 @@ disable-model-invocation: true
    ```
 3. 最终确认：
    - `chapters/week_XX/RELEASE.md` 存在且可读
-   - `python3 -m pytest chapters/week_XX/tests -q` 通过
+   - `mvn -q -f chapters/week_XX/starter_code/pom.xml test` 通过

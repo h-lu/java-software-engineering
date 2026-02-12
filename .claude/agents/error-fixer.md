@@ -19,7 +19,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
    - **YAML 格式错误**：修复 TERMS.yml / ANCHORS.yml 的字段缺失或格式问题
    - **术语未同步**：把 TERMS.yml 中的术语合入 shared/glossary.yml
    - **QA 阻塞未清零**：把 `- [ ]` 改为 `- [x]`（仅当问题确实已解决）或删除不合理的阻塞项
-   - **pytest 失败**：分析失败原因，修复测试或 solution.py
+   - **JUnit 5/Maven 失败**：分析失败原因，修复测试或 `starter_code/src/main/java` 下的实现类
    - **CHAPTER 内容不足**：如果 TODO 过多，填充最小内容（可以是占位段落 + 真正的 TODO 注释）
 
 3. 每修复一类问题后，重新跑验证确认该类问题已解决。
@@ -27,7 +27,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 4. 全部修复后，跑完整验证：
    ```bash
    python3 scripts/validate_week.py --week week_XX --mode release
-   python3 -m pytest chapters/week_XX/tests -q
+   mvn -q -f chapters/week_XX/starter_code/pom.xml test
    ```
 
 ## 修复原则
@@ -47,5 +47,5 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 只有当以下两个命令都返回 0 时，才标记任务完成：
 ```bash
 python3 scripts/validate_week.py --week week_XX --mode release
-python3 -m pytest chapters/week_XX/tests -q
+mvn -q -f chapters/week_XX/starter_code/pom.xml test
 ```

@@ -23,8 +23,8 @@ disable-model-invocation: true
    - 产出最小可运行示例与反例到 `examples/`
    - 在 `CHAPTER.md` 插入引用（短讲解即可）
 3. 调用 `test-designer`：
-   - 生成 pytest 用例到 `tests/`
+   - 生成 JUnit 5/Maven 用例到 `starter_code/src/test/java/`
 4. 本地验证（必须）：
    ```bash
-   python3 -m pytest chapters/week_XX/tests -q
+   mvn -q -f chapters/week_XX/starter_code/pom.xml test
    ```

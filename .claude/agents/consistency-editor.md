@@ -12,10 +12,10 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 1. `CHAPTER.md`：
    - 标题格式：`# week_XX：标题`
    - 小节标题层级连续（## → ### → ####，不跳级）
-   - 代码块都标注了语言（```python / ```bash / ```text）
+   - 代码块都标注了语言（```java / ```bash / ```text）
    - 内部链接可点击（引用的文件路径正确）
    - 包含 DoD 提及
-   - 包含 `## PyHelper 进度` 小节
+   - 包含 `## CampusFlow 进度` 小节
 
 2. `TERMS.yml`：
    - 每个 term 的 `term_zh` / `definition_zh` / `first_seen` 齐全
@@ -48,7 +48,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 - 如果需要较大重写（>20 行），改成 TODO 并指派给对应工种。
 - 修复完成后，必须跑验证确认通过：
   ```bash
-  python3 scripts/validate_week.py --week week_XX --mode task
+  python3 scripts/validate_week.py --week week_XX --mode drafting
   ```
 
 ## 失败恢复
@@ -60,4 +60,4 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 
 ## 完成标志
 
-只有当 `validate_week.py --mode task` 通过后，才标记你的任务为完成。
+只有当 `validate_week.py --mode drafting` 通过后，才标记你的任务为完成。

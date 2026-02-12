@@ -129,7 +129,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
    **优先级 1：WebSearch**（内置搜索工具，最可靠，无外部依赖）
    ```
    WebSearch("GitHub Copilot statistics 2026")
-   WebSearch("Python most popular language 2026 TIOBE")
+   WebSearch("Java backend ecosystem trends 2026")
    ```
    WebSearch 返回摘要信息和 URL，直接使用这些 URL 作为参考链接。
 
@@ -143,7 +143,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
    ```
    mcp__exa__web_search_exa({"query": "GitHub Copilot adoption 2026", "numResults": 5})
    mcp__exa__company_research_exa({"companyName": "OpenAI", "numResults": 3})
-   mcp__exa__get_code_context_exa({"query": "Python argparse CLI best practices", "tokensNum": 3000})
+   mcp__exa__get_code_context_exa({"query": "Java Maven CLI project best practices", "tokensNum": 3000})
    ```
 
    **优先级 3：perplexity MCP**（如可用，适合复杂推理问题）
@@ -175,11 +175,11 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
 
 | 好侧栏 | 坏侧栏 |
 |---------|---------|
-| "GitHub {当前年份-1} 年报告显示，Python 超过 JavaScript 成为最常用语言——你选对了"（用 WebSearch 或研究缓存查最新数据） | "AI 正在改变编程方式"（废话） |
+| "GitHub {当前年份-1} 年报告显示，Java 在企业后端与工程场景中仍是长期主力生态"（用 WebSearch 或研究缓存查最新数据） | "AI 正在改变编程方式"（废话） |
 | "Copilot 用户报告编码速度提升 XX%，但 YY% 的生成代码有安全隐患"（用 WebSearch 或研究缓存查最新数据） | "AI 工具很强大但也有风险"（没数据） |
 | "{当前年份-1} 年流行一个词叫 vibe coding——用自然语言指挥 AI 写代码"（用 WebSearch 或研究缓存查最新话题） | "未来编程可能不需要手写代码"（不可验证的预测） |
 
-每个侧栏的结尾必须**回扣当前学习内容**，例如："所以你刚学的 `input()` 在 AI 时代不是多余——它是你理解程序如何获取数据的基础。"
+每个侧栏的结尾必须**回扣当前学习内容**，例如："所以你刚学的输入校验与异常处理在 AI 时代不是多余——它是你判断生成代码是否可靠的基础。"
 
 ### 格式
 
@@ -202,7 +202,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
 
 - 不删除 DoD 段落（文内必须还能搜到 "DoD"）
 - 不删除"## 本周小结（供下周参考）"段落
-- 不删除"## PyHelper 进度"段落
+- 不删除"## CampusFlow 进度"段落
 - 不改 `#` 一级标题（`# week_XX：标题`）
 - 不改代码/测试/YAML 文件
 - 不引入大量未在 `TERMS.yml` 中登记的新术语
@@ -215,11 +215,11 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
 3. 检查贯穿案例是否依然连贯。
 4. 检查循环角色使用是否自然、符合人设。
 5. 检查趣味性：是否有至少 2 个"哦！"时刻和 1 个会心一笑的地方。
-6. DoD 段落、PyHelper 进度、本周小结段落是否还在。
+6. DoD 段落、CampusFlow 进度、本周小结段落是否还在。
 
 ## 失败恢复
 
 如果 `validate_week.py` 报错：
 1. 对比改写前后的 diff，找到问题位置。
 2. 恢复被误删的必要段落。
-3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode task` 确认。
+3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode drafting` 确认。

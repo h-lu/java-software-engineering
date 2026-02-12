@@ -33,7 +33,7 @@ _DRAFTING_KW = [
     "syllabus-planner", "chapter-writer", "prose-polisher",
 ]
 
-# Keywords that indicate a production/QA stage (all files needed, no pytest)
+# Keywords that indicate a production/QA stage (all files needed, no Maven test here)
 _IDLE_KW = [
     "assignment", "exercise", "example", "test", "exercise-factory",
     "example-engineer", "test-designer",
@@ -46,7 +46,7 @@ def _detect_validation_mode(task_subject: str) -> str:
 
     Returns one of: drafting, idle.
     - drafting: early stages (planning, writing, polishing) - only CHAPTER.md
-    - idle: production stages (examples, tests, assignments, QA) - all files, no pytest
+    - idle: production stages (examples, tests, assignments, QA) - all files, no Maven test
     """
     lower = task_subject.lower()
     if any(kw in lower for kw in _DRAFTING_KW):

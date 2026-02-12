@@ -17,7 +17,7 @@ tools: [Read, Grep, Glob, Edit, Write]
 ## 规则
 
 - 作业分三层：基础/进阶/挑战；每层都有明确输入输出、评分点、常见错误。
-- rubric 评分项必须可操作、可验证（能被 tests/anchors 支撑）。
+- rubric 评分项必须可操作、可验证（能被 `starter_code/src/test/java/` 测试与 anchors 支撑）。
 - 作业与正文强关联：必须引用本周学习目标与 DoD。
 - 每层至少给出一个输入/输出示例，让学生知道"做对了长什么样"。
 
@@ -27,12 +27,12 @@ tools: [Read, Grep, Glob, Edit, Write]
 
 正确的做法：
 1. ASSIGNMENT.md 只包含作业要求、功能规格、输入/输出示例、提示和常见错误
-2. 参考实现代码放在 `starter_code/solution.py` 中（由 example-engineer 提供）
-3. ASSIGNMENT.md 中可以用一句话提示："如果你遇到困难，可以参考 `starter_code/solution.py`"
+2. 参考实现代码放在 `starter_code/src/main/java/com/campusflow/App.java` 中（由 example-engineer 提供）
+3. ASSIGNMENT.md 中可以用一句话提示："如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/App.java`"
 
 禁止在 ASSIGNMENT.md 中出现：
 - ❌ "标准答案要点" 或 "参考答案" 章节
-- ❌ 完整的 Python 实现代码块
+- ❌ 完整的 Java 实现代码块
 - ❌ 可以直接复制粘贴的解决方案
 
 允许在 ASSIGNMENT.md 中出现：
@@ -62,7 +62,7 @@ tools: [Read, Grep, Glob, Edit, Write]
 
 下面这段代码是某个 AI 工具生成的 [功能描述]：
 
-```python
+```java
 # AI 生成的代码（故意包含 2-3 个问题）
 ...
 ```

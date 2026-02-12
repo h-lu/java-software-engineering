@@ -22,7 +22,7 @@
 4. 撰写第一份 ADR（领域模型设计决策）
 5. 为 CampusFlow 项目设计核心领域模型
 
-> 💡 **Definition of Done (DoD)**：完成本章学习的标准包括实现一个符合 SOLID 原则的任务管理系统、编写 ADR-001 文档、并通过代码审查验证设计质量。
+> **Definition of Done (DoD)**：完成本章学习的标准包括实现一个符合 SOLID 原则的任务管理系统、编写 ADR-001 文档、并通过代码审查验证设计质量。
 
 <!--
 贯穿案例：任务管理器（TaskManager）
@@ -448,102 +448,125 @@ public class TaskManager {
 
 ---
 
-## 3. 封装——为什么要隐藏数据
+## 3. 封装——小北的三次试错
 
-阿码不理解封装："为什么不能所有字段都用 `public`？这样多方便，想访问就访问。"
+小北看完老潘的讲解，觉得自己已经懂了。他决定亲手写一个 `Task` 类——不用 `private`，全部用 `public`，这样"写起来快"。
+
+### 第一次尝试：全部 public
 
 ```java
-// 阿码的代码（❌ 所有字段都是 public）
+// 小北的代码（❌ 所有字段都是 public）
 public class Task {
     public String title;
     public boolean completed;
     public int priority; // 1=高, 2=中, 3=低
 }
+```
 
-// 外部代码可以直接修改
+他兴冲冲地写了个测试：
+
+```java
 Task task = new Task();
 task.title = "写作业";
 task.completed = true;
-task.priority = 5; // ❌ 无效的优先级！
+task.priority = 5; // 手滑，写成了 5
 ```
 
-"问题在哪？"阿码问，"代码能跑啊。"
+程序运行了，没有报错。但三天后，当小北想按优先级排序时，发现 `priority = 5` 根本不在他预期的 1-3 范围内。这个 bug 藏了三天，影响了十几个任务的数据。
 
-### 问题 1：数据可能被破坏
+"为什么 Java 不报错？"小北困惑地问。
 
-"能跑，但不安全，"老潘说。
+"因为 `public` 字段没有任何保护，"老潘说，"外部代码可以赋任何值，Java 编译器不会检查。"
 
-他画了个场景：
+### 第二次尝试：加验证，但用 public
 
-> 假设你的程序里有 100 个地方创建了 `Task` 对象。其中有个地方不小心写了：
-> ```java
-> task.priority = 5; // 本意是 1，但手误写成 5
-> ```
->
-> 如果 `priority` 是 `public`，这个错误会直接生效——你的程序会在某个地方崩溃（比如按优先级排序时，5 不在预期范围内）。
->
-> 但如果 `priority` 是 `private`，外部代码不能直接修改，只能通过 setter：
-> ```java
-> public void setPriority(int priority) {
->     if (priority < 1 || priority > 3) {
->         throw new IllegalArgumentException("优先级必须是 1-3");
->     }
->     this.priority = priority;
-> }
-> ```
->
-> 现在那个错误的 `task.priority = 5` 根本编译不过——你必须用 `setPriority(5)`，而 setter 会抛出异常，立即提醒你"这里有 bug"。
+小北不甘心："那我每次赋值前自己检查不就行了？"
 
-还记得 Week 01 我们说的吗？**Java 的严格不是在为难你，是在保护你**。编译期拦截错误，比运行时崩溃要安全得多。
+```java
+// 小北改进后的代码（还是有问题）
+public class Task {
+    public String title;
+    public boolean completed;
+    public int priority;
 
-### 问题 2：无法控制变化
+    public void setPrioritySafe(int p) {
+        if (p < 1 || p > 3) {
+            throw new IllegalArgumentException("优先级必须是 1-3");
+        }
+        this.priority = p;
+    }
+}
+```
 
-"还有另一个问题，"老潘继续说。
+"这样总行了吧？"
+
+"不行，"老潘摇头，"你还是可以直接 `task.priority = 5`，绕过你的 `setPrioritySafe` 方法。而且——"老潘指着屏幕，"你的同事阿码不知道有 `setPrioritySafe` 这个方法，他直接用了 `task.priority = 2`，你的检查就形同虚设。"
+
+小北愣住了。他意识到：**只要字段是 public，就无法强制所有人走验证逻辑**。
+
+### 第三次尝试：终于对了
+
+"那怎么办？"小北问。
+
+"把字段藏起来，只暴露你控制的方法。"老潘写下：
+
+```java
+// ✅ 正确的封装
+public class Task {
+    private String title;      // private：外部无法直接访问
+    private boolean completed;
+    private int priority;
+
+    public Task(String title) {
+        this.title = title;
+        this.completed = false;
+        this.priority = 2; // 默认"中"
+    }
+
+    // 外部只能通过这个方法修改 priority
+    public void setPriority(int priority) {
+        if (priority < 1 || priority > 3) {
+            throw new IllegalArgumentException("优先级必须是 1-3");
+        }
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    // ... 其他 getter/setter
+}
+```
+
+"现在，"老潘解释，"`task.priority = 5` 编译都过不了——因为 `priority` 是 `private`。外部代码**只能**通过 `setPriority(5)`，而这个方法会抛出异常，立即提醒你'这里有 bug'。"
+
+小北恍然大悟："所以封装不是'麻烦'，是'保护'——保护数据不被破坏。"
+
+"对。而且还有一个更深层的价值。"老潘说。
+
+### 封装的真正价值：你可以"撒谎"
+
+"等等，"阿码凑过来，"什么叫'撒谎'？"
+
+老潘笑了："意思是——**封装让你可以在内部偷偷改变实现，而外部完全不知道**。
 
 假设你最初设计 `Task` 的 `completed` 字段是 `boolean`：
 
 ```java
 // 初始设计
 public class Task {
-    public boolean completed; // true=已完成, false=未完成
-}
+    private boolean completed; // true=已完成, false=未完成
 
-// 外部代码
-if (task.completed) {
-    System.out.println("已完成");
+    public boolean isCompleted() {
+        return completed;
+    }
 }
 ```
 
 三个月后，产品经理说："我们需要支持'进行中'的状态。"
 
-如果你用 `public` 字段，你需要：
-1. 把 `boolean completed` 改成 `String status`（"未完成"、"进行中"、"已完成"）
-2. 找到所有访问 `task.completed` 的地方（可能有 50 个）
-3. 逐个修改（`if (task.completed)` 改成 `if (task.getStatus().equals("已完成"))`）
-
-但如果你用封装：
-
-```java
-// 初始设计（封装版本）
-public class Task {
-    private boolean completed;
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void markCompleted() {
-        this.completed = true;
-    }
-}
-
-// 外部代码
-if (task.isCompleted()) {  // 通过方法访问
-    System.out.println("已完成");
-}
-```
-
-现在你要支持"进行中"状态：
+如果你用封装：
 
 ```java
 // 改进后的设计（内部实现变了，但外部代码不变）
@@ -567,29 +590,13 @@ public class Task {
         this.status = Status.IN_PROGRESS;
     }
 }
-
-// 外部代码完全不用改！
-if (task.isCompleted()) {
-    System.out.println("已完成");
-}
 ```
 
-"这就是封装的价值，"老潘说，"**内部实现可以自由变化，只要公共接口不变，外部代码完全不受影响。**"
+"看，"老潘说，"内部从 `boolean` 改成了 `enum`，但 `isCompleted()` 方法还在，返回类型也没变。所有调用 `task.isCompleted()` 的外部代码**完全不用改**——它们根本不知道你内部换了实现。"
 
-### 封装的三大原则
+"这就是封装的价值，"老潘总结，"**内部实现可以自由变化，只要公共接口不变，外部代码完全不受影响。** 你可以'撒谎'——告诉外部'我还是那个 boolean'，实际上内部已经变成了复杂的状态机。"
 
-1. **隐藏数据**：字段用 `private`，外部不能直接访问
-2. **提供方法**：通过 `public` 方法暴露有限的访问权限
-3. **控制变化**：将来可以修改内部实现，而不影响外部代码
-
-| 维度 | public 字段 | private 字段 + getter/setter |
-|------|------------|---------------------------- |
-| 外部访问 | 直接访问（危险） | 通过方法（可控） |
-| 数据验证 | 无（可被设为任何值） | 可以在 setter 里验证 |
-| 实现变化 | 外部代码受影响 | 外部代码不受影响 |
-| 调试 | 无法追踪修改 | 可以在方法里加日志 |
-
-### Getter 和 Setter 的规范
+### 完整的封装示例
 
 ```java
 // 文件：Task.java（完整的封装示例）
@@ -665,33 +672,7 @@ AI 能帮你生成代码骨架，但你负责填充逻辑。"
 
 ---
 
-### 回顾一下：我们学到了什么
-
-让我们停下来回顾一下前 3 节的内容。
-
-从 Week 01 到 Week 02，你完成了从"写能跑的代码"到"写有设计的代码"的思维转变：
-
-| Week 01 | Week 02 |
-|---------|---------|
-| 学会了基本类型（`int`、`String`、`boolean`） | 学会了用类型构建类（`Task`、`TaskManager`） |
-| 写了简单的 `UserInfo` 数据类 | 理解了"职责分离"——数据类和管理类分开 |
-| 用 `Scanner` 读取用户输入 | 用 `private` 字段保护数据不被破坏 |
-| 代码能跑就行 | 代码要能维护、能扩展 |
-
-**静态类型**是你上周学到的核心思维——它让编译器在运行前就帮你发现错误。**封装**是你这周学到的新工具——它让数据更安全、代码更易变化。
-
-还记得第 1 节小北的"上帝类"吗？第 2 节我们用"名词提取法"识别出了类，第 3 节我们用"封装"保护了类的内部状态。下一步，我们需要一套**判断设计质量的标准**——这就是第 4 节要讲的 SOLID 原则。
-
-在继续之前，问问自己：
-- 我能区分"实体类"和"服务类"吗？
-- 我知道为什么要用 `private` 字段吗？
-- 如果让我从零设计一个 `User` 类，我知道该包含哪些字段和方法吗？
-
-如果这些问题的答案还不够清晰，建议重读前面的内容——这些基础是理解 SOLID 原则的前提。
-
----
-
-## 4. SOLID 原则入门——单一职责原则
+## 4. SOLID 原则入门——单一职责与开闭原则
 
 "小北，你看过我上个月写的代码吗？"老潘打开一个老项目，"这个类有 1200 行。"
 
@@ -703,7 +684,7 @@ AI 能帮你生成代码骨架，但你负责填充逻辑。"
 
 "因为这个类**职责太多**。每次改动都可能影响其他功能。这就是为什么我们需要 **SOLID 原则**——它不是'考试要背'的，是'避免掉坑'的经验总结。"
 
-老潘顿了顿："这五个字母，代表五个从无数次失败中总结出来的教训。今天我们先讲最基础的一个——单一职责原则（SRP）。其他四个以后慢慢说，贪多嚼不烂。"
+老潘顿了顿："这五个字母，代表五个从无数次失败中总结出来的教训。今天我们先讲最基础的两个——单一职责原则（SRP）和开闭原则（OCP）。贪多嚼不烂。"
 
 ### 一个反直觉的事实
 
@@ -713,7 +694,7 @@ AI 能帮你生成代码骨架，但你负责填充逻辑。"
 
 "不对吧？"小北疑惑，"职责多不是说明功能强大吗？"
 
-"恰恰相反，"老潘说，"想象你写了一个'超级任务类'——它能保存、验证、发送邮件、生成图表。现在你想在新项目里复用'保存任务'的功能——你必须把整个类搬过去，连同你不需要的邮件、图表功能一起。这就是'依赖了不需要的东西'，违反了'依赖倒置原则'。"
+"恰恰相反，"老潘说，"想象你写了一个'超级任务类'——它能保存、验证、发送邮件、生成图表。现在你想在新项目里复用'保存任务'的功能——你必须把整个类搬过去，连同你不需要的邮件、图表功能一起。这就是'依赖了不需要的东西'。"
 
 "但如果你的 `Task` 类只负责存储数据，`TaskSaver` 类只负责保存——你可以在任何地方复用 `Task` 类，不需要带上保存、邮件等额外功能。"
 
@@ -856,7 +837,7 @@ public class EmailNotifier {
 - 如果一个需求变，你需要改 3 个类，说明职责没分好。
 - 理想情况是：一个需求变，只需要改 1 个类。
 
-### 开闭原则（OCP）简介
+### 开闭原则（OCP）——不用继承也能理解
 
 **定义**：对扩展开放，对修改关闭。
 
@@ -882,34 +863,34 @@ public class TaskPrinter {
 
 "这个设计的问题：每次要支持新格式，你都要修改 `TaskPrinter` 类——这就叫'对修改不关闭'。"
 
-更好的设计：
+"那怎么办？"小北问，"不用继承能做到吗？"
+
+"能。"老潘说，"开闭原则的核心思想不是'必须用继承'，而是'**通过某种方式扩展功能，而不是修改现有代码**'。"
 
 ```java
-// ✅ 符合开闭原则：通过继承来支持新格式
-// 注意：这里用到继承和抽象类概念，Week 08 会详细讲解
-// 现在只需要理解思想——"通过扩展来支持新功能，而不是修改现有代码"
+// ✅ 符合开闭原则：通过组合而非继承来扩展
+// 不需要抽象类，不需要继承，Week 02 的知识就能理解
 
-// 基础格式器（父类）
-abstract class TaskFormatter {
-    // abstract：抽象方法，子类必须实现
-    public abstract String format(Task task);
+// 1. 定义一个"格式器"接口（用接口，不是抽象类）
+interface TaskFormatter {
+    String format(Task task);
 }
 
-// 文本格式实现
-class TextFormatter extends TaskFormatter {
+// 2. 文本格式实现
+class TextFormatter implements TaskFormatter {
     public String format(Task task) {
         return "任务：" + task.getTitle();
     }
 }
 
-// JSON 格式实现
-class JsonFormatter extends TaskFormatter {
+// 3. JSON 格式实现
+class JsonFormatter implements TaskFormatter {
     public String format(Task task) {
         return "{ \"title\": \"" + task.getTitle() + "\" }";
     }
 }
 
-// 打印器不关心具体格式
+// 4. 打印器不关心具体格式，只依赖接口
 class TaskPrinter {
     public void print(Task task, TaskFormatter formatter) {
         System.out.println(formatter.format(task));
@@ -926,11 +907,18 @@ printer.print(task, new TextFormatter());
 // 想要 JSON 格式？用 JsonFormatter
 printer.print(task, new JsonFormatter());
 
-// 想要新格式？新建一个 XmlFormatter，不用改 TaskPrinter
+// 想要 XML 格式？新建一个类，不用改 TaskPrinter
+class XmlFormatter implements TaskFormatter {
+    public String format(Task task) {
+        return "<task><title>" + task.getTitle() + "</title></task>";
+    }
+}
 printer.print(task, new XmlFormatter());
 ```
 
 "看，"老潘说，"要支持新格式，只需要**新建一个类**（`XmlFormatter`），不用修改 `TaskPrinter`——这就是'对修改关闭'。"
+
+"这里用到的 `interface` 是 Week 02 的新知识，"老潘补充，"它比抽象类更轻量，更适合这种'定义行为契约'的场景。你不用理解继承的复杂规则，只需要知道：接口定义了'能做什么'，具体类实现'怎么做'。"
 
 ### AI 生成的代码往往违反 SOLID
 
@@ -1004,7 +992,7 @@ public class TaskService {
 
 ---
 
-## 5. ADR——记录你的架构决策
+## 5. ADR——小北的第一份设计文档
 
 小北不理解："设计就设计呗，为什么要写文档？代码不就是最好的文档吗？"
 
@@ -1040,9 +1028,44 @@ ADR 的核心思想：
 | **有什么后果** | 这个决策的影响 |
 | **怎么验证** | 后续如何验证这个决策是否正确 |
 
+### 小北写的第一份 ADR（被老潘打回来了）
+
+小北听完老潘的故事，决定自己写一份 ADR。他花了半小时，写完后得意地给老潘看：
+
+```markdown
+# ADR-001: TaskManager 设计
+
+## 决策
+我们设计了 Task 类和 TaskManager 类。
+
+## 理由
+这样设计比较好，符合 SOLID 原则。
+
+## 替代方案
+无。
+```
+
+老潘看完后，沉默了几秒。
+
+"小北，你知道这份 ADR 的问题在哪吗？"
+
+"啊？有什么问题？"
+
+"问题太多了。"老潘指着屏幕：
+
+"第一，'比较好'——什么叫比较好？好在哪里？具体解决了什么问题？"
+
+"第二，'符合 SOLID 原则'——哪个原则？怎么符合的？"
+
+"第三，'无'替代方案——你真的没有考虑过其他方案吗？比如全部用 public 字段？比如把所有功能塞进一个类？"
+
+"第四，也是最重要的——**这份 ADR 没有记录你的思考过程**。三个月后你再看，你根本不知道当初为什么这样设计。"
+
+小北脸红了："那……应该怎么写？"
+
 ### ADR 的基本结构
 
-一个标准的 ADR 包含以下部分：
+老潘拿出一份模板：
 
 ```markdown
 # ADR-001: 领域模型设计决策
@@ -1113,6 +1136,12 @@ ADR 的核心思想：
 - Domain-Driven Design (Eric Evans)
 ```
 
+"看，"老潘说，"这份 ADR 的关键不是'写了什么'，而是'记录了思考过程'：
+- 你考虑过哪些方案？
+- 为什么选 A 不选 B？
+- 有什么风险和缓解措施？
+- 将来怎么验证这个决策是否正确？"
+
 ### ADR 的最佳实践
 
 老潘给了几个写 ADR 的建议：
@@ -1157,9 +1186,9 @@ ADR 就是锚点的**具体实践**：
 
 "所以 ADR 不是'额外的工作'，而是**把你在脑子里想的设计决策显式化、可追溯**。"
 
-### 第一份 ADR 实践
+### 小北修改后的 ADR
 
-现在为 TaskManager 写第一份 ADR：
+小北重新写了一份：
 
 ```markdown
 # ADR-001: TaskManager 领域模型设计
@@ -1241,7 +1270,7 @@ CampusFlow 项目小组选择了"TaskFlow"（个人任务管理）作为选题�
 2026-02-11
 ```
 
-"看，"老潘说，"这份 ADR 记录了你的设计决策。三个月后，你或你的同事接手这个项目，看到 ADR 就会明白'为什么这样设计'——不会像我当年那样，自作聪明地改坏代码。"
+"这次好多了，"老潘点头，"这份 ADR 记录了你的设计决策。三个月后，你或你的同事接手这个项目，看到 ADR 就会明白'为什么这样设计'——不会像我当年那样，自作聪明地改坏代码。"
 
 ### ADR 不能用 AI 代劳
 
