@@ -1,0 +1,50 @@
+# Week 09 锚点
+- id: w09-rest-principles
+  claim: RESTful API 应该使用名词复数作为 URI，而非动词
+  evidence: CHAPTER.md 第 2 节展示了 /books 是正确的，而 /getBooks 是错误的；同时引用了 restfulapi.net 的资源命名规范
+  verification: 检查 02_restful_design.java 中的示例，对比好的和坏的 URI 设计
+
+- id: w09-http-methods
+  claim: GET、PUT、DELETE 应该是幂等的，POST 不是幂等的
+  evidence: CHAPTER.md 第 2 节 HTTP 方法表格明确标注了各方法的幂等性；小北与老潘的对话解释了幂等性概念
+  verification: 运行 02_restful_design.java 查看幂等性说明
+
+- id: w09-javalin-minimal
+  claim: Javalin 是一个极简的 Java Web 框架，几行代码即可启动 HTTP 服务
+  evidence: CHAPTER.md 第 3 节展示了 Hello World 示例仅需 5 行代码；与 Spring Boot 的复杂度对比
+  verification: 运行 03_javalin_hello.java，访问 http://localhost:7070
+
+- id: w09-json-serialization
+  claim: Jackson 需要 Java 类提供无参构造方法和 Getter/Setter 才能正确序列化/反序列化
+  evidence: CHAPTER.md 第 4 节注意事项；06_json_handling.java 中的测试用例验证了这一点
+  verification: 运行 06_json_handling.java 中的测试，观察无参构造的必要性
+
+- id: w09-exception-handling
+  claim: API 应该统一异常处理，返回标准错误响应格式，生产环境不应暴露堆栈信息
+  evidence: CHAPTER.md 第 5 节展示了 ErrorResponse 结构和全局异常处理器；老潘强调安全考虑
+  verification: 运行 07_error_handling.java，测试各种异常情况，验证错误响应格式
+
+- id: w09-layered-architecture
+  claim: Web 化改造时，Service 和 Repository 层可以复用，只需新增 Controller 层
+  evidence: CHAPTER.md CampusFlow 进度部分；09_campusflow_api.java 中复用了 Week 08 的策略模式
+  verification: 对比 09_campusflow_api.java 与 Week 08 代码，确认业务逻辑复用
+
+- id: w09-api-testing
+  claim: API 集成测试应该使用 HttpClient 发送真实请求，验证完整请求-响应链路
+  evidence: CHAPTER.md 第 6 节展示了集成测试示例；08_api_testing.java 使用 @Order 控制测试顺序
+  verification: 运行 08_api_testing.java 中的集成测试
+
+- id: w09-status-codes
+  claim: REST API 应该正确使用 HTTP 状态码：200 OK、201 Created、204 No Content、400 Bad Request、404 Not Found、500 Internal Error
+  evidence: CHAPTER.md 第 2 节状态码表格；05_book_api_crud.java 中各端点返回恰当的状态码
+  verification: 检查 05_book_api_crud.java 中各路由的状态码设置
+
+- id: w09-path-vs-query
+  claim: 路径参数用于标识资源，查询参数用于过滤、排序、分页
+  evidence: CHAPTER.md 第 2 节 URI 设计部分；04_javalin_routing.java 展示了两种参数的使用场景
+  verification: 运行 04_javalin_routing.java，测试 /books/{id} 和 /books?author=xxx
+
+- id: w09-cors-plugin
+  claim: Javalin 6.x 使用 bundledPlugins.enableDevLogging() 启用开发日志
+  evidence: starter_code/App.java 和示例代码中的配置；Javalin 6.x 官方文档
+  verification: 编译 starter_code，确认配置正确

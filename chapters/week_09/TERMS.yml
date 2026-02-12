@@ -1,0 +1,52 @@
+# Week 09 术语表
+# 新术语需要同步到 shared/glossary.yml
+
+- term_zh: REST
+  term_en: Representational State Transfer
+  definition_zh: 一种软件架构风格，用于设计网络应用程序。RESTful API 使用 HTTP 方法（GET、POST、PUT、DELETE）对资源进行操作，使用 URI 标识资源，使用状态码表示操作结果。
+  first_seen: week_09
+
+- term_zh: API 端点
+  term_en: API Endpoint
+  definition_zh: API 中特定的 URL，客户端可以通过它访问特定的资源或执行特定的操作。例如 /books、/users/{id}。
+  first_seen: week_09
+
+- term_zh: HTTP 方法
+  term_en: HTTP Methods
+  definition_zh: HTTP 协议定义的操作类型，包括 GET（获取）、POST（创建）、PUT（更新）、PATCH（部分更新）、DELETE（删除）等。
+  first_seen: week_09
+
+- term_zh: JSON
+  term_en: JavaScript Object Notation
+  definition_zh: 一种轻量级的数据交换格式，易于人类阅读和编写，也易于机器解析和生成。是 REST API 最常用的数据格式。
+  first_seen: week_09
+
+- term_zh: 路由
+  term_en: Routing
+  definition_zh: Web 框架将 URL 路径映射到处理函数的机制。例如将 GET /books 映射到获取图书列表的函数。
+  first_seen: week_09
+
+- term_zh: 幂等性
+  term_en: Idempotency
+  definition_zh: 一个操作执行一次和执行多次的效果相同。GET、PUT、DELETE 应该是幂等的，POST 通常不是幂等的。
+  first_seen: week_09
+
+- term_zh: URI
+  term_en: Uniform Resource Identifier
+  definition_zh: 统一资源标识符，用于标识互联网上的资源。URL 是 URI 的一种具体形式。
+  first_seen: week_09
+
+- term_zh: 序列化
+  term_en: Serialization
+  definition_zh: 将对象转换为可存储或传输的格式（如 JSON 字符串）的过程。反序列化则是相反的过程。
+  first_seen: week_09
+
+- term_zh: DTO
+  term_en: Data Transfer Object
+  definition_zh: 数据传输对象，用于在不同层之间传输数据。通常用于封装请求或响应数据。
+  first_seen: week_09
+
+- term_zh: 集成测试
+  term_en: Integration Testing
+  definition_zh: 测试多个组件协作的测试方法。API 集成测试会启动真实服务，发送 HTTP 请求，验证完整请求-响应链路。
+  first_seen: week_09
