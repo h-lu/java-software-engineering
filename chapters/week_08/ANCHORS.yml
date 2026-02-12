@@ -1,0 +1,67 @@
+# Week 08 锚点定义
+# 用于把"主张"与"可验证证据"绑定在一起
+
+- id: week08-god-class-definition
+  claim: 上帝类是一个类承担了过多职责，违反单一职责原则，导致维护困难
+  evidence: CHAPTER.md 第1节展示 TaskService 类同时处理业务逻辑、数据访问、输入验证、费用计算、缓存管理、通知发送等职责
+  verification: 查看 examples/01_task_service_before.java 中的 TaskService 类结构，统计其职责数量
+
+- id: week08-code-smells-types
+  claim: 常见代码坏味道包括上帝类、重复代码、长方法、紧耦合等类型
+  evidence: CHAPTER.md 第1节详细列举了这四种坏味道的定义、危害和识别方法
+  verification: 阅读 CHAPTER.md 第1节，对比每种坏味道的示例代码
+
+- id: week08-refactoring-golden-rule
+  claim: 重构的黄金法则是"测试先行"——重构前必须有测试保护，确保行为不变
+  evidence: CHAPTER.md 第2节强调重构前测试覆盖率达到80%以上，并提供测试保护代码示例
+  verification: 查看 examples/02_task_service_after_refactoring.java 中的测试相关注释
+
+- id: week08-extract-method-benefits
+  claim: 提取方法重构可以消除重复代码、降低方法复杂度、提高可读性
+  evidence: CHAPTER.md 第3节展示 calculateOverdueFee 方法从150行提取为5个辅助方法，每方法少于20行
+  verification: 对比 examples/01_task_service_before.java 和 examples/02_task_service_after_refactoring.java 中的 calculateOverdueFee 方法
+
+- id: week08-move-method-pattern
+  claim: 移动方法重构可以将方法放到最依赖的类中，降低类间耦合
+  evidence: CHAPTER.md 第3节展示将数据库相关方法从 TaskService 移动到 TaskRepository
+  verification: 查看 examples/02_task_service_after_refactoring.java 中 TaskRepository 类的职责
+
+- id: week08-strategy-pattern-ocp
+  claim: 策略模式是开闭原则的典型应用，可以在不修改原有代码的情况下添加新算法
+  evidence: CHAPTER.md 第4节展示使用策略模式替代 if-else 链处理任务状态流转，新增状态只需添加新策略类
+  verification: 运行 examples/03_strategy_pattern_task_status.java 并添加新的策略实现
+
+- id: week08-factory-pattern-usage
+  claim: 工厂模式可以封装对象创建逻辑，解耦客户端与具体类
+  evidence: CHAPTER.md 第4节展示 TaskStatusStrategyFactory 根据状态字符串创建对应策略对象
+  verification: 查看 examples/04_factory_pattern_example.java 中的工厂实现
+
+- id: week08-cyclomatic-complexity-meaning
+  claim: 圈复杂度衡量代码中线性独立路径的数量，数值越高代码越难测试和维护
+  evidence: CHAPTER.md 第5节说明圈复杂度计算公式，并提供重构前后对比（47降至8）
+  verification: 查看 examples/05_code_metrics_example.java 中的复杂度计算示例
+
+- id: week08-static-analysis-tools
+  claim: SpotBugs 和 PMD 可以自动检测代码中的潜在问题和坏味道
+  evidence: CHAPTER.md 第5节介绍两种工具的使用方法和典型检测规则
+  verification: 在 starter_code 上运行 mvn spotbugs:check 和 mvn pmd:check
+
+- id: week08-technical-debt-types
+  claim: 技术债分为谨慎债（有意识、有计划偿还）和草率债（无意识、累积风险）
+  evidence: CHAPTER.md 第6节详细解释两种技术债的区别和管理策略
+  verification: 阅读 CHAPTER.md 第6节技术债管理部分
+
+- id: week08-adr-structure
+  claim: ADR-004 应包含标题、状态、背景、决策、后果等标准结构
+  evidence: CHAPTER.md CampusFlow 进度部分提供完整的 ADR-004 示例
+  verification: 查看 CHAPTER.md 中 ADR-004 架构演进决策部分
+
+- id: week08-ai-refactoring-limitations
+  claim: AI 重构建议需要人工评估，重点关注是否改变行为、是否降低复杂度、是否通过测试
+  evidence: CHAPTER.md AI 专栏 #1 引用 2025 年研究显示 GPT-4 在代码坏味道检测上精确度 0.79 但召回率仅 0.41
+  verification: 阅读 CHAPTER.md AI 时代小专栏 #1
+
+- id: week08-ai-design-pattern-capabilities
+  claim: LLM 可以辅助设计模式应用，但需要精确的规格说明和人机协作验证
+  evidence: CHAPTER.md AI 专栏 #2 引用 MaintainCoder 系统可提升可维护性 14-30%，人机协作可提高成功率 35%
+  verification: 阅读 CHAPTER.md AI 时代小专栏 #2

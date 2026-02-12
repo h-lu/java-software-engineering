@@ -1,0 +1,31 @@
+# Week 08 术语表
+
+- term_zh: 代码坏味道
+  term_en: Code Smells
+  definition_zh: 代码中暗示可能存在更深层次问题的表面迹象，如上帝类、重复代码、长方法等，本身不是bug但影响可维护性。
+  first_seen: week_08
+
+- term_zh: 重构
+  term_en: Refactoring
+  definition_zh: 在不改变代码外部行为的前提下，对代码内部结构进行修改，以提高其可理解性和降低修改成本。
+  first_seen: week_08
+
+- term_zh: 策略模式
+  term_en: Strategy Pattern
+  definition_zh: 定义一系列算法，将它们封装起来，并且使它们可以互相替换。策略模式让算法的变化独立于使用算法的客户。
+  first_seen: week_08
+
+- term_zh: 工厂模式
+  term_en: Factory Pattern
+  definition_zh: 定义一个创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。
+  first_seen: week_08
+
+- term_zh: 静态代码分析
+  term_en: Static Analysis
+  definition_zh: 在不实际执行程序的情况下，通过分析代码结构、语法和语义来发现潜在问题或评估代码质量的技术。
+  first_seen: week_08
+
+- term_zh: 圈复杂度
+  term_en: Cyclomatic Complexity
+  definition_zh: 衡量代码复杂度的指标，表示代码中线性独立路径的数量。数值越高，代码越难测试和维护。
+  first_seen: week_08
