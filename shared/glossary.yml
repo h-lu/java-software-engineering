@@ -145,6 +145,11 @@
   definition_zh: 以改进为目的的代码审查反馈方式，聚焦问题本身而非人，解释原因并提供改进建议。
   first_seen: week_04
 
+- term_zh: Git Tag
+  term_en: Git Tag
+  definition_zh: 给重要的 commit 打上标记，通常用于版本发布。标签将版本号与代码绑定，确保"v1.0.0 的 bug"能精确对应到某份代码。
+  first_seen: week_04
+
 - term_zh: ArrayList
   term_en: ArrayList
   definition_zh: Java 集合框架中的动态数组实现，可根据需要自动扩容，支持泛型类型安全。
@@ -394,3 +399,149 @@
   term_en: Cross-Site Scripting
   definition_zh: 跨站脚本攻击，通过在网页中注入恶意脚本来窃取用户数据或执行未授权操作。前端防护关键是避免使用 innerHTML 直接插入用户输入。
   first_seen: week_10
+
+- term_zh: 测试替身
+  term_en: Test Double
+  definition_zh: 在测试中替代真实依赖对象的替身对象，包括 Dummy、Stub、Mock、Spy、Fake 等类型，用于隔离外部依赖、加快测试速度。
+  first_seen: week_12
+
+- term_zh: Bug Bash
+  term_en: Bug Bash
+  definition_zh: 集体找 bug 的工程实践，所有团队暂停开发，互相测试对方的系统，记录发现的问题，通过新鲜视角发现边界情况和设计缺陷。
+  first_seen: week_12
+
+- term_zh: 端到端测试
+  term_en: E2E Test (End-to-End Test)
+  definition_zh: 从用户视角出发，启动真实浏览器和完整系统，模拟真实用户操作流程的测试方法，验证完整用户体验但速度较慢且脆弱。
+  first_seen: week_12
+
+- term_zh: 契约测试
+  term_en: Contract Test
+  definition_zh: 验证 API 契约（接口规范）是否被破坏的测试方法，通过 OpenAPI/Swagger 文档定义前后端合同，确保实现与文档一致。
+  first_seen: week_12
+
+- term_zh: 根因分析
+  term_en: Root Cause Analysis (RCA)
+  definition_zh: 不只修复表面问题，而是深入分析"为什么会出现这个 bug"的方法论，从设计缺陷、代码质量、测试盲区等角度找出根本原因。
+  first_seen: week_12
+
+- term_zh: API 文档规范
+  term_en: API Documentation Specification
+  definition_zh: 描述 API 端点、请求、响应、错误码的标准格式。常用规范包括 OpenAPI/Swagger。
+  first_seen: week_13
+
+- term_zh: OpenAPI
+  term_en: OpenAPI Specification
+  definition_zh: 一种描述 RESTful API 的标准格式，使用 YAML 或 JSON 定义端点、参数、响应体等。前身是 Swagger。
+  first_seen: week_13
+
+- term_zh: 文档即代码
+  term_en: Docs-as-Code
+  definition_zh: 文档与代码使用同一套 Git 工作流和版本控制的工程实践。文档和代码同步演进、自动更新。
+  first_seen: week_13
+
+- term_zh: README 结构
+  term_en: README Structure
+  definition_zh: 项目说明文档的标准组织方式，通常包含快速开始、功能特性、使用指南、常见问题等。
+  first_seen: week_13
+
+- term_zh: 文档审查清单
+  term_en: Documentation Review Checklist
+  definition_zh: 用于评估 AI 生成文档质量的检查项列表，包含准确性、完整性、清晰度、可维护性等维度。
+  first_seen: week_13
+
+- term_zh: Swagger UI
+  term_en: Swagger UI
+  definition_zh: 基于 OpenAPI 规范自动生成交互式 API 文档界面的工具，可直接发送测试请求。
+  first_seen: week_13
+
+- term_zh: Semantic Versioning
+  term_en: Semantic Versioning (SemVer)
+  definition_zh: 一种版本号命名规范，用三段数字（MAJOR.MINOR.PATCH）传递变更信息：MAJOR 表示不兼容的 API 变更，MINOR 表示向后兼容的新功能，PATCH 表示向后兼容的 bug 修复。
+  first_seen: week_14
+
+- term_zh: Maven Shade Plugin
+  term_en: Maven Shade Plugin
+  definition_zh: Maven 插件，用于将所有依赖打包成一个可执行的 JAR 文件，确保用户只需要 Java 就能运行应用，不需要 Maven 或源代码。
+  first_seen: week_14
+
+- term_zh: 环境配置管理
+  term_en: Environment Configuration Management
+  definition_zh: 管理开发、测试、生产等不同环境配置差异的实践，通常使用配置文件或环境变量，确保一套代码能适应多个环境。
+  first_seen: week_14
+
+- term_zh: 部署
+  term_en: Deployment
+  definition_zh: 将软件安装到服务器上，让用户能访问的过程。包括云平台一键部署、容器化部署、传统 VPS 部署等方案。
+  first_seen: week_14
+
+- term_zh: 技术演示原则
+  term_en: Technical Presentation Principles
+  definition_zh: 技术展示的三个核心目标：传递价值（你做了什么）、展示能力（你怎么做的）、分享成长（你学到了什么）。展示不是堆砌功能，而是讲述项目故事。
+  first_seen: week_15
+
+- term_zh: 演示脚本设计
+  term_en: Presentation Script Design
+  definition_zh: 规划技术演示的时间分配和叙事结构的方法。10 分钟演示的黄金分配：开场 1 分钟（吸引注意力）、主体 7 分钟（核心内容）、结尾 2 分钟（总结与展望）。
+  first_seen: week_15
+
+- term_zh: 展示材料设计
+  term_en: Presentation Material Design
+  definition_zh: 设计 PPT、海报等展示材料的原则。PPT 黄金法则：一页一信息、文字精简、图胜于文、风格统一。海报关键：远距离可读（3 米外看清标题）。
+  first_seen: week_15
+
+- term_zh: 问答应对策略
+  term_en: Q&A Response Strategy
+  definition_zh: 准备和回答展示问答的方法。回答结构：直接回答 → 解释原因 → 补充说明。遇到不会的问题，诚实回答"未考虑过，感谢建议"比胡编乱造更好。
+  first_seen: week_15
+# Week 16 新术语
+
+- term_zh: 反馈闭环
+  term_en: Feedback Loop
+  definition_zh: 收集 → 分类 → 分析 → 行动 → 验证的迭代循环，用于持续改进产品和团队。
+  first_seen: week_16
+
+- term_zh: KPT 复盘法
+  term_en: KPT Retrospective
+  definition_zh: 一种简单的复盘框架，来自日本的敏捷实践。Keep（做得好的）、Problem（遇到的问题）、Try（下次尝试）。
+  first_seen: week_16
+
+- term_zh: 能力雷达图
+  term_en: Skill Radar
+  definition_zh: 一种可视化能力评估方法，把能力按维度分类，每个维度打分（1-5 分），连成一个多边形，用于看见强项和弱项。
+  first_seen: week_16
+
+- term_zh: 知识地图
+  term_en: Knowledge Map
+  definition_zh: 把碎片化的知识连成一张网，看见概念之间的关系，看见两条主线（如 ADR + CampusFlow）如何推进。
+  first_seen: week_16
+
+- term_zh: 职业发展路径
+  term_en: Career Roadmap
+  definition_zh: 工程师从初级到专家的成长路径，清晰看见"从现在到下一级，需要补什么能力"。
+  first_seen: week_16
+
+- term_zh: 产品路线图
+  term_en: Product Roadmap
+  definition_zh: 基于用户反馈和版本管理（Semantic Versioning），规划产品从 v1.0 到 v2.0 的发展路径。
+  first_seen: week_16
+
+- term_zh: 工程复盘
+  term_en: Engineering Retrospective
+  definition_zh: 用结构化的方法回顾项目中的技术决策、AI 协作、工程实践和软技能，把"经历"变成"经验"。
+  first_seen: week_16
+
+- term_zh: 技术债清单
+  term_en: Technical Debt Backlog
+  definition_zh: 记录技术债的优先级、描述和计划修复版本的清单，用于系统性管理技术债。
+  first_seen: week_16
+
+- term_zh: 六维能力模型
+  term_en: Six-Dimension Competency Model
+  definition_zh: 针对软件工程入门课程的能力评估模型，包含编程语言、工程工具、测试能力、架构设计、文档能力、团队协作六个维度。
+  first_seen: week_16
+
+- term_zh: 范围蔓延
+  term_en: Scope Creep
+  definition_zh: 项目范围不受控地扩大，新功能不断增加而没有对应的时间或资源调整，导致延期和质量下降。
+  first_seen: week_16

@@ -1,0 +1,51 @@
+# Week 14 锚点：发布与部署
+
+- id: W14-A01
+  claim: 版本号是给用户的承诺，Semantic Versioning 用三段数字传递变更信息
+  evidence: CHAPTER.md 第 2 节"版本管理——用 Semantic Versioning 说清'变了多少'"
+  verification: cmd:grep -n "MAJOR.MINOR.PATCH" chapters/week_14/CHAPTER.md
+
+- id: W14-A02
+  claim: Git tag 将版本号与代码绑定，确保"v1.0.0 的 bug"能精确对应到某份代码
+  evidence: CHAPTER.md 第 2 节 Git tag 使用示例
+  verification: cmd:grep -n "git tag" chapters/week_14/CHAPTER.md
+
+- id: W14-A03
+  claim: maven-shade-plugin 可以将所有依赖打包成一个可执行 JAR，用户只需要 Java 就能运行
+  evidence: CHAPTER.md 第 3 节"构建打包——用 Maven 生成可执行的 JAR"
+  verification: cmd:grep -n "maven-shade-plugin" chapters/week_14/CHAPTER.md
+
+- id: W14-A04
+  claim: 用户体验从安装开始，打包的目的是让用户能方便地运行应用
+  evidence: CHAPTER.md 第 3 节"源代码 vs 可执行 JAR"对比图
+  verification: cmd:grep -n "用户体验从安装开始" chapters/week_14/CHAPTER.md
+
+- id: W14-A05
+  claim: 环境配置管理的核心是让一套代码适应多个环境（开发/测试/生产）
+  evidence: CHAPTER.md 第 4 节"环境配置——让一套代码适应多个环境"
+  verification: cmd:grep -n "环境配置管理" chapters/week_14/CHAPTER.md
+
+- id: W14-A06
+  claim: 12-Factor App 方法论推荐配置通过环境变量注入，不要写配置文件
+  evidence: CHAPTER.md 第 4 节"方案 2：12-Factor App 方法论"
+  verification: cmd:grep -n "12-Factor" chapters/week_14/CHAPTER.md
+
+- id: W14-A07
+  claim: 敏感信息（密码、密钥）不能写进配置文件，要用环境变量或密钥管理服务
+  evidence: CHAPTER.md 第 4 节关于安全的说明
+  verification: cmd:grep -n "敏感信息" chapters/week_14/CHAPTER.md
+
+- id: W14-A08
+  claim: 专业不是选最复杂的方案，而是选最合适的方案
+  evidence: CHAPTER.md 第 5 节"部署策略"老潘的总结
+  verification: cmd:grep -n "专业不是'选最复杂的方案'" chapters/week_14/CHAPTER.md
+
+- id: W14-A09
+  claim: 云平台持久化存储需要手动配置卷，否则每次部署后数据都会丢失
+  evidence: CHAPTER.md 第 5 节 Railway 部署故障排查
+  verification: cmd:grep -n "持久化存储" chapters/week_14/CHAPTER.md
+
+- id: W14-A10
+  claim: 代码写完了只是完成了 50%，剩下 50% 是让用户能真正用上
+  evidence: CHAPTER.md 引言和总结
+  verification: cmd:grep -n "代码写完了只是完成了 50%" chapters/week_14/CHAPTER.md

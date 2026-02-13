@@ -1,0 +1,33 @@
+# Week 13 术语表
+
+# 本周新概念
+
+- term_zh: API 文档规范
+  term_en: API Documentation Specification
+  definition_zh: 描述 API 端点、请求、响应、错误码的标准格式。常用规范包括 OpenAPI/Swagger。
+  first_seen: week_13
+
+- term_zh: OpenAPI
+  term_en: OpenAPI Specification
+  definition_zh: 一种描述 RESTful API 的标准格式，使用 YAML 或 JSON 定义端点、参数、响应体等。前身是 Swagger。
+  first_seen: week_13
+
+- term_zh: 文档即代码
+  term_en: Docs-as-Code
+  definition_zh: 文档与代码使用同一套 Git 工作流和版本控制的工程实践。文档和代码同步演进、自动更新。
+  first_seen: week_13
+
+- term_zh: README 结构
+  term_en: README Structure
+  definition_zh: 项目说明文档的标准组织方式，通常包含快速开始、功能特性、使用指南、常见问题等。
+  first_seen: week_13
+
+- term_zh: 文档审查清单
+  term_en: Documentation Review Checklist
+  definition_zh: 用于评估 AI 生成文档质量的检查项列表，包含准确性、完整性、清晰度、可维护性等维度。
+  first_seen: week_13
+
+- term_zh: Swagger UI
+  term_en: Swagger UI
+  definition_zh: 基于 OpenAPI 规范自动生成交互式 API 文档界面的工具，可直接发送测试请求。
+  first_seen: week_13

@@ -1,0 +1,43 @@
+# Week 15 锚点记录
+
+## 技术演示的价值
+
+- id: week_15_presentation_value
+  claim: 展示是检验"你是否真的理解"的方式。如果你讲不清楚 ADR 的决策、为什么选择 SQLite、怎么用 AI 协作，说明你的理解还不够深。
+  evidence: 小北焦虑展示时间太短，老潘解释"展示不只是'跑代码'，而是'讲故事'"，展示的三个目标是传递价值、展示能力、分享成长。
+  verification: 根据行业调查，85% 的技术主管认为"清晰的沟通"比"技术深度"更重要。GitHub 数据显示，78% 的高星级项目维护者认为"写文档"和"写代码"一样重要。
+
+## 演示脚本设计原则
+
+- id: week_15_script_structure
+  claim: 10 分钟演示的黄金时间分配是"开场 1 分钟 + 主体 7 分钟 + 结尾 2 分钟"。
+  evidence: 老潘在白板上写下了 10 分钟演示的时间分配表，CampusFlow 演示脚本示例遵循了这个结构。
+  verification: 演示脚本示例（examples/15_presentation_script.md）展示了完整的 1+7+2 分钟时间分配，开场包含自我介绍、项目一句话、展示路线图；主体包含问题背景、技术亮点、功能演示、工程实践、踩坑与成长；结尾包含核心价值、项目链接、问答准备。
+
+## 展示材料设计原则
+
+- id: week_15_material_design
+  claim: PPT 的作用是"辅助理解"，不是"替代演讲"。每一页应该只有一个核心信息，用简洁的文字和图片传达。
+  evidence: 小北做 PPT 时把所有功能列表都贴上去，发现页面密密麻麻全是字。老潘指出"信息过载"问题，并给出了 PPT 设计的黄金法则：一页一信息、文字精简、图胜于文、一致性。
+  verification: CampusFlow PPT 结构示例（CHAPTER.md 第 3 节）展示了 12-15 页结构，每页都有明确的目标，信息清晰。海报设计示例（examples/15_showcase_poster.html）展示了 A1 尺寸、3 米外可读的布局。
+
+## AI 辅助演示工具
+
+- id: week_15_ai_presentation_tools
+  claim: AI 能生成 PPT 草稿、优化文字、设计海报，但"如何讲故事"、"怎么应对提问"、"如何与观众建立连接"——这些能力需要你通过大量练习获得。
+  evidence: 2026 年的数据显示，Gamma 月活跃用户超过 5000 万，能 30 秒生成 20 页 PPT。但用户反馈显示，AI 生成的 PPT 在"视觉效果"上得分很高，但在"叙事质量"上得分很低。
+  verification: 研究缓存（.research_cache.md）引用了 Beautiful.ai vs Gamma 对比、GitHub Copilot Workspace 功能（根据代码自动生成演示草稿）、最佳实践强调"半自动"模式：AI 生成内容 + 人工设计叙事。
+
+## 2026 年软技能趋势
+
+- id: week_15_soft_skills_2026
+  claim: 2026 年的工程师角色正在发生深刻变化——沟通能力正在变得和编程能力一样重要。
+  evidence: LinkedIn 2026 报告指出，"沟通能力"在软件工程师职位描述中的出现频率从 2024 年的 35% 上升到 2026 年的 62%。Karat 调查显示，73% 的领导者表示强工程师至少值 3 倍总薪酬。
+  verification: 研究缓存（.research_cache.md）引用了 UtterSkills 软技能报告、TechCareerBytes 招聘趋势视频、HackerRank 调查数据。
+
+## 展示作为 iterative 过程
+
+- id: week_15_showcase_iteration
+  claim: 展示是 iterative 的。第一次演练会紧张、会忘词、会语速太快，但通过多次练习、收集反馈、调整改进，你会越来越自然。
+  evidence: 小北在预演中 3 分钟后卡住了，语速太快，忘词。老潘给出了反馈，小北练习了 5 遍，从"背词"改成"记结构"，最终第三次演练时流畅自然。
+  verification: CampusFlow 展示练习记录表（CHAPTER.md CampusFlow 进度小节）展示了 5 次练习的记录和改进，从第 1 遍的超时到第 5 遍的流畅自然。

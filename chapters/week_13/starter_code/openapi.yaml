@@ -1,0 +1,294 @@
+openapi: 3.0.3
+info:
+  title: CampusFlow API
+  description: |
+    CampusFlow 是校园任务管理系统，支持创建任务、设置截止日期、标记完成。
+
+    **重要约束**：
+    - 任务标题最大 100 字符（业务规则）
+    - 任务 ID 是字符串格式
+    - 所有日期时间使用 ISO 8601 格式 (YYYY-MM-DD)
+    - 删除任务为软删除，实际保留在数据库中
+  version: 2.4.0
+
+servers:
+  - url: http://localhost:7070
+    description: 本地开发服务器
+
+tags:
+  - name: 任务管理
+    description: 任务的增删改查操作
+  - name: 业务功能
+    description: 特定业务功能（完成、逾期费等）
+  - name: 统计
+    description: 统计和查询接口
+
+paths:
+  /health:
+    get:
+      tags: [统计]
+      summary: 健康检查
+      responses:
+        '200':
+          description: 服务正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service:
+                    type: string
+                    example: "CampusFlow"
+                  version:
+                    type: string
+                    example: "2.4.0"
+                  status:
+                    type: string
+                    example: "UP"
+
+  /stats:
+    get:
+      tags: [统计]
+      summary: 获取统计信息
+      responses:
+        '200':
+          description: 统计信息
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 10
+                  completed:
+                    type: integer
+                    example: 5
+                  pending:
+                    type: integer
+                    example: 3
+                  overdue:
+                    type: integer
+                    example: 2
+
+  /tasks:
+    get:
+      tags: [任务管理]
+      summary: 获取所有任务
+      responses:
+        '200':
+          description: 成功返回任务列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  total:
+                    type: integer
+
+    post:
+      tags: [任务管理]
+      summary: 创建新任务
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+      responses:
+        '201':
+          description: 任务创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: 请求参数错误
+
+  /tasks/{id}:
+    get:
+      tags: [任务管理]
+      summary: 获取单个任务
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成功返回任务
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: 任务不存在
+
+    put:
+      tags: [任务管理]
+      summary: 更新任务（完整更新）
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+      responses:
+        '200':
+          description: 任务更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+    patch:
+      tags: [任务管理]
+      summary: 部分更新任务
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                dueDate:
+                  type: string
+                  format: date
+                status:
+                  type: string
+                  enum: [pending, in_progress, completed]
+      responses:
+        '200':
+          description: 任务更新成功
+
+    delete:
+      tags: [任务管理]
+      summary: 删除任务
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 删除成功
+
+  /tasks/{id}/complete:
+    post:
+      tags: [业务功能]
+      summary: 标记任务完成
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 任务已标记完成
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /tasks/{id}/overdue-fee:
+    get:
+      tags: [业务功能]
+      summary: 计算逾期费用
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 逾期费用
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                  taskTitle:
+                    type: string
+                  overdueDays:
+                    type: integer
+                  fee:
+                    type: number
+                  calculationStrategy:
+                    type: string
+
+components:
+  schemas:
+    Task:
+      type: object
+      required: [id, title, status, createdAt]
+      properties:
+        id:
+          type: string
+          description: 任务 ID
+        title:
+          type: string
+          description: 任务标题
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          nullable: true
+          description: 任务描述
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+          description: 截止日期 (YYYY-MM-DD)
+        status:
+          type: string
+          enum: [pending, in_progress, completed]
+          description: 任务状态
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: 完成时间
+
+    TaskInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        dueDate:
+          type: string
+          format: date

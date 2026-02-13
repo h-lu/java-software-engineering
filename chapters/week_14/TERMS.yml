@@ -1,0 +1,23 @@
+# Week 14 新术语
+
+# 本周新概念（综合实战阶段，上限 4 个）
+
+- term_zh: Semantic Versioning
+  term_en: Semantic Versioning (SemVer)
+  definition_zh: 一种版本号命名规范，用三段数字（MAJOR.MINOR.PATCH）传递变更信息：MAJOR 表示不兼容的 API 变更，MINOR 表示向后兼容的新功能，PATCH 表示向后兼容的 bug 修复。
+  first_seen: week_14
+
+- term_zh: Maven Shade Plugin
+  term_en: Maven Shade Plugin
+  definition_zh: Maven 插件，用于将所有依赖打包成一个可执行的 JAR 文件，确保用户只需要 Java 就能运行应用，不需要 Maven 或源代码。
+  first_seen: week_14
+
+- term_zh: 环境配置管理
+  term_en: Environment Configuration Management
+  definition_zh: 管理开发、测试、生产等不同环境配置差异的实践，通常使用配置文件或环境变量，确保一套代码能适应多个环境。
+  first_seen: week_14
+
+- term_zh: 部署
+  term_en: Deployment
+  definition_zh: 将软件安装到服务器上，让用户能访问的过程。包括云平台一键部署、容器化部署、传统 VPS 部署等方案。
+  first_seen: week_14

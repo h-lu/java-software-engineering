@@ -1,0 +1,24 @@
+- term_zh: 测试替身
+  term_en: Test Double
+  definition_zh: 在测试中替代真实依赖对象的替身对象，包括 Dummy、Stub、Mock、Spy、Fake 等类型，用于隔离外部依赖、加快测试速度。
+  first_seen: week_12
+
+- term_zh: Bug Bash
+  term_en: Bug Bash
+  definition_zh: 集体找 bug 的工程实践，所有团队暂停开发，互相测试对方的系统，记录发现的问题，通过新鲜视角发现边界情况和设计缺陷。
+  first_seen: week_12
+
+- term_zh: 端到端测试
+  term_en: E2E Test (End-to-End Test)
+  definition_zh: 从用户视角出发，启动真实浏览器和完整系统，模拟真实用户操作流程的测试方法，验证完整用户体验但速度较慢且脆弱。
+  first_seen: week_12
+
+- term_zh: 契约测试
+  term_en: Contract Test
+  definition_zh: 验证 API 契约（接口规范）是否被破坏的测试方法，通过 OpenAPI/Swagger 文档定义前后端合同，确保实现与文档一致。
+  first_seen: week_12
+
+- term_zh: 根因分析
+  term_en: Root Cause Analysis (RCA)
+  definition_zh: 不只修复表面问题，而是深入分析"为什么会出现这个 bug"的方法论，从设计缺陷、代码质量、测试盲区等角度找出根本原因。
+  first_seen: week_12

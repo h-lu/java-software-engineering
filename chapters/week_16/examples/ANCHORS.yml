@@ -1,0 +1,52 @@
+# Week 16 锚点建议
+# 建议 ConsistencyEditor 合并到 chapters/week_16/ANCHORS.yml
+
+- id: week_16_feedback_loop_value
+  claim: 反馈闭环是项目持续改进的核心机制，不是堆砌功能，而是"收集 → 分类 → 分析 → 行动 → 验证"的迭代循环。
+  evidence: CampusFlow 团队在项目集市收集 23 份反馈，发现 6 个人提到"没有取消功能"，证明这是真实痛点而非个别意见。
+  verification: 学生可以用反馈收集工具记录项目集市反馈，统计频次，识别优先级最高的改进项。
+
+- id: week_16_kpt_effectiveness
+  claim: KPT 复盘法（Keep、Problem、Try）是一种简单有效的复盘方法，比"流水账式总结"更容易产生可行动的改进。
+  evidence: CampusFlow 团队的 KPT 复盘报告识别出 5 个 Problem（如需求蔓延、AI 幻觉），每个都有根因分析和改进计划。
+  verification: 学生可以写一份 KPT 复盘报告，对比"流水账总结"和"KPT 复盘"的产出质量。
+
+- id: week_16_skill_growth_visible
+  claim: 能力雷达图能把 Week 01 到 Week 16 的成长可视化，让"我学会了什么"从感觉变成可量化的数据。
+  evidence: 小北的能力雷达图显示平均分从 1.5 提升到 3.5（133% 增长），测试能力从 1 分提升到 4 分。
+  verification: 学生可以用 SkillRadarGenerator 生成自己的雷达图，对比 Week 01 和 Week 16 的评分。
+
+- id: week_16_knowledge_map_connection
+  claim: 16 周课程不是 16 个独立主题的堆砌，而是通过"回顾桥"连接的知识网络。
+  evidence: 知识地图显示 Week 01 的"静态类型"在 Week 05 的"泛型"中复现，Week 02 的"ADR"在 Week 16 的架构回顾中使用。
+  verification: 学生可以在知识地图中找到 3 个"回顾桥"例子，说明旧概念如何在新场景中再次出现。
+
+- id: week_16_adr_long_term_value
+  claim: ADR 的长期价值在 Week 16 复盘时才真正体现——它能帮助团队回顾"为什么这么做"，避免重复讨论已决策的事项。
+  evidence: CampusFlow 的 4 篇 ADR 在项目集市上用来回答评委的"为什么"问题，比现场解释更有说服力。
+  verification: 学生可以对比"有 ADR 的项目"和"无 ADR 的项目"在回答技术问题时的差异。
+
+- id: week_16_career_path_clarity
+  claim: 明确的职业发展路径（初级 → 中级 → 高级）能帮助学生知道"下一步学什么"，而不是盲目刷题。
+  evidence: 小北根据职业路径制定了 3 个月计划（巩固基础 → 扩展工具链 → 深入架构），而不是"随便学点 Spring Boot"。
+  verification: 学生可以写一份 3 个月学习计划，说明每个阶段的目标和验证标准。
+
+- id: week_16_retrospective_not_post_mortem
+  claim: 工程复盘不是"事后总结"（Post-Mortem），而是"为下一次迭代做准备"。复盘的价值在于识别系统性问题，而非追责。
+  evidence: CampusFlow 复盘报告中"AI 幻觉导致返工"没有被归咎于阿码，而是识别为"流程问题"（缺少 AI 代码审查机制）。
+  verification: 学生可以对比"追责式总结"和"系统性复盘"的团队氛围差异。
+
+- id: week_16_showcase_preparation_impact
+  claim: 演示准备（脚本、PPT、Q&A）的质量直接影响项目集市反馈，不是"功能做好了自然会讲"。
+  evidence: CampusFlow 团队 Week 15 提前 1 周准备演示脚本和 Q&A 应答清单，项目集市上 Q&A 环节表现自信。
+  verification: 学生可以对比"准备充分的演示"和"临时发挥的演示"在反馈质量上的差异。
+
+- id: week_16_campusflow_roadmap_feasibility
+  claim: CampusFlow 路线图（v1.0 → v2.0）是可行的，因为每个版本都有明确的目标、技术方案和交付标准。
+  evidence: v1.0.1 只修复 3 个 P0 bug，v1.1.0 新增 3 个功能，每个版本都在 2-3 周内可完成。
+  verification: 学生可以评估自己的项目路线图，判断每个版本的时间和资源估算是否合理。
+
+- id: week_16_engineering_growth_mindset
+  claim: 软件工程的学习不是"学会所有工具"，而是建立"成长型思维"——知道自己的强项和弱项，知道从哪里获取帮助。
+  evidence: 小北的复盘报告中承认"Booking 类有点臃肿"，但没有因此否定自己，而是规划下一步学习 DDD。
+  verification: 学生可以写一份"自我反思"，说明如何把"弱点"变成"学习机会"。

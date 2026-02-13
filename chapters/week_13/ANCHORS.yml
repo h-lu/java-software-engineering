@@ -1,0 +1,78 @@
+# Week 13 锚点记录
+
+## 文档价值
+
+- id: doc-reduces-understanding-cost
+  claim: 文档的核心价值是降低理解成本——新同学加入团队、新用户使用你的 API、新成员维护你的代码，文档让他们不用"读代码就能理解"。
+  evidence: 老潘说："文档的核心价值是**降低理解成本**。新同学加入团队、新用户使用你的 API、新成员维护你的代码——文档让他们不用'读代码就能理解'。"
+  verification: 小北在 Bug Bash 后理解了为什么需要文档，老潘的"地图"比喻帮助建立了文档价值的直观理解。
+
+## 文档金字塔
+
+- id: doc-pyramid-three-layers
+  claim: 文档分为三层——顶层使用指南（README、快速开始）、中层 API 文档/设计文档、底层代码注释/Javadoc。不同层次的文档面向不同的读者。
+  evidence: 老潘展示了文档金字塔："顶层：使用指南（README）、中层：API 文档/设计文档、底层：代码注释/Javadoc"。
+  verification: 小北意识到"所以我之前只写了注释（底层），没有写 README 和 API 文档（顶层、中层）"。
+
+## OpenAPI 契约
+
+- id: openapi-contract
+  claim: OpenAPI 文档是"契约"——定义了端点、请求、响应、错误码，是前后端的合同。如果文档说"标题最大 100 字符"，你的实现必须遵守。
+  evidence: 老潘说："API 文档的核心是'契约'（Contract）——你承诺给调用者的保证。"
+  verification: 与 Week 12 的契约测试呼应——文档定义契约，测试验证契约。
+
+## 可执行文档
+
+- id: executable-documentation
+  claim: Swagger UI 把 OpenAPI 文档渲染成交互式文档，不只是"看"的文档，还是"用"的文档——可直接发送测试请求。
+  evidence: 老潘说："Swagger UI 会把你的 OpenAPI 文档渲染成交互式网页，还能直接发送测试请求。这就是'可执行文档'。"
+  verification: 小北试了 Swagger UI 的"Try it out"功能，发现比手写 curl 命令快多了。
+
+## README 倒金字塔原则
+
+- id: readme-inverted-pyramid
+  claim: 优秀的 README 遵循倒金字塔原则——最重要（快速开始）放在最前面，用户 5 分钟就能跑起来。
+  evidence: 老潘说："README 的第一个词应该是'Read Me'——读我，就能用。"
+  verification: README 示例包含完整的快速开始、功能特性、使用指南、常见问题，按照重要性排序。
+
+## Docs-as-Code
+
+- id: docs-as-code-practice
+  claim: Docs-as-Code 是文档与代码使用同一套 Git 工作流和版本控制的工程实践。文档不再是"事后补"，而是和代码一起演进、一起提交。
+  evidence: 老潘说："文档不是'事后补'，而是和代码一起演进。这叫 **Docs-as-Code（文档即代码）**。"
+  verification: Git 提交信息显示文档和代码一起提交，同步演进。
+
+## AI 生成框架但"灵魂"在人
+
+- id: ai-framework-but-soul-by-humans
+  claim: AI 能生成文档框架，但"灵魂"（设计意图、业务约束、踩过的坑）只有人类知道。AI 不擅长理解"为什么"——这个理由只有你知道。
+  evidence: 老潘举例："AI 能识别 `title` 字段是 `String` 类型，但不知道'最大 100 字符'是'业务规则'而非'技术限制'。"阿码的追问也体现了这个局限。
+  verification: 小北在审查 AI 生成的文档时发现了数据库路径错误和"支持 PostgreSQL"的幻觉。
+
+## ADR 是"决策地图"
+
+- id: adr-is-decision-map
+  claim: ADR 索引不只是列表，更是"决策地图"——包含决策摘要、依赖关系、待决策事项，让团队快速回顾设计意图、理解"涟漪效应"（一个决策影响后续所有决策）。
+  evidence: 老潘展示了决策依赖图，小北发现了"涟漪效应"——ADR-001 的选择影响了后面所有决策。
+  verification: ADR_INDEX.md 示例包含完整的决策列表、摘要和依赖图。
+
+## AI 局限检测"变化"但不知"为什么"
+
+- id: ai-detects-change-not-why
+  claim: AI 工具能检测"字段名变了"，但不知道"设计意图变了"。AI 能保持文档和代码一致，但设计意图的变更只有人类知道。
+  evidence: 老潘说："AI 能更新文档，但不知道为什么改——这个理由只有你知道。"
+  verification: 小北在审查 AI 生成的文档时发现 AI 编造了不存在的功能"支持 PostgreSQL、MySQL"。
+
+## 文档审查和代码审查一样重要
+
+- id: doc-review-as-important-as-code-review
+  claim: 文档审查和代码审查一样重要。代码错了编译器会报错，文档错了用户会直接放弃使用。AI 能生成文档，但需要用审查清单验证质量。
+  evidence: 老潘说："文档审查和代码审查一样重要。你需要用检查清单验证 AI 的输出。"
+  verification: 文档审查清单提供了 5 个维度的检查项：准确性、完整性、清晰度、可维护性、AI 特定问题。
+
+## 5 分钟运行标准是具体操作
+
+- id: 5-minute-standard-is-concrete
+  claim: README "5 分钟内跑起来"的标准应该是具体的操作步骤（如克隆、配置、启动、访问），而不是模糊的"快速上手"。
+  evidence: QA 建议 RUBRIC.md 2.1 节明确"5分钟"的具体标准——从克隆仓库到访问成功的总时间。
+  verification: RUBRIC.md 2.1 节的快速开始包含 git clone、mvn compile、访问 URL 三个可验证的步骤，用户可以在 5 分钟内完成。

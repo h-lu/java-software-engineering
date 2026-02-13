@@ -1,0 +1,69 @@
+# Week 16 示例文件清单
+
+## 文档模板（6 个）
+1. 16_showcase_feedback.md (152 行)
+   - 项目集市反馈收集与分析
+   - Keep / Problem / Try 三列模板
+   - CampusFlow 团队反馈示例
+
+2. 16_retrospective_report.md (326 行)
+   - KPT 复盘法完整示例
+   - 5 个 Keep、5 个 Problem、5 个 Try
+   - 4 篇 ADR 回顾
+
+3. 16_skill_radar.md (315 行)
+   - 六维能力模型详细说明
+   - Week 01 vs Week 16 对比
+   - 简历写作建议
+
+4. 16_knowledge_map.md (450 行)
+   - 16 周四阶段结构
+   - 两条主线（ADR + CampusFlow）
+   - 概念关联网络
+   - 下一步学习建议
+
+5. 16_career_roadmap.md (366 行)
+   - 初级→中级→高级→专家路径
+   - 各阶段能力要求和行动计划
+   - 转型方向（PM、销售、创业）
+
+6. 16_campusflow_roadmap.md (509 行)
+   - v1.0.1（Bug 修复）
+   - v1.1.0（功能增强）
+   - v1.2.0（体验优化）
+   - v2.0.0（架构重构）
+   - v3.0.0（SaaS 化）
+
+## 代码示例（2 个）
+1. CampusFlowFeedbackCollector.java (219 行)
+   - 交互式收集反馈
+   - 自动统计和分类
+   - 导出 Markdown 报告
+   - 编译通过：javac CampusFlowFeedbackCollector.java
+
+2. SkillRadarGenerator.java (344 行)
+   - 六维能力评分
+   - 生成 ASCII 雷达图
+   - 证据记录和报告导出
+   - 编译通过：javac SkillRadarGenerator.java
+
+## 配置文件（3 个）
+1. README.md (191 行)
+   - 示例使用说明
+   - 运行方式
+   - 核心概念
+   - 与前几周的联系
+
+2. TERMS.yml
+   - Week 16 新术语建议（11 个）
+   - 反馈闭环、KPT 复盘法、能力雷达图等
+
+3. ANCHORS.yml
+   - Week 10 重要锚点（10 个）
+   - 反馈闭环价值、KPT 有效性、能力成长可视化等
+
+## 统计
+- 文档模板：6 个（2,318 行）
+- 代码示例：2 个（563 行）
+- 配置文件：3 个
+- 总计：11 个文件

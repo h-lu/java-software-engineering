@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!--
+  示例：CampusFlow 项目集市海报（HTML 版）
+  用途：项目集市展示时的海报参考，可打印为 A1 尺寸
+  特点：远距离可读（3 米外能看清标题），层级清晰
+  打印建议：导出 PDF 后打印，比例 100%，A1 纸张
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFlow - 极简任务管理工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A1;
+            margin: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+
+        .poster {
+            max-width: 841mm; /* A1 width at 72dpi */
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 标题区 */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 4px solid #2c3e50;
+            padding-bottom: 30px;
+        }
+
+        .title {
+            font-size: 96px;
+            font-weight: bold;
+            color: #2c3e50;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 48px;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        /* 核心内容区 */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 6px solid #3498db;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title .icon {
+            font-size: 48px;
+            margin-right: 15px;
+        }
+
+        .section-content {
+            font-size: 28px;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section-content li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section-content li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: #e8f4f8;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .highlight strong {
+            color: #2980b9;
+        }
+
+        /* 技术栈和亮点区 */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .tech-section {
+            background: #ecf0f1;
+            padding: 35px;
+            border-radius: 12px;
+            border-left: 6px solid #27ae60;
+        }
+
+        .tech-section .section-title {
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-tag {
+            background: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        /* 二维码区 */
+        .qrcode-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .qrcode-card {
+            text-align: center;
+            padding: 30px;
+            background: #fff;
+            border: 3px dashed #bdc3c7;
+            border-radius: 12px;
+        }
+
+        .qrcode-placeholder {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            background: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #7f8c8d;
+            border-radius: 8px;
+        }
+
+        .qrcode-label {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .qrcode-url {
+            font-size: 24px;
+            color: #7f8c8d;
+            word-break: break-all;
+        }
+
+        /* 团队信息区 */
+        .team-section {
+            text-align: center;
+            padding: 30px;
+            background: #34495e;
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .team-section h3 {
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .team-members {
+            font-size: 28px;
+            line-height: 1.8;
+        }
+
+        /* 底部标语 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 32px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        /* 打印优化 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .poster {
+                box-shadow: none;
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- 标题区 -->
+        <div class="header">
+            <div class="title">CampusFlow</div>
+            <div class="subtitle">极简任务管理工具 · 代码简洁 · 架构清晰 · 易于学习</div>
+        </div>
+
+        <!-- 核心内容区 -->
+        <div class="content">
+            <!-- 问题 -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">❓</span>
+                    为什么做 CampusFlow？
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>现有工具太复杂，代码臃肿</li>
+                        <li>Todoist 前端 10 万+ 行代码</li>
+                        <li>Notion 百万级行数，难以上手</li>
+                        <li>缺少适合学习的小而美范例</li>
+                    </ul>
+                    <div class="highlight">
+                        <strong>定位：</strong>做一个"能用的学习案例"——代码简洁、架构清晰、文档完善
+                    </div>
+                </div>
+            </div>
+
+            <!-- 解决方案 -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">✅</span>
+                    CampusFlow 的特点
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>代码简洁：</strong>不超过 2000 行，易于阅读</li>
+                        <li><strong>架构清晰：</strong>分层设计，职责明确</li>
+                        <li><strong>功能完整：</strong>创建、编辑、标记、删除</li>
+                        <li><strong>文档完善：</strong>OpenAPI + README + ADR</li>
+                        <li><strong>工程化：</strong>测试驱动 + 自动化部署</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术栈和亮点区 -->
+        <div class="tech-grid">
+            <!-- 技术栈 -->
+            <div class="tech-section">
+                <div class="section-title">
+                    <span class="icon">⚙️</span>
+                    技术栈
+                </div>
+                <div class="tech-tags">
+                    <div class="tech-tag">Java 17</div>
+                    <div class="tech-tag">Javalin</div>
+                    <div class="tech-tag">SQLite</div>
+                    <div class="tech-tag">JUnit 5</div>
+                    <div class="tech-tag">OpenAPI</div>
+                    <div class="tech-tag">Railway</div>
+                </div>
+                <div class="section-content" style="margin-top: 20px; font-size: 24px;">
+                    <div style="margin-top: 15px;">
+                        <strong>为什么不用 Spring？</strong><br>
+                        Spring 太重，不适合学习项目。Javalin 只有几百 KB，但足够 Web 开发。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术亮点 -->
+            <div class="tech-section">
+                <div class="section-title">
+                    <span class="icon">⭐</span>
+                    技术亮点
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>极简技术栈：</strong>Java + Javalin + SQLite</li>
+                        <li><strong>测试驱动：</strong>80% 覆盖率，质量门禁</li>
+                        <li><strong>文档完善：</strong>OpenAPI 规范 + ADR 汇总</li>
+                        <li><strong>自动化部署：</strong>CI/CD 流水线</li>
+                        <li><strong>AI 协作：</strong>AI 生成前端，人工审查</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 二维码区 -->
+        <div class="qrcode-section">
+            <!-- GitHub -->
+            <div class="qrcode-card">
+                <div class="qrcode-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/your-team/campusflow" alt="GitHub QR Code" style="width: 200px; height: 200px;" onerror="this.style.display='none'; this.parentElement.textContent='GitHub 二维码'">
+                </div>
+                <div class="qrcode-label">GitHub 仓库</div>
+                <div class="qrcode-url">github.com/your-team/campusflow</div>
+            </div>
+
+            <!-- 在线演示 -->
+            <div class="qrcode-card">
+                <div class="qrcode-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://campusflow.up.railway.app" alt="Demo QR Code" style="width: 200px; height: 200px;" onerror="this.style.display='none'; this.parentElement.textContent='演示二维码'">
+                </div>
+                <div class="qrcode-label">在线演示</div>
+                <div class="qrcode-url">campusflow.up.railway.app</div>
+            </div>
+
+            <!-- API 文档 -->
+            <div class="qrcode-card">
+                <div class="qrcode-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://campusflow.up.railway.app/swagger-ui" alt="API Docs QR Code" style="width: 200px; height: 200px;" onerror="this.style.display='none'; this.parentElement.textContent='API 文档二维码'">
+                </div>
+                <div class="qrcode-label">API 文档</div>
+                <div class="qrcode-url">.../swagger-ui</div>
+            </div>
+        </div>
+
+        <!-- 团队信息区 -->
+        <div class="team-section">
+            <h3>团队：CampusFlow Team</h3>
+            <div class="team-members">
+                小北 · 后端开发 | 阿码 · 前端与 AI 审查 | 老潘 · 架构设计
+            </div>
+        </div>
+
+        <!-- 底部标语 -->
+        <div class="footer">
+            "代码写得再好，如果没人能用，就没有价值。展示是让你的作品被看见的方式。"
+        </div>
+    </div>
+</body>
+</html>

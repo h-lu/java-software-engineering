@@ -1,0 +1,68 @@
+# Week 16 新术语建议
+# 建议 ConsistencyEditor 同步到 shared/glossary.yml
+
+- term_zh: 反馈闭环
+  term_en: Feedback Loop
+  definition_zh: 收集 → 分类 → 分析 → 行动 → 验证的迭代循环，用于持续改进产品和团队。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: KPT 复盘法
+  term_en: KPT Retrospective
+  definition_zh: 一种简单的复盘框架，来自日本的敏捷实践。Keep（做得好的）、Problem（遇到的问题）、Try（下次尝试）。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: 能力雷达图
+  term_en: Skill Radar
+  definition_zh: 一种可视化能力评估方法，把能力按维度分类，每个维度打分（1-5 分），连成一个多边形，用于看见强项和弱项。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: 知识地图
+  term_en: Knowledge Map
+  definition_zh: 把碎片化的知识连成一张网，看见概念之间的关系，看见两条主线（如 ADR + CampusFlow）如何推进。
+  first_seen: week_16
+  bloom_level: analyze
+
+- term_zh: 职业发展路径
+  term_en: Career Roadmap
+  definition_zh: 工程师从初级到专家的成长路径，清晰看见"从现在到下一级，需要补什么能力"。
+  first_seen: week_16
+  bloom_level: understand
+
+- term_zh: 产品路线图
+  term_en: Product Roadmap
+  definition_zh: 基于用户反馈和版本管理（Semantic Versioning），规划产品从 v1.0 到 v2.0 的发展路径。
+  first_seen: week_16
+  bloom_level: create
+
+- term_zh: 工程复盘
+  term_en: Engineering Retrospective
+  definition_zh: 用结构化的方法回顾项目中的技术决策、AI 协作、工程实践和软技能，把"经历"变成"经验"。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: 技术债清单
+  term_en: Technical Debt Backlog
+  definition_zh: 记录技术债的优先级、描述和计划修复版本的清单，用于系统性管理技术债。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: 六维能力模型
+  term_en: Six-Dimension Competency Model
+  definition_zh: 针对软件工程入门课程的能力评估模型，包含编程语言、工程工具、测试能力、架构设计、文档能力、团队协作六个维度。
+  first_seen: week_16
+  bloom_level: evaluate
+
+- term_zh: 根因分析
+  term_en: Root Cause Analysis (RCA)
+  definition_zh: 不只修复表面问题，而是深入分析"为什么会出现这个 bug"的方法论，从设计缺陷、代码质量、测试盲区等角度找出根本原因。
+  first_seen: week_12
+  revisited: week_16
+
+- term_zh: 范围蔓延
+  term_en: Scope Creep
+  definition_zh: 项目范围不受控地扩大，新功能不断增加而没有对应的时间或资源调整，导致延期和质量下降。
+  first_seen: week_16
+  bloom_level: analyze

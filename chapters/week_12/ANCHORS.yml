@@ -1,0 +1,29 @@
+- id: week_12_integration_test_value
+  claim: 集成测试能发现单元测试发现不了的问题
+  evidence: 约 60% 的生产事故发生在"各个组件单独测试通过，但集成后失败"的场景
+  verification: 研究数据显示（2025-2026），前后端分离架构中集成问题（API 契约不匹配、数据格式错误）是主要事故来源
+  source_ref: integration_testing_importance_statistics_2025_2026
+
+- id: week_12_ai_integration_limitations
+  claim: AI 生成的集成测试能覆盖 70-80% 常规场景，但边界情况仍需人工补充
+  evidence: AI 擅长根据 OpenAPI 文档生成基础集成测试，但不擅长设计复杂测试场景
+  verification: 2026 年工程实践显示，AI 在网络超时、并发请求、数据损坏等边界情况方面仍有不足
+  source_ref: ai_code_generation_integration_test_challenges_2025_2026
+
+- id: week_12_bug_bash_effectiveness
+  claim: Bug Bash 中 60% 的问题由人类发现，40% 由 AI 工具发现
+  evidence: Microsoft 内部数据显示，AI 辅助的 Bug Bash 能发现的问题数量增加了 40%
+  verification: 人类擅长创造性测试场景，AI 擅长自动记录和分析，两者组合效率比纯人工高 2-3 倍
+  source_ref: bug_bash_best_practices_2025_2026
+
+- id: week_12_test_pyramid
+  claim: 测试金字塔：单元测试（多且快）→ 集成测试（适量）→ E2E 测试（少且慢）
+  evidence: 集成测试在速度和真实性之间取平衡，承上启下
+  verification: Week 06 学的单元测试关注逻辑正确性，集成测试关注系统组装正确性，E2E 测试关注用户体验
+  source_ref: internal_curriculum
+
+- id: week_12_mock_vs_real
+  claim: 单元测试用 Mock 关注逻辑，集成测试用真实数据库关注系统集成
+  evidence: Mock 不执行真实 SQL，无法发现数据库层面的问题
+  verification: 真实数据库集成测试能发现 SQL 错误、连接问题、事务问题，Mock 测试无法发现
+  source_ref: internal_curriculum

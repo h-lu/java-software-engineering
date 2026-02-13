@@ -1,0 +1,30 @@
+# .dockerignore - 减小 Docker 构建上下文
+
+# Maven 目标目录
+target/
+
+# IDE 配置
+*.iml
+.idea/
+.vscode/
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# 文档
+*.md
+docs/
+
+# 环境配置（敏感信息）
+config-prod.properties
+.env
+.env.local
+
+# 测试
+*.test
+
+# 日志
+logs/
+*.log
