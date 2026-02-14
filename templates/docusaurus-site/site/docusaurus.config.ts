@@ -14,8 +14,8 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // 站点 URL 配置（部署时根据实际情况修改）
-  url: 'https://wangxq.github.io',
-  baseUrl: '/java-software-engineering/',
+  url: 'https://java-software-engineering.netlify.app',
+  baseUrl: '/',
 
   // GitHub 配置
   organizationName: 'wangxq',
