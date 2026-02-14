@@ -3,7 +3,7 @@
 
 [build]
   # 构建命令
-  command = "make -f templates/docusaurus-site/Makefile -C templates/docusaurus-site build"
+  command = "cd templates/docusaurus-site && make build"
 
   # 输出目录（相对于项目根目录）
   publish = "dist"
