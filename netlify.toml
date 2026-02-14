@@ -3,7 +3,7 @@
 
 [build]
   # 构建命令
-  command = "pip install pyyaml && cd templates/docusaurus-site && make build"
+  command = "pip install pyyaml && cd templates/docusaurus-site && make install build"
 
   # 输出目录（相对于项目根目录）
   publish = "dist"
