@@ -186,6 +186,96 @@ body {
   background-color: var(--ifm-menu-color-background-active);
 }
 
+/* ============================================
+   移动端导航侧边栏 - z-index 修复
+   ============================================ */
+
+/* 移动端侧边栏容器 */
+.navbar-sidebar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px;
+  z-index: 1000 !important;
+  background-color: var(--ifm-background-color);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.navbar-sidebar--show {
+  transform: translateX(0);
+}
+
+/* 移动端背景遮罩 */
+.navbar-sidebar__backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.navbar-sidebar__backdrop--show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 移动端侧边栏内容 */
+.navbar-sidebar__items {
+  padding: 1rem;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+}
+
+.navbar-sidebar__item {
+  padding: 0.5rem 0;
+}
+
+/* 移动端侧边栏菜单链接 */
+.navbar-sidebar .menu__link {
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  transition: var(--custom-transition);
+  cursor: pointer;
+  color: var(--ifm-font-color-base);
+}
+
+.navbar-sidebar .menu__link:hover,
+.navbar-sidebar .menu__link--active {
+  background-color: var(--ifm-menu-color-background-active);
+  color: var(--ifm-color-primary);
+}
+
+/* 移动端侧边栏关闭按钮 */
+.navbar-sidebar__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--custom-transition);
+}
+
+.navbar-sidebar__close:hover {
+  background-color: var(--ifm-menu-color-background-active);
+}
+
 /* 移动端侧边栏 */
 .theme-doc-sidebar-container {
   border-right: 1px solid var(--ifm-toc-border-color);
