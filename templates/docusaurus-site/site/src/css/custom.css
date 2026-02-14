@@ -127,11 +127,11 @@ body {
 
 /* ============================================
    导航栏样式
+   注意：不要在 .navbar 上使用 backdrop-filter
+   它会创建新的堆叠上下文，导致移动端侧边栏无法显示
    ============================================ */
 
 .navbar {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: var(--ifm-navbar-shadow);
   padding: 0 1.5rem;
 }
@@ -187,42 +187,37 @@ body {
 }
 
 /* ============================================
-   移动端导航侧边栏 - z-index 修复
-   使用 Docusaurus 3.x 官方类名
+   移动端导航侧边栏
+   不要添加 transform/position 等属性，
+   只设置背景色和触摸优化
    ============================================ */
 
-/* 移动端侧边栏容器 */
-.theme-layout-navbar-sidebar {
-  z-index: 1000 !important;
-}
-
-/* 移动端侧边栏面板 */
-.theme-layout-navbar-sidebar-panel {
-  background-color: var(--ifm-background-color);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
-}
-
-/* 兼容旧版类名 */
+/* 移动端侧边栏背景 */
 .navbar-sidebar {
-  z-index: 1000 !important;
   background-color: var(--ifm-background-color);
 }
 
-.navbar-sidebar__backdrop {
-  z-index: 999 !important;
+/* 暗色模式侧边栏 */
+[data-theme='dark'] .navbar-sidebar {
+  background-color: var(--ifm-background-color);
+}
+
+/* 移动端侧边栏品牌区域 */
+.navbar-sidebar__brand {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  padding: 1rem;
 }
 
 /* 移动端侧边栏内容 */
 .navbar-sidebar__items {
   padding: 1rem;
-  overflow-y: auto;
 }
 
 .navbar-sidebar__item {
   padding: 0.5rem 0;
 }
 
-/* 移动端侧边栏菜单链接 */
+/* 移动端侧边栏菜单链接 - 触摸优化 */
 .navbar-sidebar .menu__link {
   padding: 0.875rem 1rem;
   border-radius: 8px;
@@ -239,6 +234,11 @@ body {
 .navbar-sidebar .menu__link--active {
   background-color: var(--ifm-menu-color-background-active);
   color: var(--ifm-color-primary);
+}
+
+/* 暗色模式菜单链接 */
+[data-theme='dark'] .navbar-sidebar .menu__link {
+  color: var(--ifm-font-color-base);
 }
 
 /* 移动端侧边栏关闭按钮 */
