@@ -256,7 +256,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
    log.level=WARN
    ```
 
-   > **注意**：云平台通常通过环境变量 `PORT` 指定端口，`${PORT:8080}` 表示"优先使用环境变量 PORT，否则默认 8080"。
+   > **注意**：云平台通常通过环境变量 `PORT` 指定端口，`` `${PORT:8080}` `` 表示"优先使用环境变量 PORT，否则默认 8080"。
 
 2. **创建 Config 类**：
 
@@ -340,7 +340,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
 
 - ❌ **禁止**在配置文件中写入敏感信息（数据库密码、API 密钥）
 - ✅ 敏感信息必须通过环境变量注入
-- ✅ 配置文件中的敏感信息用占位符表示（如 `${DB_PASSWORD}`）
+- ✅ 配置文件中的敏感信息用占位符表示（如 `` `${DB_PASSWORD}` ``）
 
 **提交物**：
 - `config-dev.properties` 和 `config-prod.properties`
@@ -433,7 +433,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
 1. **功能测试**：
    - [ ] GET /api/tasks 返回任务列表
    - [ ] POST /api/tasks 能创建任务
-   - [ ] DELETE /api/tasks/{id} 能删除任务
+   - [ ] DELETE /api/tasks/`{id}` 能删除任务
 
 2. **截图要求**：
    - 浏览器访问部署地址的截图（显示任务列表或欢迎页）
@@ -724,7 +724,7 @@ week_14_submission/
 
 云平台会通过环境变量 `PORT` 告诉应用应该监听哪个端口。
 
-**解决方法**：在 Config.java 中支持 `${PORT:8080}` 格式（见任务 3 的代码示例）。
+**解决方法**：在 Config.java 中支持 `` `${PORT:8080}` `` 格式（见任务 3 的代码示例）。
 
 ### Q5: Railway 部署后自动休眠
 

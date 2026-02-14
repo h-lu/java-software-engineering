@@ -96,7 +96,7 @@ java -jar target/*.jar
 |------|------|---------|
 | 配置文件结构 | 7 | - [ ] 有 config-dev.properties 和 config-prod.properties<br>- [ ] 文件放在 src/main/resources 下<br>- [ ] 配置项合理（db.path、server.port、log.level） |
 | Config 类实现 | 10 | - [ ] 从环境变量读取 CAMPUSFLOW_ENV<br>- [ ] 使用 ClassLoader 加载配置文件<br>- [ ] 有默认值处理（如 "dev"）<br>- [ ] 异常处理正确（文件不存在时抛出异常） |
-| 环境变量支持 | 5 | - [ ] 支持 ${PORT:8080} 格式的占位符<br>- [ ] 能通过环境变量切换环境<br>- [ ] App.java 使用 Config 获取配置 |
+| 环境变量支持 | 5 | - [ ] 支持 `` `${PORT:8080}` `` 格式的占位符<br>- [ ] 能通过环境变量切换环境<br>- [ ] App.java 使用 Config 获取配置 |
 | 敏感信息处理 | 3 | - [ ] 配置文件中没有硬编码密码/密钥<br>- [ ] 敏感信息用占位符表示<br>- [ ] 有安全意识说明 |
 
 **安全检查**：
@@ -317,7 +317,7 @@ curl -X POST https://your-app.up.railway.app/api/tasks \
 改进建议：
 1. 重新创建 Git 附注标签：`git tag -a v1.0.0 -m "..." -f`
 2. 检查 pom.xml 中的 mainClass 配置
-3. 将密码改为环境变量占位符：${DB_PASSWORD}
+3. 将密码改为环境变量占位符：`` `${DB_PASSWORD}` ``
 4. 修正 config-prod.properties 中的 db.path
 5. 补充完整的部署验证截图
 ```
@@ -344,6 +344,6 @@ API 返回 500 通常是数据库路径问题。检查：
 ```
 云平台分配的端口与应用监听的端口不一致。确保：
 1. Config.java 支持环境变量 PORT
-2. 使用 ${PORT:8080} 格式的占位符
+2. 使用 `` `${PORT:8080}` `` 格式的占位符
 3. 不要在代码中硬编码端口
 ```
