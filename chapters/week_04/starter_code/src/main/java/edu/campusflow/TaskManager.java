@@ -244,8 +244,18 @@ public class TaskManager {
     /**
      * 解析优先级字符串为数值。
      *
+     * <p>设计决策：对无效输入返回默认值（中优先级 3）而非抛出异常。
+     * 理由：
+     * <ul>
+     *   <li>宽容输入原则：让调用方不必每次都做输入验证</li>
+     *   <li>向后兼容：旧代码可能传入非标准值</li>
+     *   <li>与 filterByPriority 的"筛选"语义一致——筛选不应因输入问题而中断</li>
+     * </ul>
+     * 替代方案：可考虑返回 Optional&lt;Integer&gt; 或抛出 IllegalArgumentException，
+     * 但这会增加调用方的复杂度。
+     *
      * @param priority 优先级字符串
-     * @return 优先级数值（1-5）
+     * @return 优先级数值（1-5），无效输入返回 3（中优先级）
      */
     private int parsePriority(String priority) {
         switch (priority) {
@@ -272,9 +282,9 @@ public class TaskManager {
                         return value;
                     }
                 } catch (NumberFormatException e) {
-                    // 忽略解析错误
+                    // 忽略解析错误，返回默认值
                 }
-                return 3; // 默认返回中优先级
+                return 3; // 默认返回中优先级（宽容输入设计）
         }
     }
 

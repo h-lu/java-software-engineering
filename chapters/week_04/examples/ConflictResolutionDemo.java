@@ -6,6 +6,10 @@ package edu.campusflow.examples;
 import java.util.HashMap;
 import java.util.Map;
 
+// 注意：本示例中的代码字符串（如 Collectors.toList()、Comparator.comparing()）
+// 仅用于展示冲突场景，并非可独立编译的 Java 代码。
+// 这些是模拟的代码片段，用于演示 Git 冲突标记和解决策略。
+
 /**
  * 冲突解决演示：模拟多人协作时的代码冲突场景。
  *
