@@ -31,6 +31,8 @@ public class ProfileCard {
         double yearsOfExp = Double.parseDouble(scanner.nextLine());
 
         // 使用 printf 格式化输出
+        // 注意：printf 的宽度计算基于字符数，中文字符在终端中通常占 2 个显示宽度。
+        // 因此包含中文的格式化可能在某些终端中无法完美对齐，此处仅演示 printf 语法。
         System.out.println();
         System.out.println("╔══════════════════════════════════════╗");
         System.out.printf("║%12s 的个人资料卡片          ║%n", name);

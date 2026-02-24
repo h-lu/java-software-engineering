@@ -1,8 +1,8 @@
 # Week 01 QA 报告
 
 **审读日期**：2026-02-24
-**审读人**：双视角 QA（consistency-editor + student-qa）
-**修订轮次**：第 8 轮（最终通过）
+**审读人**：三视角 QA（consistency-editor + technical-reviewer + student-qa）
+**修订轮次**：第 9 轮（最终通过）
 
 ---
 
@@ -10,10 +10,10 @@
 
 | 维度 | 评分 | 评语 |
 |------|------|------|
-| 叙事流畅度 | 5/5 | 章节结构自然，角色互动流畅，避免模板化表达 |
-| 趣味性 | 5/5 | 多处"哦！"时刻（静态类型价值、换行符陷阱、AI 代码审查示例） |
-| 知识覆盖 | 5/5 | 知识点完整覆盖，代码示例可运行，边界情况处理充分 |
-| 认知负荷 | 4/5 | 概念密集但有充分呼吸空间，提前标注预习内容 |
+| 叙事流畅度 | 5/5 | 章节结构多变，角色互动推动叙事，每节结构不雷同，过渡自然 |
+| 趣味性 | 5/5 | 多处"哦！"时刻（静态类型价值、换行符陷阱、老潘的故事），开头有悬念 |
+| 知识覆盖 | 5/5 | SYLLABUS 知识点全覆盖，代码可运行，CampusFlow 进度完整 |
+| 认知负荷 | 4/5 | 概念密集但有呼吸空间，提前标注预习内容，最后一节略重 |
 
 **总分：19/20** ✅ **达到 release 标准**
 
@@ -25,19 +25,23 @@
 
 ---
 
-## 建议项（非阻塞）
+## 技术阻塞项
 
-1. **ASSIGNMENT.md 第 312 行**：`"\\d+"` 可改为更正式的表述
-2. **RUBRIC.md 第 184-185 行**：Week 01 注释评分标准可适当放宽
-3. **CHAPTER.md 第 914-917 行**：类概念可增加"【Week 02 预习】"标注
+- [x] **ProfileCard.java printf 中文宽度**：已添加注释说明 printf 宽度计算与中文显示宽度差异
+- [x] **BusinessCardTest.java 测试覆盖说明**：已强化类注释，明确说明测试仅验证基础语法
 
 ---
 
-## 技术阻塞项
+## 叙事阻塞项
 
-**无**
+**无阻塞项**
 
-所有此前发现的 S2 问题已修复。
+---
+
+## 建议项（非阻塞）
+
+1. **CHAPTER.md UserInfo 完整示例**：代码较长（约 140 行），可考虑提供"极简版"对比
+2. **CHAPTER.md String 语法糖**：阿码问"为什么 String 可以直接赋值不用 new"可增加简短解释或预习标注
 
 ---
 
@@ -45,27 +49,30 @@
 
 ✅ 代码风格符合规范
 ✅ 术语已同步到 shared/glossary.yml（5 个新概念）
-✅ 角色使用符合人设（小北 3 次、阿码 3 次、老潘 4 次）
+✅ 角色使用符合人设（小北 42 次、阿码 12 次、老潘 27 次）
 ✅ 锚点记录完整（3 个锚点）
 ✅ CampusFlow 进度包含
+✅ 认知负荷在预算内（5 个新概念，上限 6 个）
 
 ---
 
 ## 本轮修复摘要
 
-| 问题 | 修复内容 |
-|------|---------|
-| ASSIGNMENT.md 正则表达式 | 简化提示，只需"复制使用" |
-| CHAPTER.md Scanner 部分 | 增加"提前说明"框，提供简单规则 |
-| CHAPTER.md 长代码 | 增加"⚠️ 代码阅读提示"框 |
+| 严重度 | 问题 | 修复内容 |
+|--------|------|---------|
+| S2 | ProfileCard.java printf 中文 | 添加注释说明格式化宽度与中文显示宽度差异 |
+| S2 | BusinessCardTest.java 测试说明 | 强化类注释，明确说明测试范围 |
+| S3 | CHAPTER.md Python 行为描述 | 修正为准确描述：Python 3 `str + int` 抛出 TypeError，`str + str` 才会静默拼接 |
+| S3 | ASSIGNMENT.md 思考题 2 | 修正为区分两种 Python 场景 |
+| S3 | RUBRIC.md 思考题 2 评分 | 更新评分标准以匹配修正后的题目 |
 
 ---
 
 ## 校验状态
 
 ```bash
-$ python3 scripts/validate_week.py --week week_01 --mode drafting
-[validate-week] OK: week_01 (mode=drafting)
+$ python3 scripts/validate_week.py --week week_01 --mode release
+[validate-week] OK: week_01 (mode=release)
 ```
 
 ---
@@ -102,3 +109,5 @@ $ python3 scripts/validate_week.py --week week_01 --mode drafting
 ## 结论
 
 **✅ Week 01 可以 release**
+
+本章叙事流畅、趣味性强、知识点覆盖完整。角色使用得当，贯穿案例在每节都有推进。所有技术阻塞项已清零，四维评分 19/20，达到 release 标准。

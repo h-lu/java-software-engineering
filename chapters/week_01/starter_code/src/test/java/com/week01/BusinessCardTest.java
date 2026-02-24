@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * 名片生成器的单元测试。
  *
- * <p>这些测试验证程序的基本功能。
- * 注意：Week 01 的重点是理解 Java 基础，测试是可选的。
- * 更完整的测试策略会在 Week 06 讲解。
+ * <p>这些测试仅验证 Week 01 基础语法（字符串操作、类型转换），
+ * 不测试完整的名片生成逻辑。
+ *
+ * <p>注意：Week 01 的重点是理解 Java 基础语法，测试是可选内容。
+ * 更完整的测试策略会在 Week 06 详细讲解。
  */
 class BusinessCardTest {
 
