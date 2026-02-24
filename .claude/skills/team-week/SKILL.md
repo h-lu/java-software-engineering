@@ -214,29 +214,45 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 ### 阶段 5：QA（前置：阶段 4 全部完成）
 
-调用 subagent `student-qa`：
+**双视角 QA**：并行调用 `technical-reviewer` 和 `student-qa`（两者独立，可同时执行）。
+
+#### 5a. 调用 subagent `technical-reviewer`（专家视角）
+
+- **只读审读**，从专家/审稿人视角检查技术正确性
+- 检查维度：正确性（概念/代码/答案）+ 教学法对齐 + 练习题质量
+- 输出 S1-S4 四级严重度问题清单
+- **S1 致命问题必须修复后才能进入阶段 6**
+
+#### 5b. 调用 subagent `student-qa`（学生视角）
 
 - **只读审读**，返回四维评分 + 问题清单（通过 tool result 返回，不写文件）
 - 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
 - 总分 >= 18/20 才能通过
 
-**重要**：student-qa 是只读角色（tools: [Read, Grep, Glob]，无 Write 权限），**不要让它写 QA_REPORT.md**。它应该通过返回消息输出评分和清单。
+**重要**：两个 QA agent 都是只读角色（tools: [Read, Grep, Glob]，无 Write 权限），**不要让它们写 QA_REPORT.md**。它们应该通过返回消息输出评审结果。
 
 **校验**：无（QA 是只读角色）
 
 ### 阶段 6：收敛（前置：阶段 5 完成，序列执行）
 
-#### 6a. 修订回路（简化版：2 档处理）
+#### 6a. 修订回路（处理两类 QA 结果）
 
-| 总分范围 | 处理方式 | 回传给谁 |
-|---------|---------|---------|
-| >= 18 | 根据 QA 反馈进行轻量修订后通过 | `prose-polisher`（轻量修复，处理建议项） |
-| < 18 | 结构性重写（需大幅改进） | `chapter-writer` |
+**优先处理 technical-reviewer 的 S1/S2 问题**：
+
+| 问题来源 | 严重度 | 处理方式 | 回传给谁 |
+|---------|-------|---------|---------|
+| technical-reviewer | S1 致命 | 必须修复 | `example-engineer`（代码问题）或 `chapter-writer`（概念问题） |
+| technical-reviewer | S2 重要 | 强烈建议修复 | `example-engineer` 或 `prose-polisher` |
+| student-qa | 总分 < 18 | 结构性重写 | `chapter-writer` |
+| student-qa | 总分 >= 18 | 轻量修订 | `prose-polisher`（处理建议项） |
 
 **修订规则说明**：
-- 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订（即使是 >= 18 分的建议项也要处理）
+- S1 问题必须修复后才能进入 release
+- 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订
 - 修订后如无阻塞项且质量达标，即可进入 release
-- **硬性上限：最多迭代 3 轮。** 如果 3 轮后总分仍 < 18：
+- **硬性上限：最多迭代 3 轮。** 如果 3 轮后：
+  - student-qa 总分仍 < 18，或
+  - technical-reviewer 仍有未修复的 S1 问题
 1. 在 QA_REPORT.md 记录当前评分和未解决问题
 2. 标注 `<!-- 需人工介入 -->`
 3. 继续推进到 6b（不再回传修订）
@@ -254,10 +270,11 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 **落盘 QA_REPORT（由 Lead agent 直接写入）**：
 
-- 把 student-qa 返回的 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
-  - 四维评分写在顶部
-  - 阻塞项放到 `## 阻塞项` 下（checkbox，必须全部勾选）
-  - 建议项放到 `## 建议项` 下（checkbox）
+- 把两个 QA agent 返回的结果合并写入 `chapters/week_XX/QA_REPORT.md`
+  - student-qa 四维评分写在顶部
+  - technical-reviewer 的 S1/S2 问题放到 `## 技术阻塞项` 下（checkbox，必须全部勾选）
+  - student-qa 的阻塞项放到 `## 叙事阻塞项` 下（checkbox）
+  - 建议项（S3/S4 + student-qa 建议项）放到 `## 建议项` 下（checkbox）
   - 如经过修订回路，记录每轮评分变化
 
 **注意**：QA_REPORT.md 是在阶段 6b 由 Lead agent 写入的，不是在阶段 5 由 student-qa 写入的。student-qa 只返回评分和清单，不操作文件。
@@ -283,6 +300,8 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ## 收敛规则
 
-- QA_REPORT 的"阻塞项"必须清零（不允许 `- [ ]`）才能 release
-- 四维评分总分必须 >= 18/20 才能 release（或 3 轮修订后人工豁免）
-- 不要为了“写完”牺牲可运行/可验证：`starter_code/src/test/java/` / `ANCHORS.yml` / `TERMS.yml` 要一致
+- **technical-reviewer 的 S1 致命问题必须清零**才能 release
+- **student-qa 四维评分总分必须 >= 18/20**才能 release（或 3 轮修订后人工豁免）
+- QA_REPORT 的”阻塞项”必须清零（不允许 `- [ ]`）才能 release
+  - 阻塞项来源：technical-reviewer 的 S1/S2 问题 + student-qa 的阻塞项
+- 不要为了”写完”牺牲可运行/可验证：`starter_code/src/test/java/` / `ANCHORS.yml` / `TERMS.yml` 要一致

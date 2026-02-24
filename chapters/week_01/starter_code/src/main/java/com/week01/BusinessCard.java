@@ -32,6 +32,10 @@ public class BusinessCard {
         // 提示：使用 scanner.nextLine() 读取字符串
         // 提示：使用 Integer.parseInt(scanner.nextLine()) 读取整数
         // 提示：使用 Double.parseDouble(scanner.nextLine()) 读取浮点数
+        //
+        // 注意：Integer.parseInt() 和 Double.parseDouble() 在输入无效时会抛出异常。
+        // 这是简化版本，Week 03 会详细讲解如何用 try-catch 处理异常。
+        // 本周练习假设用户输入都是有效的。
 
         System.out.print("请输入姓名：");
         String name = scanner.nextLine();

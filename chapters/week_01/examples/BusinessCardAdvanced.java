@@ -12,6 +12,9 @@ import java.util.Scanner;
  */
 public class BusinessCardAdvanced {
 
+    // 年龄上限常量：根据吉尼斯世界纪录，人类最长寿命约 120 岁
+    private static final int MAX_AGE = 120;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean continueGenerating = true;
@@ -84,7 +87,7 @@ public class BusinessCardAdvanced {
         while (true) {
             try {
                 int value = Integer.parseInt(scanner.nextLine());
-                if (value > 0 && value <= 120) {
+                if (value > 0 && value <= MAX_AGE) {
                     return value;
                 }
                 System.out.print(prompt);
