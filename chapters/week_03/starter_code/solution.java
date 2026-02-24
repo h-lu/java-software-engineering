@@ -224,7 +224,14 @@ class Task {
         String title = parts[0];
         String description = parts.length > 1 ? parts[1] : "";
         String dueDate = parts.length > 2 ? parts[2] : "";
-        int priority = Integer.parseInt(parts[3]);
+
+        // 将底层异常转换为领域异常
+        int priority;
+        try {
+            priority = Integer.parseInt(parts[3]);
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskDataException("priority", "优先级必须是数字");
+        }
 
         Task task = new Task(title, description, dueDate, priority);
         if (parts.length > 4 && Boolean.parseBoolean(parts[4])) {

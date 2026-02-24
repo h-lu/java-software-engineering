@@ -237,22 +237,24 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 #### 6a. 修订回路（处理两类 QA 结果）
 
-**优先处理 technical-reviewer 的 S1/S2 问题**：
+**优先处理 technical-reviewer 的 S1-S4 问题**：
 
 | 问题来源 | 严重度 | 处理方式 | 回传给谁 |
 |---------|-------|---------|---------|
 | technical-reviewer | S1 致命 | 必须修复 | `example-engineer`（代码问题）或 `chapter-writer`（概念问题） |
-| technical-reviewer | S2 重要 | 强烈建议修复 | `example-engineer` 或 `prose-polisher` |
+| technical-reviewer | S2 重要 | 必须修复 | `example-engineer` 或 `prose-polisher` |
+| technical-reviewer | S3 一般 | 必须修复 | `example-engineer` 或 `prose-polisher` |
+| technical-reviewer | S4 润色 | 必须修复 | `prose-polisher` |
 | student-qa | 总分 < 18 | 结构性重写 | `chapter-writer` |
 | student-qa | 总分 >= 18 | 轻量修订 | `prose-polisher`（处理建议项） |
 
 **修订规则说明**：
-- S1 问题必须修复后才能进入 release
+- **S1-S4 所有问题必须修复后才能进入 release**
 - 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订
 - 修订后如无阻塞项且质量达标，即可进入 release
 - **硬性上限：最多迭代 3 轮。** 如果 3 轮后：
   - student-qa 总分仍 < 18，或
-  - technical-reviewer 仍有未修复的 S1 问题
+  - technical-reviewer 仍有未修复的 S1-S4 问题
 1. 在 QA_REPORT.md 记录当前评分和未解决问题
 2. 标注 `<!-- 需人工介入 -->`
 3. 继续推进到 6b（不再回传修订）
@@ -272,9 +274,8 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 - 把两个 QA agent 返回的结果合并写入 `chapters/week_XX/QA_REPORT.md`
   - student-qa 四维评分写在顶部
-  - technical-reviewer 的 S1/S2 问题放到 `## 技术阻塞项` 下（checkbox，必须全部勾选）
+  - technical-reviewer 的 S1-S4 所有问题放到 `## 技术阻塞项` 下（checkbox，必须全部勾选）
   - student-qa 的阻塞项放到 `## 叙事阻塞项` 下（checkbox）
-  - 建议项（S3/S4 + student-qa 建议项）放到 `## 建议项` 下（checkbox）
   - 如经过修订回路，记录每轮评分变化
 
 **注意**：QA_REPORT.md 是在阶段 6b 由 Lead agent 写入的，不是在阶段 5 由 student-qa 写入的。student-qa 只返回评分和清单，不操作文件。
@@ -300,8 +301,8 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ## 收敛规则
 
-- **technical-reviewer 的 S1 致命问题必须清零**才能 release
+- **technical-reviewer 的 S1-S4 所有问题必须清零**才能 release
 - **student-qa 四维评分总分必须 >= 18/20**才能 release（或 3 轮修订后人工豁免）
 - QA_REPORT 的”阻塞项”必须清零（不允许 `- [ ]`）才能 release
-  - 阻塞项来源：technical-reviewer 的 S1/S2 问题 + student-qa 的阻塞项
+  - 阻塞项来源：technical-reviewer 的 S1-S4 问题 + student-qa 的阻塞项
 - 不要为了”写完”牺牲可运行/可验证：`starter_code/src/test/java/` / `ANCHORS.yml` / `TERMS.yml` 要一致

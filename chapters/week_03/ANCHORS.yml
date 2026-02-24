@@ -28,8 +28,8 @@
 
 - id: "W03-006"
   claim: "FMEA 分析包含五个要素：功能模块、潜在故障、影响、预防措施、处理策略"
-  evidence: "chapters/week_03/CHAPTER.md 第 5 节 FMEA 表格和 05_fmea_analysis.md 文档"
-  verification: "检查 05_fmea_analysis.md 是否包含完整的 FMEA 表格"
+  evidence: "chapters/week_03/CHAPTER.md 第 5 节 FMEA 表格"
+  verification: "检查学生提交的 docs/fmea.md 是否包含完整的 FMEA 表格（ASSIGNMENT.md 任务 4）"
 
 - id: "W03-007"
   claim: "AI 生成的代码常遗漏异常处理，LinearB 2026 报告显示 AI PR 接受率仅 32.7% 而人工 PR 为 84.4%"

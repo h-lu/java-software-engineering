@@ -1,4 +1,4 @@
-# Week 03：异常处理与防御式编程
+# week_03：异常处理与防御式编程
 
 > "程序必须首先正确，然后才谈得上效率。"
 > — C.A.R. Hoare
@@ -93,6 +93,9 @@ AI 小专栏 #2（放在第 4 节之后）：
 
 ```java
 // 文件：TaskFileLoader.java
+// 注意：下面这行在实际代码中会导致编译错误
+// 完整可运行代码见 examples/01_crash_demo.java
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

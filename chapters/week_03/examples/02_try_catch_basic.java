@@ -275,13 +275,15 @@ class TryCatchDemo {
     }
 
     // 辅助方法：创建临时文件
+    // 注意：这是演示用的辅助方法，创建失败不影响主流程
     private static void createTempFile(String filename, String content) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(filename);
             writer.write(content);
             writer.close();
-        } catch (Exception e) {
-            // 忽略
+        } catch (java.io.IOException e) {
+            // 演示用临时文件，创建失败不影响主流程
+            System.err.println("警告：无法创建演示文件 " + filename);
         }
     }
 

@@ -175,17 +175,20 @@ class DefensiveTask {
             throw new IllegalArgumentException("截止日期不能为 null");
         }
 
+        // 先 trim 输入，与其他 setter 保持一致
+        String trimmed = dueDate.trim();
+
         // 使用正则表达式验证格式
-        if (!dueDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (!trimmed.matches("\\d{4}-\\d{2}-\\d{2}")) {
             throw new IllegalArgumentException("日期格式无效，应为 YYYY-MM-DD");
         }
 
         // 进一步验证日期值是否合法
-        if (!isValidDate(dueDate)) {
+        if (!isValidDate(trimmed)) {
             throw new IllegalArgumentException("日期值无效（如 2025-13-45）");
         }
 
-        this.dueDate = dueDate;
+        this.dueDate = trimmed;
     }
 
     /**
