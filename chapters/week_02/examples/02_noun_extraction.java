@@ -65,6 +65,11 @@ class Task {
     private String title;
     private String description;
     private String dueDate;
+    // 注意：本示例用中文字符串表示优先级（"高"、"中"、"低"）
+    // 与 03_encapsulation.java 使用数字（1、2、3）的方式不同
+    // 两种方式各有优劣：
+    // - 字符串：可读性强，便于直接显示，但排序和比较需要额外逻辑
+    // - 数字：便于排序和比较，但需要额外的映射或注释说明含义
     private String priority; // "高"、"中"、"低"
     private boolean completed;
 

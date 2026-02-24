@@ -253,13 +253,24 @@ class JsonFormatter {
     }
 }
 
+class XmlFormatter {
+    public String format(Task task) {
+        return "<task><title>" + task.getTitle() + "</title></task>";
+    }
+}
+
 // 使用多态（父类引用指向子类）
-class BetterTaskPrinter {
+// 注意：这个实现仍使用 instanceof，生产代码中不推荐
+// Week 08 会学习用 interface 实现真正的 OCP：让 formatter 实现统一接口
+// 这样 GoodTaskPrinter 就不需要知道具体的 formatter 类型
+class GoodTaskPrinter {
     public void print(Task task, Object formatter) {
         if (formatter instanceof TextFormatter) {
             System.out.println(((TextFormatter)formatter).format(task));
         } else if (formatter instanceof JsonFormatter) {
             System.out.println(((JsonFormatter)formatter).format(task));
+        } else if (formatter instanceof XmlFormatter) {
+            System.out.println(((XmlFormatter)formatter).format(task));
         }
     }
 }

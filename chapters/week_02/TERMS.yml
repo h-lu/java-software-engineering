@@ -1,51 +1,65 @@
 # Week 02 新术语
 
+# === 核心术语（本周必须掌握，共 6 个） ===
+
 - term_zh: 上帝类
   term_en: God Class
   definition_zh: 承担过多职责的巨型类，通常有上千行代码，违反单一职责原则。
   first_seen: week_02
+  priority: core
 
 - term_zh: 单一职责原则
   term_en: Single Responsibility Principle (SRP)
   definition_zh: SOLID 原则之一。一个类应该只有一个引起它变化的原因——只有一个职责。
   first_seen: week_02
-
-- term_zh: 开闭原则
-  term_en: Open-Closed Principle (OCP)
-  definition_zh: SOLID 原则之一。软件实体应该对扩展开放，对修改关闭。
-  first_seen: week_02
-
-- term_zh: 名词提取法
-  term_en: noun extraction
-  definition_zh: 从需求描述中提取名词作为候选类的简单领域建模方法。
-  first_seen: week_02
+  priority: core
 
 - term_zh: 封装
   term_en: encapsulation
   definition_zh: 隐藏对象的内部状态（private 字段），只通过公开方法（getter/setter）访问的设计原则。
   first_seen: week_02
-
-- term_zh: SOLID 原则
-  term_en: SOLID principles
-  definition_zh: 面向对象设计的五条核心原则：单一职责(S)、开闭(O)、里氏替换(L)、接口隔离(I)、依赖倒置(D)。
-  first_seen: week_02
+  priority: core
 
 - term_zh: 领域建模
   term_en: domain modeling
   definition_zh: 将现实世界的业务概念映射为代码中的类和对象的过程。
   first_seen: week_02
+  priority: core
 
 - term_zh: 架构决策记录
   term_en: Architecture Decision Record (ADR)
   definition_zh: 记录重要架构决策的文档，包含背景、决策内容、后果等，便于未来回溯。
   first_seen: week_02
+  priority: core
 
 - term_zh: getter/setter
   term_en: getter/setter
-  definition_zh: 用于访问和修改私有字段的公开方法。getter 返回字段值，setter 设置字段值。
+  definition_zh: 用于访问和修改私有字段的公开方法。getter 返回字段值，setter 设置字段值（可包含验证逻辑）。
   first_seen: week_02
+  priority: core
+
+# === 辅助术语（背景知识，供参考） ===
+
+- term_zh: SOLID 原则
+  term_en: SOLID principles
+  definition_zh: 面向对象设计的五条核心原则：单一职责(S)、开闭(O)、里氏替换(L)、接口隔离(I)、依赖倒置(D)。
+  first_seen: week_02
+  priority: auxiliary
+
+- term_zh: 开闭原则
+  term_en: Open-Closed Principle (OCP)
+  definition_zh: SOLID 原则之一。软件实体应该对扩展开放，对修改关闭。
+  first_seen: week_02
+  priority: auxiliary
+
+- term_zh: 名词提取法
+  term_en: noun extraction
+  definition_zh: 从需求描述中提取名词作为候选类的简单领域建模方法。
+  first_seen: week_02
+  priority: auxiliary
 
 - term_zh: 技术债
   term_en: technical debt
   definition_zh: 为了快速交付而选择的不够完美的技术方案，未来需要付出"利息"（额外维护成本）来偿还。
   first_seen: week_02
+  priority: auxiliary

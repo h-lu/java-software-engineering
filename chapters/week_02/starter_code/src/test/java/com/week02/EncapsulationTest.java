@@ -132,29 +132,24 @@ class EncapsulationTest {
     }
 
     @Test
-    @DisplayName("test_immutable_object_should_not_allow_state_change")
-    void test_immutable_object_should_not_allow_state_change() {
-        // 这个测试演示不可变对象的概念
-        // 如果你选择将 Task 设计为不可变（final 字段，无 setter）
+    @DisplayName("test_mutable_object_allows_state_change_via_setter")
+    void test_mutable_object_allows_state_change_via_setter() {
+        // 这个测试演示可变对象的状态变更
+        // 当前 Task 设计为可变对象（有 setter 方法）
 
         // Given
         String originalTitle = "原始标题";
-
-        // When - 创建对象后，如果对象是不可变的
-        // Then - 对象的状态不应该能被改变
-
-        // 注意：这只是一个概念演示
-        // 实际的实现取决于你的设计选择
-
         Task task = new Task(originalTitle);
 
-        // 如果 Task 是不可变的，这里不应该有 setTitle 方法
-        // 或者应该抛出 UnsupportedOperationException
-
-        // 当前假设 Task 是可变的（有 setter）
+        // When - 通过 setter 修改状态
         task.setTitle("新标题");
+
+        // Then - 状态应该成功改变
         assertEquals("新标题", task.getTitle(),
-            "当前设计是可变对象");
+            "当前 Task 设计为可变对象，可以通过 setter 修改状态");
+
+        // 注意：如果 Task 设计为不可变（final 字段，无 setter），
+        // 那么 setTitle 方法应该不存在，或者抛出 UnsupportedOperationException
     }
 
     // ==================== 内部实现变化测试 ====================

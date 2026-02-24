@@ -207,7 +207,7 @@ class GodClassTask {
         System.out.println("问题：");
         System.out.println("  ✗ 每次需求变更都要修改这个类");
         System.out.println("  ✗ 难以测试（依赖太多外部资源）");
-        System.out.println("  ✗ 代码行数过多（500+ 行）");
+        System.out.println("  ✗ 代码行数容易膨胀（可达 500+ 行）");
         System.out.println("  ✗ 方法数量过多（20+ 个）");
         System.out.println("");
         System.out.println("应该拆分成多个职责单一的类！");

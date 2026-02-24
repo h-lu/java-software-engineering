@@ -33,6 +33,13 @@ import java.util.Scanner;
  * - 所有字段都是 private（封装）
  * - 大部分字段是 final（不可变，避免并发问题）
  * - 只有 completed 状态可以修改
+ *
+ * 设计说明：为什么采用"部分不可变"设计？
+ * - title、description、priority、dueDate 在任务创建后不应改变（final）
+ *   理由：这些是任务的"身份属性"，改变它们相当于创建一个新任务
+ * - completed 状态可以修改（非 final）
+ *   理由：这是任务的"生命周期状态"，随时间推移会从 false 变成 true
+ * - 这种设计在不可变性（安全性）和实用性之间取得平衡
  */
 class Task {
     private final String title;          // 任务标题（不可变）
@@ -110,8 +117,8 @@ class Category {
  *
  * 职责：管理任务的增删改查（服务）
  * 设计原则：
- * - 单一职责：只负责任务管理，不负责存储和显示
- * - 对修改关闭：通过扩展来支持新功能
+ * - 单一职责：只负责任务管理
+ * - 开放扩展：可以通过组合添加新功能（如按日期过滤）
  */
 class TaskManager {
     private final List<Task> tasks;

@@ -165,11 +165,11 @@ public class Task {
         if (obj == null || getClass() != obj.getClass()) return false;
 
         Task task = (Task) obj;
-        return title.equals(task.title);
+        return title != null ? title.equals(task.title) : task.title == null;
     }
 
     @Override
     public int hashCode() {
-        return title.hashCode();
+        return title != null ? title.hashCode() : 0;
     }
 }

@@ -87,9 +87,10 @@ class TaskTest {
         // Given & When
         Task task = new Task("");
 
-        // Then - 对象创建成功（但可能在业务逻辑中被验证器拒绝）
+        // Then - 对象创建成功（构造方法不做验证）
+        // 但 setter 会拒绝空标题（验证逻辑在 setter 中）
         assertEquals("", task.getTitle(),
-            "空标题的任务应该能创建对象，但可能被验证器标记为无效");
+            "空标题的任务可以创建，但后续 setTitle(\"\") 会抛出异常");
     }
 
     @Test

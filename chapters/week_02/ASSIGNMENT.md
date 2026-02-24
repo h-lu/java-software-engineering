@@ -98,9 +98,12 @@ public class Book {
 
 **输入示例**：
 ```java
+// isbn 在构造方法中设置，之后无法修改（final 字段）
 Book book = new Book("978-7-111-12345-6", "Effective Java", "Joshua Bloch", 2018, 89.00);
-System.out.println(book.getTitle());  // Effective Java
+System.out.println(book.getTitle());   // Effective Java
+System.out.println(book.getIsbn());    // 978-7-111-12345-6
 book.setPrice(-10);                    // 应该抛出 IllegalArgumentException
+// book.setIsbn("xxx");                // 编译错误：没有 setIsbn 方法（isbn 是 final）
 ```
 
 **输出示例**：
@@ -448,6 +451,9 @@ git commit -m "feat: 完成 Week 02 基础题 - 图书管理领域模型"
 # 如果做了进阶题
 git add src/main/java/edu/campusflow/cli/
 git commit -m "feat: 完成 Week 02 进阶题 - CLI 界面"
+```
+
+**提示**：包路径可以根据你的 ADR 决定。本示例使用 `edu.campusflow.domain`，如果你使用 starter_code，包路径是 `com.week02`。
 ```
 
 ---

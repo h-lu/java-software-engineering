@@ -43,7 +43,7 @@
 
 **示例**：
 ```java
-// ✅ 好的格式
+// ✅ 好的格式（K&R 风格，Java 主流）
 public class BookCollection {
     private List<Book> books = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class BookCollection {
     }
 }
 
-// ❌ 不好的格式
+// ❌ 不好的格式（运算符两侧缺少空格，格式混乱）
 public class BookCollection{
     private List<Book> books=new ArrayList<>();  // 缺少空格
     public void addBook(Book book){  // 大括号应该换行风格统一
@@ -258,7 +258,7 @@ public class Book {
 [姓名] - 第 1 轮（Week 02-03）
 
 ## 记录日期
-2026-02-11
+2026-02-24
 ```
 
 ---
