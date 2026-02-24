@@ -1,4 +1,4 @@
-# Week 04：团队协作与 Code Review
+# Week 04：团队协作与代码审查
 
 > "代码是写给人看的，只是顺便让机器执行。"
 > — Harold Abelson

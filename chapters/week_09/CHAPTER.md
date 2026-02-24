@@ -1,4 +1,4 @@
-# Week 09：从命令行到 Web——REST API 设计与 Javalin 入门
+# Week 09：REST API 设计与 Web 服务开发
 
 > "API 是程序员之间的契约。好的契约让协作顺畅，坏的契约让所有人痛苦。"
 > —— 改编自 Joshua Bloch
