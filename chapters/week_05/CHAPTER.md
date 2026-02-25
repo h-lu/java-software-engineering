@@ -116,6 +116,7 @@ public class LibraryWithArray {
     }
 
     public void addBook(Book book) {
+        // 注意：这里故意没有检查数组边界，用于演示数组越界问题
         books[count] = book;
         count++;
     }

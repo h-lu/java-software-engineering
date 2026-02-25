@@ -672,11 +672,13 @@ CampusFlow 需要一种内存数据存储方案，支持：
 下面这段代码是某个 AI 工具生成的泛型缓存工具类：
 
 ```java
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleCache<K, V> {
-    private Map<K, V> cache = new HashMap();
+    private Map<K, V> cache = new HashMap<>();
 
     public void put(K key, V value) {
         cache.put(key, value);

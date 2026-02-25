@@ -333,6 +333,8 @@ class CampusFlowRepositoryDemo {
         // 6. 查询演示
         System.out.println("\n【6. 查询演示】");
 
+        // 注意：这里创建了一个新的 Repository 实例用于演示直接操作 Repository
+        // 它与 service 使用的 repository 是独立的，数据不共享
         TaskRepository repo = new TaskRepository();
         // 直接操作 Repository 展示更多功能
         repo.save(new Task("T006", "编写文档", "API 文档和使用指南"));
