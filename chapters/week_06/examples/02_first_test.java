@@ -61,6 +61,9 @@ class LibraryTracker {
         if (isbn == null || isbn.isEmpty()) {
             throw new IllegalArgumentException("ISBN 不能为空");
         }
+        if (borrower == null || borrower.isEmpty()) {
+            throw new IllegalArgumentException("借阅人不能为空");
+        }
         if (!booksByIsbn.containsKey(isbn)) {
             throw new IllegalArgumentException("图书不存在：" + isbn);
         }

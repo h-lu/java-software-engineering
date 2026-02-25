@@ -28,5 +28,5 @@
 
 - id: week06-ai-test-correctness-gap
   claim: AI 生成的测试代码虽然编译通过率高，但正确验证行为的比例仍较低，需要人工审查
-  evidence: 学术研究数据显示 GitHub Copilot 测试生成有效性 91.5%，但正确率仅 28.7%
-  verification: 参考 ACM 研究论文，对比 AI 生成测试与人工审查后的测试差异
+  evidence: 研究数据显示 GitHub Copilot 测试生成有效性 91.5%，但正确率仅 28.7%（来源：c-sharpcorner.com, computerfraudsecurity.com）
+  verification: 参考 CHAPTER.md 第 297-311 行的 AI 小专栏，对比 AI 生成测试与人工审查后的测试差异

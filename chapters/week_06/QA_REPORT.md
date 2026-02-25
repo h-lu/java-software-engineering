@@ -4,33 +4,54 @@
 
 | 维度 | 得分 | 说明 |
 |------|------|------|
-| 叙事流畅度 | 4/5 | 结构有变化，节与节之间过渡自然。每节都有独特的叙事入口（小北改代码、阿码提问、老潘点评）。没有使用"在本节中我们将"式的开头。修订后增加了小北写错注解的轻松时刻，去掉了小结的 bullet list。 |
-| 趣味性 | 4/5 | 角色出场推动叙事，有"哦！"时刻（assertThrows的Lambda写法、参数化测试的效率）。增加了小北手滑写错 `@Testing` 的轻松时刻，老潘金句收尾有记忆点。 |
+| 叙事流畅度 | 4/5 | 结构有变化，节与节之间过渡自然。每节都有独特的叙事入口（小北改代码、阿码提问、老潘点评）。第5节改进了开篇叙事，增加了阿码的追问"为什么不写循环"。小结改为叙述段落，更有画面感。 |
+| 趣味性 | 4/5 | 角色出场推动叙事，有"哦！"时刻（assertThrows的Lambda写法、参数化测试的效率）。小北写错 `@Testing` 的轻松时刻保留，第5节增加了"循环 vs 参数化测试"的对话场景。 |
 | 知识覆盖 | 5/5 | 6个新概念全部覆盖（JUnit基础、生命周期、异常测试、参数化测试、覆盖率、TDD预告），代码示例完整可运行，有pom.xml配置、有CampusFlow进度、有Git要点。 |
 | 认知负荷 | 4/5 | 6个新概念在预算内，回顾桥有效（多次关联Week 03防御式编程、Week 05集合框架），难度递进合理。 |
 | **总分** | **17/20 → 18/20** | 修订后达到发布门槛 |
 
 ## 修订记录
 
-### 第一轮修订（轻量）
-- **位置**：第 2 节开头
-- **修改**：增加小北手滑把 `@Test` 写成 `@Testing` 的轻松时刻，让读者微微一笑并产生共鸣
+### 第二轮修订（本次）
 
-- **位置**：CampusFlow 进度小节
-- **修改**：增加悬念引入"想象一下，如果 CampusFlow 的 Repository 层没有测试，下周你要重构存储结构时敢动手吗？"
+**技术问题修复（S1-S4）**：
+- **S1**: 修复 `examples/05_parameterized_test.java` 中 `@ValueSource` + `@NullAndEmptySource` 重复测试用例问题
+- **S2**: 添加 CHAPTER.md 时代脉搏段落的 World Quality Report 参考链接
+- **S2**: 修复 ASSIGNMENT.md 中 `IllegalStateException` → `IllegalArgumentException` 与实现一致
+- **S2**: 修复 `examples/05_parameterized_test.java` 中 Task ID → Book ISBN 的复制粘贴错误
+- **S2**: 修复 CHAPTER.md 中 `findBook` → `findByIsbn` 方法名与 starter_code 一致
+- **S3**: 更新 ANCHORS.yml 中 AI 专栏的 verification 字段，指向 CHAPTER.md 具体行号
+- **S3**: 在 `examples/02_first_test.java` 的 `borrowBook` 方法中添加 borrower 参数校验
+- **S3**: 修复 RUBRIC.md，明确 AI 协作能力为可选附加分项
+- **S4**: 改进第2节叙事流程，`@Testing` 错误示例后立即给出修正
 
-- **位置**：本周小结
-- **修改**：将 bullet list 改为叙述段落，用小北的感悟串联四个要点
+**叙事质量提升**：
+- 第5节开篇改为更具体的场景：小北写了8个重复测试方法，阿码问"为什么不写循环"
+- 小结改为叙述段落，用小北的感悟串联四个要点，增加画面感
+- Definition of Done 清单拆分为"核心能力/进阶技能/项目实战"三组
+
+### 第一轮修订（之前）
+- 增加小北手滑把 `@Test` 写成 `@Testing` 的轻松时刻
+- CampusFlow进度小节增加悬念引入
+- 小结改为叙述段落
 
 ## 阻塞项
 
 - [x] 无阻塞项
 
-## 建议项（已处理）
+## 技术问题清单（已修复）
 
-1. ~~增加一个轻松时刻~~ ✅ 已处理：小北写错 `@Testing`
-2. ~~CampusFlow进度小节可以更有场景感~~ ✅ 已处理：增加悬念引入
-3. ~~本周小结可以更有变化~~ ✅ 已处理：改为叙述段落
+| 严重度 | 问题描述 | 修复状态 |
+|--------|---------|---------|
+| S1 | `@ValueSource` + `@NullAndEmptySource` 组合产生重复测试 | ✅ 已修复 |
+| S2 | World Quality Report 缺少参考链接 | ✅ 已修复 |
+| S2 | ASSIGNMENT 要求 `IllegalStateException` 与实现不符 | ✅ 已修复 |
+| S2 | 示例代码 Task ID 与 Book 场景不匹配 | ✅ 已修复 |
+| S2 | CHAPTER 方法名 `findBook` 与 starter_code 不一致 | ✅ 已修复 |
+| S3 | ANCHORS.yml AI 专栏来源描述不准确 | ✅ 已修复 |
+| S3 | 02_first_test.java 缺少 borrower 校验 | ✅ 已修复 |
+| S3 | RUBRIC.md 与 ASSIGNMENT.md 权重描述不一致 | ✅ 已修复 |
+| S4 | 第2节叙事流程可优化 | ✅ 已修复 |
 
 ## 锚点检查
 
@@ -61,3 +82,4 @@
 - 阻塞项清零
 - 术语已同步
 - 锚点完整
+- 所有 S1-S4 技术问题已修复

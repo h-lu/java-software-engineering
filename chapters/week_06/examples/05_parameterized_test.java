@@ -183,9 +183,9 @@ class LibraryTrackerParameterizedTest {
      */
     @ParameterizedTest
     @CsvSource({
-        "T1, 任务1, pending",
-        "T2, 任务2, done",
-        "T3, 任务3, in_progress"
+        "ISBN-001, 书1, 作者A",
+        "ISBN-002, 书2, 作者B",
+        "ISBN-003, 书3, 作者C"
     })
     void shouldAddAndRetrieveMultipleBooks(String isbn, String title, String author) {
         Book book = new Book(title, author, isbn);
@@ -194,14 +194,16 @@ class LibraryTrackerParameterizedTest {
         Book found = tracker.findBook(isbn);
         assertNotNull(found);
         assertEquals(title, found.getTitle());
+        assertEquals(author, found.getAuthor());
     }
 
     /**
      * 可以组合多个数据源
+     * 注意：@NullAndEmptySource 已包含 null 和 ""，所以 @ValueSource 只需补充其他值
      */
     @ParameterizedTest
-    @ValueSource(strings = {"", "   "})
     @NullAndEmptySource
+    @ValueSource(strings = {"   "})
     void shouldRejectAllInvalidBorrowers(String invalidBorrower) {
         tracker.addBook(new Book("书", "作者", "ISBN-1"));
 

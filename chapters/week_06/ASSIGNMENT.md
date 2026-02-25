@@ -47,7 +47,7 @@
    - 测试 `addBook(null)` 抛出 `IllegalArgumentException`
    - 测试 `borrowBook(null, "小北")` 抛出 `IllegalArgumentException`
    - 测试 `borrowBook("不存在的ISBN", "小北")` 抛出 `IllegalArgumentException`
-   - 测试 `returnBook` 归还不存在的记录时抛出 `IllegalStateException`
+   - 测试 `returnBook` 归还不存在的记录时抛出 `IllegalArgumentException`
 
 4. **至少使用 1 处 `@ParameterizedTest`**
    - 使用 `@CsvSource` 或 `@ValueSource` 批量测试多种边界情况

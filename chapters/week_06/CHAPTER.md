@@ -9,6 +9,9 @@
 
 根据 World Quality Report 2025-26 报告显示，拥有成熟自动化测试体系的组织，其关键缺陷进入生产环境的比例降低了 30-35%。但测试的价值不止于"防故障"——它强迫你思考边界情况，让你的设计更健壮。本周，你将学会用 JUnit 5 为代码构建这道防线。
 
+参考（访问日期：2026-02-25）：
+- [World Quality Report 2025-26](https://www.worldqualityreport.com/)
+
 <!--
 贯穿案例设计：【图书借阅追踪器的测试守护】
 - 第 1 节（为什么需要测试）：从 Week 05 的图书借阅追踪器开始，发现手动验证的痛苦，引出自动化测试的必要性
@@ -98,7 +101,7 @@
 **Bloom 层次**：应用
 **学习目标**：掌握 JUnit 5 基本注解和断言方法
 **贯穿案例推进**：为 LibraryTracker 编写第一个测试——测试 addBook 方法
-**建议示例文件**：02_first_junit_test.java
+**建议示例文件**：02_first_test.java
 **叙事入口**：从最简单的测试开始，让读者快速获得"测试通过"的成就感
 **角色出场**：阿码——"测试代码也是代码？那谁来测试测试代码？"
 **回顾桥**：[ArrayList/HashMap]（week_05）：测试集合操作的正确性
@@ -394,15 +397,21 @@ public class LibraryTrackerExceptionTest {
 **Bloom 层次**：应用/分析
 **学习目标**：掌握 @ParameterizedTest 和 @CsvSource 的使用
 **贯穿案例推进**：用参数化测试批量验证多种边界 ISBN 格式
-**建议示例文件**：05_parameterized_tests.java
+**建议示例文件**：05_parameterized_test.java
 **叙事入口**：发现需要测试 10 种不同的无效 ISBN，复制粘贴测试代码太蠢
 **角色出场**：老潘——"生产环境里，边界情况往往比正常情况多"
 **回顾桥**：[防御式编程]（week_03）：验证各种非法输入的处理
 -->
 
-小北想给 ISBN 校验加更多测试。无效的 ISBN 有很多种：null、空字符串、全是空格、格式不对......如果每种情况都写一个测试方法，代码会膨胀到失控。
+小北盯着自己的测试文件，眉头越皱越紧。他已经写了 8 个几乎一模一样的测试方法，每个都在测不同的无效 ISBN：`null`、空字符串、全空格、格式错误......
 
-老潘看了一眼："用参数化测试。生产环境里，边界情况往往比正常情况多，批量验证是常态。"
+"这也太蠢了。"小北嘟囔着，"复制粘贴了 8 遍，就为了改一个参数值？"
+
+阿码凑过来看了一眼："为什么不写个循环？"
+
+"JUnit 不允许啊，每个测试方法得独立。"
+
+老潘端着咖啡路过，正好听到这段对话。"循环的思路是对的，但 JUnit 有更优雅的方式——参数化测试。"他放下杯子，"生产环境里，边界情况往往比正常情况多。你测 8 个边界值算少的，我见过一个表单校验要测 50 种情况的。"
 
 JUnit 5 的 `@ParameterizedTest` 让你可以用多组数据运行同一个测试逻辑：
 
@@ -449,9 +458,9 @@ public class LibraryTrackerParameterizedTest {
     // 用 @CsvSource 测试多组输入输出组合
     @ParameterizedTest
     @CsvSource({
-        "ISBN-1, 小北, true",    // 正常借阅
-        "ISBN-2, 小北, false",   // 书不存在
-        "ISBN-1, 阿码, false"    // 书存在但借给其他人了
+        "ISBN-1, 小北, true",     // 小北借了 ISBN-1，记录存在
+        "ISBN-2, 小北, false",    // ISBN-2 不存在，无记录
+        "ISBN-1, 阿码, false"     // ISBN-1 被小北借走，阿码没有借阅记录
     })
     void shouldCheckBorrowStatus(String isbn, String borrower, boolean expectedExists) {
         tracker.addBook(new Book("书1", "作者", "ISBN-1"));
@@ -495,7 +504,7 @@ public class LibraryTrackerParameterizedTest {
 **Bloom 层次**：理解/评价
 **学习目标**：理解测试覆盖率概念，能识别测试盲区
 **贯穿案例推进**：运行覆盖率工具，发现 Repository 中未被测试的方法
-**建议示例文件**：06_coverage_analysis.java
+**建议示例文件**：06_coverage_demo.java
 **叙事入口**：所有测试都通过了，但老潘说"还有没测到的代码"
 **角色出场**：老潘——"100% 覆盖率不代表没有 bug，但低覆盖率一定代表有盲区"
 **回顾桥**：[SOLID 原则]（week_02）：测试也是验证设计是否遵循单一职责的手段
@@ -567,11 +576,11 @@ void shouldListAllBooks() {
 @Test
 void shouldRemoveBook() {
     tracker.addBook(new Book("书", "作者", "ISBN-1"));
-    assertNotNull(tracker.findBook("ISBN-1"));
+    assertNotNull(tracker.findByIsbn("ISBN-1"));
 
     tracker.removeBook("ISBN-1");
 
-    assertNull(tracker.findBook("ISBN-1"));
+    assertNull(tracker.findByIsbn("ISBN-1"));
 }
 ```
 
@@ -713,7 +722,11 @@ target/surefire-reports/
 
 本周你学会了用 JUnit 5 为代码构建安全网。从第一个简单的 `@Test`，到使用 `@BeforeEach` 消除重复，再到 `assertThrows` 验证异常、`@ParameterizedTest` 批量验证边界情况——测试让你的代码变得可信赖。
 
-小北现在明白了：测试是投资，写测试需要时间，但省去了反复手动验证的麻烦；测试即文档，好的测试用例展示了代码的预期用法；覆盖率是指标不是目标，追求 100% 覆盖率不如追求关键路径的可靠覆盖；测试也要维护，测试代码也是工程代码，要遵循同样的质量标准。
+回顾这一周，小北最大的感触是：**测试是投资**。写测试花了他整整一个下午，但当他在周三改了一个方法后、测试立刻报错提醒他时，他省下了整个周末的调试时间。"原来测试不只是'多写代码'，而是给未来的自己买保险。"
+
+测试还有另一个价值：**它是活文档**。好的测试用例展示了代码的预期用法。当新同事接手小北的代码时，只要看一眼测试，就知道 `borrowBook` 会对 null 参数抛异常、`findBook` 在找不到书时返回 null。这比任何注释都可靠。
+
+至于覆盖率——老潘说得对，"100% 覆盖率不代表没有 bug，但低覆盖率一定代表有盲区"。小北学会了用 JaCoCo 找出那些被遗漏的代码，但他也明白：追求 100% 覆盖率不如追求关键路径的可靠覆盖。测试代码也是工程代码，需要遵循同样的质量标准。
 
 老潘路过，拍拍小北肩膀："不写测试的代码，就像不带降落伞跳伞——可能没事，但出事就是大事。"
 
@@ -723,12 +736,17 @@ target/surefire-reports/
 
 ## Definition of Done（学生自测清单）
 
+**核心能力**（必须掌握）：
 - [ ] 我能解释单元测试与手动验证的 3 个核心差异
 - [ ] 我能使用 JUnit 5 编写包含断言的基本测试
 - [ ] 我能使用 @BeforeEach 消除测试代码的重复初始化
 - [ ] 我能使用 assertThrows 验证异常抛出行为
+
+**进阶技能**（建议掌握）：
 - [ ] 我能使用 @ParameterizedTest 批量测试多组数据
 - [ ] 我能运行测试覆盖率工具并解读报告
+
+**项目实战**（作业要求）：
 - [ ] 我的图书借阅追踪器拥有 80%+ 的测试覆盖率
 - [ ] 我的 CampusFlow Repository 层有完整的单元测试
 - [ ] 我能在审查 AI 生成的测试代码时发现边界情况遗漏
