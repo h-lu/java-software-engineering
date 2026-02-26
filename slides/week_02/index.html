@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 02: 类设计与领域建模</title>
+  
+  <!-- 字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- 样式 -->
+  <link rel="stylesheet" href="../themes/modern-education.css">
+  
+  <!-- 代码高亮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+</head>
+<body>
+  <!-- 缩略图导航 -->
+  <div class="thumbnails" id="thumbnails"></div>
+  
+  <!-- 幻灯片容器 -->
+  <div class="slides-container" id="slidesContainer">
+    <!-- Slide 1: Cover -->
+    <section class="slide cover">
+        <div class="cover-content">
+            <div class="week-badge">Week 02</div>
+            <h1>类设计与领域建模</h1>
+            <h2>从问题域抽象到代码实现</h2>
+            <blockquote>
+                "设计一个类，就是在设计一个小世界。"
+                <cite>— Grady Booch</cite>
+            </blockquote>
+            <div class="meta">
+                <span>📅 2026 Spring</span>
+                <span>🏫 Java 软件工程</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: 时代脉搏 -->
+    <section class="slide narrative">
+        <h2>🌊 时代脉搏</h2>
+        <div class="narrative-content">
+            <div class="stat-card">
+                <div class="stat-number" style="color: #FF6B35;">75%</div>
+                <div class="stat-label">技术领导者将面临中度到严重技术债</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #DC2626;">53%</div>
+                <div class="stat-label">开发者报告 AI 工具增加了技术债</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2000万</div>
+                <div class="stat-label">GitHub Copilot 用户数突破</div>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>AI 能帮你快速写出一个类，但它能帮你理解<strong>"什么是好的类设计"</strong>吗？</p>
+        </div>
+        <div class="highlight-box" style="border-left-color: #DC2626;">
+            <p>MIT 研究者将 AI 代码称为<strong>"高息债务"</strong>：即时开发速度，以未来维护负担的复利为代价。</p>
+        </div>
+    </section>
+
+    <!-- Slide 3: 学习目标 -->
+    <section class="slide learning-objectives">
+        <h2>🎯 本周学习目标</h2>
+        <p class="subtitle">完成本周学习后，你将能够：</p>
+        <ul class="checklist">
+            <li><span class="check">✓</span> <strong>使用</strong>"名词提取法"从需求文档中识别核心类</li>
+            <li><span class="check">✓</span> <strong>设计</strong>封装良好的类（private 字段 + public 方法）</li>
+            <li><span class="check">✓</span> <strong>应用</strong>单一职责原则拆分上帝类</li>
+            <li><span class="check">✓</span> <strong>演示</strong>开闭原则在代码中的实现</li>
+            <li><span class="check">✓</span> <strong>撰写</strong>第一份 ADR（领域模型设计决策）</li>
+        </ul>
+    </section>
+
+    <!-- Slide 4: 课程大纲 -->
+    <section class="slide agenda">
+        <h2>📋 课程大纲</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="time">01</div>
+                <div class="content">上帝类的问题——为什么"什么都能做"是坏事</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time">02</div>
+                <div class="content">名词提取法——从需求中识别类</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time">03</div>
+                <div class="content">封装——小北的三次试错</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time">04</div>
+                <div class="content">SOLID 原则——单一职责与开闭原则</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time">05</div>
+                <div class="content">ADR——记录你的设计决策</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: 贯穿案例 -->
+    <section class="slide concept">
+        <h2>💼 贯穿案例：任务管理器（TaskManager）</h2>
+        <div class="concept-cards">
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <h3>第1节</h3>
+                <p>发现上帝类<br>职责混乱的问题</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>第2节</h3>
+                <p>名词提取法<br>识别核心类</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>第3节</h3>
+                <p>封装数据<br>private 字段保护</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚖️</div>
+                <h3>第4节</h3>
+                <p>单一职责<br>拆分数据与管理</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>第5节</h3>
+                <p>写 ADR-001<br>记录设计决策</p>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>最终成果：职责清晰的 TaskManager 系统 + ADR-001 文档</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: 上帝类问题 -->
+    <section class="slide narrative">
+        <h2>🚨 一个"什么都能做"的类</h2>
+        <div class="dialogue xiaobei">
+            <p><strong>小北：</strong>我把创建、验证、保存、显示、邮件通知都放进了 Task 类，这不挺好的吗？</p>
+        </div>
+        <div class="code-preview">
+            <pre><code class="language-java">public class Task {
+    public String title;
+    public boolean isValid() { /* 验证 */ }
+    public void saveToFile(String f) { /* 存储 */ }
+    public void print() { /* 显示 */ }
+    public void sendEmail(String e) { /* 通知 */ }
+    // ... 还有 20 多个方法
+}</code></pre>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>你现在觉得方便，三个月后这个类会有 500 行。想加新功能都不知道插在哪。</p>
+        </div>
+    </section>
+
+    <!-- Slide 7: 上帝类 vs 好的设计 -->
+    <section class="slide concept">
+        <h2>📊 上帝类 vs 好的类设计</h2>
+        <table class="compare-table">
+            <tr>
+                <th>特征</th>
+                <th>好的类设计 ✅</th>
+                <th>上帝类 ❌</th>
+            </tr>
+            <tr>
+                <td><strong>职责数量</strong></td>
+                <td>1-2 个相关职责</td>
+                <td>5+ 个不相关职责</td>
+            </tr>
+            <tr>
+                <td><strong>方法数量</strong></td>
+                <td>5-10 个</td>
+                <td>20+ 个</td>
+            </tr>
+            <tr>
+                <td><strong>代码行数</strong></td>
+                <td>100-200 行</td>
+                <td>500+ 行</td>
+            </tr>
+            <tr>
+                <td><strong>可测试性</strong></td>
+                <td>容易（职责清晰）</td>
+                <td>困难（依赖太多）</td>
+            </tr>
+            <tr>
+                <td><strong>可维护性</strong></td>
+                <td>高（改一处只影响一处）</td>
+                <td>低（牵一发而动全身）</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- Slide 8: 单一职责原则 -->
+    <section class="slide concept">
+        <h2>⚖️ 单一职责原则（SRP）</h2>
+        <div class="principle-box">
+            <div class="principle-title">Single Responsibility Principle</div>
+            <div class="principle-content">
+                <strong>一个类应该只有一个引起它变化的原因。</strong>
+            </div>
+        </div>
+        <div class="dialogue ama">
+            <p><strong>阿码：</strong>职责多了有什么坏处？程序能跑啊。</p>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>想改优先级存储方式？上帝类要改 5 个地方。职责分离只需改 3 个类。</p>
+        </div>
+        <div class="comparison-flow">
+            <div class="flow-item bad">
+                <span>改优先级 → Task类(5处) → 测试20个方法</span>
+            </div>
+            <div class="flow-arrow">VS</div>
+            <div class="flow-item good">
+                <span>改优先级 → Task/TaskValidator/TaskRepo → 测试3个类</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: 名词提取法 -->
+    <section class="slide concept">
+        <h2>🔍 名词提取法：从需求识别类</h2>
+        <div class="method-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>写需求文档</h4>
+                    <p>用户可以创建任务，每个任务有标题、描述、优先级...</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>圈出名词</h4>
+                    <p><span class="highlight">用户</span>、<span class="highlight">任务</span>、标题、描述、<span class="highlight">优先级</span>...</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>区分核心类与属性</h4>
+                    <p>Task = 核心类；标题 = Task 的属性</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h4>识别管理者类</h4>
+                    <p>TaskManager、TaskValidator、TaskRepository</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: 课堂练习 -->
+    <section class="slide exercise">
+        <h2>✏️ 课堂练习：名词提取</h2>
+        <div class="exercise-content">
+            <div class="exercise-desc">
+                <h4>需求描述：</h4>
+                <p>"用户可以创建任务，每个任务有标题、描述、截止日期、优先级。任务可以被标记为已完成。系统可以按优先级排序任务。"</p>
+            </div>
+            <div class="exercise-task">
+                <h4>任务：</h4>
+                <ol>
+                    <li>圈出这段需求中的所有<span class="highlight">名词</span></li>
+                    <li>区分哪些是<span class="highlight">核心类</span>，哪些是<span class="highlight">属性</span></li>
+                    <li>识别可能的<span class="highlight">管理者类</span></li>
+                </ol>
+            </div>
+            <div class="dialogue ama">
+                <p><strong>阿码：</strong>"系统"算名词吗？它是不是一个类？</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: 类与对象 -->
+    <section class="slide concept">
+        <h2>🏠 类是模板，对象是实例</h2>
+        <div class="analogy-box">
+            <div class="analogy">
+                <div class="analogy-left">户型图（类）</div>
+                <div class="analogy-arrow">➡️</div>
+                <div class="analogy-right">实际房子（对象）</div>
+            </div>
+            <p class="analogy-desc">户型图规定有3个卧室、2个卫生间；每套房子住的人不同、装修不同</p>
+        </div>
+        <table class="compare-table simple">
+            <tr>
+                <th>类</th>
+                <th>对象</th>
+            </tr>
+            <tr>
+                <td><code>Task</code>（模板）</td>
+                <td><code>task1</code>、<code>task2</code>（具体实例）</td>
+            </tr>
+            <tr>
+                <td>可复用模板</td>
+                <td>可以创建无数个对象</td>
+            </tr>
+            <tr>
+                <td>定义结构</td>
+                <td>拥有独立状态</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- Slide 11: 实体类 vs 服务类 -->
+    <section class="slide concept">
+        <h2>📦 实体类 vs 服务类</h2>
+        <div class="two-column">
+            <div class="column">
+                <div class="column-header entity">
+                    <span class="icon">📦</span>
+                    <h3>实体类（Entity）</h3>
+                    <p>存储数据，有状态</p>
+                </div>
+                <ul>
+                    <li>代表问题域中的"事物"</li>
+                    <li>例如：<code>Task</code>、<code>User</code></li>
+                    <li>特征：有字段、getter/setter</li>
+                </ul>
+                <div class="code-snippet">
+                    <code>private String title;</code><br>
+                    <code>public String getTitle()</code>
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-header service">
+                    <span class="icon">⚙️</span>
+                    <h3>服务类（Service）</h3>
+                    <p>提供行为，无状态</p>
+                </div>
+                <ul>
+                    <li>代表"动作"或"管理器"</li>
+                    <li>例如：<code>TaskManager</code></li>
+                    <li>特征：主要是方法，字段很少</li>
+                </ul>
+                <div class="code-snippet">
+                    <code>public void addTask(Task t)</code><br>
+                    <code>public List&lt;Task&gt; filter()</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: AI Column 1 -->
+    <section class="slide ai-column">
+        <h2>🤖 AI 时代小专栏 #1</h2>
+        <h3>AI 能生成类代码，但不能做设计决策</h3>
+        <div class="ai-content">
+            <div class="ai-strength">
+                <h4>✅ AI 擅长</h4>
+                <ul>
+                    <li>根据描述生成类代码</li>
+                    <li>生成 getter/setter</li>
+                    <li>几秒钟完成模板代码</li>
+                </ul>
+            </div>
+            <div class="ai-weakness">
+                <h4>❌ AI 不擅长</h4>
+                <ul>
+                    <li>思考"类应该有哪些职责"</li>
+                    <li>预判业务变化（如子任务支持）</li>
+                    <li>写 ADR（设计决策记录）</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box purple">
+            <p><strong>关键问题：</strong>AI 把验证、持久化、UI 塞进一个类的概率很高——你需要有能力审查和改进。</p>
+        </div>
+        <div class="stat-warning">
+            <span class="stat">62%</span> AI 生成代码存在"职责不清晰"问题
+            <span class="stat">53%</span> 开发者报告 AI 增加了技术债
+        </div>
+    </section>
+
+    <!-- Slide 13: 封装第一次试错 -->
+    <section class="slide narrative">
+        <h2>🔓 小北的三次试错：第一次</h2>
+        <div class="dialogue xiaobei">
+            <p><strong>小北：</strong>不用 private，全部 public，写起来快！</p>
+        </div>
+        <div class="dialogue ama">
+            <p><strong>阿码：</strong>全部 public 不是更灵活吗？为什么要用 private 把自己限制住？</p>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>先看小北踩的坑，你就明白了。</p>
+        </div>
+        <div class="code-compare">
+            <div class="code-side error">
+                <h4>❌ 全部 public</h4>
+                <pre><code class="language-java">public class Task {
+    public String title;
+    public int priority; // 1=高, 2=中, 3=低
+}</code></pre>
+                <pre><code class="language-java">Task task = new Task();
+task.priority = 5; // 手滑写成5，不报错！
+// Bug藏了三天...</code></pre>
+            </div>
+            <div class="code-side explanation">
+                <h4>💥 后果</h4>
+                <ul>
+                    <li>priority = 5 超出预期范围(1-3)</li>
+                    <li>程序正常运行，无报错</li>
+                    <li>三天后发现，影响十几个任务</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong><code>public</code> 字段没有任何保护，外部可以赋任何值。</p>
+        </div>
+    </section>
+
+    <!-- Slide 14: 封装第二次试错 -->
+    <section class="slide narrative">
+        <h2>🔓 第二次尝试：加验证，但用 public</h2>
+        <div class="code-compare">
+            <div class="code-side error">
+                <h4>❌ 还是可以绕过</h4>
+                <pre><code class="language-java">public class Task {
+    public String title;
+    public int priority;
+    
+    public void setPrioritySafe(int p) {
+        if (p < 1 || p > 3) {
+            throw new IllegalArgumentException();
+        }
+        this.priority = p;
+    }
+}</code></pre>
+            </div>
+            <div class="code-side">
+                <h4>🚨 问题</h4>
+                <pre><code class="language-java">// 同事阿码不知道有setPrioritySafe
+task.priority = 2; // 直接赋值！
+// 检查形同虚设</code></pre>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>只要字段是 public，就无法强制所有人走验证逻辑。</p>
+        </div>
+    </section>
+
+    <!-- Slide 15: 封装正确做法 -->
+    <section class="slide code">
+        <h2>🔒 第三次：正确的封装</h2>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>把字段藏起来，只暴露你控制的方法。</p>
+        </div>
+        <pre><code class="language-java">public class Task {
+    private String title;      // private：外部无法直接访问
+    private int priority;
+    
+    // 外部只能通过这个方法修改
+    public void setPriority(int priority) {
+        if (priority < 1 || priority > 3) {
+            throw new IllegalArgumentException("优先级必须是 1-3");
+        }
+        this.priority = priority;
+    }
+    
+    public int getPriority() {
+        return priority;
+    }
+}</code></pre>
+        <div class="highlight-box green">
+            <p><code>task.priority = 5</code> 编译都过不了——外部<strong>只能</strong>通过 <code>setPriority(5)</code>，会立即抛出异常。</p>
+        </div>
+    </section>
+
+    <!-- Slide 16: 封装的真正价值 -->
+    <section class="slide concept">
+        <h2>🎭 封装的真正价值</h2>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>封装让你可以"撒谎"——内部偷偷改变实现，外部完全不知道。</p>
+        </div>
+        <div class="code-compare">
+            <div class="code-side">
+                <h4>初始设计</h4>
+                <pre><code class="language-java">private boolean completed;</code></pre>
+            </div>
+            <div class="code-side">
+                <h4>三个月后（内部变了）</h4>
+                <pre><code class="language-java">private enum Status { ... }
+private Status status;</code></pre>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>但 <code>isCompleted()</code> 方法签名不变，外部代码完全不用改！</p>
+        </div>
+    </section>
+
+    <!-- Slide 17: SOLID 原则概述 -->
+    <section class="slide concept">
+        <h2>📐 SOLID 原则入门</h2>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>我写过 1200 行的 TaskProcessor 类。加短信通知功能时，测试了 12 个功能，3 个被影响坏了。</p>
+        </div>
+        <div class="solid-table">
+            <table>
+                <tr>
+                    <th>原则</th>
+                    <th>名称</th>
+                    <th>一句话记住</th>
+                </tr>
+                <tr class="highlight-row">
+                    <td><strong>S</strong></td>
+                    <td>Single Responsibility<br>单一职责</td>
+                    <td>一个类只做一件事</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td><strong>O</strong></td>
+                    <td>Open/Closed<br>开闭原则</td>
+                    <td>加功能不改旧代码</td>
+                </tr>
+                <tr>
+                    <td>L</td>
+                    <td>Liskov Substitution</td>
+                    <td>子类能替换父类</td>
+                </tr>
+                <tr>
+                    <td>I</td>
+                    <td>Interface Segregation</td>
+                    <td>接口小而专一</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>Dependency Inversion</td>
+                    <td>依赖抽象不依赖具体</td>
+                </tr>
+            </table>
+        </div>
+        <p class="note">本周重点：S（单一职责）和 O（开闭原则）</p>
+    </section>
+
+    <!-- Slide 18: 拆分上帝类 -->
+    <section class="slide code">
+        <h2>✂️ 拆分小北的上帝类</h2>
+        <div class="split-comparison">
+            <div class="split-before">
+                <h4>❌ 拆分前（上帝类）</h4>
+                <pre><code class="language-java">public class Task {
+    // 职责1：存储
+    public String title;
+    // 职责2：验证
+    public boolean isValid() { }
+    // 职责3：存储
+    public void saveToFile(String f) { }
+    // 职责4：显示
+    public void print() { }
+    // 职责5：通知
+    public void sendEmail(String e) { }
+}</code></pre>
+            </div>
+            <div class="split-after">
+                <h4>✅ 拆分后（5个类）</h4>
+                <div class="class-list">
+                    <div class="class-item"><code>Task</code> - 存储数据</div>
+                    <div class="class-item"><code>TaskValidator</code> - 验证</div>
+                    <div class="class-item"><code>TaskRepository</code> - 持久化</div>
+                    <div class="class-item"><code>TaskPrinter</code> - 显示</div>
+                    <div class="class-item"><code>EmailNotifier</code> - 通知</div>
+                </div>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>现在每个类只有一个职责。改验证规则只需动 TaskValidator。</p>
+        </div>
+    </section>
+
+    <!-- Slide 19: 开闭原则 -->
+    <section class="slide code">
+        <h2>🔓 开闭原则（OCP）：对扩展开放</h2>
+        <div class="code-compare">
+            <div class="code-side error">
+                <h4>❌ 不符合 OCP</h4>
+                <pre><code class="language-java">public class TaskPrinter {
+    public void print(Task t, String format) {
+        if (format.equals("text")) {
+            // 文本格式
+        } else if (format.equals("json")) {
+            // JSON格式
+        }
+        // 加新格式要修改这个类
+    }
+}</code></pre>
+            </div>
+            <div class="code-side fixed">
+                <h4>✅ 符合 OCP</h4>
+                <pre><code class="language-java">interface TaskFormatter {
+    String format(Task task);
+}
+
+class TextFormatter implements TaskFormatter { }
+class JsonFormatter implements TaskFormatter { }
+
+// 加XML格式？新建类，不用改TaskPrinter
+class XmlFormatter implements TaskFormatter { }</code></pre>
+            </div>
+        </div>
+        <div class="principle-box compact">
+            <strong>核心思想：</strong>通过某种方式扩展功能，而不是修改现有代码
+        </div>
+    </section>
+
+    <!-- Slide 20: AI Column 2 -->
+    <section class="slide ai-column">
+        <h2>🤖 AI 时代小专栏 #2</h2>
+        <h3>SOLID 原则在 AI 时代仍然重要</h3>
+        <div class="ai-content">
+            <div class="ai-problem">
+                <h4>⚠️ AI 代码的问题</h4>
+                <ul>
+                    <li>平均节省 55% 时间，但质量下降</li>
+                    <li>相当比例存在"职责不清晰"</li>
+                    <li>代码重复量显著增加</li>
+                </ul>
+            </div>
+            <div class="ai-solution">
+                <h4>✅ SOLID 作为审查标尺</h4>
+                <ul>
+                    <li>S：这个类是不是承担太多职责？</li>
+                    <li>O：需求变了需要修改吗？</li>
+                    <li>用来判断"AI 代码是否值得接受"</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box purple">
+            <p><strong>SOLID 不是过时的理论，而是 AI 时代的核心技能。</strong></p>
+        </div>
+    </section>
+
+    <!-- Slide 21: ADR 介绍 -->
+    <section class="slide narrative">
+        <h2>📋 ADR：记录"为什么"</h2>
+        <div class="dialogue xiaobei">
+            <p><strong>小北：</strong>为什么要写文档？代码不就是最好的文档吗？</p>
+        </div>
+        <div class="story-box compact">
+            <h4>老潘的故事</h4>
+            <p>看到 <code>validateAndSaveAndNotify()</code>，我嫌太长就拆开了。</p>
+            <p>结果系统崩了——原来三者必须在同一事务里执行。</p>
+            <p>但代码里没有任何说明，设计者也离职了。</p>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong><strong>代码说"怎么做"，ADR 说"为什么"。</strong></p>
+        </div>
+    </section>
+
+    <!-- Slide 22: ADR 结构 -->
+    <section class="slide concept">
+        <h2>📝 ADR 的基本结构</h2>
+        <div class="adr-structure">
+            <div class="adr-item">
+                <span class="adr-label">状态</span>
+                <span class="adr-value">已采纳 / 已废弃 / 已替代</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">背景</span>
+                <span class="adr-value">要解决什么问题</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">决策</span>
+                <span class="adr-value">我们决定怎么做</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">理由</span>
+                <span class="adr-value">为什么这样做</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">替代方案</span>
+                <span class="adr-value">考虑过什么，为什么不选</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">后果</span>
+                <span class="adr-value">正面、负面、风险</span>
+            </div>
+            <div class="adr-item">
+                <span class="adr-label">验证方式</span>
+                <span class="adr-value">如何验证决策正确</span>
+            </div>
+        </div>
+        <div class="highlight-box">
+            <p>重点写<strong>"为什么选 A 而不是 B"</strong>——这是最有价值的信息</p>
+        </div>
+    </section>
+
+    <!-- Slide 23: 小北的 ADR -->
+    <section class="slide code">
+        <h2>✍️ 小北的第一份 ADR</h2>
+        <div class="code-compare">
+            <div class="code-side error">
+                <h4>❌ 被老潘打回的版本</h4>
+                <pre><code># ADR-001: TaskManager 设计
+
+## 决策
+设计了 Task 类和 TaskManager 类。
+
+## 理由
+这样设计比较好，符合 SOLID 原则。
+
+## 替代方案
+无。</code></pre>
+                <p class="problem">"比较好"是什么意思？哪个原则？考虑过其他方案吗？</p>
+            </div>
+            <div class="code-side fixed">
+                <h4>✅ 修改后的版本</h4>
+                <ul class="adr-checklist">
+                    <li>☑️ 具体解决了什么问题</li>
+                    <li>☑️ 哪个原则，如何符合</li>
+                    <li>☑️ 考虑过 public 字段、Lombok</li>
+                    <li>☑️ 正面/负面/风险</li>
+                    <li>☑️ 验证方式（Week 04/07）</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>ADR 必须由人写，不能 AI 代劳——它记录的是<strong>你的团队的决策过程</strong>。</p>
+        </div>
+    </section>
+
+    <!-- Slide 24: CampusFlow 本周任务 -->
+    <section class="slide exercise">
+        <h2>🚀 CampusFlow 本周任务</h2>
+        <div class="task-list">
+            <div class="task-item">
+                <span class="task-num">1</span>
+                <div class="task-content">
+                    <h4>识别核心类</h4>
+                    <p>使用"名词提取法"从需求中识别 Task/Note/Book 等核心类</p>
+                </div>
+            </div>
+            <div class="task-item">
+                <span class="task-num">2</span>
+                <div class="task-content">
+                    <h4>设计类结构</h4>
+                    <p>在 <code>domain/</code> 目录下创建实体类和服务类</p>
+                </div>
+            </div>
+            <div class="task-item">
+                <span class="task-num">3</span>
+                <div class="task-content">
+                    <h4>编写 ADR-001</h4>
+                    <p>记录领域模型设计决策，包括替代方案和理由</p>
+                </div>
+            </div>
+            <div class="task-item">
+                <span class="task-num">4</span>
+                <div class="task-content">
+                    <h4>Git 提交</h4>
+                    <p><code>docs:</code> 完成 ADR-001 / <code>feat:</code> 实现核心领域类</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 25: 核心类设计示例 -->
+    <section class="slide code">
+        <h2>💻 Task.java 代码示例</h2>
+        <pre><code class="language-java">package edu.campusflow.domain;
+
+public class Task {
+    private final String title;
+    private final String description;
+    private boolean completed;
+
+    public Task(String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.completed = false;
+    }
+
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public boolean isCompleted() { return completed; }
+    
+    public void markCompleted() {
+        this.completed = true;
+    }
+}</code></pre>
+        <div class="design-points">
+            <span class="point">✅ private 字段</span>
+            <span class="point">✅ final 不可变</span>
+            <span class="point">✅ 语义化方法名</span>
+        </div>
+    </section>
+
+    <!-- Slide 26: 本周关键词 -->
+    <section class="slide concept">
+        <h2>🔑 本周关键词</h2>
+        <div class="keyword-grid">
+            <div class="keyword-card">
+                <div class="keyword-icon">👑</div>
+                <h3>上帝类</h3>
+                <p>职责过多的巨型类，改一处可能影响全局</p>
+            </div>
+            <div class="keyword-card">
+                <div class="keyword-icon">🔒</div>
+                <h3>封装</h3>
+                <p>private 字段 + public 方法，保护数据，控制变化</p>
+            </div>
+            <div class="keyword-card">
+                <div class="keyword-icon">⚖️</div>
+                <h3>SRP</h3>
+                <p>一个类只有一个引起变化的原因</p>
+            </div>
+            <div class="keyword-card">
+                <div class="keyword-icon">📋</div>
+                <h3>ADR</h3>
+                <p>记录"为什么这样设计"的轻量文档</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 27: Summary -->
+    <section class="slide summary">
+        <h2>📝 本周小结</h2>
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="summary-icon">🔍</div>
+                <h3>名词提取法</h3>
+                <p>从问题域识别类：实体类存数据，服务类管行为</p>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">🔒</div>
+                <h3>封装三层价值</h3>
+                <p>保护数据、控制变化、内部实现可自由演进</p>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">⚖️</div>
+                <h3>单一职责</h3>
+                <p>上帝类维护成本极高，拆分后各负其责</p>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">📋</div>
+                <h3>ADR</h3>
+                <p>代码说"怎么做"，ADR 说"为什么"</p>
+            </div>
+        </div>
+        <div class="highlight-box">
+            <p><strong>AI 是工具，你是设计者。</strong>SOLID 原则是审查 AI 代码、判断设计质量的标尺。</p>
+        </div>
+    </section>
+
+    <!-- Slide 28: 学生自测清单（上） -->
+    <section class="slide checklist">
+        <h2>✅ 学生自测清单（一）</h2>
+        <div class="checklist-two-col">
+            <div class="checklist-col">
+                <h4>📚 知识理解</h4>
+                <ul class="checklist">
+                    <li><span class="check">☐</span> 解释"上帝类"的问题</li>
+                    <li><span class="check">☐</span> 说出封装的三个核心原则</li>
+                    <li><span class="check">☐</span> 解释单一职责原则的核心思想</li>
+                    <li><span class="check">☐</span> 说明 ADR 的作用和基本结构</li>
+                </ul>
+            </div>
+            <div class="checklist-col">
+                <h4>💻 设计能力</h4>
+                <ul class="checklist">
+                    <li><span class="check">☐</span> 用"名词提取法"识别核心类</li>
+                    <li><span class="check">☐</span> 区分"实体类"和"服务类"</li>
+                    <li><span class="check">☐</span> 判断类是否违反 SRP</li>
+                    <li><span class="check">☐</span> 设计合理的 getter/setter</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 29: 学生自测清单（下） -->
+    <section class="slide checklist">
+        <h2>✅ 学生自测清单（二）</h2>
+        <div class="checklist-two-col">
+            <div class="checklist-col">
+                <h4>🔨 代码实现</h4>
+                <ul class="checklist">
+                    <li><span class="check">☐</span> 从零设计封装良好的类</li>
+                    <li><span class="check">☐</span> 将上帝类拆成职责单一的类</li>
+                    <li><span class="check">☐</span> 编写符合规范的 ADR 文档</li>
+                </ul>
+            </div>
+            <div class="checklist-col">
+                <h4>🔧 团队项目</h4>
+                <ul class="checklist">
+                    <li><span class="check">☐</span> 核心领域模型设计完成</li>
+                    <li><span class="check">☐</span> ADR-001 提交到 Git</li>
+                    <li><span class="check">☐</span> 代码职责清晰，无上帝类</li>
+                    <li><span class="check">☐</span> 首席架构师第 1 轮完成</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 30: 下周预告 -->
+    <section class="slide concept">
+        <h2>🔭 下周预告：异常处理与防御式编程</h2>
+        <div class="preview-content">
+            <div class="preview-item">
+                <span class="preview-icon">🛡️</span>
+                <p>异常处理机制<br><code>try-catch-finally</code></p>
+            </div>
+            <div class="preview-item">
+                <span class="preview-icon">⚠️</span>
+                <p>自定义异常<br>让错误信息更有语义</p>
+            </div>
+            <div class="preview-item">
+                <span class="preview-icon">🔍</span>
+                <p>防御式编程<br>不信任任何输入</p>
+            </div>
+        </div>
+        <div class="dialogue laopan">
+            <p><strong>老潘：</strong>好的代码不是"不出错"，而是"出错时有策略"。</p>
+        </div>
+    </section>
+
+    <!-- Slide 31: End -->
+    <section class="slide end">
+        <div class="end-content">
+            <h1>感谢聆听</h1>
+            <p class="end-subtitle">Week 02: 类设计与领域建模</p>
+            <blockquote>
+                "设计一个类，就是在设计一个小世界。"
+            </blockquote>
+            <div class="end-meta">
+                <p>📝 完成课后作业</p>
+                <p>🔧 设计核心领域模型</p>
+                <p>📋 编写 ADR-001</p>
+            </div>
+            <p class="end-footer">See you next week!</p>
+        </div>
+    </section>
+  </div>
+  
+  <!-- 导航控制 -->
+  <div class="slide-nav">
+    <button onclick="prevSlide()">← 上一页</button>
+    <span class="page-info"><span id="currentPage">1</span> / <span id="totalPages">32</span></span>
+    <button onclick="nextSlide()">下一页 →</button>
+    <button onclick="toggleFullscreen()">⛶ 全屏</button>
+  </div>
+  
+  <!-- 幻灯片框架 JS -->
+  <script src="../lib/slide-framework.js"></script>
+</body>
+</html>
