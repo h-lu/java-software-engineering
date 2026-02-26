@@ -77,13 +77,13 @@
 **回顾桥**：[Repository 模式]（week_05）：测试对象就是上周完成的 Repository 层
 -->
 
-小北觉得上周写的 `LibraryTracker` 有个地方可以优化。`findBook` 方法在找不到书时返回 `null`，这会让调用方不得不写一堆空检查。他想改成返回 `Optional<Book>`，这样更"Java 8"。
+小北觉得上周写的 `LibraryTracker` 有个地方可以优化。`findByIsbn` 方法在找不到书时返回 `null`，这会让调用方不得不写一堆空检查。他想改成返回 `Optional<Book>`，这样更"Java 8"。
 
 "就改这一个方法，应该没问题。"小北自信满满地改了代码，编译通过，运行也没报错。
 
 但第二天，图书管理员反馈："借书功能坏了，系统说找不到书，但书明明在架子上！"
 
-小北排查了一下午，终于发现——`borrowBook` 方法里调用了 `findBook`，而他在重构时把 `findBook` 的返回值从 `Book` 改成了 `Optional<Book>`，却忘了同步修改 `borrowBook` 里的调用代码。结果 `borrowBook` 以为找到了书（实际上是一个 `Optional` 对象），但后续的借阅记录逻辑全错了。
+小北排查了一下午，终于发现——`borrowBook` 方法里调用了 `findByIsbn`，而他在重构时把 `findByIsbn` 的返回值从 `Book` 改成了 `Optional<Book>`，却忘了同步修改 `borrowBook` 里的调用代码。结果 `borrowBook` 以为找到了书（实际上是一个 `Optional` 对象），但后续的借阅记录逻辑全错了。
 
 "我就改了一行代码，怎么借书功能就坏了？"小北盯着屏幕，一脸沮丧。
 
@@ -160,7 +160,7 @@ public class LibraryTrackerTest {
         tracker.addBook(book);
 
         // 验证
-        Book found = tracker.findBook("978-111");
+        Book found = tracker.findByIsbn("978-111");
         assertNotNull(found);
         assertEquals("Java 核心技术", found.getTitle());
     }
@@ -199,7 +199,7 @@ void shouldFindBookByIsbn() {
     tracker.addBook(book2);
 
     // 用 HashMap 实现的查找应该是 O(1)
-    Book found = tracker.findBook("ISBN-002");
+    Book found = tracker.findByIsbn("ISBN-002");
     assertEquals("书2", found.getTitle());
 }
 ```
@@ -254,7 +254,7 @@ public class LibraryTrackerLifecycleTest {
     @Test
     void shouldAddBook() {
         tracker.addBook(testBook);
-        assertNotNull(tracker.findBook("TEST-ISBN"));
+        assertNotNull(tracker.findByIsbn("TEST-ISBN"));
     }
 
     @Test
@@ -307,7 +307,7 @@ void tearDown() {
 >
 > 回到你刚学的 JUnit 基础——`assertEquals`、`assertNotNull` 这些断言不是装饰，它们是测试的"灵魂"。AI 可能生成一个调用被测方法的测试，但断言可能写得很弱（比如只检查返回值不为 null）。这时候，你在 Week 03 学的防御式编程思维就派上用场了：问自己，"什么情况下这个测试会通过，但代码其实是错的？"
 >
-> 参考（访问日期：2026-02-12）：
+> 参考（访问日期：2026-02-25）：
 > - [GitHub Copilot Quality Advancement](https://www.c-sharpcorner.com/article/github-copilot-huge-quality-advancement-in-3-months-june-2025/)
 > - [AI Testing Code Research](https://computerfraudsecurity.com/index.php/journal/article/view/784)
 > - [Singapore Government AI Coding Assistant Report](https://docs.developer.tech.gov.sg/docs/ai-coding-assistants/training/files/update-on-ship-hats-coding-assistant-programme.pdf)
@@ -492,7 +492,7 @@ public class LibraryTrackerParameterizedTest {
 >
 > 回到你刚写的参数化测试——当你用 AI 辅助时，记得检查它是否遵循了这些最佳实践。AI 有时会为了"炫技"而使用过度复杂的 `@MethodSource`，而简单的 `@CsvSource` 就能搞定。你在 Week 02 学的 KISS 原则（保持简单）在这里同样适用。
 >
-> 参考（访问日期：2026-02-12）：
+> 参考（访问日期：2026-02-25）：
 > - [JUnit 5 Parameterized Test Complete Guide](https://ankurm.com/the-complete-guide-to-junit-5-parameterizedtest-write-smarter-faster-and-cleaner-java-tests/)
 > - [Baeldung Parameterized Tests](https://www.baeldung.com/parameterized-tests-junit-5)
 
@@ -612,7 +612,7 @@ CampusFlow 本周推进：
 
 到目前为止，CampusFlow 的 Repository 层已经用 `ArrayList` 和 `HashMap` 重构完成，但还没有任何自动化测试。
 
-想象一下：如果 CampusFlow 的 Repository 层没有测试，下周你要重构存储结构时敢动手吗？小北想起自己改 `findBook` 引发的惨案——没有测试的保护，每次重构都像走钢丝。
+想象一下：如果 CampusFlow 的 Repository 层没有测试，下周你要重构存储结构时敢动手吗？小北想起自己改 `findByIsbn` 引发的惨案——没有测试的保护，每次重构都像走钢丝。
 
 本周我们为 `TaskRepository` 添加单元测试，确保核心方法有 80%+ 的覆盖率。这样下次重构时，你就能放心大胆地动手了。
 
@@ -724,13 +724,13 @@ target/surefire-reports/
 
 回顾这一周，小北最大的感触是：**测试是投资**。写测试花了他整整一个下午，但当他在周三改了一个方法后、测试立刻报错提醒他时，他省下了整个周末的调试时间。"原来测试不只是'多写代码'，而是给未来的自己买保险。"
 
-测试还有另一个价值：**它是活文档**。好的测试用例展示了代码的预期用法。当新同事接手小北的代码时，只要看一眼测试，就知道 `borrowBook` 会对 null 参数抛异常、`findBook` 在找不到书时返回 null。这比任何注释都可靠。
+测试还有另一个价值：**它是活文档**。好的测试用例展示了代码的预期用法。当新同事接手小北的代码时，只要看一眼测试，就知道 `borrowBook` 会对 null 参数抛异常、`findByIsbn` 在找不到书时返回 null。这比任何注释都可靠。
 
 至于覆盖率——老潘说得对，"100% 覆盖率不代表没有 bug，但低覆盖率一定代表有盲区"。小北学会了用 JaCoCo 找出那些被遗漏的代码，但他也明白：追求 100% 覆盖率不如追求关键路径的可靠覆盖。测试代码也是工程代码，需要遵循同样的质量标准。
 
 老潘路过，拍拍小北肩膀："不写测试的代码，就像不带降落伞跳伞——可能没事，但出事就是大事。"
 
-但还有一个问题：目前你的测试只验证了"代码逻辑正确"，还没验证"代码设计良好"。下周我们要引入**测试驱动开发（TDD）**——让测试不仅验证代码，更指导设计。
+但还有一个问题：目前你的数据只存在于内存中——程序一关，数据就没了。下周我们要学习**持久化与数据完整性**——让数据在程序重启后依然存在，同时确保数据不会因为意外操作而损坏。
 
 ---
 

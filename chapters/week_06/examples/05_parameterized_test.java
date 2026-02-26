@@ -72,7 +72,7 @@ class LibraryTracker {
         booksByIsbn.put(book.getIsbn(), book);
     }
 
-    public Book findBook(String isbn) {
+    public Book findByIsbn(String isbn) {
         return booksByIsbn.get(isbn);
     }
 
@@ -191,7 +191,7 @@ class LibraryTrackerParameterizedTest {
         Book book = new Book(title, author, isbn);
         tracker.addBook(book);
 
-        Book found = tracker.findBook(isbn);
+        Book found = tracker.findByIsbn(isbn);
         assertNotNull(found);
         assertEquals(title, found.getTitle());
         assertEquals(author, found.getAuthor());

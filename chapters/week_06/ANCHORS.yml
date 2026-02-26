@@ -3,8 +3,8 @@
 
 - id: week06-testing-benefits
   claim: 自动化测试是代码重构的安全网，能在修改代码时及时发现破坏性变更
-  evidence: 01_manual_testing_pain.java 展示了小北重构 findBook 返回 Optional 但忘记同步修改 borrowBook，导致可以借阅不存在的图书
-  verification: 运行示例代码，观察"不存在的书也被借走了"的输出
+  evidence: 01_manual_testing_pain.java 展示了小北重构 findByIsbn 返回 Optional 但忘记同步修改 borrowBook，导致可以借阅不存在的图书
+  verification: 在 examples/ 目录执行 `javac 01_manual_testing_pain.java && java ManualTestingPainDemo`，观察"BUG: 不存在的书也被借走了！"的输出
 
 - id: week06-junit-lifecycle
   claim: "@BeforeEach 确保每个测试方法从干净状态开始，实现测试隔离"

@@ -5,7 +5,7 @@
 本周你将基于 Week 05 的图书借阅追踪器（`LibraryTracker`），使用 JUnit 5 构建完整的单元测试体系。目标是实现核心方法 80%+ 的测试覆盖率，并学会用测试守护代码质量。
 
 **预计耗时**：4-6 小时
-**截止日期**：2026-02-15（周日）23:59
+**截止日期**：2026-03-01（周日）23:59
 
 ---
 
@@ -34,14 +34,12 @@
 
 2. **测试所有 Repository 方法**
    - `addBook(Book book)` - 添加图书
-   - `findBook(String isbn)` - 查找图书
+   - `findByIsbn(String isbn)` - 查找图书
    - `listAllBooks()` - 列出所有图书
-   - `hasBook(String isbn)` - 检查图书是否存在
    - `removeBook(String isbn)` - 删除图书
    - `borrowBook(String isbn, String borrower)` - 借阅图书
    - `returnBook(String isbn, String borrower)` - 归还图书
-   - `getBorrowRecordsByUser(String borrower)` - 获取用户的借阅记录
-   - `getAllBorrowRecords()` - 获取所有借阅记录
+   - `hasBorrowRecord(String isbn, String borrower)` - 检查借阅记录是否存在
 
 3. **使用 `assertThrows` 测试异常场景**
    - 测试 `addBook(null)` 抛出 `IllegalArgumentException`
@@ -56,7 +54,7 @@
 **输入/输出示例**：
 
 ```
-// 测试 addBook 和 findBook
+// 测试 addBook 和 findByIsbn
 输入：添加 Book("Java核心技术", "Cay", "978-111")，然后查找 ISBN "978-111"
 预期输出：返回的 Book 对象 title 为 "Java核心技术"
 
@@ -165,7 +163,7 @@ public class LibraryTrackerAITest {
         LibraryTracker tracker = new LibraryTracker();
         Book book = new Book("Test", "Author", "123");
         tracker.addBook(book);
-        assertNotNull(tracker.findBook("123"));
+        assertNotNull(tracker.findByIsbn("123"));
     }
 
     @Test
@@ -183,7 +181,7 @@ public class LibraryTrackerAITest {
         Book book = new Book("Test", "Author", "123");
         tracker.addBook(book);
         tracker.removeBook("123");
-        assertNull(tracker.findBook("123"));
+        assertNull(tracker.findByIsbn("123"));
     }
 }
 ```

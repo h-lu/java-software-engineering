@@ -20,7 +20,7 @@
 **基础作业检查点**：
 - [ ] `LibraryTrackerTest.java` 存在且可编译
 - [ ] 使用了 `@BeforeEach` 初始化测试数据
-- [ ] 测试了所有 Repository 方法（addBook, findBook, listAllBooks, hasBook, removeBook, borrowBook, returnBook, getBorrowRecordsByUser, getAllBorrowRecords）
+- [ ] 测试了所有 Repository 方法（addBook, findByIsbn, listAllBooks, removeBook, borrowBook, returnBook, hasBorrowRecord）
 - [ ] 使用了 `assertThrows` 测试至少 3 个异常场景
 - [ ] 使用了 `@ParameterizedTest` 至少 1 处
 
