@@ -1,0 +1,531 @@
+/* CampusFlow 教学 PPT 主题 */
+/* 基于 Marp 框架 */
+
+/* ==================== 基础变量 ==================== */
+:root {
+  /* 主色调 - 深绿色系 */
+  --cf-primary: #2E7D32;
+  --cf-primary-light: #4CAF50;
+  --cf-primary-dark: #1B5E20;
+  --cf-primary-bg: #E8F5E9;
+  
+  /* 辅助色 */
+  --cf-accent-blue: #1976D2;
+  --cf-accent-orange: #F57C00;
+  --cf-accent-purple: #7B1FA2;
+  --cf-accent-red: #C62828;
+  
+  /* 中性色 */
+  --cf-bg-dark: #263238;
+  --cf-bg-light: #FAFAFA;
+  --cf-text-primary: #212121;
+  --cf-text-secondary: #757575;
+  --cf-border: #E0E0E0;
+  
+  /* 字体 */
+  --cf-font-title: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  --cf-font-body: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  --cf-font-code: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+}
+
+/* ==================== 全局样式 ==================== */
+section {
+  font-family: var(--cf-font-body);
+  font-size: 24px;
+  color: var(--cf-text-primary);
+  background: var(--cf-bg-light);
+  padding: 40px 50px;
+}
+
+/* ==================== 封面页 ==================== */
+section.cover {
+  background: linear-gradient(135deg, var(--cf-bg-dark) 0%, #37474F 100%);
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+section.cover h1 {
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--cf-primary-light);
+  border: none;
+}
+
+section.cover h2 {
+  font-size: 32px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 40px;
+}
+
+section.cover .quote {
+  font-size: 20px;
+  font-style: italic;
+  color: rgba(255,255,255,0.6);
+  margin-top: 60px;
+  padding: 0 100px;
+}
+
+section.cover .week-badge {
+  position: absolute;
+  top: 40px;
+  right: 50px;
+  background: var(--cf-primary);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ==================== 议程页 ==================== */
+section.agenda {
+  background: var(--cf-bg-light);
+}
+
+section.agenda h1 {
+  color: var(--cf-primary);
+  font-size: 42px;
+  border-bottom: 3px solid var(--cf-primary);
+  padding-bottom: 15px;
+  margin-bottom: 40px;
+}
+
+section.agenda ul {
+  list-style: none;
+  padding: 0;
+}
+
+section.agenda li {
+  font-size: 28px;
+  padding: 15px 0;
+  padding-left: 50px;
+  position: relative;
+  border-left: 4px solid var(--cf-primary-light);
+  margin-left: 20px;
+  padding-left: 30px;
+}
+
+section.agenda li::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 22px;
+  width: 20px;
+  height: 20px;
+  background: var(--cf-primary);
+  border-radius: 50%;
+}
+
+section.agenda li strong {
+  color: var(--cf-primary-dark);
+}
+
+/* ==================== 标题样式 ==================== */
+h1 {
+  font-size: 42px;
+  color: var(--cf-primary);
+  border-bottom: 3px solid var(--cf-primary-light);
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 32px;
+  color: var(--cf-primary-dark);
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 26px;
+  color: var(--cf-text-primary);
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+/* ==================== 学习目标页 ==================== */
+section.learning-objectives {
+  background: linear-gradient(to bottom right, var(--cf-primary-bg), white);
+}
+
+section.learning-objectives h1 {
+  color: var(--cf-primary-dark);
+  border-bottom-color: var(--cf-primary);
+}
+
+section.learning-objectives ul {
+  list-style: none;
+  padding: 0;
+}
+
+section.learning-objectives li {
+  font-size: 24px;
+  padding: 12px 0;
+  padding-left: 45px;
+  position: relative;
+}
+
+section.learning-objectives li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--cf-primary);
+  font-weight: bold;
+  font-size: 28px;
+}
+
+/* ==================== 叙事页（角色对话） ==================== */
+section.narrative {
+  background: white;
+}
+
+section.narrative .dialogue {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+section.narrative .dialogue.xiaobei {
+  background: #E3F2FD;
+  border-left: 5px solid var(--cf-accent-blue);
+}
+
+section.narrative .dialogue.ama {
+  background: #FFF3E0;
+  border-left: 5px solid var(--cf-accent-orange);
+}
+
+section.narrative .dialogue.laopan {
+  background: #E8F5E9;
+  border-left: 5px solid var(--cf-primary);
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+section.narrative .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+
+section.narrative .dialogue.laopan .avatar {
+  margin-right: 0;
+  margin-left: 20px;
+}
+
+section.narrative .avatar.xiaobei { background: var(--cf-accent-blue); }
+section.narrative .avatar.ama { background: var(--cf-accent-orange); }
+section.narrative .avatar.laopan { background: var(--cf-primary); }
+
+section.narrative .speaker {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+section.narrative .content {
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+/* ==================== 概念页 ==================== */
+section.concept {
+  background: white;
+}
+
+section.concept .concept-box {
+  background: var(--cf-primary-bg);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+  border-left: 5px solid var(--cf-primary);
+}
+
+section.concept .concept-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--cf-primary-dark);
+  margin-bottom: 15px;
+}
+
+section.concept .key-point {
+  background: #FFF8E1;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--cf-accent-orange);
+  margin: 15px 0;
+}
+
+/* ==================== 代码页 ==================== */
+section.code {
+  background: #1E1E1E;
+  color: #D4D4D4;
+  padding: 30px 40px;
+}
+
+section.code h1 {
+  color: var(--cf-primary-light);
+  border-bottom-color: var(--cf-primary-light);
+}
+
+section.code pre {
+  background: #2D2D2D;
+  border-radius: 8px;
+  padding: 20px;
+  font-family: var(--cf-font-code);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+section.code code {
+  font-family: var(--cf-font-code);
+  font-size: 16px;
+}
+
+/* 代码高亮颜色 */
+section.code .keyword { color: #569CD6; }
+section.code .string { color: #CE9178; }
+section.code .comment { color: #6A9955; }
+section.code .type { color: #4EC9B0; }
+section.code .function { color: #DCDCAA; }
+
+/* 错误代码样式 */
+section.code .error {
+  background: rgba(198, 40, 40, 0.2);
+  border: 2px solid var(--cf-accent-red);
+  border-radius: 4px;
+}
+
+/* ==================== 对比页 ==================== */
+section.comparison {
+  background: white;
+}
+
+section.comparison .compare-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+section.comparison .compare-box {
+  padding: 25px;
+  border-radius: 12px;
+}
+
+section.comparison .compare-box.left {
+  background: #E3F2FD;
+  border: 2px solid var(--cf-accent-blue);
+}
+
+section.comparison .compare-box.right {
+  background: #E8F5E9;
+  border: 2px solid var(--cf-primary);
+}
+
+section.comparison .compare-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+section.comparison .compare-box.left .compare-title {
+  color: var(--cf-accent-blue);
+}
+
+section.comparison .compare-box.right .compare-title {
+  color: var(--cf-primary-dark);
+}
+
+/* ==================== AI 小专栏页 ==================== */
+section.ai-column {
+  background: linear-gradient(to bottom right, #F3E5F5, white);
+  border: 3px solid var(--cf-accent-purple);
+  border-radius: 16px;
+}
+
+section.ai-column::before {
+  content: "🤖 AI 小专栏";
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: var(--cf-accent-purple);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+section.ai-column h1 {
+  color: var(--cf-accent-purple);
+  border-bottom-color: var(--cf-accent-purple);
+  padding-right: 150px;
+}
+
+section.ai-column .source {
+  font-size: 14px;
+  color: var(--cf-text-secondary);
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid var(--cf-border);
+}
+
+/* ==================== 贯穿案例页 ==================== */
+section.case {
+  background: white;
+}
+
+section.case .case-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+section.case .case-badge {
+  background: var(--cf-primary);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+section.case .progress-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--cf-border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+section.case .progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--cf-primary), var(--cf-primary-light));
+  border-radius: 5px;
+}
+
+section.case .code-preview {
+  background: #1E1E1E;
+  color: #D4D4D4;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: var(--cf-font-code);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+/* ==================== 练习页 ==================== */
+section.exercise {
+  background: linear-gradient(to bottom right, #FFF8E1, white);
+}
+
+section.exercise h1 {
+  color: var(--cf-accent-orange);
+  border-bottom-color: var(--cf-accent-orange);
+}
+
+section.exercise .question {
+  background: white;
+  border: 2px solid var(--cf-accent-orange);
+  border-radius: 12px;
+  padding: 25px;
+  margin: 20px 0;
+}
+
+section.exercise .hint {
+  background: #E8F5E9;
+  border-left: 4px solid var(--cf-primary);
+  padding: 15px 20px;
+  margin-top: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* ==================== 小结页 ==================== */
+section.summary {
+  background: linear-gradient(to bottom right, var(--cf-primary-bg), white);
+}
+
+section.summary h1 {
+  color: var(--cf-primary-dark);
+  border-bottom-color: var(--cf-primary);
+}
+
+section.summary .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+section.summary .summary-item {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid var(--cf-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ==================== 结尾页 ==================== */
+section.end {
+  background: var(--cf-bg-dark);
+  color: white;
+  text-align: center;
+}
+
+section.end h1 {
+  color: var(--cf-primary-light);
+  border: none;
+  font-size: 48px;
+}
+
+section.end .assignment-list {
+  text-align: left;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+section.end .assignment-list li {
+  font-size: 22px;
+  padding: 10px 0;
+}
+
+/* ==================== 页脚 ==================== */
+section::after {
+  content: attr(data-marpit-pagination) " / " attr(data-marpit-pagination-total);
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-size: 14px;
+  color: var(--cf-text-secondary);
+}
+
+section.cover::after,
+section.end::after {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ==================== 打印优化 ==================== */
+@media print {
+  section {
+    box-shadow: none;
+  }
+}
