@@ -26,7 +26,15 @@
    - 学习目标（SMART 化）
    - 角色出场规划（小北/阿码/老潘）
    - AI 专栏主题
-3. 生成初始 `slides.html`（基于模板，含占位符）
+3. **创建目录结构**：
+   ```bash
+   mkdir -p slides/{week}
+   ```
+4. **生成 `slides/{week}/index.html`**：
+   - 使用共享样式：`../themes/modern-education.css`
+   - 使用共享 JS：`../lib/slide-framework.js`
+   - 提取幻灯片内容（`<section class="slide">` 块）
+   - 包含导航控制、缩略图、键盘导航功能
 
 ### Phase 2: 并行审核
 
@@ -101,13 +109,27 @@ task:
 
 ## 输出
 
+### 新结构（集中式）
 ```
-chapters/{week}/slides/
-├── slides.html              # 最终 HTML 幻灯片
+slides/
+├── week_XX/                 # 各周幻灯片目录
+│   └── index.html          # 幻灯片入口
 ├── themes/
-│   └── modern-education.css # 统一样式
-└── FINAL_REPORT.md          # 审核报告
+│   └── modern-education.css # 共享样式（全局唯一）
+├── lib/
+│   └── slide-framework.js   # 共享 JS 框架
+└── FINAL_REPORT.md          # 审核报告（如需要）
+
+chapters/week_XX/            # 章节内容（不含 slides）
+├── CHAPTER.md
+├── ASSIGNMENT.md
+└── ...
 ```
+
+### 路径规范
+- CSS: `../themes/modern-education.css`
+- JS: `../lib/slide-framework.js`
+- 每 week 独立目录: `slides/week_XX/index.html`
 
 ## 示例
 
@@ -225,16 +247,20 @@ CSS 变量规范：
 ```
 修复 HTML 幻灯片
 
-文件: {slides_path}
-源课件: {chapter_path}
+文件: slides/{week}/index.html
+源课件: chapters/{week}/CHAPTER.md
 问题清单: {issues}
 
 修复任务：
 1. 从 CHAPTER.md 提取关键内容
-2. 填充 slides.html 中的占位符
+2. 填充 slides/{week}/index.html 中的占位符
 3. 优化文字密度（每页≤150字）
-4. 确保使用统一 CSS 变量
+4. 确保使用统一 CSS 变量（引用 ../themes/modern-education.css）
 5. 修复所有审核发现的问题
+
+路径检查：
+- CSS 路径应为：../themes/modern-education.css
+- JS 路径应为：../lib/slide-framework.js
 
 修复原则：
 - 内容源于课件，而非重新创作
@@ -249,15 +275,20 @@ CSS 变量规范：
 **现代玻璃拟态设计 (Glassmorphism)**
 
 ```css
+/* 共享样式: slides/themes/modern-education.css */
 :root {
   --primary: #0D7377;
   --accent-orange: #FF6B35;
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
+  /* 幻灯片固定尺寸 */
+  --slide-width: 1280px;
+  --slide-height: 720px;
 }
 ```
 
-页面类型：
+**页面类型：**
 - cover - 深色渐变封面
 - agenda - 时间轴议程
 - learning-objectives - 勾选列表
@@ -269,8 +300,14 @@ CSS 变量规范：
 - summary - 四宫格小结
 - end - 深色结尾页
 
+**共享资源路径：**
+- 样式：`../themes/modern-education.css`
+- JS 框架：`../lib/slide-framework.js`
+- 每 week 引用上一级目录的共享资源
+
 ## 参考
 
 - [教材风格指南](../../shared/style_guide.md)
 - [角色设定](../../shared/characters.yml)
+- [幻灯片模板](../../templates/slides/slides-template.html)
 - [Glassmorphism Design](https://glassmorphism.com/)
