@@ -28,13 +28,20 @@ public class TaskManager {
     }
 
     public TaskStats getStatistics() {
-        // 待办： 统计 total、completed、pending。
-        return new TaskStats(0, 0, 0);
+        int completed = 0;
+        for (Task task : tasks) {
+            if (task.isCompleted()) {
+                completed++;
+            }
+        }
+        return new TaskStats(tasks.size(), completed, tasks.size() - completed);
     }
 
     public Map<String, Integer> countByPriority() {
         Map<String, Integer> counts = new HashMap<>();
-        // 待办： 使用 getOrDefault 或 merge，避免空指针异常。
+        for (Task task : tasks) {
+            counts.merge(task.getPriority(), 1, Integer::sum);
+        }
         return counts;
     }
 }

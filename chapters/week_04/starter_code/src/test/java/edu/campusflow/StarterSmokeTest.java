@@ -12,10 +12,12 @@ class StarterSmokeTest {
 
     @Test
     void taskStatsSkeletonCompiles() {
-        TaskStats stats = new TaskStats(0, 0, 0);
+        TaskStats stats = new TaskStats(2, 1, 1);
 
-        assertEquals(0, stats.getTotalCount());
-        assertTrue(stats.toString().contains("待办"));
+        assertEquals(2, stats.getTotalCount());
+        assertTrue(stats.toString().contains("totalCount=2"));
+        assertTrue(stats.toString().contains("completedCount=1"));
+        assertTrue(stats.toString().contains("pendingCount=1"));
     }
 
     @Test
@@ -24,7 +26,7 @@ class StarterSmokeTest {
         manager.addTask(new Task("写 PR 描述", "高"));
 
         assertEquals(1, manager.getAllTasks().size());
-        assertEquals(0, manager.getStatistics().getTotalCount());
-        assertTrue(manager.countByPriority().isEmpty());
+        assertEquals(1, manager.getStatistics().getTotalCount());
+        assertEquals(1, manager.countByPriority().getOrDefault("高", 0));
     }
 }

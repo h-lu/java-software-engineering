@@ -90,8 +90,8 @@
 **输入示例**：
 ```java
 TaskManager manager = new TaskManager();
-manager.addTask(new Task("任务1", "2025-03-01", 1));
-manager.addTask(new Task("任务2", "2025-03-02", 2));
+manager.addTask(new Task("任务1", "高"));
+manager.addTask(new Task("任务2", "中"));
 manager.markCompleted("任务1");
 
 TaskStats stats = manager.getStatistics();
@@ -139,7 +139,7 @@ TaskStats{totalCount=2, completedCount=1, pendingCount=1}
    ```
 
    ## 测试方式
-   1. 运行 `TaskManagerTest` 中的测试用例
+   1. 运行你补充的 `TaskManagerTest`（或 starter 自带的 `StarterSmokeTest`）中的测试用例
    2. 手动测试：在 CLI 中创建任务后查看统计
 
    ## 审查清单
@@ -638,7 +638,7 @@ git checkout -b feature/xxx
 - `countByPriority()`：返回 Map<优先级, 数量>
 
 ## 测试方式
-运行 TaskManagerTest 中的测试用例
+运行你补充的 TaskManagerTest（或 starter 自带的 StarterSmokeTest）中的测试用例
 ```
 
 ---

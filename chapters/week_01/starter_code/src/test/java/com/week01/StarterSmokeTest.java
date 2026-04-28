@@ -19,5 +19,6 @@ class StarterSmokeTest {
         assertDoesNotThrow(() -> Class.forName("com.week01.HelloWorld"));
         assertDoesNotThrow(() -> Class.forName("com.week01.VariableDemo"));
         assertDoesNotThrow(() -> Class.forName("com.week01.ScannerDemo"));
+        assertDoesNotThrow(() -> Class.forName("com.week01.TypeComparison"));
     }
 }
