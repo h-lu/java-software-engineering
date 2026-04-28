@@ -7,6 +7,7 @@
 需要 Java 21 和 Maven 3.9+。
 
 ```bash
+cd chapters/week_14/starter_code
 mvn test
 mvn package
 java -cp target/classes com.campusflow.Main

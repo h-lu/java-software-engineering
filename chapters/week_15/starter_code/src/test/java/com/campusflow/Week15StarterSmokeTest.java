@@ -20,7 +20,8 @@ class Week15StarterSmokeTest {
         for (String fileName : ShowcaseReadinessCheck.requiredFiles()) {
             Path file = root.resolve(fileName);
             assertTrue(Files.isRegularFile(file), fileName + " should exist");
-            assertTrue(Files.readString(file).contains("待办"), fileName + " should contain 学生待办项");
+            String text = Files.readString(file);
+            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
         }
     }
 

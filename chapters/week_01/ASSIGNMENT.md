@@ -8,7 +8,7 @@
 ## 作业概述
 
 本周作业有三个目标：
-1. **环境配置**：搭建完整的 Java 开发环境（JDK 17、IntelliJ、Maven、Git）
+1. **环境配置**：搭建完整的 Java 开发环境（JDK 21、IntelliJ、Maven、Git）
 2. **编码练习**：完成一个从 Hello World 演进到个人名片生成器的练习
 3. **团队项目启动**：组建团队、确定选题、初始化 Git 仓库
 
@@ -456,7 +456,7 @@ System.out.println("年龄：" + age + "岁");
    - 功能3：[描述]
 
    ## 技术栈
-   - 后端：Java 17 + Javalin + SQLite + JDBC
+   - 后端：Java 21 + Javalin + SQLite + JDBC
    - 前端：AI 生成（HTML + CSS + JavaScript）
    - 测试：JUnit 5
    - 构建工具：Maven
@@ -745,7 +745,7 @@ public class BusinessCard {
 ## 学习资源
 
 ### 官方文档
-- [Java 17 文档](https://docs.oracle.com/en/java/javase/17/)
+- [Java 21 文档](https://docs.oracle.com/en/java/javase/21/)
 - [Maven 入门指南](https://maven.apache.org/guides/getting-started/)
 - [Git 官方教程](https://git-scm.com/doc)
 

@@ -7,6 +7,7 @@ Week 16 的主要交付物是展示反馈、工程复盘、知识地图和职业
 需要 Java 21 和 Maven 3.9+。
 
 ```bash
+cd chapters/week_16/starter_code
 mvn test
 ```
 

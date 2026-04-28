@@ -7,6 +7,7 @@
 ## 运行命令
 
 ```bash
+cd chapters/week_10/starter_code
 mvn test
 mvn compile
 java -cp target/classes com.campusflow.App

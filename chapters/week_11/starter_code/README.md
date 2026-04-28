@@ -5,6 +5,7 @@
 ## 运行命令
 
 ```bash
+cd chapters/week_11/starter_code
 mvn test
 ```
 
