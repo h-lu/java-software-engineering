@@ -30,29 +30,29 @@ class LibraryTrackerTest {
         assertEquals("Java 核心技术", found.getTitle());
     }
 
-    @Disabled("TODO: remove @Disabled after you complete this test")
+    @Disabled("待办：完成这个测试后移除 @Disabled")
     @Test
     void shouldBorrowAndReturnBook() {
-        // TODO: arrange a book, borrow it, assert hasBorrowRecord, return it, assert record is gone.
+        // 待办：准备一本书，借出后断言 hasBorrowRecord，再归还并断言记录已消失。
     }
 
-    @Disabled("TODO: remove @Disabled after you complete this test")
+    @Disabled("待办：完成这个测试后移除 @Disabled")
     @Test
     void shouldThrowWhenBorrowingMissingBook() {
-        // TODO: use assertThrows for a missing ISBN.
+        // 待办：对不存在的 ISBN 使用 assertThrows。
     }
 
-    @Disabled("TODO: remove @Disabled after you complete this test")
+    @Disabled("待办：完成这个测试后移除 @Disabled")
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   ", "\t"})
     void shouldRejectInvalidBorrower(String borrower) {
-        // TODO: add javaBook, then assert borrowBook rejects each invalid borrower value.
+        // 待办：先添加 javaBook，再断言 borrowBook 会拒绝每个非法 borrower。
     }
 
-    @Disabled("TODO: remove @Disabled after you complete this test")
+    @Disabled("待办：完成这个测试后移除 @Disabled")
     @Test
     void shouldProtectListAllBooksFromExternalModification() {
-        // TODO: call listAllBooks(), mutate the returned list, then verify tracker state is unchanged.
+        // 待办：调用 listAllBooks()，修改返回列表，再验证 tracker 内部状态不受影响。
     }
 }

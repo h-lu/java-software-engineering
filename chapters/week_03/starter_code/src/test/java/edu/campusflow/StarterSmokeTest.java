@@ -24,8 +24,8 @@ class StarterSmokeTest {
         Exception duplicate = new DuplicateTaskException("买牛奶");
         Exception notFound = new TaskNotFoundException("买牛奶");
 
-        assertTrue(invalid.getMessage().contains("TODO"));
-        assertTrue(duplicate.getMessage().contains("TODO"));
-        assertTrue(notFound.getMessage().contains("TODO"));
+        assertTrue(invalid.getMessage().contains("待办"));
+        assertTrue(duplicate.getMessage().contains("待办"));
+        assertTrue(notFound.getMessage().contains("待办"));
     }
 }

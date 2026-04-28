@@ -1,10 +1,10 @@
-# Week 12 Starter Code
+# Week 12 Starter Code：Integration Tests, Mockito, Bug Bash
 
-This starter supports Week 12: integration tests, Mockito-based tests, contract checks, and Bug Bash reporting.
+这个 starter 支持 Week 12：integration tests、Mockito-based tests、contract checks 和 Bug Bash 报告。
 
-The API implementation is intentionally tiny. It proves that a Javalin server can start, but task API routes are TODO placeholders. Your assignment work is to implement enough behavior to write meaningful integration tests and then document Bug Bash findings.
+API 实现故意很小。它只能证明 Javalin server 可以启动，task API routes 仍是待办占位。你的作业是实现足够的行为，写出有意义的 integration tests，并记录 Bug Bash 发现。
 
-## Run Commands
+## 运行命令
 
 ```bash
 mvn test
@@ -14,26 +14,26 @@ curl http://localhost:7070/health
 curl http://localhost:7070/api/tasks
 ```
 
-## Files To Edit
+## 你需要编辑的文件
 
-- `pom.xml`: add Javalin and Mockito for the real assignment work.
-- `src/main/java/com/campusflow/App.java`: replace the placeholder server with Javalin API routes needed by your integration tests.
-- `src/main/java/com/campusflow/service/TaskService.java`: add business behavior for task operations.
-- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`: provide an in-memory test repository.
-- `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java`: create this file for real HTTP tests.
-- `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`: create this file for Mockito tests.
-- `BUG_BASH_REPORT.md`: document at least two bugs found during Bug Bash.
-- `ROOT_CAUSE_ANALYSIS.md`: analyze one bug beyond the surface fix.
+- `pom.xml`：为真实作业添加 Javalin 和 Mockito。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 integration tests 需要的 Javalin API routes。
+- `src/main/java/com/campusflow/service/TaskService.java`：补充 task operations 的业务行为。
+- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：提供一个内存版 test repository。
+- `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java`：创建真实 HTTP tests。
+- `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`：创建 Mockito tests。
+- `BUG_BASH_REPORT.md`：记录 Bug Bash 中发现的至少两个 bug。
+- `ROOT_CAUSE_ANALYSIS.md`：对一个 bug 做超出表面修复的分析。
 
-## TODO Checklist
+## 待办清单
 
-- [ ] Start a real Javalin server in integration tests.
-- [ ] Test `GET /api/tasks`.
-- [ ] Test `POST /api/tasks`.
-- [ ] Test at least one error scenario.
-- [ ] Add a contract test for expected JSON field names.
-- [ ] Add at least two Mockito tests and one Spy test.
-- [ ] Complete the Bug Bash report.
-- [ ] Complete root cause analysis for one bug.
+- [ ] 在 integration tests 中启动真实 Javalin server。
+- [ ] 测试 `GET /api/tasks`。
+- [ ] 测试 `POST /api/tasks`。
+- [ ] 至少测试一个错误场景。
+- [ ] 为预期 JSON 字段名增加 contract test。
+- [ ] 至少增加两个 Mockito tests 和一个 Spy test。
+- [ ] 完成 Bug Bash report。
+- [ ] 完成一个 bug 的 root cause analysis。
 
-The included smoke test only verifies server setup. It does not count as the required integration test suite.
+内置 smoke test 只验证 server setup，不算作作业要求的 integration test suite。

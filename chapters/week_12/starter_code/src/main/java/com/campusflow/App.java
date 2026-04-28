@@ -28,7 +28,7 @@ public class App {
     }
 
     public static String tasksPlaceholderJson() {
-        return "{\"error\":\"TODO\",\"message\":\"Implement this route with Javalin for integration tests\"}";
+        return "{\"error\":\"待办\",\"message\":\"用 Javalin 实现这个 route，供 integration tests 使用\"}";
     }
 
     private static void writeJson(HttpExchange exchange, int status, String body) throws IOException {

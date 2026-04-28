@@ -9,13 +9,13 @@ public class CouponDiscountStrategy implements DiscountStrategy {
 
     @Override
     public double applyDiscount(double total) {
-        // TODO: apply SAVE10, SAVE20, HALF, and unknown-coupon behavior.
-        throw new UnsupportedOperationException("TODO: implement coupon discount for " + couponCode);
+        // 待办：处理 SAVE10、SAVE20、HALF，以及未知 coupon 的行为。
+        throw new UnsupportedOperationException("待办：为 coupon 实现折扣：" + couponCode);
     }
 
     @Override
     public boolean isApplicable(String context) {
-        // TODO: return true when this strategy should participate.
-        throw new UnsupportedOperationException("TODO: implement coupon applicability");
+        // 待办：当该 strategy 应参与计算时返回 true。
+        throw new UnsupportedOperationException("待办：实现 coupon applicability");
     }
 }

@@ -5,13 +5,13 @@ package com.week01;
  */
 public class VariableDemo {
     public static void main(String[] args) {
-        // TODO: 把下面的占位值替换成你自己的信息。
+        // 待办： 把下面的占位值替换成你自己的信息。
         String name = "TODO_NAME";
         String job = "TODO_JOB";
         String email = "TODO_EMAIL";
         String phone = "TODO_PHONE";
 
-        // TODO: 按作业要求拼接并输出完整名片。
+        // 待办： 按作业要求拼接并输出完整名片。
         System.out.println("姓名：" + name);
         System.out.println("职位：" + job);
         System.out.println("邮箱：" + email);

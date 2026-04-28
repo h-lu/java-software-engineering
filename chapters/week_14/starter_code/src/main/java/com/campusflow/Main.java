@@ -11,6 +11,6 @@ public class Main {
         System.out.println("Environment: " + config.env());
         System.out.println("Port: " + config.port());
         System.out.println("Database: " + config.databasePath());
-        System.out.println("TODO: connect this skeleton to your real CampusFlow app before release.");
+        System.out.println("待办：发布前把这个 skeleton 接入你真实的 CampusFlow app。");
     }
 }

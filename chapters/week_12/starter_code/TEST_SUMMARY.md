@@ -8,12 +8,12 @@ mvn test
 
 ## Integration Tests
 
-TODO: List the HTTP scenarios you tested and the result.
+待办：列出你测试过的 HTTP 场景和结果。
 
 ## Mock Tests
 
-TODO: List your Mockito stubs, mocks, spies, and what behavior they verify.
+待办：列出你的 Mockito stubs、mocks、spies，以及它们验证的行为。
 
 ## Contract Checks
 
-TODO: Record the JSON fields and status codes your tests protect.
+待办：记录测试保护的 JSON 字段和 status codes。

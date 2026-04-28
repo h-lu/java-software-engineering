@@ -8,25 +8,25 @@ import java.util.Optional;
 public class InMemoryTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll() {
-        // TODO: Store tasks in insertion order and return a defensive copy.
+        // 待办：按插入顺序保存 tasks，并返回防御性副本。
         return List.of();
     }
 
     @Override
     public Optional<Task> findById(String id) {
-        // TODO: Look up the task by id.
+        // 待办：按 id 查找 task。
         return Optional.empty();
     }
 
     @Override
     public Task save(Task task) {
-        // TODO: Save new and updated tasks.
+        // 待办：保存新增和更新后的 tasks。
         return task;
     }
 
     @Override
     public boolean deleteById(String id) {
-        // TODO: Remove the task and report whether anything was deleted.
+        // 待办：删除 task，并返回是否真的删除了内容。
         return false;
     }
 }

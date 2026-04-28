@@ -16,10 +16,10 @@ public class Task {
 
     public Task(String id, String title, String description, String status, Instant createdAt) {
         if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("Task id cannot be blank");
+            throw new IllegalArgumentException("Task id 不能为空");
         }
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Task title cannot be blank");
+            throw new IllegalArgumentException("Task title 不能为空");
         }
         this.id = id;
         this.title = title;
@@ -46,7 +46,7 @@ public class Task {
 
     public void setStatus(String status) {
         if (status == null || status.isBlank()) {
-            throw new IllegalArgumentException("Task status cannot be blank");
+            throw new IllegalArgumentException("Task status 不能为空");
         }
         this.status = status;
     }

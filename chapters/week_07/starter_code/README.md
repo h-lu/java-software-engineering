@@ -1,31 +1,31 @@
-# Week 07 Starter Code: JDBC Persistence
+# Week 07 Starter Code：JDBC Persistence
 
-This starter is an independent Maven project for the Week 07 JDBC assignment. It is a TODO skeleton, not a reference solution.
+这是 Week 07 JDBC 作业的独立 Maven 起步项目。它是待办骨架，不是参考答案。
 
-## Run
+## 运行命令
 
 ```bash
 cd chapters/week_07/starter_code
 mvn test
 ```
 
-The provided tests are smoke tests for the model and Maven setup. Add repository tests as you implement the JDBC pieces.
+提供的测试只是检查 model 和 Maven 配置能跑通。实现 JDBC 部分时，请同步补充 repository 测试。
 
-## Files To Edit
+## 你需要编辑的文件
 
 - `src/main/java/edu/campusflow/config/DatabaseConfig.java`
 - `src/main/java/edu/campusflow/config/DatabaseInitializer.java`
 - `src/main/java/edu/campusflow/repository/JdbcTaskRepository.java`
 - `src/main/resources/schema.sql`
-- `pom.xml` when you add the SQLite runtime driver and H2 test dependency from `ASSIGNMENT.md`
-- Add `src/test/java/edu/campusflow/repository/JdbcTaskRepositoryTest.java`
+- 按 `ASSIGNMENT.md` 增加 SQLite runtime driver 和 H2 test dependency 时，需要编辑 `pom.xml`
+- 新增 `src/test/java/edu/campusflow/repository/JdbcTaskRepositoryTest.java`
 
-## TODO Checklist
+## 待办清单
 
-- Create the `tasks` table in `schema.sql`.
-- Implement `DatabaseConfig.getConnection()`.
-- Implement `DatabaseInitializer.initialize()` with try-with-resources.
-- Implement `JdbcTaskRepository.save`, `findById`, `findAll`, `delete`, and `findByStatus`.
-- Use `PreparedStatement`; do not build SQL by concatenating user input.
-- Add the JDBC driver dependencies before running real SQLite/H2 repository tests.
-- Use H2 memory database tests for CRUD, missing rows, invalid arguments, and ordering.
+- 在 `schema.sql` 中创建 `tasks` table。
+- 实现 `DatabaseConfig.getConnection()`。
+- 用 try-with-resources 实现 `DatabaseInitializer.initialize()`。
+- 实现 `JdbcTaskRepository.save`, `findById`, `findAll`, `delete`, `findByStatus`。
+- 使用 `PreparedStatement`；不要把用户输入拼接进 SQL 字符串。
+- 跑真实 SQLite/H2 repository 测试前，先补齐 JDBC driver dependencies。
+- 使用 H2 memory database 覆盖 CRUD、缺失行、非法参数和排序等场景。

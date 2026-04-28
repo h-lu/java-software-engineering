@@ -16,7 +16,7 @@ public final class Config {
     }
 
     public static Config loadDefault() {
-        // TODO: Read CAMPUSFLOW_ENV from the environment. Default to dev when it is absent.
+        // 待办：从环境变量读取 CAMPUSFLOW_ENV；未设置时默认使用 dev。
         return loadFor("dev");
     }
 
@@ -42,12 +42,12 @@ public final class Config {
     }
 
     public String databasePath() {
-        // TODO: Allow DB_PATH to override this value in deployed environments.
+        // 待办：部署环境中允许 DB_PATH 覆盖这个值。
         return values.getProperty("db.path", "campusflow.db");
     }
 
     public int port() {
-        // TODO: Support values such as ${PORT:8080} and validate the 1..65535 range.
+        // 待办：支持 ${PORT:8080} 这类写法，并校验端口范围 1..65535。
         return Integer.parseInt(values.getProperty("server.port", "8080"));
     }
 

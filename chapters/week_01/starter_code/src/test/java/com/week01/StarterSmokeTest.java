@@ -11,7 +11,7 @@ class StarterSmokeTest {
     void formatCardPlaceholderCompiles() {
         String card = BusinessCard.formatCard("张三", "软件工程师", "zhangsan@example.com", 20, 1.5);
 
-        assertTrue(card.contains("TODO"));
+        assertTrue(card.contains("待办"));
     }
 
     @Test

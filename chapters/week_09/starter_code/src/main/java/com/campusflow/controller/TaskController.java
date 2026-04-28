@@ -12,35 +12,35 @@ public class TaskController {
     }
 
     public Map<String, Object> getAllTasks() {
-        // TODO: In your Javalin route, call taskService.findAll() and return {"data": [...], "total": n}.
-        return notImplemented("Implement GET /tasks");
+        // 待办：在 Javalin route 中调用 taskService.findAll()，并返回 {"data": [...], "total": n}。
+        return notImplemented("实现 GET /tasks");
     }
 
     public Map<String, Object> getTask(String id) {
-        // TODO: In your Javalin route, read ctx.pathParam("id") and return 404 when missing.
-        return notImplemented("Implement GET /tasks/{id}");
+        // 待办：在 Javalin route 中读取 ctx.pathParam("id")，找不到时返回 404。
+        return notImplemented("实现 GET /tasks/{id}");
     }
 
     public Map<String, Object> createTask() {
-        // TODO: Parse TaskRequest, validate it, create a task, and return 201.
-        return notImplemented("Implement POST /tasks");
+        // 待办：解析 TaskRequest，完成校验，创建 task，并返回 201。
+        return notImplemented("实现 POST /tasks");
     }
 
     public Map<String, Object> updateTask(String id) {
-        // TODO: Replace an existing task or return 404.
-        return notImplemented("Implement PUT /tasks/{id}");
+        // 待办：替换已有 task；不存在时返回 404。
+        return notImplemented("实现 PUT /tasks/{id}");
     }
 
     public Map<String, Object> deleteTask(String id) {
-        // TODO: Delete an existing task and return 204, or return 404.
-        return notImplemented("Implement DELETE /tasks/{id}");
+        // 待办：删除已有 task 并返回 204；不存在时返回 404。
+        return notImplemented("实现 DELETE /tasks/{id}");
     }
 
     private Map<String, Object> notImplemented(String todo) {
         return Map.of(
             "error", "NotImplemented",
             "message", todo,
-            "nextStep", "Wire this method to a Javalin route"
+            "nextStep", "把这个方法接到 Javalin route 上"
         );
     }
 }

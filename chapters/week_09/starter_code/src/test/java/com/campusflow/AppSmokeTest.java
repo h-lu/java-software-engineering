@@ -12,6 +12,6 @@ class AppSmokeTest {
 
     @Test
     void taskPayloadRemainsAStudentTodo() {
-        assertTrue(App.tasksPlaceholderJson().contains("TODO"));
+        assertTrue(App.tasksPlaceholderJson().contains("待办"));
     }
 }

@@ -2,9 +2,9 @@ openapi: 3.0.3
 info:
   title: CampusFlow API
   description: |
-    TODO: 用 2-4 句话说明你的 CampusFlow 项目解决什么问题。
+    待办： 用 2-4 句话说明你的 CampusFlow 项目解决什么问题。
 
-    TODO: 列出真实业务约束，例如标题长度、ID 格式、日期格式、认证要求。
+    待办： 列出真实业务约束，例如标题长度、ID 格式、日期格式、认证要求。
   version: 0.0.0-TODO
 
 servers:
@@ -13,7 +13,7 @@ servers:
 
 tags:
   - name: 任务管理
-    description: TODO: 说明任务相关 API 的范围
+    description: 待办： 说明任务相关 API 的范围
 
 paths:
   /api/tasks:
@@ -21,10 +21,10 @@ paths:
       tags: [任务管理]
       summary: 获取所有任务
       description: |
-        TODO: 说明排序、分页、搜索、过滤规则。
+        待办： 说明排序、分页、搜索、过滤规则。
       responses:
         '200':
-          description: TODO: 成功返回任务列表
+          description: 待办： 成功返回任务列表
           content:
             application/json:
               schema:
@@ -32,13 +32,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Task'
         '500':
-          description: TODO: 服务器错误时的响应
+          description: 待办： 服务器错误时的响应
 
     post:
       tags: [任务管理]
       summary: 创建新任务
       description: |
-        TODO: 写清楚必填字段、可选字段、校验失败条件。
+        待办： 写清楚必填字段、可选字段、校验失败条件。
       requestBody:
         required: true
         content:
@@ -47,45 +47,45 @@ paths:
               $ref: '#/components/schemas/TaskInput'
       responses:
         '201':
-          description: TODO: 任务创建成功
+          description: 待办： 任务创建成功
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
         '400':
-          description: TODO: 请求参数错误
+          description: 待办： 请求参数错误
 
   /api/tasks/{id}:
     get:
       tags: [任务管理]
       summary: 获取单个任务
-      description: TODO: 说明找不到任务时如何响应。
+      description: 待办： 说明找不到任务时如何响应。
       parameters:
         - name: id
           in: path
           required: true
-          description: TODO: 任务 ID 的真实格式
+          description: 待办： 任务 ID 的真实格式
           schema:
             type: string
       responses:
         '200':
-          description: TODO: 成功返回任务
+          description: 待办： 成功返回任务
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
         '404':
-          description: TODO: 任务不存在
+          description: 待办： 任务不存在
 
     put:
       tags: [任务管理]
       summary: 更新任务
-      description: TODO: 说明 PUT 是完整更新还是局部更新。
+      description: 待办： 说明 PUT 是完整更新还是局部更新。
       parameters:
         - name: id
           in: path
           required: true
-          description: TODO: 任务 ID 的真实格式
+          description: 待办： 任务 ID 的真实格式
           schema:
             type: string
       requestBody:
@@ -96,32 +96,32 @@ paths:
               $ref: '#/components/schemas/TaskInput'
       responses:
         '200':
-          description: TODO: 任务更新成功
+          description: 待办： 任务更新成功
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
         '400':
-          description: TODO: 请求参数错误
+          description: 待办： 请求参数错误
         '404':
-          description: TODO: 任务不存在
+          description: 待办： 任务不存在
 
     delete:
       tags: [任务管理]
       summary: 删除任务
-      description: TODO: 说明是物理删除还是软删除。
+      description: 待办： 说明是物理删除还是软删除。
       parameters:
         - name: id
           in: path
           required: true
-          description: TODO: 任务 ID 的真实格式
+          description: 待办： 任务 ID 的真实格式
           schema:
             type: string
       responses:
         '204':
-          description: TODO: 删除成功
+          description: 待办： 删除成功
         '404':
-          description: TODO: 任务不存在
+          description: 待办： 任务不存在
 
 components:
   schemas:
@@ -134,22 +134,22 @@ components:
       properties:
         id:
           type: string
-          description: TODO: 任务唯一标识符
+          description: 待办： 任务唯一标识符
         title:
           type: string
-          description: TODO: 任务标题约束
+          description: 待办： 任务标题约束
           minLength: 1
           maxLength: 100
         description:
           type: string
-          description: TODO: 任务描述是否可选
+          description: 待办： 任务描述是否可选
         completed:
           type: boolean
-          description: TODO: 完成状态含义
+          description: 待办： 完成状态含义
         createdAt:
           type: string
           format: date-time
-          description: TODO: 创建时间格式
+          description: 待办： 创建时间格式
 
     TaskInput:
       type: object
@@ -158,12 +158,12 @@ components:
       properties:
         title:
           type: string
-          description: TODO: 任务标题约束
+          description: 待办： 任务标题约束
           minLength: 1
           maxLength: 100
         description:
           type: string
-          description: TODO: 任务描述是否可选
+          description: 待办： 任务描述是否可选
 
     Error:
       type: object
@@ -172,4 +172,4 @@ components:
       properties:
         message:
           type: string
-          description: TODO: 面向调用方的错误信息
+          description: 待办： 面向调用方的错误信息

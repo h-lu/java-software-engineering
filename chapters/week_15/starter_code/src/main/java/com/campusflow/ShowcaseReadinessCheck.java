@@ -22,9 +22,9 @@ public class ShowcaseReadinessCheck {
         for (String fileName : REQUIRED_FILES) {
             Path file = root.resolve(fileName);
             long todoCount = Files.exists(file)
-                    ? Files.readString(file).lines().filter(line -> line.contains("TODO")).count()
+                    ? Files.readString(file).lines().filter(line -> line.contains("待办")).count()
                     : -1;
-            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "TODO count=" + todoCount : "missing");
+            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
         }
     }
 

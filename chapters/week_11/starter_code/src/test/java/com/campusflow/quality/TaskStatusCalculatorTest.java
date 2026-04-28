@@ -16,5 +16,5 @@ class TaskStatusCalculatorTest {
         assertEquals("pending", status);
     }
 
-    // TODO: Add tests for completed, unscheduled, and overdue branches after viewing JaCoCo.
+    // 待办：查看 JaCoCo 后，为 completed、unscheduled、overdue 分支补测试。
 }

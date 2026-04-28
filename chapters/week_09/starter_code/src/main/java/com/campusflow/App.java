@@ -28,7 +28,7 @@ public class App {
     }
 
     public static String tasksPlaceholderJson() {
-        return "{\"error\":\"TODO\",\"message\":\"Replace this placeholder with Javalin task routes\"}";
+        return "{\"error\":\"待办\",\"message\":\"把这个占位响应替换成 Javalin task routes\"}";
     }
 
     private static void writeJson(HttpExchange exchange, int status, String body) throws IOException {

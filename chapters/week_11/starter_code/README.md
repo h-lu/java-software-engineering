@@ -1,38 +1,38 @@
-# Week 11 Starter Code
+# Week 11 Starter Code：Quality Gate
 
-This starter is for the Week 11 quality gate assignment. It intentionally does not include finished SpotBugs or JaCoCo configuration. Students should add those plugins, run the tools, analyze the results, and improve the tests.
+这个 starter 用于 Week 11 quality gate 作业。它故意没有提供完整的 SpotBugs 或 JaCoCo 配置；你需要自己添加插件、运行工具、分析结果，并改进测试。
 
-## Run Commands
+## 运行命令
 
 ```bash
 mvn test
 ```
 
-After you add the required plugins:
+添加所需插件后，再运行：
 
 ```bash
 mvn spotbugs:check
 mvn test jacoco:report
 ```
 
-## Files To Edit
+## 你需要编辑的文件
 
-- `pom.xml`: add SpotBugs and JaCoCo plugin configuration.
-- `src/main/java/com/campusflow/quality/CodeWithIssues.java`: inspect and fix at least three real issues after running SpotBugs.
-- `src/main/java/com/campusflow/quality/TaskStatusCalculator.java`: use JaCoCo to identify missing branches and add tests.
-- `src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java`: extend coverage based on the report.
-- `TECHNICAL_DEBT.md`: replace the starter rows with your own prioritized backlog.
-- `TEST_SUMMARY.md`: record SpotBugs and JaCoCo commands, findings, and before/after results.
+- `pom.xml`：添加 SpotBugs 和 JaCoCo plugin 配置。
+- `src/main/java/com/campusflow/quality/CodeWithIssues.java`：运行 SpotBugs 后，检查并修复至少三个真实问题。
+- `src/main/java/com/campusflow/quality/TaskStatusCalculator.java`：用 JaCoCo 找出未覆盖分支并补测试。
+- `src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java`：根据覆盖率报告扩展测试。
+- `TECHNICAL_DEBT.md`：把 starter rows 替换成你自己的 prioritized backlog。
+- `TEST_SUMMARY.md`：记录 SpotBugs 和 JaCoCo 命令、发现、前后结果。
 
-## TODO Checklist
+## 待办清单
 
-- [ ] Configure SpotBugs in `pom.xml`.
-- [ ] Run SpotBugs and save the output as `spotbugs_report.txt`.
-- [ ] Fix at least three high or medium priority issues.
-- [ ] Configure JaCoCo in `pom.xml`.
-- [ ] Generate and inspect the coverage report.
-- [ ] Add at least three tests for uncovered branches.
-- [ ] Update `TECHNICAL_DEBT.md` with at least ten prioritized items.
-- [ ] Define your quality gate thresholds and explain the tradeoffs.
+- [ ] 在 `pom.xml` 中配置 SpotBugs。
+- [ ] 运行 SpotBugs，并把输出保存为 `spotbugs_report.txt`。
+- [ ] 修复至少三个 high 或 medium priority issues。
+- [ ] 在 `pom.xml` 中配置 JaCoCo。
+- [ ] 生成并查看覆盖率报告。
+- [ ] 为未覆盖分支至少增加三个测试。
+- [ ] 用至少十个优先级明确的条目更新 `TECHNICAL_DEBT.md`。
+- [ ] 定义你的 quality gate thresholds，并解释取舍。
 
-The included test is only a smoke test. It is not enough for the assignment coverage target.
+内置测试只是 smoke test，不足以达到作业要求的覆盖率目标。

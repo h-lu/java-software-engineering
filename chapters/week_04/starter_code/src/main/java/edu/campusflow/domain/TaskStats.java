@@ -9,7 +9,7 @@ public class TaskStats {
     private final int pendingCount;
 
     public TaskStats(int totalCount, int completedCount, int pendingCount) {
-        // TODO: 验证计数不能为负，并确认 total = completed + pending。
+        // 待办： 验证计数不能为负，并确认 total = completed + pending。
         this.totalCount = totalCount;
         this.completedCount = completedCount;
         this.pendingCount = pendingCount;
@@ -29,8 +29,8 @@ public class TaskStats {
 
     @Override
     public String toString() {
-        // TODO: 按 ASSIGNMENT.md 示例完善输出。
-        return "TODO TaskStats{totalCount=" + totalCount
+        // 待办： 按 ASSIGNMENT.md 示例完善输出。
+        return "待办 TaskStats{totalCount=" + totalCount
             + ", completedCount=" + completedCount
             + ", pendingCount=" + pendingCount + "}";
     }
