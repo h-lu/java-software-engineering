@@ -14,4 +14,9 @@ public class BookPrinter {
         // 待办： 返回 ASSIGNMENT.md 示例中的图书列表文本。
         return "待办： format collection with " + collection.getBooks().size() + " books";
     }
+
+    public String printAsJson(BookCollection collection) {
+        // 待办： 按 ASSIGNMENT.md 的可选 JSON 输出要求格式化集合。
+        return "{\"todo\":\"format " + collection.getBooks().size() + " books as json\"}";
+    }
 }

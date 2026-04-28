@@ -92,6 +92,16 @@ public class DatabaseInitializer {
    - 为 `status` 字段添加 `CHECK` 约束（'pending', 'in_progress', 'done'）
    - 添加合适的索引优化查询
 
+**依赖提示**：`starter_code/pom.xml` 初始只保留 JUnit 和 Maven 基础配置。实现本任务时，请在 `pom.xml` 增加 SQLite JDBC 驱动，例如：
+
+```xml
+<dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.46.1.0</version>
+</dependency>
+```
+
 **输入/输出示例**：
 
 ```java

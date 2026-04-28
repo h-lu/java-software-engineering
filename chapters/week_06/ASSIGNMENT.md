@@ -281,7 +281,7 @@ A：概念类似，都是数据访问层。CampusFlow 可能是 `TaskRepository`
 
 - 本周章节：`chapters/week_06/CHAPTER.md`
 - 示例代码：`chapters/week_06/examples/`
-- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/App.java` 中的提示
+- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/LibraryTracker.java` 和 `starter_code/src/test/java/com/campusflow/LibraryTrackerTest.java` 中的提示
 
 ---
 

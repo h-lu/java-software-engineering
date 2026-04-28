@@ -19,13 +19,14 @@ class StarterSmokeTest {
     }
 
     @Test
-    void customExceptionsCarryTodoMessages() {
+    void customExceptionsCarryUsefulContext() {
         Exception invalid = new InvalidTaskDataException("title", "required");
         Exception duplicate = new DuplicateTaskException("买牛奶");
         Exception notFound = new TaskNotFoundException("买牛奶");
 
-        assertTrue(invalid.getMessage().contains("待办"));
-        assertTrue(duplicate.getMessage().contains("待办"));
-        assertTrue(notFound.getMessage().contains("待办"));
+        assertTrue(invalid.getMessage().contains("title"));
+        assertTrue(invalid.getMessage().contains("required"));
+        assertTrue(duplicate.getMessage().contains("买牛奶"));
+        assertTrue(notFound.getMessage().contains("买牛奶"));
     }
 }

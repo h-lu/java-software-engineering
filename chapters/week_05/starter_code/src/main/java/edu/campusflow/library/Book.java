@@ -1,3 +1,5 @@
+package edu.campusflow.library;
+
 public class Book {
     private final String title;
     private final String author;

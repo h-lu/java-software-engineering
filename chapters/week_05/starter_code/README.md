@@ -13,9 +13,9 @@ mvn test
 
 ## 你需要编辑的文件
 
-- `src/main/java/LibraryTracker.java`
-- `src/main/java/CollectionUtils.java`
-- 在 `src/test/java/` 下补充你自己的测试
+- `src/main/java/edu/campusflow/library/LibraryTracker.java`
+- `src/main/java/edu/campusflow/util/CollectionUtils.java`
+- 在 `src/test/java/edu/campusflow/` 下补充你自己的测试
 
 ## 待办清单
 

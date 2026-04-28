@@ -901,9 +901,10 @@ Book book = bookMap.get(target);  // O(1) 直接查找
 # 起步代码位置
 starter_code/
 ├── src/main/java/edu/campusflow/library/       # 图书追踪器相关类
-├── src/main/java/edu/campusflow/util/          # 工具类
-└── src/main/java/edu/campusflow/repository/    # Repository 层模板
+└── src/main/java/edu/campusflow/util/          # 工具类
 ```
+
+进阶题中的 `edu.campusflow.repository`、`FilteringIterator`、性能测试和 ADR 文件需要你按作业要求自行创建。
 
 **使用建议**：
 1. 先自己尝试完成任务

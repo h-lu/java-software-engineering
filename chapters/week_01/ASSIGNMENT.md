@@ -12,7 +12,7 @@
 2. **编码练习**：完成一个从 Hello World 演进到个人名片生成器的练习
 3. **团队项目启动**：组建团队、确定选题、初始化 Git 仓库
 
-如果你在作业中遇到困难，可以参考 `starter_code/` 目录中的起步代码（但不要照抄）。
+如果你在作业中遇到困难，可以参考 `starter_code/` 目录中的起步代码（但不要照抄）。如果你直接在 `starter_code` 里完成练习，请保留文件顶部的 `package com.week01;` 声明，并在 `chapters/week_01/starter_code` 下运行 Maven 测试。
 
 ---
 
@@ -28,7 +28,7 @@
    ```bash
    java -version
    ```
-   你应该看到类似 `openjdk version "17.x.x"` 的输出。
+   你应该看到类似 `openjdk version "21.x.x"` 的输出。
 
 2. **验证 Maven 安装**
    ```bash
@@ -156,7 +156,7 @@ System.out.println("       " + name + "的个人名片");
 
 **要求**：
 
-创建 `VariableDemo.java`，读取用户输入的姓名、职位和年龄，然后输出。
+创建或完成 `ScannerDemo.java`，读取用户输入的姓名、职位和年龄，然后输出。`VariableDemo.java` 保留给前面的变量拼接练习。
 
 **输入示例**：
 ```
