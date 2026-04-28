@@ -10,9 +10,12 @@ API 实现故意很小。它只能证明 Javalin server 可以启动，task API 
 cd chapters/week_12/starter_code
 mvn test
 mvn compile
-java -cp target/classes com.campusflow.App
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
 curl http://localhost:7070/health
 curl http://localhost:7070/api/tasks
+kill $SERVER_PID
 ```
 
 ## 你需要编辑的文件

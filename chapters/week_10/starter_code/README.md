@@ -10,8 +10,11 @@
 cd chapters/week_10/starter_code
 mvn test
 mvn compile
-java -cp target/classes com.campusflow.App
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
 curl http://localhost:7070/health
+kill $SERVER_PID
 ```
 
 手动测试 frontend 时，先启动你的 Week 09 backend，或扩展这个 starter，然后在浏览器中打开 `frontend/index.html`。

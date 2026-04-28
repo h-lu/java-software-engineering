@@ -14,26 +14,26 @@ public class ConfigExample {
 
         // 示例 1: 开发环境配置
         System.out.println("【开发环境】");
-        Config devConfig = new Config("dev");
+        Config devConfig = Config.loadFor("dev");
         printConfig(devConfig);
         System.out.println();
 
         // 示例 2: 测试环境配置
         System.out.println("【测试环境】");
-        Config testConfig = new Config("test");
+        Config testConfig = Config.loadFor("test");
         printConfig(testConfig);
         System.out.println();
 
         // 示例 3: 生产环境配置
         System.out.println("【生产环境】");
-        Config prodConfig = new Config("prod");
+        Config prodConfig = Config.loadFor("prod");
         printConfig(prodConfig);
         System.out.println();
 
         // 示例 4: 配置验证
         System.out.println("【配置验证】");
-        System.out.println("开发环境配置验证: " + devConfig.validate());
-        System.out.println("生产环境配置验证: " + prodConfig.validate());
+        System.out.println("开发环境配置验证: " + "请按实际规则检查必填配置");
+        System.out.println("生产环境配置验证: " + "请按实际规则检查必填配置");
         System.out.println();
 
         // 示例 5: 环境差异对比
@@ -63,9 +63,9 @@ public class ConfigExample {
     }
 
     private static void printConfig(Config config) {
-        System.out.println("环境: " + config.getEnv());
-        System.out.println("数据库路径: " + config.getDbPath());
-        System.out.println("端口: " + config.getPort());
-        System.out.println("日志级别: " + config.getLogLevel());
+        System.out.println("环境: " + config.env());
+        System.out.println("数据库路径: " + config.databasePath());
+        System.out.println("端口: " + config.port());
+        System.out.println("日志级别: " + config.logLevel());
     }
 }

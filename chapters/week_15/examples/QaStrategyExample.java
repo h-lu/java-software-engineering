@@ -58,3 +58,57 @@ public class QaStrategyExample {
         }
     }
 }
+
+
+class QaStrategy {
+    private final java.util.Map<String, String> qaPairs = new java.util.LinkedHashMap<>();
+
+    void addQaPair(String question, String answer) {
+        qaPairs.put(question, answer);
+    }
+
+    boolean isComplete() {
+        return hasTechnicalQuestions()
+            && hasDesignQuestions()
+            && hasPracticeQuestions()
+            && hasFutureQuestions()
+            && hasEnoughQaPairs();
+    }
+
+    int getQaCount() {
+        return qaPairs.size();
+    }
+
+    java.util.List<String> getAllQuestions() {
+        return new java.util.ArrayList<>(qaPairs.keySet());
+    }
+
+    String getAnswer(String question) {
+        return qaPairs.get(question);
+    }
+
+    boolean hasTechnicalQuestions() {
+        return containsAny("Java", "Spring", "SQLite", "测试", "部署");
+    }
+
+    boolean hasDesignQuestions() {
+        return containsAny("架构", "模型", "设计");
+    }
+
+    boolean hasPracticeQuestions() {
+        return containsAny("测试", "部署", "Bug Bash", "工程");
+    }
+
+    boolean hasFutureQuestions() {
+        return containsAny("未来", "下一步", "计划");
+    }
+
+    boolean hasEnoughQaPairs() {
+        return qaPairs.size() >= 10;
+    }
+
+    private boolean containsAny(String... keywords) {
+        return qaPairs.keySet().stream().anyMatch(q ->
+            java.util.Arrays.stream(keywords).anyMatch(q::contains));
+    }
+}

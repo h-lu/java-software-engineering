@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *   <tr><td>破坏条件</th><td>契约变更</td><td>代码变更</td></tr>
  * </table>
  */
-public class _12_contract_test {
+class _12_contract_test {
 
     private static Javalin app;
     private static final int TEST_PORT = 8082;

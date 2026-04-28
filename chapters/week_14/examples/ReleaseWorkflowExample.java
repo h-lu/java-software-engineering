@@ -60,9 +60,9 @@ public class ReleaseWorkflowExample {
 
         // 步骤 8: 后续维护
         System.out.println("\n【步骤 8】后续维护");
-        System.out.println("Bug 修复: " + releaseVersion.incrementPatch());
-        System.out.println("新功能: " + releaseVersion.incrementMinor());
-        System.out.println("破坏性变更: " + releaseVersion.incrementMajor());
+        System.out.println("Bug 修复: " + releaseVersion.nextPatch());
+        System.out.println("新功能: " + releaseVersion.nextMinor());
+        System.out.println("破坏性变更: " + releaseVersion.nextMajor());
     }
 
     private static void printVersionHistory() {

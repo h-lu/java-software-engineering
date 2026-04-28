@@ -1051,14 +1051,14 @@ AI 是辅助工具，不是替代品。"
 
 ```dockerfile
 # 多阶段构建（减小镜像大小）
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 运行时镜像（更小）
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/campusflow-1.0.0.jar app.jar
 # 暴露端口

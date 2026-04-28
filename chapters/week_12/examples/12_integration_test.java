@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *   <li>发现单元测试发现不了的问题（路由、JSON 序列化、HTTP 状态码）</li>
  * </ul>
  */
-public class _12_integration_test {
+class _12_integration_test {
 
     private static Javalin app;
     private static final int TEST_PORT = 8081;

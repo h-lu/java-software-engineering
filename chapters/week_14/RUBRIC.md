@@ -96,7 +96,7 @@ java -jar target/*.jar
 |------|------|---------|
 | 配置文件结构 | 7 | - [ ] 有 config-dev.properties 和 config-prod.properties<br>- [ ] 文件放在 src/main/resources 下<br>- [ ] 配置项合理（db.path、server.port、log.level） |
 | Config 类实现 | 10 | - [ ] 从环境变量读取 CAMPUSFLOW_ENV<br>- [ ] 使用 ClassLoader 加载配置文件<br>- [ ] 有默认值处理（如 "dev"）<br>- [ ] 异常处理正确（文件不存在时抛出异常） |
-| 环境变量支持 | 5 | - [ ] 支持 `` `${PORT:8080}` `` 格式的占位符<br>- [ ] 能通过环境变量切换环境<br>- [ ] App.java 使用 Config 获取配置 |
+| 环境变量支持 | 5 | - [ ] 支持 `` `${PORT:8080}` `` 格式的占位符<br>- [ ] 能通过环境变量切换环境<br>- [ ] Main.java 使用 Config 获取配置 |
 | 敏感信息处理 | 3 | - [ ] 配置文件中没有硬编码密码/密钥<br>- [ ] 敏感信息用占位符表示<br>- [ ] 有安全意识说明 |
 
 **安全检查**：

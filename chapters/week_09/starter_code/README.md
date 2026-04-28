@@ -17,9 +17,12 @@
 cd chapters/week_09/starter_code
 mvn test
 mvn compile
-java -cp target/classes com.campusflow.App
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
 curl http://localhost:7070/health
 curl http://localhost:7070/tasks
+kill $SERVER_PID
 ```
 
 ## 你需要编辑的文件

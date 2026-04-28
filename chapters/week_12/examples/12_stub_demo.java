@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
  *   <li>Mock：像间谍，不仅返回预设内容，还记录"谁调用了它"</li>
  * </ul>
  */
-public class _12_stub_demo {
+class _12_stub_demo {
 
     // ========== Stub 示例：手动实现 ==========
 

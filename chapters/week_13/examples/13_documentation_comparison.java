@@ -24,7 +24,7 @@
 ## 技术栈
 本项目使用以下技术：
 - Java 21
-- Maven 3.6
+- Maven 3.9
 - Javalin 6.1
 - JUnit 5
 
@@ -51,7 +51,7 @@
 
 ### 前置要求
 - Java 21+
-- Maven 3.6+
+- Maven 3.9+
 
 ### 启动服务器
 ```bash
@@ -60,7 +60,7 @@ mvn compile exec:java
 
 ### 验证安装
 ```bash
-curl http://localhost:7070/health
+curl http://localhost:8080/health
 ```
 
 ## 功能特性
@@ -85,7 +85,7 @@ A: 编辑 App.java 中的 PORT 常量。
 
 /*
 paths:
-  /tasks:
+  /api/tasks:
     post:
       summary: 创建任务
       requestBody:
@@ -105,7 +105,7 @@ paths:
 
 /*
 paths:
-  /tasks:
+  /api/tasks:
     post:
       summary: 创建新任务
       description: |

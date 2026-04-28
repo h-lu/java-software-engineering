@@ -16,7 +16,7 @@ package examples;
  * <p>SpotBugs 使用 "NP_NULL_ON_SOME_PATH" 模式检测潜在的空指针解引用。
  * 这些问题不会立即导致崩溃，但在特定输入下会抛出 NullPointerException。
  */
-public class _11_nullpointer_fix {
+class _11_nullpointer_fix {
 
     /**
      * 问题 1：未检查返回值是否为 null

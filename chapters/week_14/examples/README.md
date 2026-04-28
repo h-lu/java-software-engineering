@@ -16,15 +16,14 @@ examples/
     ├── pom.xml                         # Maven 配置（含 Shade Plugin）
     ├── Dockerfile                      # Docker 镜像配置
     ├── .dockerignore                   # Docker 构建忽略文件
-    ├── config-dev.properties           # 开发环境配置
-    ├── config-prod.properties          # 生产环境配置
     ├── start.sh                        # Linux/Mac 启动脚本
     ├── start.bat                       # Windows 启动脚本
-    ├── Config.java                     # 配置管理类示例
-    ├── Main.java                       # 主类示例
     └── src/
         └── main/
             ├── java/com/campusflow/
+            │   ├── Main.java           # 主类示例
+            │   ├── config/
+            │   │   └── Config.java     # 配置管理类示例
             │   ├── model/
             │   │   └── Task.java       # 任务实体类
             │   ├── repository/

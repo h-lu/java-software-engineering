@@ -599,7 +599,7 @@ class TaskApiIntegrationTest {
     @BeforeEach
     void setUp() {
         // 使用内存数据库
-        taskRepository = new TaskRepository("jdbc:h2:mem:test");
+        taskRepository = new InMemoryTaskRepository();
 
         // 启动 Javalin 服务器
         app = Javalin.create()

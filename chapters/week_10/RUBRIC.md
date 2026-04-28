@@ -106,11 +106,11 @@ element.innerHTML = escapeHtml(task.title);  // 依赖转义函数
 
 **正确配置示例**：
 ```java
-import io.javalin.plugin.bundled.CorsPlugin;
+import io.javalin.plugin.bundled.CorsPluginConfig;
 
 var app = Javalin.create(config -> {
     config.bundledPlugins.enableCors(cors -> {
-        cors.addRule(CorsRule::anyHost);
+        cors.addRule(CorsPluginConfig.CorsRule::anyHost);
     });
 }).start(7070);
 ```

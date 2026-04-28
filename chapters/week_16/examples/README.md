@@ -60,11 +60,11 @@
 ### 反馈收集工具
 
 ```bash
-# 编译
+# 从 chapters/week_16 目录编译
 javac examples/CampusFlowFeedbackCollector.java
 
-# 运行
-java CampusFlowFeedbackCollector
+# 运行时把 examples 加入 classpath
+java -cp examples CampusFlowFeedbackCollector
 
 # 按提示输入反馈，完成后会生成 feedback_report.md
 ```
@@ -72,11 +72,11 @@ java CampusFlowFeedbackCollector
 ### 能力雷达图生成器
 
 ```bash
-# 编译
+# 从 chapters/week_16 目录编译
 javac examples/SkillRadarGenerator.java
 
-# 运行
-java SkillRadarGenerator
+# 运行时把 examples 加入 classpath
+java -cp examples SkillRadarGenerator
 
 # 会生成 skill_radar.md，包含雷达图和详细评估
 ```

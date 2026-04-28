@@ -1,8 +1,7 @@
 /*
  * 示例：Javalin 路由详解——路径参数、查询参数、请求处理。
  * 本例演示：Javalin 的路由系统和各种参数处理方式。
- * 运行方式：mvn -q -f chapters/week_09/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._04_javalin_routing"
+ * 运行方式：把本文件复制到一个已添加所需依赖的 Maven 项目中运行。
  * 预期输出：服务启动，演示各种路由和参数处理
  *
  * 测试命令：
@@ -21,7 +20,7 @@ import java.util.*;
 /**
  * Javalin 路由和参数处理完整示例。
  */
-public class _04_javalin_routing {
+class _04_javalin_routing {
 
     // 模拟数据存储
     private static final Map<String, Book> books = new HashMap<>();

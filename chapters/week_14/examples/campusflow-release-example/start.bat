@@ -13,6 +13,6 @@ REM 预期输出：
 REM - Server started on port 8080
 
 set CAMPUSFLOW_ENV=prod
-java -jar campusflow-1.0.0.jar
+java -jar target\campusflow-1.0.0.jar
 
 pause

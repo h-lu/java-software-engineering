@@ -1,8 +1,7 @@
 /*
  * 示例：API 异常处理——统一错误响应格式。
  * 本例演示：如何实现统一的 API 异常处理机制。
- * 运行方式：mvn -q -f chapters/week_09/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._07_error_handling"
+ * 运行方式：把本文件复制到一个已添加所需依赖的 Maven 项目中运行。
  * 预期输出：服务启动，演示各种异常情况的处理
  *
  * 测试命令：
@@ -45,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *   <li>记录日志，便于排查问题</li>
  * </ul>
  */
-public class _07_error_handling {
+class _07_error_handling {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════════╗");

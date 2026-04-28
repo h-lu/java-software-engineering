@@ -1,8 +1,7 @@
 /*
  * 示例：Javalin 入门——Hello World。
  * 本例演示：使用 Javalin 框架搭建最简单的 Web 服务。
- * 运行方式：mvn -q -f chapters/week_09/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._03_javalin_hello"
+ * 运行方式：把本文件复制到一个已添加所需依赖的 Maven 项目中运行。
  * 预期输出：服务启动在 http://localhost:7070，访问根路径返回 "Hello, World!"
  *
  * 注意：本示例需要 Javalin 依赖，请确保 pom.xml 包含：
@@ -33,7 +32,7 @@ import io.javalin.Javalin;
  *   <li>Javalin：轻量极简，几行代码启动，适合学习和微服务</li>
  * </ul>
  */
-public class _03_javalin_hello {
+class _03_javalin_hello {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════════╗");

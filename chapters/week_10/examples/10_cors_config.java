@@ -1,7 +1,6 @@
 /*
  * 示例：Javalin CORS 配置
- * 运行方式：mvn -q -f chapters/week_10/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._10_cors_config"
+ * 运行方式：把本文件复制到一个已添加 Javalin 依赖的 Maven 项目中运行。
  * 预期输出：服务启动，允许跨域请求，前端可以正常调用 API
  *
  * 本例演示：
@@ -31,7 +30,7 @@ import java.util.Map;
  *   <li>前端部署在 example.com，后端部署在 api.example.com</li>
  * </ul>
  */
-public class _10_cors_config {
+class _10_cors_config {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════════╗");

@@ -14,4 +14,4 @@
  # - Server started on port 8080
 
 export CAMPUSFLOW_ENV=prod
-java -jar campusflow-1.0.0.jar
+java -jar target/campusflow-1.0.0.jar

@@ -96,18 +96,6 @@ mvn jacoco:report
 
 ---
 
-### 7. `11_campusflow_pom.xml`
-**用途**：CampusFlow 完整质量配置示例
-
-**内容**：
-- SpotBugs 插件配置
-- JaCoCo 插件配置
-- 两个工具的集成
-
-**使用方式**：复制到 CampusFlow 的 pom.xml
-
----
-
 ## 快速开始
 
 ### 1. 学习 SpotBugs 配置
@@ -133,7 +121,7 @@ mvn jacoco:report
 ## CampusFlow 集成步骤
 
 ### 1. 更新 pom.xml
-将 `11_campusflow_pom.xml` 中的配置复制到 CampusFlow 的 pom.xml。
+参考 `11_spotbugs_config.xml` 和 `11_jacoco_config.xml`，把 SpotBugs 与 JaCoCo 插件配置合并到 CampusFlow 的 `pom.xml`。
 
 ### 2. 运行静态分析
 ```bash

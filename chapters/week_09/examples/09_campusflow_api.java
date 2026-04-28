@@ -1,8 +1,7 @@
 /*
  * 示例：CampusFlow Web 化改造——从 CLI 到 REST API。
  * 本例演示：将 Week 08 的 CampusFlow CLI 版改造为 Web 服务。
- * 运行方式：mvn -q -f chapters/week_09/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._09_campusflow_api"
+ * 运行方式：把本文件复制到一个已添加所需依赖的 Maven 项目中运行。
  * 预期输出：服务启动，提供 CampusFlow 的 REST API
  *
  * 本周改造重点：
@@ -57,7 +56,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *   <li>复用 Week 08 的策略模式计算逾期费用</li>
  * </ul>
  */
-public class _09_campusflow_api {
+class _09_campusflow_api {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════════╗");

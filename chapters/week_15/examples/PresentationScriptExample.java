@@ -39,3 +39,63 @@ public class PresentationScriptExample {
         }
     }
 }
+
+
+class PresentationScript {
+    private final String title;
+    private final int maxMinutes;
+    private final java.util.List<Section> sections = new java.util.ArrayList<>();
+
+    PresentationScript(String title, int maxMinutes) {
+        this.title = title;
+        this.maxMinutes = maxMinutes;
+    }
+
+    void addSection(String name, int durationMinutes, String description) {
+        sections.add(new Section(name, durationMinutes, description));
+    }
+
+    String getTitle() {
+        return title;
+    }
+
+    int getTotalPlannedMinutes() {
+        return sections.stream().mapToInt(Section::getDurationMinutes).sum();
+    }
+
+    int getSectionCount() {
+        return sections.size();
+    }
+
+    java.util.List<Section> getSections() {
+        return java.util.Collections.unmodifiableList(sections);
+    }
+
+    boolean validateTimeAllocation() {
+        return getTotalPlannedMinutes() <= maxMinutes;
+    }
+}
+
+class Section {
+    private final String name;
+    private final int durationMinutes;
+    private final String description;
+
+    Section(String name, int durationMinutes, String description) {
+        this.name = name;
+        this.durationMinutes = durationMinutes;
+        this.description = description;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    int getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    String getDescription() {
+        return description;
+    }
+}

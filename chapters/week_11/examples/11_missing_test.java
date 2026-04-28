@@ -20,7 +20,7 @@ import java.util.Optional;
  * <p>这个类包含多个方法，有些被测试覆盖，有些没有。
  * JaCoCo 会用红色高亮显示未覆盖的代码行。
  */
-public class _11_missing_test {
+class _11_missing_test {
 
     /**
      * 示例 1：if-else 分支未完全覆盖

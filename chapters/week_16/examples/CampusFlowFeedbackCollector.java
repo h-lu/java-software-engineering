@@ -1,6 +1,6 @@
 /*
  * 示例：项目集市反馈收集工具
- * 运行方式：javac CampusFlowFeedbackCollector.java && java CampusFlowFeedbackCollector
+ * 运行方式：在 examples 目录内执行 javac CampusFlowFeedbackCollector.java && java CampusFlowFeedbackCollector；或在 week_16 目录执行 java -cp examples CampusFlowFeedbackCollector
  * 预期输出：交互式收集反馈，导出到 feedback_report.md
  *
  * Week 16: 项目展示与工程复盘

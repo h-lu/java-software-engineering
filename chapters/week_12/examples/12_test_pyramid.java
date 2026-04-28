@@ -38,7 +38,7 @@ package examples;
  *   <tr><td>E2E 测试</td><td>10%</td><td>慢（10分钟级）</td><td>高</td><td>用户体验问题</td></tr>
  * </table>
  */
-public class _12_test_pyramid {
+class _12_test_pyramid {
 
     // ========== 第 1 层：单元测试（70%）==========
 
