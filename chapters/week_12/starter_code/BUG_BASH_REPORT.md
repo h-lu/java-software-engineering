@@ -10,13 +10,13 @@
 
 | ID | Description | Reproduction Steps | Priority | Suspected Cause | Status |
 |----|-------------|--------------------|----------|-----------------|--------|
-| #1 | TODO | TODO | TODO | TODO | TODO |
-| #2 | TODO | TODO | TODO | TODO | TODO |
+| #1 | 待办 | TODO | 待办 | TODO | 待办 |
+| #2 | 待办 | TODO | 待办 | TODO | 待办 |
 
 ## Feedback Received
 
-TODO: Record useful feedback even if it is not a bug.
+待办：记录有价值的反馈，即使它不是 bug。
 
 ## Fix Plan
 
-TODO: Explain what will be fixed now and what becomes technical debt.
+待办：说明哪些现在修，哪些进入 technical debt。

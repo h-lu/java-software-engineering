@@ -18,7 +18,7 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    // TODO: Add completed/status/createdAt fields if your API contract needs them.
+    // 待办：如果 API contract 需要，补充 completed/status/createdAt 字段。
 
     public String getId() {
         return id;

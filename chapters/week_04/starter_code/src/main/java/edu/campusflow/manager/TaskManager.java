@@ -15,12 +15,12 @@ public class TaskManager {
     private final List<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {
-        // TODO: 添加 null 检查，并考虑是否允许重复标题。
+        // 待办： 添加 null 检查，并考虑是否允许重复标题。
         tasks.add(task);
     }
 
     public void markCompleted(String title) {
-        // TODO: 根据标题查找任务并标记完成；考虑找不到任务时的处理策略。
+        // 待办： 根据标题查找任务并标记完成；考虑找不到任务时的处理策略。
     }
 
     public List<Task> getAllTasks() {
@@ -28,13 +28,13 @@ public class TaskManager {
     }
 
     public TaskStats getStatistics() {
-        // TODO: 统计 total、completed、pending。
+        // 待办： 统计 total、completed、pending。
         return new TaskStats(0, 0, 0);
     }
 
     public Map<String, Integer> countByPriority() {
         Map<String, Integer> counts = new HashMap<>();
-        // TODO: 使用 getOrDefault 或 merge，避免空指针异常。
+        // 待办： 使用 getOrDefault 或 merge，避免空指针异常。
         return counts;
     }
 }

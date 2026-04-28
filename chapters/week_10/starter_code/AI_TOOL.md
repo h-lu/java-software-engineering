@@ -8,4 +8,4 @@
 
 Notes:
 
-TODO: Record anything important about generation settings, follow-up prompts, or limitations.
+待办：记录生成设置、后续追问、已知限制等重要信息。

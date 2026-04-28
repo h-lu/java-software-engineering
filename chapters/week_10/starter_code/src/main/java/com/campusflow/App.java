@@ -19,7 +19,7 @@ public class App {
     public static HttpServer createServer(int port) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/health", exchange -> {
-            // TODO: Replace this placeholder with Javalin CORS configuration if you use this backend.
+            // 待办：如果使用这个 backend，把占位逻辑替换成 Javalin CORS 配置。
             exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
             writeJson(exchange, 200, healthJson());
         });

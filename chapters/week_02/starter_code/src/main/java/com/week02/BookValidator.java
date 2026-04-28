@@ -6,7 +6,7 @@ package com.week02;
 public class BookValidator {
 
     public boolean isValid(Book book) {
-        // TODO: 根据你的 ADR 决定验证规则。
+        // 待办： 根据你的 ADR 决定验证规则。
         return book != null;
     }
 }

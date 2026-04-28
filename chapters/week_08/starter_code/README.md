@@ -1,29 +1,29 @@
-# Week 08 Starter Code: Refactoring and Strategy Pattern
+# Week 08 Starter Code：Refactoring and Strategy Pattern
 
-This starter gives you a deliberately smelly `OrderProcessor` plus empty strategy skeletons. Your job is to refactor safely, not to copy a finished design.
+这个 starter 给你一个故意“有味道”的 `OrderProcessor`，以及几个空的 strategy 骨架。你的任务是安全重构，而不是复制一份完成版设计。
 
-## Run
+## 运行命令
 
 ```bash
 cd chapters/week_08/starter_code
 mvn test
 ```
 
-The active smoke test is a characterization test: it records one known behavior before you refactor. Keep it passing while you improve the design.
+当前启用的 smoke test 是 characterization test：它记录重构前的一个已知行为。重构时要让它持续通过，确保外部可见行为没有被你意外改坏。
 
-## Files To Edit
+## 你需要编辑的文件
 
 - `src/main/java/com/campusflow/OrderProcessor.java`
-- Add extracted classes such as `PriceCalculator`, `ShippingCalculator`, or payment helpers.
+- 按需要提取 `PriceCalculator`, `ShippingCalculator` 或 payment helper 等类。
 - `src/main/java/com/campusflow/*DiscountStrategy.java`
 - `src/main/java/com/campusflow/DiscountStrategyFactory.java`
-- Add or enable tests under `src/test/java/com/campusflow/`
+- 在 `src/test/java/com/campusflow/` 下新增或启用测试。
 
-## TODO Checklist
+## 待办清单
 
-- Identify at least five code smells in the starting `OrderProcessor`.
-- Add characterization tests before changing behavior.
-- Extract price, shipping, payment, and persistence responsibilities.
-- Implement `DiscountStrategy` classes and the factory.
-- Enable and complete the disabled TODO tests.
-- Document your refactoring decisions and ADR-004 in your own submission repo.
+- 在起始 `OrderProcessor` 中识别至少 5 个 code smells。
+- 改行为前先补 characterization tests。
+- 提取价格、运费、支付、持久化等职责。
+- 实现各个 `DiscountStrategy` 类和 factory。
+- 启用并补全被禁用的待办测试。
+- 在你自己的提交仓库中记录重构决策和 ADR-004。

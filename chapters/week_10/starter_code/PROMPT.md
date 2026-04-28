@@ -1,12 +1,12 @@
 # CampusFlow Frontend Generation Prompt
 
-TODO: Paste the exact prompt you used to ask an AI tool to generate the first frontend.
+待办：粘贴你让 AI tool 生成第一版 frontend 时使用的完整 prompt。
 
-Make sure your prompt includes:
+请确认 prompt 至少包含：
 
 - Role
 - Task
 - Constraints
 - Output format
 - CampusFlow API endpoints
-- Security and UX expectations
+- Security 和 UX 期望

@@ -7,7 +7,7 @@ public class DiscountStrategyFactory {
     }
 
     public static List<DiscountStrategy> createStrategies(boolean isVip, String couponCode) {
-        // TODO: create applicable strategies in the order the assignment requires.
-        throw new UnsupportedOperationException("TODO: implement discount strategy factory");
+        // 待办：按作业要求的顺序创建适用的 strategies。
+        throw new UnsupportedOperationException("待办：实现 discount strategy factory");
     }
 }

@@ -4,24 +4,24 @@
 
 ```bash
 mvn test
-TODO: mvn spotbugs:check
-TODO: mvn test jacoco:report
+待办：mvn spotbugs:check
+待办：mvn test jacoco:report
 ```
 
 ## SpotBugs Findings
 
-TODO: Paste or summarize the important findings from `spotbugs_report.txt`.
+待办：粘贴或总结 `spotbugs_report.txt` 中的重要发现。
 
 ## Coverage Findings
 
-TODO: Record line coverage, branch coverage, and the lowest-covered classes.
+待办：记录 line coverage、branch coverage，以及覆盖率最低的类。
 
-## Tests Added
+## Tests Added（新增测试）
 
 | Test | Uncovered Code | Purpose |
 |------|----------------|---------|
-| TODO | TODO | TODO |
+| 待办 | TODO | 待办 |
 
 ## Quality Gate Decision
 
-TODO: Explain which checks block, which checks warn, and why.
+待办：说明哪些检查会阻断提交，哪些只警告，以及为什么。

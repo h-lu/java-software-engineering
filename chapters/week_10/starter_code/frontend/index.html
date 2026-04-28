@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,7 @@
 <body>
   <main>
     <h1>CampusFlow</h1>
-    <p id="status">TODO: Build the reviewed frontend here.</p>
+    <p id="status">待办：在这里实现审查并修复后的 frontend。</p>
     <form id="task-form">
       <label>
         Task title
@@ -30,8 +30,8 @@
 
     document.querySelector('#task-form').addEventListener('submit', (event) => {
       event.preventDefault();
-      // TODO: Validate input, call the CampusFlow API, handle errors, then render safely with textContent.
-      document.querySelector('#status').textContent = `TODO: connect to ${API_BASE}`;
+      // 待办：校验输入，调用 CampusFlow API，处理错误，再用 textContent 安全渲染。
+      document.querySelector('#status').textContent = `待办：连接到 ${API_BASE}`;
     });
   </script>
 </body>

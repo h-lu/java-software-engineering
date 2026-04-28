@@ -8,19 +8,19 @@ import java.util.Optional;
 public class InMemoryTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll() {
-        // TODO: Implement storage for integration tests.
+        // 待办：为 integration tests 实现存储逻辑。
         return List.of();
     }
 
     @Override
     public Optional<Task> findById(String id) {
-        // TODO: Implement lookup by id.
+        // 待办：实现按 id 查询。
         return Optional.empty();
     }
 
     @Override
     public Task save(Task task) {
-        // TODO: Assign ids and store tasks.
+        // 待办：分配 id 并保存 tasks。
         return task;
     }
 }

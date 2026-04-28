@@ -1,6 +1,6 @@
-# Week 06 Starter Code: JUnit 5 Test Skeleton
+# Week 06 Starter Code：JUnit 5 测试骨架
 
-This starter is for practicing JUnit 5 against a working `LibraryTracker`. The production code is intentionally small so you can focus on test design.
+这个 starter 用来练习针对一个可工作的 `LibraryTracker` 编写 JUnit 5 测试。生产代码故意保持很小，让你把注意力放在测试设计上。
 
 ## 目录结构
 
@@ -14,25 +14,25 @@ starter_code/
     └── LibraryTrackerTest.java
 ```
 
-## Run
+## 运行命令
 
 ```bash
 cd chapters/week_06/starter_code
 mvn test
 ```
 
-The initial test suite passes because only one smoke test is active. Disabled tests are TODO templates for you to complete and enable.
+初始测试会通过，因为只有一个 smoke test 是启用状态。带 `@Disabled` 的测试是给你补全并启用的待办模板。
 
-## Files To Edit
+## 你需要编辑的文件
 
 - `src/test/java/com/campusflow/LibraryTrackerTest.java`
-- Add more test classes under `src/test/java/com/campusflow/` if that keeps your tests clearer.
-- Read `src/main/java/com/campusflow/LibraryTracker.java`, but do not weaken business behavior just to make a test pass.
+- 如果更清晰，可以在 `src/test/java/com/campusflow/` 下新增测试类。
+- 可以阅读 `src/main/java/com/campusflow/LibraryTracker.java`，但不要为了让测试通过而削弱业务行为。
 
-## TODO Checklist
+## 待办清单
 
-- Use `@BeforeEach` for fresh test data.
-- Cover `addBook`, `findByIsbn`, `listAllBooks`, `removeBook`, `borrowBook`, `returnBook`, and `hasBorrowRecord`.
-- Use `assertThrows` for invalid input and missing records.
-- Add at least one `@ParameterizedTest`.
-- Optional: run coverage after you add real tests. JaCoCo writes reports to `target/site/jacoco/index.html`.
+- 使用 `@BeforeEach` 准备每个测试都独立的新数据。
+- 覆盖 `addBook`, `findByIsbn`, `listAllBooks`, `removeBook`, `borrowBook`, `returnBook`, `hasBorrowRecord`。
+- 对非法输入和缺失记录使用 `assertThrows`。
+- 至少添加一个 `@ParameterizedTest`。
+- 可选：补完真实测试后再跑覆盖率；JaCoCo 报告会生成到 `target/site/jacoco/index.html`。

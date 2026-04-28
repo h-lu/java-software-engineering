@@ -11,7 +11,7 @@ public class Book {
     private double price;
 
     public Book(String isbn, String title, String author, int year, double price) {
-        // TODO: 为所有参数添加必要验证，尤其是 isbn、year、price。
+        // 待办： 为所有参数添加必要验证，尤其是 isbn、year、price。
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -28,7 +28,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        // TODO: 标题不能为空。
+        // 待办： 标题不能为空。
         this.title = title;
     }
 
@@ -37,7 +37,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        // TODO: 作者不能为空。
+        // 待办： 作者不能为空。
         this.author = author;
     }
 
@@ -46,7 +46,7 @@ public class Book {
     }
 
     public void setYear(int year) {
-        // TODO: 年份不能早于合理范围，不能超过当前年份。
+        // 待办： 年份不能早于合理范围，不能超过当前年份。
         this.year = year;
     }
 
@@ -55,12 +55,12 @@ public class Book {
     }
 
     public void setPrice(double price) {
-        // TODO: 价格不能为负数。
+        // 待办： 价格不能为负数。
         this.price = price;
     }
 
     public String toDisplayText() {
-        // TODO: 按作业示例返回图书详情文本。
-        return "TODO: " + title + " (" + isbn + ")";
+        // 待办： 按作业示例返回图书详情文本。
+        return "待办： " + title + " (" + isbn + ")";
     }
 }

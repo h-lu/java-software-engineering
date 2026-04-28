@@ -9,7 +9,7 @@ public class Task {
     private boolean completed;
 
     public Task(String title, String priority) {
-        // TODO: 添加防御式检查，避免 null 或空标题进入系统。
+        // 待办： 添加防御式检查，避免 null 或空标题进入系统。
         this.title = title;
         this.priority = priority;
         this.completed = false;

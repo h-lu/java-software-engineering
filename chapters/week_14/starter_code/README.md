@@ -24,8 +24,8 @@ java -jar target/campusflow-week14-starter-0.1.0-SNAPSHOT.jar
 - `src/main/java/com/campusflow/util/Version.java`：TODO 实现 SemVer 解析、比较和升级方法。
 - `src/main/java/com/campusflow/config/Config.java`：TODO 支持 `CAMPUSFLOW_ENV`、`${PORT:8080}` 占位符和环境变量覆盖。
 - `src/main/resources/config-*.properties`：TODO 按你的部署平台调整端口、数据库路径和日志级别。
-- `CHANGELOG_TODO.md`：TODO 改成你的真实版本变更记录。
-- `DEPLOYMENT_TODO.md`：TODO 记录真实云平台、环境变量、访问地址和验证截图。
+- `CHANGELOG_TODO.md`：待办，改成你的真实版本变更记录。
+- `DEPLOYMENT_TODO.md`：待办，记录真实云平台、环境变量、访问地址和验证截图。
 
 ## 本起步包不会替你完成
 

@@ -11,7 +11,7 @@ public class OrderProcessor {
 
     public Order processOrder(String customerId, List<String> items, String paymentType,
                               String shippingMethod, boolean isVip, String couponCode) {
-        // TODO: Refactor this long method. Keep the externally visible behavior protected by tests.
+        // 待办：重构这个过长方法；用测试保护外部可见行为不变。
         if (customerId == null || customerId.trim().isEmpty()) {
             throw new IllegalArgumentException("客户ID不能为空");
         }

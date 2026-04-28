@@ -11,42 +11,42 @@ public class JdbcTaskRepository implements TaskRepository {
 
     public JdbcTaskRepository(String url) {
         if (url == null || url.isBlank()) {
-            throw new IllegalArgumentException("Database URL cannot be blank");
+            throw new IllegalArgumentException("Database URL 不能为空");
         }
         this.url = url;
     }
 
     @Override
     public void save(Task task) {
-        // TODO: validate task, then use PreparedStatement and INSERT ... ON CONFLICT update.
-        throw new UnsupportedOperationException("TODO: implement save using " + url);
+        // 待办：校验 task，然后使用 PreparedStatement 和 INSERT ... ON CONFLICT 更新。
+        throw new UnsupportedOperationException("待办：基于该 URL 实现 save：" + url);
     }
 
     @Override
     public Optional<Task> findById(String id) {
-        // TODO: validate id, query by primary key, and map the ResultSet to Task.
-        throw new UnsupportedOperationException("TODO: implement findById");
+        // 待办：校验 id，按主键查询，并把 ResultSet 映射为 Task。
+        throw new UnsupportedOperationException("待办：实现 findById");
     }
 
     @Override
     public List<Task> findAll() {
-        // TODO: SELECT all tasks ordered by created_at descending.
-        throw new UnsupportedOperationException("TODO: implement findAll");
+        // 待办：查询所有 tasks，并按 created_at 倒序排列。
+        throw new UnsupportedOperationException("待办：实现 findAll");
     }
 
     @Override
     public void delete(String id) {
-        // TODO: validate id and delete with a PreparedStatement.
-        throw new UnsupportedOperationException("TODO: implement delete");
+        // 待办：校验 id，并用 PreparedStatement 删除记录。
+        throw new UnsupportedOperationException("待办：实现 delete");
     }
 
     public List<Task> findByStatus(String status) {
-        // TODO: query by status with a PreparedStatement.
-        throw new UnsupportedOperationException("TODO: implement findByStatus");
+        // 待办：用 PreparedStatement 按 status 查询。
+        throw new UnsupportedOperationException("待办：实现 findByStatus");
     }
 
     private Task mapResultSetToTask(ResultSet rs) throws SQLException {
-        // TODO: map id, title, description, status, and created_at.
-        throw new UnsupportedOperationException("TODO: implement mapResultSetToTask");
+        // 待办：映射 id、title、description、status 和 created_at。
+        throw new UnsupportedOperationException("待办：实现 mapResultSetToTask");
     }
 }

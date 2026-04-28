@@ -1,26 +1,26 @@
-# Week 05 Starter Code: Collections and Generics
+# Week 05 Starter Code：Collections and Generics
 
-This starter is a small Maven project for the Week 05 assignment. It is intentionally incomplete: the `TODO` markers are the work you should finish.
+这是 Week 05 作业的独立 Maven 起步项目，主题是 Collections and Generics。项目故意留了一些未完成位置：看到 `TODO` 或“待办”时，就是你需要补上的工作。
 
-## Run
+## 运行命令
 
 ```bash
 cd chapters/week_05/starter_code
 mvn test
 ```
 
-The provided smoke tests only verify that the project is wired correctly. They do not prove the assignment is complete.
+提供的 smoke tests 只确认项目结构和 Maven 配置能跑通，不能证明作业已经完成。
 
-## Files To Edit
+## 你需要编辑的文件
 
 - `src/main/java/LibraryTracker.java`
 - `src/main/java/CollectionUtils.java`
-- Add your own tests under `src/test/java/`
+- 在 `src/test/java/` 下补充你自己的测试
 
-## TODO Checklist
+## 待办清单
 
-- Complete `addBook`, `findBook`, `listAllBooks`, `borrowBook`, `getBorrowRecordsByUser`, `returnBook`, and `removeBook`.
-- Use `HashMap<String, Book>` for ISBN lookup and `ArrayList<BorrowRecord>` for borrow history.
-- Return collection copies instead of exposing internal state.
-- Implement `CollectionUtils.groupBy`, `filter`, and `findFirst` with generics.
-- Add boundary tests for null input, duplicate ISBN, missing records, and returned-list copies.
+- 完成 `addBook`, `findBook`, `listAllBooks`, `borrowBook`, `getBorrowRecordsByUser`, `returnBook`, `removeBook`。
+- 使用 `HashMap<String, Book>` 按 ISBN 快速查找图书，使用 `ArrayList<BorrowRecord>` 保存借阅历史。
+- 返回集合副本，不要把内部状态直接暴露给外部代码。
+- 用 generics 实现 `CollectionUtils.groupBy`, `filter`, `findFirst`。
+- 补充边界测试：null 输入、重复 ISBN、缺失记录，以及返回列表副本是否安全。

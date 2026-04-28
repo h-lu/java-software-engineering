@@ -15,7 +15,7 @@ class StarterSmokeTest {
         TaskStats stats = new TaskStats(0, 0, 0);
 
         assertEquals(0, stats.getTotalCount());
-        assertTrue(stats.toString().contains("TODO"));
+        assertTrue(stats.toString().contains("待办"));
     }
 
     @Test

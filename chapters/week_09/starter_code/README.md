@@ -1,17 +1,17 @@
-# Week 09 Starter Code
+# Week 09 Starter Code：Javalin REST API
 
-This is a small TODO skeleton for the Week 09 assignment: convert CampusFlow from a CLI program into a Javalin REST API.
+这是 Week 09 作业的小型待办骨架：把 CampusFlow 从 CLI 程序改造成 Javalin REST API。
 
-## What Is Included
+## 包含内容
 
-- A Java 21 Maven project with JUnit 5.
-- A runnable `App` with `GET /health`.
-- Placeholder task routes that return `501 Not Implemented`.
-- Minimal domain, repository, service, controller, and exception classes with TODO markers.
-- Smoke tests that verify the starter project compiles and the server wiring works.
-- TODO comments showing where to add Javalin 6.x and Jackson for the real implementation.
+- 一个 Java 21 Maven 项目，已接入 JUnit 5。
+- 可运行的 `App`，包含 `GET /health`。
+- 任务相关占位路由暂时返回 `501 Not Implemented`。
+- 最小版 domain、repository、service、controller 和 exception 类，里面保留了待办标记。
+- smoke tests 用来确认 starter 可以编译，server 基本 wiring 可用。
+- 注释会提示你在哪里加入 Javalin 6.x 和 Jackson 的真实实现。
 
-## Run Commands
+## 运行命令
 
 ```bash
 mvn test
@@ -21,26 +21,26 @@ curl http://localhost:7070/health
 curl http://localhost:7070/tasks
 ```
 
-## Files To Edit
+## 你需要编辑的文件
 
-- `pom.xml`: add Javalin 6.x and Jackson.
-- `src/main/java/com/campusflow/App.java`: replace the placeholder server with Javalin routes and global error handlers.
-- `src/main/java/com/campusflow/controller/TaskController.java`: translate HTTP requests into service calls.
-- `src/main/java/com/campusflow/service/TaskService.java`: implement validation and business operations.
-- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`: implement in-memory persistence.
-- `src/main/java/com/campusflow/model/Task.java`: add fields or behavior needed by your Week 08 model.
-- `docs/ADR-003.md`: create this file in your submission and explain your REST API decisions.
-- `docs/API_TESTING.md`: create this file and record your curl or HTTP client tests.
+- `pom.xml`：添加 Javalin 6.x 和 Jackson。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 Javalin routes 和全局错误处理。
+- `src/main/java/com/campusflow/controller/TaskController.java`：把 HTTP 请求转换为 service 调用。
+- `src/main/java/com/campusflow/service/TaskService.java`：实现校验和业务操作。
+- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：实现内存持久化。
+- `src/main/java/com/campusflow/model/Task.java`：根据 Week 08 的模型补充所需字段或行为。
+- `docs/ADR-003.md`：在你的提交中创建该文件，说明 REST API 设计决策。
+- `docs/API_TESTING.md`：创建该文件，记录 curl 或 HTTP client 测试。
 
-## TODO Checklist
+## 待办清单
 
-- [ ] Implement `GET /tasks`.
-- [ ] Implement `GET /tasks/{id}` with `404` for missing tasks.
-- [ ] Implement `POST /tasks` with request validation and `201`.
-- [ ] Implement `PUT /tasks/{id}`.
-- [ ] Implement `DELETE /tasks/{id}` with `204`.
-- [ ] Return a standard JSON error body for validation and not-found errors.
-- [ ] Add meaningful unit or integration tests for your completed routes.
-- [ ] Write ADR-003 and API testing notes.
+- [ ] 实现 `GET /tasks`。
+- [ ] 实现 `GET /tasks/{id}`，任务不存在时返回 `404`。
+- [ ] 实现 `POST /tasks`，包含请求校验和 `201`。
+- [ ] 实现 `PUT /tasks/{id}`。
+- [ ] 实现 `DELETE /tasks/{id}`，成功时返回 `204`。
+- [ ] 为 validation 和 not-found 错误返回统一 JSON error body。
+- [ ] 为完成后的 routes 增加有意义的 unit 或 integration tests。
+- [ ] 编写 ADR-003 和 API testing notes。
 
-The starter tests are intentionally smoke tests only. Replace or extend them as you implement the assignment.
+starter tests 故意只做 smoke test。实现作业时，请替换或扩展它们。

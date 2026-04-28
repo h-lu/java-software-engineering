@@ -12,7 +12,7 @@ class StarterSmokeTest {
         Book book = new Book("978-7-111-12345-6", "Effective Java", "Joshua Bloch", 2018, 89.0);
 
         assertEquals("978-7-111-12345-6", book.getIsbn());
-        assertTrue(book.toDisplayText().contains("TODO"));
+        assertTrue(book.toDisplayText().contains("待办"));
     }
 
     @Test

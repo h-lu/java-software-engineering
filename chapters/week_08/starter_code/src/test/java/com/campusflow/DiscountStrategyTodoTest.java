@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 
 class DiscountStrategyTodoTest {
 
-    @Disabled("TODO: remove @Disabled after implementing strategies")
+    @Disabled("待办：实现 strategies 后移除 @Disabled")
     @Test
     void shouldApplyVipAndCouponStrategiesInOrder() {
-        // TODO: total=100, VIP=true, coupon=SAVE20 should become 72.0.
+        // 待办：total=100、VIP=true、coupon=SAVE20 时，结果应为 72.0。
     }
 
-    @Disabled("TODO: remove @Disabled after implementing factory")
+    @Disabled("待办：实现 factory 后移除 @Disabled")
     @Test
     void factoryShouldReturnOnlyApplicableStrategies() {
-        // TODO: verify strategy count/order for VIP, coupon, and no-discount cases.
+        // 待办：验证 VIP、coupon、no-discount 情况下的 strategy 数量和顺序。
     }
 }

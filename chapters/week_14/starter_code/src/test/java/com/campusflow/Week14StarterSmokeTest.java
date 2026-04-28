@@ -38,6 +38,7 @@ class Week14StarterSmokeTest {
         Path file = root.resolve(relativePath);
 
         assertTrue(Files.isRegularFile(file), relativePath + " should exist");
-        assertTrue(Files.readString(file).contains("TODO"), relativePath + " should contain student TODOs");
+        String text = Files.readString(file);
+        assertTrue(text.contains("待办") || text.contains("待办"), relativePath + " 应该保留学生可填写的 TODO/待办 标记");
     }
 }

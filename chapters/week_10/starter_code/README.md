@@ -1,10 +1,10 @@
-# Week 10 Starter Code
+# Week 10 Starter Code：AI Frontend + CORS
 
-This starter supports the Week 10 assignment: generate a CampusFlow frontend with AI, review it, fix it, and wire it to the backend with CORS.
+这个 starter 支持 Week 10 作业：用 AI 生成 CampusFlow frontend，人工审查、修复，再通过 CORS 接入 backend。
 
-It is not a finished frontend or a finished API. The Java server only proves that Maven and Javalin are wired correctly. Your main work is in the Markdown reports and the files under `frontend/`.
+它不是完成版 frontend，也不是完成版 API。Java server 只用来证明 Maven 和 Javalin wiring 能跑通。你的主要工作在 Markdown 报告和 `frontend/` 目录下的文件里。
 
-## Run Commands
+## 运行命令
 
 ```bash
 mvn test
@@ -13,26 +13,26 @@ java -cp target/classes com.campusflow.App
 curl http://localhost:7070/health
 ```
 
-To test the frontend manually, start your Week 09 backend or extend this starter, then open `frontend/index.html` in a browser.
+手动测试 frontend 时，先启动你的 Week 09 backend，或扩展这个 starter，然后在浏览器中打开 `frontend/index.html`。
 
-## Files To Edit
+## 你需要编辑的文件
 
-- `PROMPT.md`: write the prompt you used to generate the first frontend.
-- `AI_TOOL.md`: record the AI tool and model version.
-- `frontend/ai_generated.html`: save the original AI output without edits.
-- `REVIEW.md`: complete the checklist and record at least three issue categories.
-- `frontend/index.html`: build your reviewed and fixed frontend.
-- `pom.xml`: add Javalin if you use this starter backend for the CORS task.
-- `src/main/java/com/campusflow/App.java`: replace the placeholder server with the CORS configuration needed for browser calls.
+- `PROMPT.md`：写下生成第一版 frontend 使用的 prompt。
+- `AI_TOOL.md`：记录 AI tool 和 model version。
+- `frontend/ai_generated.html`：保存未经修改的 AI 原始输出。
+- `REVIEW.md`：完成 checklist，至少记录三类问题。
+- `frontend/index.html`：实现你审查并修复后的 frontend。
+- `pom.xml`：如果使用这个 starter backend 完成 CORS 任务，添加 Javalin。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换为浏览器调用需要的 CORS 配置。
 
-## TODO Checklist
+## 待办清单
 
-- [ ] Write a prompt with role, task, constraints, and output format.
-- [ ] Save the unmodified AI generated frontend.
-- [ ] Review for XSS, empty states, loading/error states, and hallucinated APIs.
-- [ ] Fix the reviewed frontend without using unsafe `innerHTML` for user content.
-- [ ] Add at least two UX improvements.
-- [ ] Configure and verify CORS with the backend you will use for demo.
-- [ ] Capture the required screenshots and notes for submission.
+- [ ] 写一个包含 role、task、constraints、output format 的 prompt。
+- [ ] 保存未经修改的 AI generated frontend。
+- [ ] 审查 XSS、empty states、loading/error states、hallucinated APIs。
+- [ ] 修复 frontend，处理用户内容时不要使用不安全的 `innerHTML`。
+- [ ] 至少增加两个 UX improvements。
+- [ ] 配置并验证 demo 使用的 backend CORS。
+- [ ] 按提交要求保存截图和说明。
 
-The smoke test intentionally checks only starter wiring. Add browser or API tests after you complete your implementation.
+smoke test 只检查 starter wiring。完成实现后，请增加浏览器或 API 测试。
