@@ -3,19 +3,19 @@
 - id: w11-01
   claim: 静态分析可以发现代码中的潜在问题（如空指针、资源泄漏），而无需运行程序。
   evidence: |
-    SpotBugs Maven Plugin 配置示例：`<groupId>com.github.spotbugs</groupId><artifactId>spotbugs-maven-plugin</artifactId><version>4.9.8.2</version>`
+    SpotBugs Maven Plugin 配置示例包含 groupId=com.github.spotbugs、artifactId=spotbugs-maven-plugin、version=4.9.8.2。
   verification: 运行 `mvn spotbugs:check` 会生成分析报告，列出发现的问题类型和数量。
 
 - id: w11-02
   claim: 代码覆盖率报告可以识别测试盲区，帮助开发者有针对性地补充测试。
   evidence: |
-    JaCoCo 配置示例：`<execution><id>report</id><phase>test</phase><goals><goal>report</goal></goals></execution>`
+    JaCoCo 配置示例包含名为 report 的 execution，并在 test 阶段生成覆盖率报告。
   verification: 运行 `mvn jacoco:report` 生成 HTML 报告，红色区域表示未覆盖代码。
 
 - id: w11-03
   claim: 质量门禁将质量检查自动化，不达标则阻止代码合并。
   evidence: |
-    示例配置：`{"tool": "spotbugs", "threshold": "high", "action": "block"}`
+    示例配置：质量门禁规则包含 tool=spotbugs、threshold=high、action=block。
   verification: 在 CI/CD 流程中配置质量检查规则，失败则构建终止。
 
 - id: w11-04
@@ -45,7 +45,7 @@
 - id: w11-08
   claim: 静态分析发现的空指针问题与防御式编程理念一致。
   evidence: |
-    代码示例：添加 `if (existing == null) { throw new NotFoundException(...); }` 检查。
+    代码示例：在访问对象前先判断 existing 是否为空；为空时抛出 NotFoundException。
   verification: Week 03 的防御式编程在本周通过工具得到验证和补充。
 
 - id: w11-09

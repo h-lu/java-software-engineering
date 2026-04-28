@@ -1,11 +1,7 @@
-/**
- * 图书实体类
- * 用于集合框架测试
- */
 public class Book {
-    private String title;
-    private String author;
-    private String isbn;
+    private final String title;
+    private final String author;
+    private final String isbn;
 
     public Book(String title, String author, String isbn) {
         this.title = title;
@@ -28,18 +24,5 @@ public class Book {
     @Override
     public String toString() {
         return title + " (" + author + ")";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Book book = (Book) obj;
-        return isbn.equals(book.isbn);
-    }
-
-    @Override
-    public int hashCode() {
-        return isbn.hashCode();
     }
 }

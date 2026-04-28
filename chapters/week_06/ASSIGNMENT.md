@@ -72,6 +72,17 @@
 - 每个测试只验证一个概念，不要在一个测试里验证多个不相关的行为
 - 使用 `assertEquals`、`assertNotNull`、`assertTrue`、`assertFalse` 等断言方法
 
+**初始代码骨架**：
+
+如果你还不熟悉 Maven 目录结构，可以直接使用本周提供的初始工程：
+
+```bash
+cd chapters/week_06/starter_code
+mvn test
+```
+
+`src/main/java/com/campusflow/` 下已经放好可被测试的业务代码；`src/test/java/com/campusflow/` 下提供了测试写法参考。
+
 ---
 
 ## 进阶作业（选做，+20 分）

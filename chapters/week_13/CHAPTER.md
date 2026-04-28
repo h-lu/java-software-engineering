@@ -495,7 +495,7 @@ A: 是的，标题最大 100 字符。
 - **Service 层**：业务逻辑（任务管理、验证）
 - **Repository 层**：数据访问（JDBC + SQLite）
 
-详细的架构决策请参考 [docs/ADR](docs/ADR)。
+详细的架构决策请参考 `docs/ADR/` 目录。
 
 ## 贡献指南
 

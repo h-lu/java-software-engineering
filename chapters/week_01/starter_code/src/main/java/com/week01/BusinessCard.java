@@ -3,70 +3,26 @@ package com.week01;
 import java.util.Scanner;
 
 /**
- * 练习 5：完整的名片生成器
- *
- * <p>这是本周的主要练习。
- * 你需要完成一个能读取用户输入并生成格式化名片的程序。
- *
- * 要求：
- * 1. 读取用户的姓名、职位、邮箱、年龄、工作年限
- * 2. 使用正确的数据类型存储
- * 3. 输出格式化的名片
- * 4. 变量命名清晰，符合 Java 规范
- *
- * 挑战（可选）：
- * - 使用 printf 格式化输出
- * - 添加输入验证
- * - 支持生成多张名片
+ * 练习 5：完整名片生成器骨架。
  */
 public class BusinessCard {
 
     public static void main(String[] args) {
-        // TODO: 创建 Scanner 对象
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=== 名片生成器 ===");
-        System.out.println();
-
-        // TODO: 读取用户输入
-        // 提示：使用 scanner.nextLine() 读取字符串
-        // 提示：使用 Integer.parseInt(scanner.nextLine()) 读取整数
-        // 提示：使用 Double.parseDouble(scanner.nextLine()) 读取浮点数
-        //
-        // 注意：Integer.parseInt() 和 Double.parseDouble() 在输入无效时会抛出异常。
-        // 这是简化版本，Week 03 会详细讲解如何用 try-catch 处理异常。
-        // 本周练习假设用户输入都是有效的。
-
         System.out.print("请输入姓名：");
         String name = scanner.nextLine();
 
-        System.out.print("请输入职位：");
-        String jobTitle = scanner.nextLine();
+        // TODO: 继续读取职位、邮箱、年龄、工作年限。
+        // TODO: 调用 formatCard(...) 生成最终名片并输出。
+        System.out.println("TODO: 你好，" + name + "。请补全 BusinessCard.java。");
 
-        System.out.print("请输入邮箱：");
-        String email = scanner.nextLine();
-
-        System.out.print("请输入年龄：");
-        int age = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("请输入工作年限：");
-        double yearsOfExp = Double.parseDouble(scanner.nextLine());
-
-        // TODO: 输出格式化的名片
-        // 提示：使用 System.out.println() 输出
-        // 挑战：使用 printf 格式化输出，让边框对齐
-
-        System.out.println();
-        System.out.println("================================");
-        System.out.println("       " + name + " 的个人名片");
-        System.out.println("================================");
-        System.out.println("职位：" + jobTitle);
-        System.out.println("年龄：" + age + "岁");
-        System.out.println("工作经验：" + yearsOfExp + "年");
-        System.out.println("邮箱：" + email);
-        System.out.println("================================");
-
-        // 记得关闭 Scanner
         scanner.close();
+    }
+
+    public static String formatCard(String name, String jobTitle, String email, int age, double yearsOfExperience) {
+        // TODO: 返回 ASSIGNMENT.md 中要求的多行名片文本。
+        return "TODO: format business card for " + name;
     }
 }

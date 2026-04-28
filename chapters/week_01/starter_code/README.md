@@ -1,101 +1,44 @@
-# Week 01 Starter Code
+# Week 01 Starter Code：Java 基础与名片生成器
 
-这是 Week 01 的起步代码，帮助你快速上手 Java 开发。
+这是一个独立 Maven 起步项目，用来完成 Week 01 的个人名片生成器练习。代码只提供可运行骨架和 TODO，不包含完整答案。
 
 ## 目录结构
 
-```
+```text
 starter_code/
-├── pom.xml                                    # Maven 项目配置
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── com/
-│   │           └── week01/
-│   │               ├── HelloWorld.java        # 练习 2：Hello World
-│   │               ├── VariableDemo.java      # 练习 3：变量声明
-│   │               ├── ScannerDemo.java       # 练习 4：Scanner 输入
-│   │               └── BusinessCard.java      # 练习 5：名片生成器
-│   └── test/
-│       └── java/
-│           └── com/
-│               └── week01/
-│                   └── BusinessCardTest.java  # 单元测试（可选）
+├── pom.xml
+├── README.md
+├── src/main/java/com/week01/
+│   ├── HelloWorld.java
+│   ├── VariableDemo.java
+│   ├── ScannerDemo.java
+│   └── BusinessCard.java
+└── src/test/java/com/week01/
+    └── StarterSmokeTest.java
 ```
 
-## 如何使用
-
-### 方法 1：使用 Maven 命令行
+## 运行命令
 
 ```bash
-# 编译项目
-cd /path/to/week01/starter_code
-mvn compile
-
-# 运行 HelloWorld
-mvn exec:java -Dexec.mainClass="com.week01.HelloWorld"
-
-# 运行 BusinessCard
-mvn exec:java -Dexec.mainClass="com.week01.BusinessCard"
-
-# 运行测试
+cd chapters/week_01/starter_code
 mvn test
+java -cp target/classes com.week01.HelloWorld
+java -cp target/classes com.week01.BusinessCard
 ```
 
-### 方法 2：使用 IntelliJ IDEA
+## 你需要编辑的文件
 
-1. 打开 IntelliJ IDEA
-2. 选择 `File` → `Open` → 选择 `starter_code` 目录
-3. 等待 Maven 导入完成
-4. 在左侧项目树中找到 `src/main/java/com/week01/`
-5. 右键点击要运行的 Java 文件 → `Run 'xxx.main()'`
+- `HelloWorld.java`：补全硬编码名片输出。
+- `VariableDemo.java`：把姓名、职位、邮箱、电话改成变量并拼接输出。
+- `ScannerDemo.java`：使用 `Scanner` 读取姓名、职位和年龄。
+- `BusinessCard.java`：完成主练习，读取姓名、职位、邮箱、年龄、工作年限并格式化输出。
 
-## 练习说明
+## TODO 清单
 
-### 练习 1：环境配置验证
+- TODO 1：保证类名和文件名一致。
+- TODO 2：用 `String`、`int`、`double` 存储不同类型的信息。
+- TODO 3：数字输入先用 `scanner.nextLine()` 读取，再用 `Integer.parseInt` / `Double.parseDouble` 转换。
+- TODO 4：不要在 Week 01 主线里写复杂异常处理；挑战题可用循环做简单验证。
+- TODO 5：把最终代码提交到你自己的团队仓库。
 
-按照作业文档中的步骤，验证 JDK、Maven、Git 是否正确安装。
-
-### 练习 2：Hello World 程序
-
-打开 `HelloWorld.java`，查看代码并运行。理解 Java 的基本结构。
-
-### 练习 3：变量声明练习
-
-打开 `VariableDemo.java`，尝试修改代码，理解静态类型的变量声明。
-
-### 练习 4：Scanner 输入练习
-
-打开 `ScannerDemo.java`，运行并输入信息。理解如何读取用户输入。
-
-### 练习 5：名片生成器
-
-打开 `BusinessCard.java`，这是你的主要任务。根据作业要求完成它。
-
-**起步提示**：
-- 代码已经包含了基本框架
-- 你需要补全读取输入的逻辑
-- 注意处理换行符问题（使用 `nextLine()` + `parseInt()`）
-
-## 常见问题
-
-### Q: 运行时提示 "找不到或无法加载主类"
-
-**A**: 确保在 `starter_code` 目录下运行命令，并且已经执行过 `mvn compile`。
-
-### Q: IntelliJ 中无法识别 JDK 17
-
-**A**: 在 `File` → `Project Structure` → `Project` 中设置 Project SDK 为 JDK 17。
-
-### Q: Maven 下载依赖很慢
-
-**A**: 可以配置国内镜像源（如阿里云）来加速下载。
-
-## 下一步
-
-完成所有练习后：
-1. 提交代码到你的团队 Git 仓库
-2. 编写作业报告
-3. 确保团队项目启动完成（Git 仓库、README、项目锚点）
-
-祝你学习愉快！
+`mvn test` 只是烟雾测试，确认骨架能编译运行。它不会替你验证作业是否完成，最终验收以 `ASSIGNMENT.md` 为准。
