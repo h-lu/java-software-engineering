@@ -13,7 +13,7 @@
 - **前置要求**：已学过 Python 基础（完成《Python 程序设计（Agentic Coding）》）
 - **课程时长**：16 周
 - **班级规模**：70 人，2-3 人团队（约 25-35 个项目）
-- **技术栈**：Java 17 + Javalin（极简）+ SQLite + JUnit 5
+- **技术栈**：Java 21 + Javalin（极简）+ SQLite + JUnit 5
 - **项目形式**：团队项目（CampusFlow）+ 项目集市展示
 
 ---

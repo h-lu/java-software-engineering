@@ -704,7 +704,7 @@ Mock 测试**不**验证：
 - 教材 Week 12 章节：`chapters/week_12/CHAPTER.md`
 - JUnit 5 文档：https://junit.org/junit5/docs/current/user-guide/
 - Mockito 文档：https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html
-- Java HttpClient 教程：https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/HttpClient.html
+- Java HttpClient 教程：https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html
 
 ---
 

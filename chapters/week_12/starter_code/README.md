@@ -7,6 +7,7 @@ API 实现故意很小。它只能证明 Javalin server 可以启动，task API 
 ## 运行命令
 
 ```bash
+cd chapters/week_12/starter_code
 mvn test
 mvn compile
 java -cp target/classes com.campusflow.App

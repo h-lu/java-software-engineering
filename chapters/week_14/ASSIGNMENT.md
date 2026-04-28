@@ -551,10 +551,10 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
        runs-on: ubuntu-latest
        steps:
          - uses: actions/checkout@v3
-         - name: Set up JDK 17
+         - name: Set up JDK 21
            uses: actions/setup-java@v3
            with:
-             java-version: '17'
+             java-version: '21'
              distribution: 'temurin'
          - name: Build with Maven
            run: mvn -B package --file pom.xml
@@ -582,7 +582,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
 
 1. **使用 AI 生成 Dockerfile**：
    ```
-   Prompt: "帮我写一个 Java 应用的 Dockerfile，基于 Maven 3.9 和 Java 17，应用入口是 com.campusflow.Main"
+   Prompt: "帮我写一个 Java 应用的 Dockerfile，基于 Maven 3.9 和 Java 21，应用入口是 com.campusflow.Main"
    ```
 
 2. **使用审查清单评估**：

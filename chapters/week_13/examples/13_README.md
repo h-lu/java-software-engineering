@@ -10,7 +10,7 @@
 
 ### 前置要求
 
-- Java 17+ ([下载](https://adoptium.net/))
+- Java 21+ ([下载](https://adoptium.net/))
 - Maven 3.6+ ([下载](https://maven.apache.org/download.cgi))
 
 ### 1. 克隆仓库

@@ -21,7 +21,7 @@
 1. 理解软件工程三个黄金时代的演进（从汇编到对象到 AI）
 2. 解释 Python（动态类型）和 Java（静态类型）的思维差异
 3. 写出第一个可运行的 Java 程序
-4. 配置完整的开发环境（JDK 17、IntelliJ、Maven、Git）
+4. 配置完整的开发环境（JDK 21、IntelliJ、Maven、Git）
 5. 为团队项目建立 Git 仓库并完成首次提交
 
 <!--
@@ -1195,7 +1195,7 @@ README 是项目的"门面"，应该包含：
 - 功能3：[描述]
 
 ## 技术栈
-- 后端：Java 17 + Javalin + SQLite + JDBC
+- 后端：Java 21 + Javalin + SQLite + JDBC
 - 前端：AI 生成（HTML + CSS + JavaScript）
 - 测试：JUnit 5
 - 构建工具：Maven
@@ -1316,7 +1316,7 @@ git commit -m "fix: 修复 Scanner nextInt() 的换行符问题"
 - [ ] 能解释 IDE 报错信息并修复常见问题
 
 ### 环境配置
-- [ ] JDK 17 安装成功（`java -version` 显示正确）
+- [ ] JDK 21 安装成功（`java -version` 显示正确）
 - [ ] IntelliJ IDEA 能创建并运行 Java 项目
 - [ ] Maven 能构建项目（`mvn -v` 显示正确）
 - [ ] Git 配置完成（`git config --list` 包含 user.name 和 user.email）

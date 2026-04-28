@@ -467,10 +467,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
       - name: Run SpotBugs
         run: mvn spotbugs:check
@@ -568,7 +568,7 @@ jobs:
 ### Q1: SpotBugs 报错 "Failed to analyze plugin descriptor" 怎么办？
 
 检查 Maven 依赖是否正确：
-- 确保 JDK 版本兼容（建议 Java 17）
+- 确保 JDK 版本兼容（建议 Java 21）
 - 尝试 `mvn clean` 后重新运行
 - 检查网络连接（Maven 需要下载插件）
 

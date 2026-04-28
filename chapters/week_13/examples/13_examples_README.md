@@ -102,7 +102,7 @@
 # My Project
 
 ## 技术栈
-- Java 17
+- Java 21
 - Spring Boot
 - PostgreSQL
 

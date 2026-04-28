@@ -7,6 +7,7 @@ Week 15 主要交付展示材料，不要求新增 CampusFlow 功能代码。这
 需要 Java 21 和 Maven 3.9+。
 
 ```bash
+cd chapters/week_15/starter_code
 mvn test
 mvn -q compile
 java -cp target/classes com.campusflow.ShowcaseReadinessCheck
