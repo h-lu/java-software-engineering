@@ -1,61 +1,32 @@
-/*
- * InMemoryTaskRepository - 内存版任务 Repository 实现。
- *
- * 使用 ConcurrentHashMap 存储任务，线程安全。
- * 适用于开发和测试环境。
- */
 package com.campusflow.repository;
 
 import com.campusflow.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * 内存版任务 Repository 实现。
- */
 public class InMemoryTaskRepository implements TaskRepository {
-
-    private final Map<String, Task> tasks = new ConcurrentHashMap<>();
-    private final AtomicInteger nextId = new AtomicInteger(1);
-
     @Override
-    public Task save(Task task) {
-        if (task.getId() == null) {
-            task.setId(String.valueOf(nextId.getAndIncrement()));
-        }
-        tasks.put(task.getId(), task);
-        return task;
+    public List<Task> findAll() {
+        // TODO: Store tasks in insertion order and return a defensive copy.
+        return List.of();
     }
 
     @Override
     public Optional<Task> findById(String id) {
-        return Optional.ofNullable(tasks.get(id));
+        // TODO: Look up the task by id.
+        return Optional.empty();
     }
 
     @Override
-    public List<Task> findAll() {
-        return new ArrayList<>(tasks.values());
+    public Task save(Task task) {
+        // TODO: Save new and updated tasks.
+        return task;
     }
 
     @Override
-    public List<Task> findByStatus(String status) {
-        return tasks.values().stream()
-            .filter(t -> status.equals(t.getStatus()))
-            .toList();
-    }
-
-    @Override
-    public void delete(String id) {
-        tasks.remove(id);
-    }
-
-    @Override
-    public long count() {
-        return tasks.size();
+    public boolean deleteById(String id) {
+        // TODO: Remove the task and report whether anything was deleted.
+        return false;
     }
 }

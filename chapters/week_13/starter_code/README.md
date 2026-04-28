@@ -1,74 +1,35 @@
-# CampusFlow
+# Week 13 Starter Code：文档与知识传递
 
-> 一个简洁的校园任务管理系统，支持创建任务、设置截止日期、标记完成。
+这个目录是学生起步包，不是答案。你需要把 TODO 模板改成自己 CampusFlow 项目的文档。
 
-## 快速开始（5 分钟）
+## 本周任务
 
-### 前置要求
-- Java 17+
-- Maven 3.6+
+完成 Week 13 作业中的三类交付物：
 
-### 1. 克隆仓库
+- `openapi.yaml`：描述 CampusFlow REST API 的契约。
+- `PROJECT_README_TODO.md`：改写为你的项目 README，可以完成后复制到项目根目录 `README.md`。
+- `docs/ADR_INDEX.md` 与 `docs/ADR/*.md`：汇总架构决策，说明每个选择的背景、理由、后果。
+
+## 运行检查
+
+需要 Java 21 和 Maven 3.9+。
+
 ```bash
-git clone https://github.com/your-org/campusflow.git
-cd campusflow
+mvn test
 ```
 
-### 2. 编译并运行
-```bash
-mvn compile exec:java
-```
+这个 smoke test 只检查起步包结构和 TODO 标记是否存在，不会替你判断文档质量。完成作业后，你还需要按 `ASSIGNMENT.md` 和 `RUBRIC.md` 自查。
 
-### 3. 访问应用
-- 打开浏览器访问 http://localhost:7070
-- API 文档：http://localhost:7070/api-docs.yaml
+## 建议步骤
 
-### 验证安装
-发送测试请求：
-```bash
-curl http://localhost:7070/health
-# 预期输出：{"service":"CampusFlow","version":"2.4.0","status":"UP",...}
-```
+1. 先阅读 `../ASSIGNMENT.md` 和 `../examples/`。
+2. 根据你自己的 CampusFlow API 修改 `openapi.yaml`。
+3. 把 `PROJECT_README_TODO.md` 改成真实的 5 分钟快速开始文档。
+4. 补全 `docs/ADR_INDEX.md`，并把已有 ADR 逐条连接起来。
+5. 用 AI 生成内容时，逐条核对端口、路径、字段名、版本号，删除不真实的内容。
 
-## 功能特性
+## 不要提交的内容
 
-- ✅ 创建任务、编辑任务、删除任务
-- ✅ 设置截止日期、标记完成
-- ✅ 任务搜索和过滤
-- ✅ RESTful API + OpenAPI 文档
-- ✅ 逾期费用计算
-
-## 使用指南
-
-### 创建任务
-```bash
-curl -X POST http://localhost:7070/tasks \
-  -H "Content-Type: application/json" \
-  -d '{"title":"学习集成测试","completed":false,"dueDate":"2026-12-31"}'
-```
-
-### 获取所有任务
-```bash
-curl http://localhost:7070/tasks
-```
-
-## 常见问题
-
-**Q: 数据库在哪里？**
-A: 本版本使用内存数据库，数据在应用重启后会丢失。
-
-**Q: 如何修改端口号？**
-A: 编辑 `src/main/java/com/campusflow/App.java`，修改 `PORT` 常量。
-
-## 架构设计
-
-本项目采用三层架构：
-- **Controller 层**：处理 HTTP 请求
-- **Service 层**：业务逻辑
-- **Repository 层**：数据访问
-
-详细的架构决策请参考 [docs/ADR](docs/ADR)。
-
-## 许可证
-
-MIT License
+- 不要把示例里的完整答案原样复制为你的交付物。
+- 不要编造不存在的端点、配置项、部署地址或统计数据。
+- 不要把 API 密钥、数据库密码等敏感信息写进 README 或 OpenAPI 示例。

@@ -1,13 +1,9 @@
 import java.time.LocalDate;
 
-/**
- * 借阅记录类
- * 用于图书馆借阅追踪器
- */
 public class BorrowRecord {
-    private String isbn;
-    private String borrower;
-    private LocalDate borrowDate;
+    private final String isbn;
+    private final String borrower;
+    private final LocalDate borrowDate;
 
     public BorrowRecord(String isbn, String borrower) {
         this.isbn = isbn;
@@ -25,10 +21,5 @@ public class BorrowRecord {
 
     public LocalDate getBorrowDate() {
         return borrowDate;
-    }
-
-    @Override
-    public String toString() {
-        return "BorrowRecord{isbn='" + isbn + "', borrower='" + borrower + "', date=" + borrowDate + "}";
     }
 }

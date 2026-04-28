@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusFlow Reviewed Frontend</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem;
+      max-width: 760px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CampusFlow</h1>
+    <p id="status">TODO: Build the reviewed frontend here.</p>
+    <form id="task-form">
+      <label>
+        Task title
+        <input id="task-title" name="title" autocomplete="off">
+      </label>
+      <button type="submit">Add task</button>
+    </form>
+    <section id="tasks" aria-live="polite"></section>
+  </main>
+  <script>
+    const API_BASE = 'http://localhost:7070';
+
+    document.querySelector('#task-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO: Validate input, call the CampusFlow API, handle errors, then render safely with textContent.
+      document.querySelector('#status').textContent = `TODO: connect to ${API_BASE}`;
+    });
+  </script>
+</body>
+</html>
