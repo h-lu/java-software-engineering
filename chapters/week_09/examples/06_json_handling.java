@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * <p>Jackson 是 Java 世界最流行的 JSON 库，Spring Boot 和 Javalin 都默认使用它。
  */
-public class _06_json_handling {
+class _06_json_handling {
 
     private ObjectMapper mapper;
 

@@ -1,8 +1,7 @@
 /*
  * 示例：完整的图书管理 REST API（CRUD）。
  * 本例演示：使用 Javalin 实现完整的图书管理 API，包括所有 CRUD 操作。
- * 运行方式：mvn -q -f chapters/week_09/starter_code/pom.xml compile exec:java \
- *          -Dexec.mainClass="examples._05_book_api_crud"
+ * 运行方式：把本文件复制到一个已添加所需依赖的 Maven 项目中运行。
  * 预期输出：服务启动，提供完整的图书管理 REST API
  *
  * 测试命令：
@@ -43,7 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *   <li>Entity: 领域模型</li>
  * </ul>
  */
-public class _05_book_api_crud {
+class _05_book_api_crud {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════════╗");

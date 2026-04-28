@@ -11,7 +11,7 @@
 ### 前置要求
 
 - Java 21+ ([下载](https://adoptium.net/))
-- Maven 3.6+ ([下载](https://maven.apache.org/download.cgi))
+- Maven 3.9+ ([下载](https://maven.apache.org/download.cgi))
 
 ### 1. 克隆仓库
 
@@ -30,16 +30,16 @@ mvn compile exec:java
 
 ### 3. 访问应用
 
-- Web 界面：http://localhost:7070
-- API 文档：http://localhost:7070/swagger-ui（暂未启用）
-- 健康检查：http://localhost:7070/health
+- Web 界面：http://localhost:8080
+- API 文档：http://localhost:8080/swagger-ui（暂未启用）
+- 健康检查：http://localhost:8080/health
 
 ### 验证安装
 
 发送测试请求：
 
 ```bash
-curl http://localhost:7070/health
+curl http://localhost:8080/health
 # 预期输出：{"service":"CampusFlow","version":"2.3.0","status":"UP"}
 ```
 
@@ -92,19 +92,19 @@ campusflow/
 #### 健康检查
 
 ```bash
-curl http://localhost:7070/health
+curl http://localhost:8080/health
 ```
 
 #### 获取所有任务
 
 ```bash
-curl http://localhost:7070/tasks
+curl http://localhost:8080/api/tasks
 ```
 
 #### 创建任务
 
 ```bash
-curl -X POST http://localhost:7070/tasks \
+curl -X POST http://localhost:8080/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
     "title": "学习集成测试",
@@ -116,13 +116,13 @@ curl -X POST http://localhost:7070/tasks \
 #### 标记任务完成
 
 ```bash
-curl -X POST http://localhost:7070/tasks/{id}/complete
+curl -X POST http://localhost:8080/api/tasks/{id}/complete
 ```
 
 #### 更新任务（部分字段）
 
 ```bash
-curl -X PATCH http://localhost:7070/tasks/{id} \
+curl -X PATCH http://localhost:8080/api/tasks/{id} \
   -H "Content-Type: application/json" \
   -d '{"completed": true}'
 ```
@@ -130,13 +130,13 @@ curl -X PATCH http://localhost:7070/tasks/{id} \
 #### 删除任务
 
 ```bash
-curl -X DELETE http://localhost:7070/tasks/{id}
+curl -X DELETE http://localhost:8080/api/tasks/{id}
 ```
 
 ### 获取统计信息
 
 ```bash
-curl http://localhost:7070/stats
+curl http://localhost:8080/api/stats
 # 预期输出：{"total":3,"completed":1,"pending":2,"overdue":0}
 ```
 

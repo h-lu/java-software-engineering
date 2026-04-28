@@ -69,7 +69,7 @@ class TaskApiIntegrationTest {
     @BeforeEach
     void setUp() {
         // 使用内存数据库
-        taskRepository = new TaskRepository("jdbc:h2:mem:test");
+        taskRepository = new InMemoryTaskRepository();
 
         // 启动 Javalin 服务器
         app = Javalin.create().start(8080);
@@ -105,7 +105,7 @@ void getTasks_returnsEmptyList_initially() throws Exception {
 @Test
 void getTasks_returnsListOfTasks() throws Exception {
     // given: 准备测试数据
-    taskRepository.save(new Task("任务1"));
+    taskRepository.save(new Task("1", "任务1", false));
 
     // when: 发送请求
     HttpResponse<String> response = HttpClient.newHttpClient()
@@ -188,7 +188,7 @@ void createTask_invalidTitle_returns400() throws Exception {
 @Test
 void getTask_apiReturnsExpectedJsonFormat() throws Exception {
     // given: 准备测试数据
-    Task task = new Task("测试任务");
+    Task task = new Task("1", "测试任务", false);
     taskRepository.save(task);
 
     // when: 请求任务详情
@@ -268,7 +268,7 @@ class TaskServiceMockTest {
     void getAllTasks_withMock_returnsTasks() {
         // given: Mock 返回预设数据
         when(mockRepository.findAll())
-            .thenReturn(List.of(new Task("任务1"), new Task("任务2")));
+            .thenReturn(List.of(new Task("1", "任务1", false), new Task("2", "任务2", false)));
 
         // when: 调用 Service
         List<Task> tasks = taskService.getAllTasks();
@@ -279,27 +279,28 @@ class TaskServiceMockTest {
     }
 
     @Test
-    void deleteTask_withMock_verifiesCall() {
-        // given: Mock 无需返回值
-        doNothing().when(mockRepository).delete("1");
+    void getTask_withMock_verifiesFindById() {
+        // given: Mock 返回预设数据
+        Task task = new Task("1", "任务1", false);
+        when(mockRepository.findById("1")).thenReturn(Optional.of(task));
 
-        // when: 删除任务
-        taskService.deleteTask("1");
+        // when: 查询任务
+        Optional<Task> result = taskService.getTask("1");
 
-        // then: 验证是否调用了 delete
-        verify(mockRepository).delete("1");
-        verify(mockRepository, times(1)).delete("1");
+        // then: 验证返回值和 repository 调用
+        assertTrue(result.isPresent());
+        assertEquals("任务1", result.get().getTitle());
+        verify(mockRepository, times(1)).findById("1");
     }
 
     @Test
-    void findById_notFound_throwsException() {
+    void findById_notFound_returnsEmptyOptional() {
         // given: Mock 返回空
         when(mockRepository.findById("999")).thenReturn(Optional.empty());
 
-        // when/then: 验证抛出异常
-        assertThrows(NotFoundException.class, () -> {
-            taskService.getTaskById("999");
-        });
+        // when/then: 验证 Optional.empty()
+        assertTrue(taskService.getTask("999").isEmpty());
+        verify(mockRepository).findById("999");
     }
 }
 ```
@@ -310,16 +311,16 @@ Spy 是"部分 Mock"，部分方法真实实现，部分方法 Mock：
 
 ```java
 @Test
-void markCompleted_withSpy_callsRealMethod() {
+void setCompleted_withSpy_callsRealMethod() {
     // given: 创建 Spy 对象
-    Task task = spy(new Task("测试任务"));
+    Task task = spy(new Task("1", "测试任务", false));
 
-    // when: 调用真实方法
-    task.markCompleted();
+    // when: 调用真实 setter
+    task.setCompleted(true);
 
     // then: 验证状态变化
     assertTrue(task.isCompleted());
-    verify(task, atLeastOnce()).markCompleted();
+    verify(task, atLeastOnce()).setCompleted(true);
 }
 ```
 

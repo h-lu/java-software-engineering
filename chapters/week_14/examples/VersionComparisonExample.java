@@ -32,23 +32,15 @@ public class VersionComparisonExample {
         System.out.println("说明: 2.0.0 有破坏性变更，需要检查兼容性\n");
 
         // 示例 4: 预发布版本比较
-        Version beta = new Version(1, 0, 0, "beta.1");
-        Version rc = new Version(1, 0, 0, "rc.1");
-        Version stable = new Version(1, 0, 0);
-        System.out.println("预发布版本比较:");
-        System.out.println(beta + " vs " + rc + " = " + beta.compareTo(rc));
-        System.out.println(beta + " vs " + stable + " = " + beta.compareTo(stable));
-        System.out.println("说明: beta < rc < stable（预发布版本 < 正式版本）\n");
-
-        // 示例 5: 版本升级
+        // 示例 4: 版本升级
         System.out.println("版本升级示例:");
         System.out.println("当前版本: " + v1_0_0);
-        System.out.println("PATCH 升级: " + v1_0_0.incrementPatch());
-        System.out.println("MINOR 升级: " + v1_0_0.incrementMinor());
-        System.out.println("MAJOR 升级: " + v1_0_0.incrementMajor());
+        System.out.println("PATCH 升级: " + v1_0_0.nextPatch());
+        System.out.println("MINOR 升级: " + v1_0_0.nextMinor());
+        System.out.println("MAJOR 升级: " + v1_0_0.nextMajor());
         System.out.println("说明: PATCH 和 MINOR 升级向后兼容，MAJOR 升级需要检查变更\n");
 
-        // 示例 6: 解析版本字符串
+        // 示例 5: 解析版本字符串
         System.out.println("版本字符串解析:");
         String[] versionStrings = {
             "1.0.0",

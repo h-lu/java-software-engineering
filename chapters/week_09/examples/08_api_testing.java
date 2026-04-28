@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * </ul>
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class _08_api_testing {
+class _08_api_testing {
 
     private static Javalin app;
     private static HttpClient client;

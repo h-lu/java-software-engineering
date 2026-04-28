@@ -111,7 +111,7 @@ Render 自动：
 
 ```dockerfile
 # 多阶段构建（减小镜像大小）
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
@@ -124,7 +124,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 运行时镜像（更小）
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 

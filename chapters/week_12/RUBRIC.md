@@ -173,7 +173,7 @@
 
 **检查要点**：
 - [ ] 使用 `spy(object)` 创建 Spy 对象（3 分）
-- [ ] 调用真实方法（如 `task.markCompleted()`）（4 分）
+- [ ] 调用真实方法（如 `task.setCompleted(true)`）（4 分）
 - [ ] 验证方法被调用（3 分）
 
 **常见错误**：
@@ -438,7 +438,7 @@ cat ROOT_CAUSE_ANALYSIS.md
 |---------|---------|---------|
 | 集成测试 | `mvn test -Dtest=TaskApiIntegrationTest` | 所有测试通过 |
 | Mock 测试 | `mvn test -Dtest=TaskServiceMockTest` | 所有测试通过 |
-| 覆盖率 | `mvn test jacoco:report` | 覆盖率 >= 70% |
+| 测试运行 | `mvn test` | 集成测试、Mock 测试与契约测试全部通过 |
 
 **扣分项**：
 - 测试无法运行：-10 分/项

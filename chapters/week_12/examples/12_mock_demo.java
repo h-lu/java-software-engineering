@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
  *   <li>加快测试速度</li>
  * </ul>
  */
-public class _12_mock_demo {
+class _12_mock_demo {
 
     /**
      * 示例 1：最简单的 Mock

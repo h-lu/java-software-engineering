@@ -243,12 +243,12 @@ GET    /stats               - 获取统计信息
 
 1. 修改 `App.java`，添加 CORS 配置：
    ```java
-   import io.javalin.plugin.bundled.CorsPlugin;
+   import io.javalin.plugin.bundled.CorsPluginConfig;
 
    var app = Javalin.create(config -> {
        config.bundledPlugins.enableCors(cors -> {
            // 开发环境：允许任何来源
-           cors.addRule(CorsRule::anyHost);
+           cors.addRule(CorsPluginConfig.CorsRule::anyHost);
 
            // 生产环境应该限制具体域名：
            // cors.addRule(rule -> rule.allowHost("http://localhost:8080"));

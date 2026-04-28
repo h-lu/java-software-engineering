@@ -342,10 +342,12 @@ has been blocked by CORS policy.
 老潘在 Javalin 配置中添加了 CORS 支持：
 
 ```java
+import io.javalin.plugin.bundled.CorsPluginConfig;
+
 // 在 Javalin 应用配置中添加
 var app = Javalin.create(config -> {
     config.bundledPlugins.enableCors(cors -> {
-        cors.addRule(CorsRule::anyHost);  // 开发环境：允许任何来源
+        cors.addRule(CorsPluginConfig.CorsRule::anyHost);  // 开发环境：允许任何来源
         // 生产环境应该限制具体域名：
         // cors.addRule(rule -> rule.allowHost("http://localhost:8080"));
     });
@@ -583,10 +585,12 @@ async function loadTasks() {
 
 ```java
 // CampusFlowApplication.java - 添加 CORS 支持
+import io.javalin.plugin.bundled.CorsPluginConfig;
+
 var app = Javalin.create(config -> {
     config.bundledPlugins.enableCors(cors -> {
         // 开发环境：允许任何来源
-        cors.addRule(CorsRule::anyHost);
+        cors.addRule(CorsPluginConfig.CorsRule::anyHost);
     });
 }).start(7070);
 ```

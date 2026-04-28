@@ -312,7 +312,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
    }
    ```
 
-3. **修改 App.java 使用配置**：
+3. **修改 Main.java 使用配置**：
 
    ```java
    // 之前（硬编码）
@@ -345,7 +345,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
 **提交物**：
 - `config-dev.properties` 和 `config-prod.properties`
 - `Config.java`：配置管理类
-- `App.java`：修改后的启动类
+- `Main.java`：修改后的启动类
 
 **评分要点**：
 - 配置文件结构合理（7 分）
@@ -477,14 +477,14 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
 1. **编写多阶段构建 Dockerfile**：
    ```dockerfile
    # 构建阶段
-   FROM maven:3.9-eclipse-temurin-17 AS build
+   FROM maven:3.9-eclipse-temurin-21 AS build
    WORKDIR /app
    COPY pom.xml .
    COPY src ./src
    RUN mvn clean package -DskipTests
 
    # 运行阶段
-   FROM eclipse-temurin:17-jre-alpine
+   FROM eclipse-temurin:21-jre-alpine
    WORKDIR /app
    COPY --from=build /app/target/campusflow-*.jar app.jar
    EXPOSE 8080
@@ -675,7 +675,7 @@ week_14_submission/
 ├── src/
 │   └── main/
 │       ├── java/com/campusflow/
-│       │   ├── App.java
+│       │   ├── Main.java
 │       │   └── config/
 │       │       └── Config.java
 │       └── resources/

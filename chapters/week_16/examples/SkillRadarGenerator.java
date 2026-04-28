@@ -1,6 +1,6 @@
 /*
  * 示例：能力雷达图生成器
- * 运行方式：javac SkillRadarGenerator.java && java SkillRadarGenerator
+ * 运行方式：在 examples 目录内执行 javac SkillRadarGenerator.java && java SkillRadarGenerator；或在 week_16 目录执行 java -cp examples SkillRadarGenerator
  * 预期输出：生成 skill_radar.md，包含 ASCII 雷达图和详细评估
  *
  * Week 16: 项目展示与工程复盘

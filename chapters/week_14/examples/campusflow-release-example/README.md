@@ -103,8 +103,6 @@ api.base_path=/api
 ```
 campusflow-release-example/
 ├── pom.xml                           # Maven 配置（含 maven-shade-plugin）
-├── config-dev.properties             # 开发环境配置
-├── config-prod.properties            # 生产环境配置
 ├── src/
 │   └── main/
 │       ├── java/
@@ -127,12 +125,12 @@ campusflow-release-example/
 **start.sh**（Linux/Mac）:
 ```bash
 #!/bin/bash
-CAMPUSFLOW_ENV=prod java -jar campusflow-1.0.0.jar
+CAMPUSFLOW_ENV=prod java -jar target/campusflow-1.0.0.jar
 ```
 
 **start.bat**（Windows）:
 ```batch
 @echo off
 set CAMPUSFLOW_ENV=prod
-java -jar campusflow-1.0.0.jar
+java -jar target/campusflow-1.0.0.jar
 ```

@@ -283,7 +283,7 @@ public String getStatus() {
 ```java
 @Test
 void getStatus_completed_returnsCompleted() {
-    task.markCompleted();
+    task.setCompleted(true);
     assertEquals("completed", task.getStatus());
 }
 ```
@@ -477,13 +477,10 @@ jobs:
       - name: Run tests with coverage
         run: mvn test jacoco:report
       - name: Check coverage threshold
-        run: |
-          COVERAGE=$(mvn exec:exec -Dexec.executable='echo' -Dexec.args='%jacoco.line.coverage%' | grep -oP '\d+')
-          if [ $COVERAGE -lt 75 ]; then
-            echo "Coverage $COVERAGE% is below 75% threshold"
-            exit 1
-          fi
+        run: mvn jacoco:check
 ```
+
+2. **在 `pom.xml` 的 JaCoCo 配置中添加 `check` rule**，例如要求 line coverage 不低于 75%；CI 中用 `mvn jacoco:check` 读取这条规则。
 
 2. **提交一个 PR，验证 CI 跑通**
 
@@ -612,7 +609,7 @@ jobs:
 
 ## 参考资源
 
-- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/App.java` 中的示例代码
+- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/quality/CodeWithIssues.java` 和 `TaskStatusCalculator.java` 中的示例代码
 - SpotBugs 官方文档：https://spotbugs.github.io/
 - JaCoCo 官方文档：https://www.jacoco.org/jacoco/trunk/doc/
 - Week 11 章节正文：`chapters/week_11/CHAPTER.md`
