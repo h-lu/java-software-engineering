@@ -36,6 +36,7 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
    - 回顾从 Week 01 到 Week 13 的所有功能变更
    - 判断当前版本应该是 v0.x（开发中）还是 v1.0.0（正式发布）
    - 判断标准：功能完整、测试覆盖、文档齐全
+   - starter 中提供 `com.campusflow.util.Version` 作为 SemVer 练习类；如果保留该类，请实现 `parse`、`compareTo`、`nextMajor`、`nextMinor`、`nextPatch`
 
 2. **创建 Git Tag**：
    ```bash
@@ -168,6 +169,8 @@ Semantic Versioning（语义化版本）用三段数字传递变更信息：
    # 运行 JAR
    java -jar target/campusflow-1.0.0.jar
    ```
+
+   如果使用 starter 的 `pom.xml`，请把 shade 输出统一为 `target/campusflow-1.0.0.jar`（例如配置 `<finalName>campusflow-1.0.0</finalName>`），不要在 README、脚本和作业报告中混用 starter artifact 名称。
 
 3. **验证 JAR 可执行性**：
    - 双击 JAR（或在命令行运行）能正常启动

@@ -7,7 +7,7 @@
 完成 Week 13 作业中的三类交付物：
 
 - `openapi.yaml`：描述 CampusFlow REST API 的契约。
-- `PROJECT_README_TODO.md`：改写为你的项目 README，可以完成后复制到项目根目录 `README.md`。
+- `PROJECT_README_TODO.md`：改写为你的项目 README；完成后可重命名为 `PROJECT_README.md`，再复制到项目根目录 `README.md`。
 - `docs/ADR_INDEX.md` 与 `docs/ADR/*.md`：汇总架构决策，说明每个选择的背景、理由、后果。
 
 ## 运行检查
@@ -19,13 +19,13 @@ cd chapters/week_13/starter_code
 mvn test
 ```
 
-这个 smoke test 只检查起步包结构和 TODO 标记是否存在，不会替你判断文档质量。完成作业后，你还需要按 `ASSIGNMENT.md` 和 `RUBRIC.md` 自查。
+这个 smoke test 只检查起步包结构和关键文档是否可读，不会替你判断文档质量。完成作业后，你还需要按 `ASSIGNMENT.md` 和 `RUBRIC.md` 自查。
 
 ## 建议步骤
 
 1. 先阅读 `../ASSIGNMENT.md` 和 `../examples/`。
 2. 根据你自己的 CampusFlow API 修改 `openapi.yaml`。
-3. 把 `PROJECT_README_TODO.md` 改成真实的 5 分钟快速开始文档。
+3. 把 `PROJECT_README_TODO.md` 改成真实的 5 分钟快速开始文档；最终提交时可先重命名为 `PROJECT_README.md`，再复制到项目根目录的 `README.md`。
 4. 补全 `docs/ADR_INDEX.md`，并把已有 ADR 逐条连接起来。
 5. 用 AI 生成内容时，逐条核对端口、路径、字段名、版本号，删除不真实的内容。
 

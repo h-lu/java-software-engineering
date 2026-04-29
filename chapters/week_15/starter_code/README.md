@@ -16,12 +16,20 @@ java -cp target/classes com.campusflow.ShowcaseReadinessCheck
 ## 需要编辑的文件
 
 - `presentation_script.md`：TODO 写 8-10 分钟演示脚本关键点。
-- `slides_outline.md`：TODO 规划 12-15 页 PPT。
-- `poster_checklist.md`：TODO 检查 A1 海报信息层级和二维码。
+- `slides_outline.md`：TODO 规划 12-15 页 PPT；它是准备材料，不替代最终提交的 `slides.pptx` 或 `slides.html`。
+- `poster_checklist.md`：TODO 检查 A1 海报信息层级和二维码；它是检查清单，不替代最终提交的 `poster.pdf` 或 `poster.html`。
 - `qa_prep.md`：TODO 准备 10-15 个问答。
-- `showcase_practice.md`：TODO 记录跨组演练反馈。
-- `ai_ppt_review.md`：TODO 如果使用 AI 生成 PPT 草稿，记录人工审查。
-- `prepare_demo_data.sh`：TODO 按你真实 API 修改演示数据脚本。
+- `showcase_practice.md`：可选加分，记录跨组演练反馈；未参加时保留文件并说明未参加即可。
+- `ai_ppt_review.md`：可选加分，如果使用 AI 生成 PPT 草稿，记录人工审查。
+- `prepare_demo_data.sh`：可选演示辅助脚本，不作为评分提交物；如果使用，请按你真实 API 修改。
+
+## 最终提交物映射
+
+- `presentation_script.md` -> 作业提交的演示脚本。
+- `slides_outline.md` -> 生成 `slides.pptx` 或 `slides.html`。
+- `poster_checklist.md` -> 生成 `poster.pdf` 或 `poster.html`。
+- `qa_prep.md` -> 作业提交的问答准备。
+- `showcase_practice.md`、`ai_ppt_review.md` -> 只在选择进阶/AI 协作练习时提交。
 
 ## 使用建议
 

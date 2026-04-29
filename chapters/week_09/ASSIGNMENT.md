@@ -35,6 +35,7 @@ mvn compile exec:java
 
 要求：
 - [ ] 使用 JSON 作为请求/响应格式
+- [ ] `GET /tasks` 返回统一列表 envelope：`{"data": [...], "total": N}`。Week 10 前端会按这个结构读取任务列表
 - [ ] 复用 Week 08 的 Repository 层
 - [ ] 实现请求验证（标题不能为空等）
 - [ ] 使用合适的状态码

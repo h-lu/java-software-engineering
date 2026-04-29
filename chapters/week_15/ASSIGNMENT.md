@@ -68,6 +68,8 @@
 - 提交文件：`slides.pptx` / `poster.pdf`
 - 或提交设计源文件：`slides.html` / `poster.html`
 
+starter 中的 `slides_outline.md` 和 `poster_checklist.md` 只是准备辅助文件：前者用于生成最终 PPT，后者用于检查海报信息层级。基础提交仍必须包含上面的 PPT 和海报成品文件。
+
 ---
 
 ### 任务 3：准备问答应对（30 分）

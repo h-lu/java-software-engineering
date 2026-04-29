@@ -1,0 +1,2974 @@
+Reading additional input from stdin...
+OpenAI Codex v0.125.0 (research preview)
+--------
+workdir: /root/.openclaw/workspace/projects/java-software-engineering
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /root/.codex/memories]
+reasoning effort: high
+reasoning summaries: none
+session id: 019dd45a-6c72-7050-ab2b-efff0cdf916c
+--------
+user
+你是 Java 课程作业审稿 agent（分片 week11_12）。请只审查，不要修改课程文件。范围：chapters/week_11 到 chapters/week_12。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week11_12.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the vendored bubblewrap in the meantime.
+codex
+我会按只读审查处理课程内容，只新建审计报告。先快速盘点 week_11/12 的作业、代码、测试和构建文件，再分别跑 Maven 测试。
+exec
+/bin/bash -lc 'find audit -maxdepth 3 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_11 chapters/week_12 -maxdepth 4 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 116ms:
+audit/week09_16/week09_10.stdout.log
+audit/week09_16/week11_12.stdout.log
+audit/week09_16/week13_14.stdout.log
+audit/week09_16/week15_16.stdout.log
+
+ succeeded in 150ms:
+chapters/week_11/.research_cache.md
+chapters/week_11/ANCHORS.yml
+chapters/week_11/ASSIGNMENT.md
+chapters/week_11/CHAPTER.md
+chapters/week_11/QA_REPORT.md
+chapters/week_11/RUBRIC.md
+chapters/week_11/TERMS.yml
+chapters/week_11/examples/11_jacoco_config.xml
+chapters/week_11/examples/11_jacoco_report_example.html
+chapters/week_11/examples/11_missing_test.java
+chapters/week_11/examples/11_nullpointer_fix.java
+chapters/week_11/examples/11_quality_gate_config.json
+chapters/week_11/examples/11_spotbugs_config.xml
+chapters/week_11/examples/11_spotbugs_report_example.html
+chapters/week_11/examples/11_technical_debt_backlog.md
+chapters/week_11/examples/README.md
+chapters/week_11/examples/TECHNICAL_DEBT_BACKLOG.md
+chapters/week_11/examples/quality-gate-config.json
+chapters/week_11/examples/spotbugs-exclude.xml
+chapters/week_11/starter_code/README.md
+chapters/week_11/starter_code/TECHNICAL_DEBT.md
+chapters/week_11/starter_code/TEST_SUMMARY.md
+chapters/week_11/starter_code/pom.xml
+chapters/week_11/starter_code/target/surefire-reports/TEST-com.campusflow.quality.TaskStatusCalculatorTest.xml
+chapters/week_11/starter_code/target/surefire-reports/com.campusflow.quality.TaskStatusCalculatorTest.txt
+chapters/week_12/.research_cache.md
+chapters/week_12/ANCHORS.yml
+chapters/week_12/ASSIGNMENT.md
+chapters/week_12/CHAPTER.md
+chapters/week_12/QA_REPORT.md
+chapters/week_12/RUBRIC.md
+chapters/week_12/TERMS.yml
+chapters/week_12/examples/12_bug_bash_report.md
+chapters/week_12/examples/12_contract_test.java
+chapters/week_12/examples/12_integration_test.java
+chapters/week_12/examples/12_mock_demo.java
+chapters/week_12/examples/12_stub_demo.java
+chapters/week_12/examples/12_test_pyramid.java
+chapters/week_12/examples/README.md
+chapters/week_12/starter_code/BUG_BASH_REPORT.md
+chapters/week_12/starter_code/README.md
+chapters/week_12/starter_code/ROOT_CAUSE_ANALYSIS.md
+chapters/week_12/starter_code/TECHNICAL_DEBT.md
+chapters/week_12/starter_code/TEST_SUMMARY.md
+chapters/week_12/starter_code/pom.xml
+chapters/week_12/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_12/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+
+ succeeded in 152ms:
+?? .codex
+?? .pct-state.json
+?? audit/
+
+codex
+初步发现两个周目录都已经包含 `starter_code/target/surefire-reports`，这是审稿重点之一：构建产物不应提交。接下来我会展开源码/测试树并读取关键文件，核对作业描述与实际入口。
+exec
+/bin/bash -lc 'rg --files chapters/week_11/starter_code chapters/week_12/starter_code chapters/week_11/ASSIGNMENT.md chapters/week_12/ASSIGNMENT.md | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+chapters/week_11/ASSIGNMENT.md
+chapters/week_11/starter_code/README.md
+chapters/week_11/starter_code/TECHNICAL_DEBT.md
+chapters/week_11/starter_code/TEST_SUMMARY.md
+chapters/week_11/starter_code/pom.xml
+chapters/week_11/starter_code/src/main/java/com/campusflow/quality/CodeWithIssues.java
+chapters/week_11/starter_code/src/main/java/com/campusflow/quality/TaskStatusCalculator.java
+chapters/week_11/starter_code/src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java
+chapters/week_12/ASSIGNMENT.md
+chapters/week_12/starter_code/BUG_BASH_REPORT.md
+chapters/week_12/starter_code/README.md
+chapters/week_12/starter_code/ROOT_CAUSE_ANALYSIS.md
+chapters/week_12/starter_code/TECHNICAL_DEBT.md
+chapters/week_12/starter_code/TEST_SUMMARY.md
+chapters/week_12/starter_code/pom.xml
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java
+chapters/week_12/starter_code/src/main/java/com/campusflow/model/Task.java
+chapters/week_12/starter_code/src/main/java/com/campusflow/repository/InMemoryTaskRepository.java
+chapters/week_12/starter_code/src/main/java/com/campusflow/repository/TaskRepository.java
+chapters/week_12/starter_code/src/main/java/com/campusflow/service/TaskService.java
+chapters/week_12/starter_code/src/test/java/com/campusflow/AppSmokeTest.java
+
+exec
+/bin/bash -lc "sed -n '1,280p' chapters/week_12/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_11/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,240p' chapters/week_11/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 188ms:
+# Week 12 作业：集成测试与 Bug Bash
+
+> "单元测试能证明各个零件能跑，但只有集成测试能证明它们在一起也能跑。"
+> —— 老潘
+
+---
+
+## 作业概述
+
+本周你将让 CampusFlow 从"各自能跑"走向"整体能跑"。你将编写集成测试验证前后端通信，使用测试替身（Mock）隔离外部依赖，并参与 Bug Bash 活动发现和修复系统问题。
+
+**核心任务**：
+1. 编写 API 集成测试，使用 HttpClient 发送真实 HTTP 请求
+2. 使用 Mockito 编写 Mock 测试，隔离外部依赖
+3. 参与团队 Bug Bash，发现至少 2 个 bug 并完成修复
+4. 编写 Bug Bash 报告和根因分析
+
+---
+
+## 学习目标（对应章节）
+
+完成本周作业后，你将能够：
+- **理解** 集成测试的价值与局限（Bloom：理解）
+- **应用** 测试替身（Mock/Stub）隔离外部依赖（Bloom：应用）
+- **分析** 端到端测试与契约测试的场景（Bloom：分析）
+- **评价** Bug Bash 的工程价值（Bloom：评价）
+- **创造** 适合自己项目的集成测试策略（Bloom：创造）
+
+---
+
+## 作业背景
+
+上周你为 CampusFlow 建立了质量门禁——SpotBugs 发现潜在 bug，JaCoCo 测量测试覆盖率。但小北在前后端联调时遇到了问题：前端调用 `/api/tasks`，后端只暴露了 `/tasks`。
+
+这是典型的"集成问题"——单元测试测的是"方法对不对"，集成测试测的是"接口对不对"。
+
+本周你需要：
+1. 为 CampusFlow 编写集成测试，确保前后端能正常通信
+2. 使用 Mock 替身隔离外部依赖，加快测试速度
+3. 参与 Bug Bash，通过团队协作发现边界情况
+4. 修复发现的问题，提升系统质量
+
+---
+
+## 基础作业（必做，100 分）
+
+### 任务 1：编写 API 集成测试（40 分）
+
+**目标**：为 CampusFlow 的 REST API 编写集成测试，验证前后端通信。
+
+**背景知识**：
+集成测试会启动真实的 Javalin 服务器，发送真实的 HTTP 请求，验证完整链路。这能发现单元测试发现不了的问题：
+- API 契约不匹配（如前端调用 `/api/tasks`，后端暴露 `/tasks`）
+- JSON 字段名错误（如返回 `taskName` 而不是 `title`）
+- HTTP 状态码不对（如应该返回 201 却返回 200）
+
+**要求**：
+
+#### 1.1 创建集成测试类（5 分）
+
+创建 `TaskApiIntegrationTest.java`，配置测试环境：
+
+```java
+class TaskApiIntegrationTest {
+
+    private Javalin app;
+    private TaskRepository taskRepository;
+
+    @BeforeEach
+    void setUp() {
+        // 使用内存数据库
+        taskRepository = new InMemoryTaskRepository();
+
+        // 启动 Javalin 服务器
+        app = Javalin.create().start(8080);
+        // 配置路由...
+    }
+
+    @AfterEach
+    void tearDown() {
+        app.stop();
+    }
+}
+```
+
+#### 1.2 编写 GET /api/tasks 测试（10 分）
+
+验证获取任务列表 API：
+
+```java
+@Test
+void getTasks_returnsEmptyList_initially() throws Exception {
+    // when: 发送 HTTP GET 请求
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks"))
+            .GET()
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证 HTTP 状态码和响应体
+    assertEquals(200, response.statusCode());
+    assertEquals("[]", response.body());
+}
+
+@Test
+void getTasks_returnsListOfTasks() throws Exception {
+    // given: 准备测试数据
+    taskRepository.save(new Task("1", "任务1", false));
+
+    // when: 发送请求
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks"))
+            .GET()
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证响应
+    assertEquals(200, response.statusCode());
+    assertTrue(response.body().contains("任务1"));
+}
+```
+
+#### 1.3 编写 POST /api/tasks 测试（10 分）
+
+验证创建任务 API：
+
+```java
+@Test
+void createTask_returns201AndTask() throws Exception {
+    // given: 准备请求体
+    String jsonBody = "{\"title\":\"集成测试任务\",\"completed\":false}";
+
+    // when: POST 请求创建任务
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks"))
+            .header("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString(jsonBody))
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证 201 Created 和返回的 JSON
+    assertEquals(201, response.statusCode());
+    assertTrue(response.body().contains("\"title\":\"集成测试任务\""));
+}
+```
+
+#### 1.4 编写错误场景测试（10 分）
+
+测试边界和异常情况：
+
+```java
+@Test
+void getTask_byId_notFound_returns404() throws Exception {
+    // when: 请求不存在的任务
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks/999"))
+            .GET()
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证 404 Not Found
+    assertEquals(404, response.statusCode());
+}
+
+@Test
+void createTask_invalidTitle_returns400() throws Exception {
+    // given: 空标题
+    String jsonBody = "{\"title\":\"\",\"completed\":false}";
+
+    // when: POST 请求
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks"))
+            .header("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString(jsonBody))
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证 400 Bad Request
+    assertEquals(400, response.statusCode());
+}
+```
+
+#### 1.5 编写契约测试（5 分）
+
+验证 API 契约（JSON 字段名、类型）：
+
+```java
+@Test
+void getTask_apiReturnsExpectedJsonFormat() throws Exception {
+    // given: 准备测试数据
+    Task task = new Task("1", "测试任务", false);
+    taskRepository.save(task);
+
+    // when: 请求任务详情
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8080/api/tasks/" + task.getId()))
+            .GET()
+            .build(), BodyHandlers.ofString());
+
+    // then: 验证 JSON 契约（字段名、类型）
+    String json = response.body();
+    assertTrue(json.contains("\"id\":"));
+    assertTrue(json.contains("\"title\":"));  // 不是 taskName
+    assertTrue(json.contains("\"completed\":"));
+}
+```
+
+**提交物**：
+- `TaskApiIntegrationTest.java`：集成测试类
+- `integration_test_results.txt`：测试运行结果（`mvn test` 的输出）
+
+**评分要点**：
+- 创建集成测试类，配置 @BeforeEach 和 @AfterEach（5 分）
+- GET /api/tasks 测试（10 分）
+- POST /api/tasks 测试（10 分）
+- 错误场景测试（10 分）
+- 契约测试（5 分）
+
+---
+
+### 任务 2：使用 Mock 编写单元测试（30 分）
+
+**目标**：使用 Mockito 编写 Mock 测试，隔离外部依赖（如数据库）。
+
+**背景知识**：
+Mock 对象是"替身演员"，可以替代真实的外部依赖（如数据库）。这样测试：
+- 更快（不需要连接数据库）
+- 更稳定（不会因为数据库问题失败）
+- 更专注（只测试业务逻辑，不测试外部系统）
+
+**要求**：
+
+#### 2.1 添加 Mockito 依赖（5 分）
+
+在 `pom.xml` 中添加：
+
+```xml
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>5.12.0</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-junit-jupiter</artifactId>
+    <version>5.12.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+#### 2.2 编写 Mock 测试（15 分）
+
+创建 `TaskServiceMockTest.java`：
+
+```java
+@ExtendWith(MockitoExtension.class)
+class TaskServiceMockTest {
+
+    @Mock
+    private TaskRepository mockRepository;
+
+    @InjectMocks
+    private TaskService taskService;
+
+    @Test
+    void getAllTasks_withMock_returnsTasks() {
+        // given: Mock 返回预设数据
+        when(mockRepository.findAll())
+            .thenReturn(List.of(new Task("1", "任务1", false), new Task("2", "任务2", false)));
+
+        // when: 调用 Service
+        List<Task> tasks = taskService.getAllTasks();
+
+        // then: 验证结果
+        assertEquals(2, tasks.size());
+        assertEquals("任务1", tasks.get(0).getTitle());
+    }
+
+
+ succeeded in 207ms:
+# Week 11 Starter Code：Quality Gate
+
+这个 starter 用于 Week 11 quality gate 作业。它故意没有提供完整的 SpotBugs 或 JaCoCo 配置；你需要自己添加插件、运行工具、分析结果，并改进测试。
+
+## 运行命令
+
+```bash
+cd chapters/week_11/starter_code
+mvn test
+```
+
+添加所需插件后，再运行：
+
+```bash
+mvn spotbugs:check
+mvn test jacoco:report
+```
+
+## 你需要编辑的文件
+
+- `pom.xml`：添加 SpotBugs 和 JaCoCo plugin 配置。
+- `src/main/java/com/campusflow/quality/CodeWithIssues.java`：运行 SpotBugs 后，检查并修复至少三个真实问题。
+- `src/main/java/com/campusflow/quality/TaskStatusCalculator.java`：用 JaCoCo 找出未覆盖分支并补测试。
+- `src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java`：根据覆盖率报告扩展测试。
+- `TECHNICAL_DEBT.md`：把 starter rows 替换成你自己的 prioritized backlog。
+- `TEST_SUMMARY.md`：记录 SpotBugs 和 JaCoCo 命令、发现、前后结果。
+
+## 待办清单
+
+- [ ] 在 `pom.xml` 中配置 SpotBugs。
+- [ ] 运行 SpotBugs，并把输出保存为 `spotbugs_report.txt`。
+- [ ] 修复至少三个 high 或 medium priority issues。
+- [ ] 在 `pom.xml` 中配置 JaCoCo。
+- [ ] 生成并查看覆盖率报告。
+- [ ] 为未覆盖分支至少增加三个测试。
+- [ ] 用至少十个优先级明确的条目更新 `TECHNICAL_DEBT.md`。
+- [ ] 定义你的 quality gate thresholds，并解释取舍。
+
+内置测试只是 smoke test，不足以达到作业要求的覆盖率目标。
+
+ succeeded in 232ms:
+# Week 11 作业：质量门禁与静态分析
+
+> "工具能告诉你'这里有问题'，AI 能解释'为什么有问题'，但'修不修'、'什么时候修'——得靠你。"
+> —— 老潘
+
+---
+
+## 作业概述
+
+本周你将建立 CampusFlow 的质量保障体系——从"手动检查"到"自动门禁"。你将配置静态分析工具（SpotBugs）和代码覆盖率工具（JaCoCo），发现并修复代码问题，建立技术债管理策略，并设计适合项目的质量门禁。
+
+**核心任务**：
+1. 配置 SpotBugs 进行静态分析，修复至少 3 个高优先级问题
+2. 配置 JaCoCo 测量代码覆盖率，补充测试提升覆盖率到 75%+
+3. 建立技术债 Backlog，制定优先级和修复计划
+4. 设计质量门禁配置，平衡质量与开发速度
+
+---
+
+## 基础作业（必做）
+
+### 任务 1：配置 SpotBugs 静态分析（20 分）
+
+**目标**：在 CampusFlow 项目中配置 SpotBugs，自动扫描代码潜在问题。
+
+**背景知识**：
+SpotBugs 是 Java 静态分析工具，能在不运行代码的情况下发现：
+- 空指针解引用（NP_NULL_ON_SOME_PATH）
+- 资源未关闭（OBL_UNSATISFIED_OBLIGATION）
+- 未使用的字段（URF_UNREAD_FIELD）
+- 性能问题（如低效的字符串拼接）
+
+**要求**：
+
+1. **修改 pom.xml，添加 SpotBugs 插件**：
+   ```xml
+   <plugin>
+       <groupId>com.github.spotbugs</groupId>
+       <artifactId>spotbugs-maven-plugin</artifactId>
+       <version>4.9.8.2</version>
+       <executions>
+           <execution>
+               <goals>
+                   <goal>check</goal>
+               </goals>
+           </execution>
+       </executions>
+   </plugin>
+   ```
+
+2. **运行静态分析**：
+   ```bash
+   mvn spotbugs:check
+   ```
+
+3. **查看报告**：
+   报告生成在 `target/spotbugsXml.xml`，或使用 `mvn spotbugs:gui` 打开图形界面。
+
+**提交物**：
+- `pom.xml`：添加了 SpotBugs 插件的配置
+- `spotbugs_report.txt`：SpotBugs 扫描结果的文本输出（运行 `mvn spotbugs:check` 的输出）
+
+**评分要点**：
+- pom.xml 配置正确（8 分）
+- 成功运行 SpotBugs 并生成报告（6 分）
+- 报告内容完整（6 分）
+
+---
+
+### 任务 2：修复至少 3 个高优先级问题（25 分）
+
+**目标**：分析 SpotBugs 报告，修复至少 3 个高优先级问题。
+
+**常见问题类型及修复示例**：
+
+#### 1. 空指针解引用（NP_NULL_ON_SOME_PATH）
+
+**问题代码**：
+```java
+public void updateTask(String id, Task task) {
+    Task existing = taskRepository.findById(id);
+    existing.setTitle(task.getTitle());  // 如果 findById 返回 null 呢？
+}
+```
+
+**修复后**：
+```java
+public void updateTask(String id, Task task) {
+    Task existing = taskRepository.findById(id);
+    if (existing == null) {
+        throw new NotFoundException("Task not found: " + id);
+    }
+    existing.setTitle(task.getTitle());
+}
+```
+
+#### 2. 资源未关闭（OBL_UNSATISFIED_OBLIGATION）
+
+**问题代码**：
+```java
+public void exportTasks(String filename) {
+    FileWriter writer = new FileWriter(filename);
+    writer.write(tasks.toString());
+    // 忘记关闭 writer
+}
+```
+
+**修复后**：
+```java
+public void exportTasks(String filename) {
+    try (FileWriter writer = new FileWriter(filename)) {
+        writer.write(tasks.toString());
+    }
+}
+```
+
+#### 3. 未使用的字段（URF_UNREAD_FIELD）
+
+**问题代码**：
+```java
+public class Task {
+    private String title;
+    private int tempCounter;  // 从未读取
+}
+```
+
+**修复后**：
+删除未使用的字段或补充缺失的逻辑。
+
+**要求**：
+- 修复至少 3 个 SpotBugs 报告的高/中优先级问题
+- 每个修复必须添加注释说明修复理由
+- 修复后重新运行 SpotBugs，确认问题已解决
+
+**提交物**：
+- 修复后的代码文件（提交整个项目）
+- `fixes.md`：修复说明文档，每个问题包含：
+  - 问题类型（如 NP_NULL_ON_SOME_PATH）
+  - 问题位置（类名、方法名、行号）
+  - 问题描述
+  - 修复方案（修复前/修复后代码对比）
+  - 验证结果（SpotBugs 是否不再报此问题）
+
+**评分要点**：
+- 修复至少 3 个高/中优先级问题（15 分，每个 5 分）
+- 修复方案正确有效（6 分）
+- fixes.md 文档清晰完整（4 分）
+
+---
+
+### 任务 3：配置 JaCoCo 测量覆盖率（15 分）
+
+**目标**：配置 JaCoCo 插件，测量代码覆盖率，识别测试盲区。
+
+**背景知识**：
+JaCoCo（Java Code Coverage）能测量测试执行时覆盖了哪些代码：
+- **行覆盖率**（Line Coverage）：多少行代码被执行
+- **分支覆盖率**（Branch Coverage）：多少 if/switch 分支被执行
+- **方法覆盖率**（Method Coverage）：多少方法被调用
+
+**要求**：
+
+1. **修改 pom.xml，添加 JaCoCo 插件**：
+   ```xml
+   <plugin>
+       <groupId>org.jacoco</groupId>
+       <artifactId>jacoco-maven-plugin</artifactId>
+       <version>0.8.15</version>
+       <executions>
+           <execution>
+               <goals>
+                   <goal>prepare-agent</goal>
+               </goals>
+           </execution>
+           <execution>
+               <id>report</id>
+               <phase>test</phase>
+               <goals>
+                   <goal>report</goal>
+               </goals>
+           </execution>
+       </executions>
+   </plugin>
+   ```
+
+2. **运行测试并生成报告**：
+   ```bash
+   mvn test
+   mvn jacoco:report
+   ```
+
+3. **查看报告**：
+   打开 `target/site/jacoco/index.html`，查看覆盖率。
+
+**提交物**：
+- `pom.xml`：添加了 JaCoCo 插件的配置
+- `jacoco_screenshot.png`：覆盖率报告的截图（需显示整体覆盖率数字）
+- `coverage_analysis.md`：覆盖率分析，包含：
+  - 当前行覆盖率百分比
+  - 当前分支覆盖率百分比
+  - 覆盖率最低的 3 个类及其覆盖率
+  - 未覆盖代码的典型示例（从报告中复制红色代码）
+
+**评分要点**：
+- pom.xml 配置正确（5 分）
+- 成功生成覆盖率报告（5 分）
+- coverage_analysis.md 分析详细（5 分）
+
+---
+
+### 任务 4：补充测试提升覆盖率到 75%+（20 分）
+
+**目标**：根据 JaCoCo 报告，补充测试用例，提升行覆盖率到 75% 以上。
+
+**常见未覆盖场景及测试示例**：
+
+#### 1. 异常处理分支
+
+**未覆盖代码**：
+```java
+public void updateTask(String id, Task task) {
+    Task existing = taskRepository.findById(id);
+    if (existing == null) {
+        throw new NotFoundException("Task not found: " + id);  // 红色
+    }
+    existing.setTitle(task.getTitle());
+}
+```
+
+**补充测试**：
+```java
+@Test
+void updateTask_notFound_throwsException() {
+    // given
+    when(taskRepository.findById("999")).thenReturn(Optional.empty());
+
+    // when/then
+    assertThrows(NotFoundException.class, () -> {
+        taskController.updateTask("999", new Task());
+    });
+}
+```
+
+#### 2. 边界条件
+
+**未覆盖代码**：
+```java
+public boolean isOverdue() {
+    if (dueDate == null) return false;  // 红色：null 从未测试
+    return dueDate.isBefore(LocalDate.now());
+}
+```
+
+**补充测试**：
+```java
+@Test
+void isOverdue_nullDueDate_returnsFalse() {
+    // given
+    Task task = new Task("Test");
+    task.setDueDate(null);
+
+exec
+/bin/bash -lc "sed -n '241,520p' chapters/week_11/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '281,620p' chapters/week_12/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_11/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 432ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week12-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 12 Starter</name>
+    <description>TODO skeleton for integration tests, Mockito practice, and Bug Bash reports</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- TODO: Add Javalin for the real API and Mockito for mock tests. -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+ succeeded in 579ms:
+    @Test
+    void getTask_withMock_verifiesFindById() {
+        // given: Mock 返回预设数据
+        Task task = new Task("1", "任务1", false);
+        when(mockRepository.findById("1")).thenReturn(Optional.of(task));
+
+        // when: 查询任务
+        Optional<Task> result = taskService.getTask("1");
+
+        // then: 验证返回值和 repository 调用
+        assertTrue(result.isPresent());
+        assertEquals("任务1", result.get().getTitle());
+        verify(mockRepository, times(1)).findById("1");
+    }
+
+    @Test
+    void findById_notFound_returnsEmptyOptional() {
+        // given: Mock 返回空
+        when(mockRepository.findById("999")).thenReturn(Optional.empty());
+
+        // when/then: 验证 Optional.empty()
+        assertTrue(taskService.getTask("999").isEmpty());
+        verify(mockRepository).findById("999");
+    }
+}
+```
+
+#### 2.3 编写 Spy 测试（10 分）
+
+Spy 是"部分 Mock"，部分方法真实实现，部分方法 Mock：
+
+```java
+@Test
+void setCompleted_withSpy_callsRealMethod() {
+    // given: 创建 Spy 对象
+    Task task = spy(new Task("1", "测试任务", false));
+
+    // when: 调用真实 setter
+    task.setCompleted(true);
+
+    // then: 验证状态变化
+    assertTrue(task.isCompleted());
+    verify(task, atLeastOnce()).setCompleted(true);
+}
+```
+
+**提交物**：
+- `pom.xml`：添加了 Mockito 依赖
+- `TaskServiceMockTest.java`：Mock 测试类
+
+**评分要点**：
+- 添加 Mockito 依赖（5 分）
+- 编写至少 2 个 Mock 测试（15 分）
+- 编写 Spy 测试（10 分）
+
+---
+
+### 任务 3：Bug Bash 参与与报告（30 分）
+
+**目标**：参与团队组织的 Bug Bash 活动，发现系统问题，完成修复和根因分析。
+
+**背景知识**：
+Bug Bash 是集体找 bug 的工程实践——所有团队暂停开发，互相测试对方的系统，记录发现的问题。新鲜视角能发现开发者盲区的问题。
+
+**Bug Bash 流程**：
+
+1. **准备（15 分钟）**
+   - 部署 CampusFlow 到测试服务器（或本地启动）
+   - 准备一个"测试指南"（核心功能列表、已知问题）
+
+2. **交叉测试（60 分钟）**
+   - A 团队测试 B 团队的系统，B 测试 C，C 测试 A
+   - 测试者尝试"破坏"系统：输入奇怪数据、快速点击、并发操作
+   - 记录每个 bug 的复现步骤
+
+3. **汇总（30 分钟）**
+   - 所有团队回到一起，报告发现的问题
+   - 按优先级分类（P0 崩溃 / P1 功能缺陷 / P2 体验问题）
+   - 评选"最奇葩 bug"奖
+
+4. **修复（课后）**
+   - 每个团队修复自己系统的 bug
+   - 完成根因分析
+
+**要求**：
+
+#### 3.1 参与 Bug Bash（5 分）
+
+- 参与团队 Bug Bash 活动
+- 测试至少 1 个其他团队的系统
+- 记录发现的问题
+
+#### 3.2 编写 Bug Bash 报告（15 分）
+
+创建 `BUG_BASH_REPORT.md`：
+
+```markdown
+# CampusFlow Bug Bash 报告
+
+## 测试环境
+- URL: http://localhost:8080（或测试服务器地址）
+- 测试时间: 2026-02-XX 14:00-16:00
+- 测试者: XX 团队
+
+## 发现的问题
+
+| ID | 问题描述 | 复现步骤 | 优先级 | 根因 |
+|----|---------|---------|--------|------|
+| #1 | 任务标题包含 emoji 时返回 500 | 1. 创建任务 2. 输入 "🔥🔥🔥" 3. 保存 | P0 | 数据库字符集未设置为 UTF-8 |
+| #2 | 快速点击"完成"导致状态闪烁 | 1. 打开任务列表 2. 快速点击"完成"5 次 | P2 | 前端未防抖 |
+| #3 | 任务列表超过 100 条时前端卡顿 | 1. 创建 100+ 任务 | P1 | 前端未分页 |
+
+## 修复计划
+- #1: 本周修复（修改数据库连接字符串）
+- #2: 下周修复（添加前端防抖）
+- #3: 加入技术债 Backlog（P3）
+
+## 收到的反馈
+- API 设计清晰，容易理解
+- 缺少分页功能
+- 错误提示不够友好
+```
+
+#### 3.3 根因分析（10 分）
+
+选择至少 1 个 bug，完成根因分析：
+
+```markdown
+## Bug #1: Emoji 导致 500 错误
+
+### 复现步骤
+1. 创建任务
+2. 标题输入 "🔥🔥🔥"
+3. 点击保存
+4. 后端返回 500 Internal Server Error
+
+### 根因分析
+
+**直接原因**：
+数据库字符集未设置为 UTF-8，无法存储 emoji 字符
+
+**设计缺陷**：
+- 数据库初始化时未指定字符集
+- 缺少输入验证（标题长度、字符类型）
+
+**测试盲区**：
+- 单元测试只测试了 ASCII 字符
+- 集成测试未包含边界数据（emoji、超长字符串）
+
+**修复方案**：
+1. 修改数据库连接字符串：`?useUnicode=true&characterEncoding=utf8mb4`
+2. 添加输入验证：标题长度限制，过滤非法字符
+3. 补充测试：包含 emoji、超长字符串的测试用例
+
+### 验证
+- [ ] 修复后 emoji 能正常存储
+- [ ] 添加了输入验证
+- [ ] 补充了测试用例
+```
+
+**提交物**：
+- `BUG_BASH_REPORT.md`：Bug Bash 报告
+- `ROOT_CAUSE_ANALYSIS.md`：根因分析文档
+- 修复后的代码（提交到 Git）
+
+**评分要点**：
+- 参与 Bug Bash 活动（5 分）
+- Bug Bash 报告完整，包含至少 2 个 bug（10 分）
+- 根因分析深入，不只是修复表面问题（15 分）
+
+---
+
+## 进阶作业（选做，+20 分）
+
+### 进阶 1：契约测试与 OpenAPI（+10 分）
+
+**目标**：为 API 编写 OpenAPI 规范，验证契约不被破坏。
+
+**要求**：
+
+1. **创建 `openapi.yaml`**，描述 API 契约：
+
+```yaml
+openapi: 3.0.0
+info:
+  title: CampusFlow API
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      summary: 获取所有任务
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: 创建任务
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '201':
+          description: 创建成功
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - completed
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        completed:
+          type: boolean
+```
+
+2. **编写契约测试**，验证 API 符合 OpenAPI 规范
+
+**提交物**：
+- `openapi.yaml`：OpenAPI 规范
+- `ContractTest.java`：契约测试类
+
+---
+
+### 进阶 2：E2E 测试（+10 分）
+
+**目标**：使用 Selenium 或 Playwright 编写端到端测试，模拟真实用户操作。
+
+**要求**：
+
+1. **添加 Playwright 依赖**（可选）
+
+2. **编写 E2E 测试**：
+
+```java
+@Test
+void createTask_e2e() {
+    // given: 打开浏览器
+    Page page = browser.newPage();
+    page.navigate("http://localhost:8080");
+
+    // when: 用户创建任务
+    page.fill("#task-title", "E2E 测试任务");
+    page.click("#create-button");
+
+    // then: 验证任务出现在列表中
+    assertTrue(page.content().contains("E2E 测试任务"));
+}
+```
+
+**提交物**：
+- `TaskE2ETest.java`：E2E 测试类
+- `e2e_test_results.txt`：测试运行结果
+
+---
+
+## AI 协作练习（可选但推荐）
+
+**目标**：练习用 AI 生成集成测试，并审查 AI 输出。
+
+### 任务：AI 生成集成测试
+
+**步骤**：
+
+1. **编写 Prompt**，让 AI 生成集成测试：
+   - 明确需求：为 CampusFlow 的 POST /api/tasks 生成集成测试
+   - 指定技术栈：JUnit 5、HttpClient、Javalin
+   - 添加约束：覆盖正常、边界、异常场景
+
+2. **保存 AI 生成的测试代码**（不要修改）
+
+3. **使用审查检查清单评估**：
+
+#### AI 生成集成测试审查清单
+
+**功能正确性**
+- [ ] 测试是否启动了 Javalin 服务器？
+- [ ] 是否发送了真实 HTTP 请求？
+- [ ] 断言是否正确验证了预期行为？
+
+**边界情况（AI 常遗漏）⭐**
+- [ ] 空列表场景测试了吗？
+- [ ] 404/500 错误场景测试了吗？
+- [ ] 无效输入（空标题、超长标题）测试了吗？
+- [ ] 并发请求测试了吗？
+
+**测试质量**
+- [ ] 测试之间有依赖吗？（应该独立）
+- [ ] 测试数据是否隔离？（@BeforeEach 清理）
+- [ ] 是否使用了 @AfterEach 关闭服务器？
+
+**契约验证**
+- [ ] 验证 JSON 字段名了吗？（如 title vs taskName）
+- [ ] 验证 HTTP 状态码了吗？（200/201/404/500）
+
+4. **记录发现的问题并修复**
+
+**审查清单**：
+- [ ] **正确性**：测试能运行吗？
+- [ ] **完整性**：是否遗漏边界场景？
+- [ ] **独立性**：测试之间有依赖吗？
+- [ ] **契约验证**：是否验证了 API 契约？
+- [ ] **AI 特定问题**：有不存在的 API（幻觉）吗？
+
+**提交物**：
+- `ai_generated_test.java`：AI 生成的原始测试代码
+- `ai_review_test.md`：审查报告，包含：
+  - 发现的问题列表
+  - 修复后的代码
+  - 经验总结（AI 擅长/不擅长生成集成测试的原因）
+
+---
+
+## 提交物清单
+
+### 必交文件
+- [ ] `TaskApiIntegrationTest.java`：API 集成测试
+- [ ] `integration_test_results.txt`：测试运行结果
+- [ ] `pom.xml`：添加了 Mockito 依赖
+- [ ] `TaskServiceMockTest.java`：Mock 测试
+- [ ] `BUG_BASH_REPORT.md`：Bug Bash 报告
+- [ ] `ROOT_CAUSE_ANALYSIS.md`：根因分析文档
+- [ ] 修复后的所有源代码文件
+
+### 进阶作业文件（如完成）
+- [ ] `openapi.yaml`：OpenAPI 规范
+- [ ] `ContractTest.java`：契约测试
+- [ ] `TaskE2ETest.java`：E2E 测试
+
+
+ succeeded in 677ms:
+}
+```
+
+#### 2. 边界条件
+
+**未覆盖代码**：
+```java
+public boolean isOverdue() {
+    if (dueDate == null) return false;  // 红色：null 从未测试
+    return dueDate.isBefore(LocalDate.now());
+}
+```
+
+**补充测试**：
+```java
+@Test
+void isOverdue_nullDueDate_returnsFalse() {
+    // given
+    Task task = new Task("Test");
+    task.setDueDate(null);
+
+    // when/then
+    assertFalse(task.isOverdue());
+}
+```
+
+#### 3. 枚举所有分支
+
+**未覆盖代码**：
+```java
+public String getStatus() {
+    if (completed) {
+        return "completed";  // 红色
+    }
+    if (overdueDays > 0) {
+        return "overdue";
+    }
+    return "pending";
+}
+```
+
+**补充测试**：
+```java
+@Test
+void getStatus_completed_returnsCompleted() {
+    task.setCompleted(true);
+    assertEquals("completed", task.getStatus());
+}
+```
+
+**要求**：
+- 根据 JaCoCo 报告，至少补充 3 个测试用例
+- 每个测试用例必须对应一个红色（未覆盖）代码块
+- 测试类放在对应包下（如 `src/test/java/com/campusflow/controller/TaskControllerTest.java`）
+- 修复后行覆盖率必须达到 75% 以上
+- 运行 `mvn test jacoco:report` 验证
+
+**提交物**：
+- 补充的测试类文件（`src/test/java/...`）
+- `new_tests.md`：新测试说明，每个测试包含：
+  - 测试方法名
+  - 对应的未覆盖代码位置
+  - 测试目的（测什么边界或异常情况）
+
+**评分要点**：
+- 补充至少 3 个测试用例（12 分，每个 4 分）
+- 覆盖率达到 75%+（5 分）
+- new_tests.md 文档清晰（3 分）
+
+---
+
+### 任务 5：创建技术债 Backlog（20 分）
+
+**目标**：为 SpotBugs 发现的所有问题建立技术债 Backlog，排定优先级和修复计划。
+
+**背景知识**：
+技术债是为了快速交付而选择的"不够完美"的方案。不是所有问题都要立即修复，需要根据影响程度排优先级。
+
+**优先级定义**：
+
+| 优先级 | 定义 | 示例 | 修复时限 |
+|--------|------|------|---------|
+| P0 | 影响安全/核心功能 | 空指针风险、SQL 注入 | 本周必须 |
+| P1 | 影响质量基线 | 覆盖率低于标准、高优先级静态分析警告 | 本周完成 |
+| P2 | 优化类、低影响 | 未使用的字段、代码风格问题 | 下周修复 |
+| P3 | 改进建议 | 代码重复、低优先级警告 | 有空再说 |
+
+**要求**：
+
+1. **创建 TECHNICAL_DEBT.md**，包含至少 10 个技术债项
+2. **每个技术债包含**：
+   - ID（#1, #2, ...）
+   - 问题描述
+   - 类型（Bug / Test / Clean / Refactor / Security）
+   - 优先级（P0/P1/P2/P3）
+   - 预估修复时间
+   - 计划修复时间
+
+**示例**：
+
+```markdown
+# CampusFlow 技术债 Backlog
+
+## P0 - 本周必须修复
+
+| ID | 问题描述 | 类型 | 预估 | 计划 |
+|----|---------|------|------|------|
+| #1 | TaskController 可能的空指针 | Bug | 1h | 本周三 |
+| #2 | TaskService 资源未关闭 | Bug | 0.5h | 本周四 |
+
+## P1 - 本周完成
+
+| ID | 问题描述 | 类型 | 预估 | 计划 |
+|----|---------|------|------|------|
+| #3 | 覆盖率 68% → 75% | Test | 3h | 本周五 |
+| #4 | TaskRepository 未测试的异常分支 | Test | 1h | 本周五 |
+
+## P2 - 下周修复
+
+| ID | 问题描述 | 类型 | 预估 | 计划 |
+|----|---------|------|------|------|
+| #5 | TaskService 未使用的字段 tempCounter | Clean | 0.5h | 下周二 |
+| #6 | 重复的日期转换代码 | Refactor | 2h | 下周四 |
+
+## P3 - 有空再说
+
+| ID | 问题描述 | 类型 | 预估 | 计划 |
+|----|---------|------|------|------|
+| #7 | toString() 方法覆盖率低 | Test | 1h | Sprint 结束 |
+| #8 | getter/setter 圈复杂度 | Clean | 0.5h | 有空 |
+
+## 修复策略
+
+- P0：影响核心功能，本周必须修复
+- P1：质量基线问题，本周完成
+- P2：优化类问题，下周修复
+- P3：改进建议，累积到 Sprint 结束或有空时处理
+```
+
+**提交物**：
+- `TECHNICAL_DEBT.md`：技术债 Backlog
+
+**评分要点**：
+- 包含至少 10 个技术债项（8 分）
+- 优先级分类合理（6 分）
+- 预估时间和计划时间合理（6 分）
+
+---
+
+## 进阶作业（选做，+20 分）
+
+### 进阶 1：设计质量门禁配置（+10 分）
+
+**目标**：创建 `quality-gate.json` 配置文件，定义合理的质量门禁规则。
+
+**背景知识**：
+质量门禁是在代码合并前自动检查质量标准的机制。太严格会拖慢开发，太宽松则没意义。
+
+**要求**：
+
+1. **创建 quality-gate.json**：
+   ```json
+   {
+     "rules": [
+       {
+         "tool": "spotbugs",
+         "category": "high",
+         "threshold": 0,
+         "action": "block"
+       },
+       {
+         "tool": "spotbugs",
+         "category": "medium",
+         "threshold": 5,
+         "action": "warn"
+       },
+       {
+         "tool": "jacoco",
+         "metric": "line_coverage",
+         "threshold": 0.70,
+         "action": "warn"
+       },
+       {
+         "tool": "jacoco",
+         "metric": "line_coverage",
+         "threshold": 0.60,
+         "action": "block"
+       }
+     ],
+     "exceptions": [
+       {
+         "reason": "紧急热修复",
+         "allowed_by": ["老潘"],
+         "max_override_coverage": 0.50
+       }
+     ]
+   }
+   ```
+
+2. **编写 quality-gate-explanation.md**，解释每个规则的设计理由：
+   - 为什么 SpotBugs 高优先级要阻断？
+   - 为什么覆盖率设 75% 警告、60% 阻断？
+   - 什么情况下允许例外？
+
+**提交物**：
+- `quality-gate.json`：质量门禁配置
+- `quality-gate-explanation.md`：设计理由说明
+
+---
+
+### 进阶 2：配置 CI 质量门禁（+10 分）
+
+**目标**：在 GitHub Actions 或 GitLab CI 中配置自动质量检查。
+
+**要求**：
+
+1. **创建 .github/workflows/quality.yml**（GitHub Actions）或 `.gitlab-ci.yml`（GitLab CI）
+
+**GitHub Actions 示例**：
+```yaml
+name: Quality Gate
+
+on: [pull_request]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Run SpotBugs
+        run: mvn spotbugs:check
+      - name: Run tests with coverage
+        run: mvn test jacoco:report
+      - name: Check coverage threshold
+        run: mvn jacoco:check
+```
+
+2. **在 `pom.xml` 的 JaCoCo 配置中添加 `check` rule**，例如要求 line coverage 不低于 75%；CI 中用 `mvn jacoco:check` 读取这条规则。
+
+2. **提交一个 PR，验证 CI 跑通**
+
+**提交物**：
+- `.github/workflows/quality.yml` 或 `.gitlab-ci.yml`
+- `ci_screenshot.png`：CI 运行成功的截图
+
+---
+
+## AI 协作练习（可选但推荐）
+
+**目标**：练习用 AI 辅助配置静态分析工具，并审查 AI 生成的配置。
+
+### 任务：用 AI 生成 SpotBugs 配置
+
+**步骤**：
+
+1. **编写 Prompt**，让 AI 生成 SpotBugs 配置：
+   - 明确需求：为 CampusFlow 项目配置 SpotBugs
+   - 指定版本：Maven 插件，版本 4.9.8.2
+   - 添加约束：只检查高优先级问题，忽略测试代码
+
+2. **保存 AI 生成的配置**（不要修改）
+
+3. **使用审查检查清单评估**：
+   - [ ] 配置版本正确吗？
+   - [ ] 是否包含了必要的 goal（check）？
+   - [ ] 是否配置了 effort/maxRank 来过滤问题？
+   - [ ] 是否忽略了测试代码（如 `<excludeFilterFile>`）？
+   - [ ] 配置格式正确吗（XML 语法）？
+
+4. **记录发现的问题并修复**
+
+**审查清单**：
+- [ ] **正确性**：配置能运行吗？`mvn spotbugs:check` 是否报错？
+- [ ] **完整性**：是否缺少必要配置（如 executions/goals）？
+- [ ] **合理性**：过滤规则合理吗？（如忽略低优先级问题是否恰当）
+
+ succeeded in 600ms:
+# Week 12 Starter Code：Integration Tests, Mockito, Bug Bash
+
+这个 starter 支持 Week 12：integration tests、Mockito-based tests、contract checks 和 Bug Bash 报告。
+
+API 实现故意很小。它只能证明 Javalin server 可以启动，task API routes 仍是待办占位。你的作业是实现足够的行为，写出有意义的 integration tests，并记录 Bug Bash 发现。
+
+## 运行命令
+
+```bash
+cd chapters/week_12/starter_code
+mvn test
+mvn compile
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
+curl http://localhost:7070/health
+curl http://localhost:7070/api/tasks
+kill $SERVER_PID
+```
+
+## 你需要编辑的文件
+
+- `pom.xml`：为真实作业添加 Javalin 和 Mockito。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 integration tests 需要的 Javalin API routes。
+- `src/main/java/com/campusflow/service/TaskService.java`：补充 task operations 的业务行为。
+- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：提供一个内存版 test repository。
+- `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java`：创建真实 HTTP tests。
+- `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`：创建 Mockito tests。
+- `BUG_BASH_REPORT.md`：记录 Bug Bash 中发现的至少两个 bug。
+- `ROOT_CAUSE_ANALYSIS.md`：对一个 bug 做超出表面修复的分析。
+
+## 待办清单
+
+- [ ] 在 integration tests 中启动真实 Javalin server。
+- [ ] 测试 `GET /api/tasks`。
+- [ ] 测试 `POST /api/tasks`。
+- [ ] 至少测试一个错误场景。
+- [ ] 为预期 JSON 字段名增加 contract test。
+- [ ] 至少增加两个 Mockito tests 和一个 Spy test。
+- [ ] 完成 Bug Bash report。
+- [ ] 完成一个 bug 的 root cause analysis。
+
+内置 smoke test 只验证 server setup，不算作作业要求的 integration test suite。
+
+ succeeded in 636ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week11-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 11 Starter</name>
+    <description>TODO skeleton for SpotBugs, JaCoCo, and quality gate practice</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+            <!-- TODO: Add spotbugs-maven-plugin for Task 1. -->
+            <!-- TODO: Add jacoco-maven-plugin for Task 3. -->
+        </plugins>
+    </build>
+</project>
+
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/main/java/com/campusflow/App.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_11/starter_code/src/main/java/com/campusflow/quality/CodeWithIssues.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_11/starter_code/src/main/java/com/campusflow/quality/TaskStatusCalculator.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/test/java/com/campusflow/AppSmokeTest.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_11/starter_code/src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 531ms:
+package com.campusflow.quality;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CodeWithIssues {
+    private String unusedNote = "待办：判断这个字段是否应该留在这里";
+    public static List<String> sharedTags = new ArrayList<>();
+
+    public int titleLength(String title) {
+        // 待办：让 SpotBugs 推动你有意识地处理 null。
+        return title.trim().length();
+    }
+
+    public byte[] readFirstBytes(String path) throws IOException {
+        // 待办：处理资源泄漏时，改成 try-with-resources。
+        FileInputStream input = new FileInputStream(path);
+        return input.readNBytes(16);
+    }
+
+    public boolean isExitCommand(String command) {
+        // 待办：在 SpotBugs 任务中修复字符串比较问题。
+        return command == "exit";
+    }
+}
+
+ succeeded in 527ms:
+package com.campusflow.quality;
+
+import java.time.LocalDate;
+
+public class TaskStatusCalculator {
+    public String status(boolean completed, LocalDate dueDate, LocalDate today) {
+        if (completed) {
+            return "completed";
+        }
+        if (dueDate == null) {
+            return "unscheduled";
+        }
+        if (dueDate.isBefore(today)) {
+            return "overdue";
+        }
+        return "pending";
+    }
+}
+
+ succeeded in 574ms:
+package com.campusflow;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+
+public class App {
+    private static final int PORT = 7070;
+
+    public static void main(String[] args) throws IOException {
+        HttpServer server = createServer(PORT);
+        server.start();
+        System.out.println("CampusFlow Week 12 starter running at http://localhost:" + PORT);
+    }
+
+    public static HttpServer createServer(int port) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        server.createContext("/health", exchange -> writeJson(exchange, 200, healthJson()));
+        server.createContext("/api/tasks", exchange -> writeJson(exchange, 501, tasksPlaceholderJson()));
+        return server;
+    }
+
+    public static String healthJson() {
+        return "{\"service\":\"CampusFlow\",\"week\":\"12\",\"status\":\"starter\"}";
+    }
+
+    public static String tasksPlaceholderJson() {
+        return "{\"error\":\"待办\",\"message\":\"用 Javalin 实现这个 route，供 integration tests 使用\"}";
+    }
+
+    private static void writeJson(HttpExchange exchange, int status, String body) throws IOException {
+        byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().add("Content-Type", "application/json; charset=utf-8");
+        exchange.sendResponseHeaders(status, bytes.length);
+        exchange.getResponseBody().write(bytes);
+        exchange.close();
+    }
+}
+
+ succeeded in 565ms:
+package com.campusflow.quality;
+
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class TaskStatusCalculatorTest {
+    private final TaskStatusCalculator calculator = new TaskStatusCalculator();
+
+    @Test
+    void statusReturnsPendingForFutureTask() {
+        String status = calculator.status(false, LocalDate.of(2026, 3, 1), LocalDate.of(2026, 2, 20));
+
+        assertEquals("pending", status);
+    }
+
+    // 待办：查看 JaCoCo 后，为 completed、unscheduled、overdue 分支补测试。
+}
+
+ succeeded in 604ms:
+package com.campusflow;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class AppSmokeTest {
+    @Test
+    void healthPayloadShowsStarterIsWired() {
+        assertTrue(App.healthJson().contains("CampusFlow"));
+    }
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/main/java/com/campusflow/repository/TaskRepository.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/main/java/com/campusflow/model/Task.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/main/java/com/campusflow/repository/InMemoryTaskRepository.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_12/starter_code/src/main/java/com/campusflow/service/TaskService.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "find chapters/week_11/starter_code chapters/week_12/starter_code -path '*/target/*' -type f | sort" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 263ms:
+chapters/week_11/starter_code/target/classes/com/campusflow/quality/CodeWithIssues.class
+chapters/week_11/starter_code/target/classes/com/campusflow/quality/TaskStatusCalculator.class
+chapters/week_11/starter_code/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+chapters/week_11/starter_code/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+chapters/week_11/starter_code/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+chapters/week_11/starter_code/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+chapters/week_11/starter_code/target/surefire-reports/TEST-com.campusflow.quality.TaskStatusCalculatorTest.xml
+chapters/week_11/starter_code/target/surefire-reports/com.campusflow.quality.TaskStatusCalculatorTest.txt
+chapters/week_11/starter_code/target/test-classes/com/campusflow/quality/TaskStatusCalculatorTest.class
+chapters/week_12/starter_code/target/classes/com/campusflow/App.class
+chapters/week_12/starter_code/target/classes/com/campusflow/model/Task.class
+chapters/week_12/starter_code/target/classes/com/campusflow/repository/InMemoryTaskRepository.class
+chapters/week_12/starter_code/target/classes/com/campusflow/repository/TaskRepository.class
+chapters/week_12/starter_code/target/classes/com/campusflow/service/TaskService.class
+chapters/week_12/starter_code/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+chapters/week_12/starter_code/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+chapters/week_12/starter_code/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+chapters/week_12/starter_code/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+chapters/week_12/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_12/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+chapters/week_12/starter_code/target/test-classes/com/campusflow/AppSmokeTest.class
+
+ succeeded in 334ms:
+package com.campusflow.model;
+
+public class Task {
+    private String id;
+    private String title;
+    private boolean completed;
+
+    public Task() {
+    }
+
+    public Task(String id, String title, boolean completed) {
+        this.id = id;
+        this.title = title;
+        this.completed = completed;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+}
+
+ succeeded in 351ms:
+package com.campusflow.service;
+
+import com.campusflow.model.Task;
+import com.campusflow.repository.TaskRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public class TaskService {
+    private final TaskRepository repository;
+
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Task> getAllTasks() {
+        return repository.findAll();
+    }
+
+    public Optional<Task> getTask(String id) {
+        return repository.findById(id);
+    }
+
+    public Task createTask(String title) {
+        // 待办：校验 title，创建 Task 并保存。
+        throw new UnsupportedOperationException("待办：实现 createTask");
+    }
+}
+
+ succeeded in 385ms:
+package com.campusflow.repository;
+
+import com.campusflow.model.Task;
+
+import java.util.List;
+import java.util.Optional;
+
+public class InMemoryTaskRepository implements TaskRepository {
+    @Override
+    public List<Task> findAll() {
+        // 待办：为 integration tests 实现存储逻辑。
+        return List.of();
+    }
+
+    @Override
+    public Optional<Task> findById(String id) {
+        // 待办：实现按 id 查询。
+        return Optional.empty();
+    }
+
+    @Override
+    public Task save(Task task) {
+        // 待办：分配 id 并保存 tasks。
+        return task;
+    }
+}
+
+ succeeded in 418ms:
+package com.campusflow.repository;
+
+import com.campusflow.model.Task;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface TaskRepository {
+    List<Task> findAll();
+
+    Optional<Task> findById(String id);
+
+    Task save(Task task);
+}
+
+codex
+源码和作业描述的主干已经对上：week 11 是质量门禁 starter，week 12 是集成测试 starter。现在我会分别运行 `mvn -B -ntp test`，确认 smoke test 是否能作为学生初始基线通过。
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_11/starter_code
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_12/starter_code
+ succeeded in 18680ms:
+Failed to connect to bus: Operation not permitted
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week11-starter >--------------
+[INFO] Building CampusFlow Week 11 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week11-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_11/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week11-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week11-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_11/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week11-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week11-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.quality.TaskStatusCalculatorTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.241 s -- in com.campusflow.quality.TaskStatusCalculatorTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_11/starter_code/target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.314 s
+[INFO] Finished at: 2026-04-28T21:51:06+08:00
+[INFO] ------------------------------------------------------------------------
+
+ succeeded in 18878ms:
+Failed to connect to bus: Operation not permitted
+[0.006s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week12-starter >--------------
+[INFO] Building CampusFlow Week 12 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week12-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_12/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week12-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week12-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_12/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week12-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week12-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.AppSmokeTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.247 s -- in com.campusflow.AppSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.423 s
+[INFO] Finished at: 2026-04-28T21:51:06+08:00
+[INFO] ------------------------------------------------------------------------
+
+codex
+两周 starter 的 `mvn -B -ntp test` 都通过，各 1 个 smoke test。week 11 的 Surefire 额外生成了一个 `dumpstream` 警告文件，我会把它归入 target 构建产物问题，而不是课程正文问题。
+exec
+/bin/bash -lc 'rg -n "TaskApiIntegrationTest|TaskServiceMockTest|AppSmokeTest|Javalin|HttpServer|7070|8080|/api/tasks|/tasks|Mockito|mockito|quality-gate|quality-gate.json|quality-gate-config|fixes.md|new_tests.md|TEST_SUMMARY|TECHNICAL_DEBT|BUG_BASH_REPORT|ROOT_CAUSE_ANALYSIS" chapters/week_11/ASSIGNMENT.md chapters/week_11/starter_code/README.md chapters/week_11/starter_code/pom.xml chapters/week_11/starter_code/src/main/java chapters/week_11/starter_code/src/test/java chapters/week_12/ASSIGNMENT.md chapters/week_12/starter_code/README.md chapters/week_12/starter_code/pom.xml chapters/week_12/starter_code/src/main/java chapters/week_12/starter_code/src/test/java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "find chapters/week_11/starter_code chapters/week_12/starter_code -maxdepth 2 -type d -name target -o -path '*/target/*' | sort | head -200" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short chapters/week_11/starter_code chapters/week_12/starter_code audit/week09_16' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 527ms:
+chapters/week_11/starter_code/target
+chapters/week_11/starter_code/target/classes
+chapters/week_11/starter_code/target/generated-sources
+chapters/week_11/starter_code/target/generated-test-sources
+chapters/week_11/starter_code/target/maven-status
+chapters/week_11/starter_code/target/surefire-reports
+chapters/week_11/starter_code/target/test-classes
+chapters/week_12/starter_code/target
+chapters/week_12/starter_code/target/classes
+chapters/week_12/starter_code/target/generated-sources
+chapters/week_12/starter_code/target/generated-test-sources
+chapters/week_12/starter_code/target/maven-status
+chapters/week_12/starter_code/target/surefire-reports
+chapters/week_12/starter_code/target/test-classes
+
+ succeeded in 585ms:
+?? audit/week09_16/
+
+ succeeded in 719ms:
+chapters/week_11/starter_code/README.md:25:- `TECHNICAL_DEBT.md`：把 starter rows 替换成你自己的 prioritized backlog。
+chapters/week_11/starter_code/README.md:26:- `TEST_SUMMARY.md`：记录 SpotBugs 和 JaCoCo 命令、发现、前后结果。
+chapters/week_11/starter_code/README.md:36:- [ ] 用至少十个优先级明确的条目更新 `TECHNICAL_DEBT.md`。
+chapters/week_11/ASSIGNMENT.md:137:- `fixes.md`：修复说明文档，每个问题包含：
+chapters/week_11/ASSIGNMENT.md:147:- fixes.md 文档清晰完整（4 分）
+chapters/week_11/ASSIGNMENT.md:300:- `new_tests.md`：新测试说明，每个测试包含：
+chapters/week_11/ASSIGNMENT.md:308:- new_tests.md 文档清晰（3 分）
+chapters/week_11/ASSIGNMENT.md:330:1. **创建 TECHNICAL_DEBT.md**，包含至少 10 个技术债项
+chapters/week_11/ASSIGNMENT.md:381:- `TECHNICAL_DEBT.md`：技术债 Backlog
+chapters/week_11/ASSIGNMENT.md:394:**目标**：创建 `quality-gate.json` 配置文件，定义合理的质量门禁规则。
+chapters/week_11/ASSIGNMENT.md:401:1. **创建 quality-gate.json**：
+chapters/week_11/ASSIGNMENT.md:440:2. **编写 quality-gate-explanation.md**，解释每个规则的设计理由：
+chapters/week_11/ASSIGNMENT.md:446:- `quality-gate.json`：质量门禁配置
+chapters/week_11/ASSIGNMENT.md:447:- `quality-gate-explanation.md`：设计理由说明
+chapters/week_11/ASSIGNMENT.md:538:- [ ] `fixes.md`：修复说明文档（至少 3 个问题）
+chapters/week_11/ASSIGNMENT.md:541:- [ ] `TECHNICAL_DEBT.md`：技术债 Backlog（至少 10 项）
+chapters/week_11/ASSIGNMENT.md:545:- [ ] `quality-gate.json`：质量门禁配置
+chapters/week_11/ASSIGNMENT.md:546:- [ ] `quality-gate-explanation.md`：设计理由说明
+chapters/week_12/starter_code/README.md:1:# Week 12 Starter Code：Integration Tests, Mockito, Bug Bash
+chapters/week_12/starter_code/README.md:3:这个 starter 支持 Week 12：integration tests、Mockito-based tests、contract checks 和 Bug Bash 报告。
+chapters/week_12/starter_code/README.md:5:API 实现故意很小。它只能证明 Javalin server 可以启动，task API routes 仍是待办占位。你的作业是实现足够的行为，写出有意义的 integration tests，并记录 Bug Bash 发现。
+chapters/week_12/starter_code/README.md:16:curl http://localhost:7070/health
+chapters/week_12/starter_code/README.md:17:curl http://localhost:7070/api/tasks
+chapters/week_12/starter_code/README.md:23:- `pom.xml`：为真实作业添加 Javalin 和 Mockito。
+chapters/week_12/starter_code/README.md:24:- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 integration tests 需要的 Javalin API routes。
+chapters/week_12/starter_code/README.md:27:- `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java`：创建真实 HTTP tests。
+chapters/week_12/starter_code/README.md:28:- `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`：创建 Mockito tests。
+chapters/week_12/starter_code/README.md:29:- `BUG_BASH_REPORT.md`：记录 Bug Bash 中发现的至少两个 bug。
+chapters/week_12/starter_code/README.md:30:- `ROOT_CAUSE_ANALYSIS.md`：对一个 bug 做超出表面修复的分析。
+chapters/week_12/starter_code/README.md:34:- [ ] 在 integration tests 中启动真实 Javalin server。
+chapters/week_12/starter_code/README.md:35:- [ ] 测试 `GET /api/tasks`。
+chapters/week_12/starter_code/README.md:36:- [ ] 测试 `POST /api/tasks`。
+chapters/week_12/starter_code/README.md:39:- [ ] 至少增加两个 Mockito tests 和一个 Spy test。
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:4:import com.sun.net.httpserver.HttpServer;
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:11:    private static final int PORT = 7070;
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:14:        HttpServer server = createServer(PORT);
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:19:    public static HttpServer createServer(int port) throws IOException {
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:20:        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:22:        server.createContext("/api/tasks", exchange -> writeJson(exchange, 501, tasksPlaceholderJson()));
+chapters/week_12/starter_code/src/main/java/com/campusflow/App.java:31:        return "{\"error\":\"待办\",\"message\":\"用 Javalin 实现这个 route，供 integration tests 使用\"}";
+chapters/week_12/starter_code/pom.xml:13:    <description>TODO skeleton for integration tests, Mockito practice, and Bug Bash reports</description>
+chapters/week_12/starter_code/pom.xml:51:        <!-- TODO: Add Javalin for the real API and Mockito for mock tests. -->
+chapters/week_12/starter_code/src/test/java/com/campusflow/AppSmokeTest.java:7:class AppSmokeTest {
+chapters/week_12/ASSIGNMENT.md:14:2. 使用 Mockito 编写 Mock 测试，隔离外部依赖
+chapters/week_12/ASSIGNMENT.md:33:上周你为 CampusFlow 建立了质量门禁——SpotBugs 发现潜在 bug，JaCoCo 测量测试覆盖率。但小北在前后端联调时遇到了问题：前端调用 `/api/tasks`，后端只暴露了 `/tasks`。
+chapters/week_12/ASSIGNMENT.md:52:集成测试会启动真实的 Javalin 服务器，发送真实的 HTTP 请求，验证完整链路。这能发现单元测试发现不了的问题：
+chapters/week_12/ASSIGNMENT.md:53:- API 契约不匹配（如前端调用 `/api/tasks`，后端暴露 `/tasks`）
+chapters/week_12/ASSIGNMENT.md:61:创建 `TaskApiIntegrationTest.java`，配置测试环境：
+chapters/week_12/ASSIGNMENT.md:64:class TaskApiIntegrationTest {
+chapters/week_12/ASSIGNMENT.md:66:    private Javalin app;
+chapters/week_12/ASSIGNMENT.md:74:        // 启动 Javalin 服务器
+chapters/week_12/ASSIGNMENT.md:75:        app = Javalin.create().start(8080);
+chapters/week_12/ASSIGNMENT.md:86:#### 1.2 编写 GET /api/tasks 测试（10 分）
+chapters/week_12/ASSIGNMENT.md:96:            .uri(URI.create("http://localhost:8080/api/tasks"))
+chapters/week_12/ASSIGNMENT.md:113:            .uri(URI.create("http://localhost:8080/api/tasks"))
+chapters/week_12/ASSIGNMENT.md:123:#### 1.3 编写 POST /api/tasks 测试（10 分）
+chapters/week_12/ASSIGNMENT.md:136:            .uri(URI.create("http://localhost:8080/api/tasks"))
+chapters/week_12/ASSIGNMENT.md:157:            .uri(URI.create("http://localhost:8080/api/tasks/999"))
+chapters/week_12/ASSIGNMENT.md:173:            .uri(URI.create("http://localhost:8080/api/tasks"))
+chapters/week_12/ASSIGNMENT.md:197:            .uri(URI.create("http://localhost:8080/api/tasks/" + task.getId()))
+chapters/week_12/ASSIGNMENT.md:210:- `TaskApiIntegrationTest.java`：集成测试类
+chapters/week_12/ASSIGNMENT.md:215:- GET /api/tasks 测试（10 分）
+chapters/week_12/ASSIGNMENT.md:216:- POST /api/tasks 测试（10 分）
+chapters/week_12/ASSIGNMENT.md:224:**目标**：使用 Mockito 编写 Mock 测试，隔离外部依赖（如数据库）。
+chapters/week_12/ASSIGNMENT.md:234:#### 2.1 添加 Mockito 依赖（5 分）
+chapters/week_12/ASSIGNMENT.md:240:    <groupId>org.mockito</groupId>
+chapters/week_12/ASSIGNMENT.md:241:    <artifactId>mockito-core</artifactId>
+chapters/week_12/ASSIGNMENT.md:246:    <groupId>org.mockito</groupId>
+chapters/week_12/ASSIGNMENT.md:247:    <artifactId>mockito-junit-jupiter</artifactId>
+chapters/week_12/ASSIGNMENT.md:255:创建 `TaskServiceMockTest.java`：
+chapters/week_12/ASSIGNMENT.md:258:@ExtendWith(MockitoExtension.class)
+chapters/week_12/ASSIGNMENT.md:259:class TaskServiceMockTest {
+chapters/week_12/ASSIGNMENT.md:328:- `pom.xml`：添加了 Mockito 依赖
+chapters/week_12/ASSIGNMENT.md:329:- `TaskServiceMockTest.java`：Mock 测试类
+chapters/week_12/ASSIGNMENT.md:332:- 添加 Mockito 依赖（5 分）
+chapters/week_12/ASSIGNMENT.md:375:创建 `BUG_BASH_REPORT.md`：
+chapters/week_12/ASSIGNMENT.md:381:- URL: http://localhost:8080（或测试服务器地址）
+chapters/week_12/ASSIGNMENT.md:442:- `BUG_BASH_REPORT.md`：Bug Bash 报告
+chapters/week_12/ASSIGNMENT.md:443:- `ROOT_CAUSE_ANALYSIS.md`：根因分析文档
+chapters/week_12/ASSIGNMENT.md:469:  /tasks:
+chapters/week_12/ASSIGNMENT.md:531:    page.navigate("http://localhost:8080");
+chapters/week_12/ASSIGNMENT.md:557:   - 明确需求：为 CampusFlow 的 POST /api/tasks 生成集成测试
+chapters/week_12/ASSIGNMENT.md:558:   - 指定技术栈：JUnit 5、HttpClient、Javalin
+chapters/week_12/ASSIGNMENT.md:568:- [ ] 测试是否启动了 Javalin 服务器？
+chapters/week_12/ASSIGNMENT.md:608:- [ ] `TaskApiIntegrationTest.java`：API 集成测试
+chapters/week_12/ASSIGNMENT.md:610:- [ ] `pom.xml`：添加了 Mockito 依赖
+chapters/week_12/ASSIGNMENT.md:611:- [ ] `TaskServiceMockTest.java`：Mock 测试
+chapters/week_12/ASSIGNMENT.md:612:- [ ] `BUG_BASH_REPORT.md`：Bug Bash 报告
+chapters/week_12/ASSIGNMENT.md:613:- [ ] `ROOT_CAUSE_ANALYSIS.md`：根因分析文档
+chapters/week_12/ASSIGNMENT.md:645:- 启动真实服务（Javalin）
+chapters/week_12/ASSIGNMENT.md:650:### Q2: 端口 8080 被占用怎么办？
+chapters/week_12/ASSIGNMENT.md:657:    app = Javalin.create().start(0);  // 0 = 随机端口
+chapters/week_12/ASSIGNMENT.md:665:            .uri(URI.create("http://localhost:" + port + "/api/tasks"))
+chapters/week_12/ASSIGNMENT.md:707:- Mockito 文档：https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html
+
+exec
+/bin/bash -lc "sed -n '620,760p' chapters/week_12/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '520,760p' chapters/week_11/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_11/starter_code/target chapters/week_12/starter_code/target -maxdepth 2 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 420ms:
+- [ ] **合理性**：过滤规则合理吗？（如忽略低优先级问题是否恰当）
+- [ ] **规范性**：是否遵循 Maven 插件配置规范？
+- [ ] **AI 特定问题**：有幻觉配置（不存在的参数）吗？版本号正确吗？
+
+**提交物**：
+- `ai_generated_spotbugs.xml`：AI 生成的原始配置
+- `ai_review_spotbugs.md`：审查报告，包含：
+  - 发现的问题列表
+  - 修复后的配置
+  - 经验总结（AI 擅长/不擅长配置工具的原因）
+
+---
+
+## 提交物清单
+
+### 必交文件
+- [ ] `pom.xml`：添加了 SpotBugs 和 JaCoCo 插件
+- [ ] `spotbugs_report.txt`：SpotBugs 扫描结果
+- [ ] `fixes.md`：修复说明文档（至少 3 个问题）
+- [ ] `jacoco_screenshot.png`：覆盖率报告截图
+- [ ] `coverage_analysis.md`：覆盖率分析
+- [ ] `TECHNICAL_DEBT.md`：技术债 Backlog（至少 10 项）
+- [ ] 修复后的所有源代码文件
+
+### 进阶作业文件（如完成）
+- [ ] `quality-gate.json`：质量门禁配置
+- [ ] `quality-gate-explanation.md`：设计理由说明
+- [ ] `.github/workflows/quality.yml` 或 `.gitlab-ci.yml`
+- [ ] `ci_screenshot.png`：CI 运行截图
+
+### AI 协作练习文件（如完成）
+- [ ] `ai_generated_spotbugs.xml`：AI 生成的配置
+- [ ] `ai_review_spotbugs.md`：审查报告
+
+---
+
+## 作业截止时间
+
+- **基础作业**：本周日 23:59
+- **进阶作业**：下周三 23:59
+
+---
+
+## 常见问题
+
+### Q1: SpotBugs 报错 "Failed to analyze plugin descriptor" 怎么办？
+
+检查 Maven 依赖是否正确：
+- 确保 JDK 版本兼容（建议 Java 21）
+- 尝试 `mvn clean` 后重新运行
+- 检查网络连接（Maven 需要下载插件）
+
+### Q2: 覆盖率提升不上去怎么办？
+
+1. 查看 JaCoCo 报告中的红色代码（未覆盖）
+2. 针对每个红色代码块写测试
+3. 常见未覆盖场景：
+   - 异常处理分支
+   - null 检查分支
+   - 枚举的所有状态
+   - getter/setter（如果追求高覆盖率）
+
+4. 目标覆盖率：基础作业要求达到 75%，不要为了 100% 而写无意义的测试
+
+### Q3: 技术债应该多少个？
+
+建议至少 10 个，来源包括：
+- SpotBugs 报告的所有高/中优先级问题（至少 5 个）
+- 覆盖率未达到 80% 的类（至少 3 个）
+- 代码质量问题（如重复代码、命名不当）
+
+### Q4: 质量门禁应该设多严格？
+
+根据项目阶段调整：
+- 早期（MVP）：覆盖率 60-70% 即可，快速迭代
+- 成长期：覆盖率 75-80%，高优先级 SpotBugs 问题阻断
+- 成熟期：覆盖率 80%+，所有 SpotBugs 问题阻断
+
+工程实用主义：不要一开始就追求完美，质量要"持续改进"，而不是"一次性达标"。
+
+### Q5: AI 生成的配置可以直接用吗？
+
+必须审查！常见问题：
+- 版本号过时或不存在
+- 参数拼写错误（如 `<effort>` 写成 `<effortLevel>`）
+- 缺少必要配置（如 `<executions>`）
+- 不符合项目规范
+
+---
+
+## 参考资源
+
+- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/quality/CodeWithIssues.java` 和 `TaskStatusCalculator.java` 中的示例代码
+- SpotBugs 官方文档：https://spotbugs.github.io/
+- JaCoCo 官方文档：https://www.jacoco.org/jacoco/trunk/doc/
+- Week 11 章节正文：`chapters/week_11/CHAPTER.md`
+
+---
+
+## 学习建议
+
+1. **工具是雷达，不是救世主**：静态分析工具只能发现模式化问题，设计缺陷仍需人工审查
+2. **覆盖率是指标，不是目标**：不要为了 100% 覆盖率而写无意义的测试
+3. **技术债要管理，不要恐惧**：有意识负债，定期还债，保持可控
+4. **质量门禁要平衡**：太严格拖慢速度，太宽松失去意义
+
+祝作业顺利！记住老潘的话："工具发现问题，AI 解释原因，人做决策。"
+
+ succeeded in 507ms:
+
+### AI 协作练习文件（如完成）
+- [ ] `ai_generated_test.java`：AI 生成的测试代码
+- [ ] `ai_review_test.md`：审查报告
+
+---
+
+## 作业截止时间
+
+- **基础作业**：本周日 23:59
+- **进阶作业**：下周三 23:59
+
+---
+
+## 常见问题
+
+### Q1: 集成测试和单元测试有什么区别？
+
+**单元测试**：
+- 不启动真实服务
+- 直接调用方法（如 `taskService.getAllTasks()`）
+- 使用 Mock 隔离外部依赖
+- 关注逻辑正确性
+
+**集成测试**：
+- 启动真实服务（Javalin）
+- 发送 HTTP 请求
+- 连接真实数据库（或内存数据库）
+- 关注系统集成（API 契约、JSON 格式）
+
+### Q2: 端口 8080 被占用怎么办？
+
+在测试中使用随机端口：
+
+```java
+@BeforeEach
+void setUp() {
+    app = Javalin.create().start(0);  // 0 = 随机端口
+    port = app.port();  // 获取实际端口
+}
+
+@Test
+void getTasks_returnsList() throws Exception {
+    HttpResponse<String> response = HttpClient.newHttpClient()
+        .send(HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:" + port + "/api/tasks"))
+            .GET()
+            .build(), BodyHandlers.ofString());
+}
+```
+
+### Q3: Mock 测试验证了什么？
+
+Mock 测试验证：
+- 业务逻辑是否正确（如 `TaskService` 的处理逻辑）
+- 方法是否被调用（`verify(mockRepository).delete("1")`）
+- 调用次数是否正确（`times(1)`）
+
+Mock 测试**不**验证：
+- SQL 是否正确（没有执行真实 SQL）
+- 数据库连接是否正常
+- JSON 序列化是否正确
+
+### Q4: Bug Bash 只能测试自己团队的系统吗？
+
+**不**。Bug Bash 的价值在于"新鲜视角"：
+- 测试其他团队的系统，能发现开发者盲区的问题
+- 其他团队测试你的系统，能发现你"习以为常"的问题
+- 建议交叉测试：A 测 B，B 测 C，C 测 A
+
+### Q5: 根因分析要写多详细？
+
+至少包含：
+- **直接原因**：为什么会出现这个 bug？（如数据库字符集问题）
+- **设计缺陷**：是设计问题还是实现问题？
+- **测试盲区**：为什么测试没发现？
+- **修复方案**：不只修复 bug，还要预防同类问题
+
+参考教材 Week 12 第 4 节的根因分析示例。
+
+---
+
+## 参考资源
+
+- 如果你遇到困难，可以参考 `starter_code/src/test/java/` 中的示例测试
+- 教材 Week 12 章节：`chapters/week_12/CHAPTER.md`
+- JUnit 5 文档：https://junit.org/junit5/docs/current/user-guide/
+- Mockito 文档：https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html
+- Java HttpClient 教程：https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html
+
+---
+
+## 学习建议
+
+1. **测试金字塔**：单元测试（多）→ 集成测试（适量）→ E2E 测试（少）
+2. **Mock 不是万能**：过度 Mock 会导致测试跟"假对象"交互，而不是测试真实逻辑
+3. **Bug Bash 是文化**：不只是找 bug，更是团队协作和互相学习
+4. **根因分析是成长**：每个 bug 都是教训，理解根因才能避免同类问题
+
+祝作业顺利！记住老潘的话："单元测试证明零件能跑，集成测试证明它们在一起也能跑。"
+
+ succeeded in 527ms:
+chapters/week_11/starter_code/target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream
+chapters/week_11/starter_code/target/surefire-reports/TEST-com.campusflow.quality.TaskStatusCalculatorTest.xml
+chapters/week_11/starter_code/target/surefire-reports/com.campusflow.quality.TaskStatusCalculatorTest.txt
+chapters/week_12/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_12/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+
+exec
+/bin/bash -lc 'git ls-files chapters/week_11/starter_code/target chapters/week_12/starter_code/target' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "find . -maxdepth 3 -name .gitignore -type f -print -exec sed -n '1,220p' {} \\;" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'ls -la audit/week09_16' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 213ms:
+ succeeded in 246ms:
+total 436
+drwxr-xr-x 2 root root    118 Apr 28 21:49 .
+drwxr-xr-x 3 root root     23 Apr 28 21:49 ..
+-rw-r--r-- 1 root root  53166 Apr 28 21:51 week09_10.stdout.log
+-rw-r--r-- 1 root root  84964 Apr 28 21:51 week11_12.stdout.log
+-rw-r--r-- 1 root root 107494 Apr 28 21:51 week13_14.stdout.log
+-rw-r--r-- 1 root root  76916 Apr 28 21:51 week15_16.stdout.log
+
+ succeeded in 269ms:
+./.gitignore
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Java
+*.class
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# OS
+.DS_Store
+.cursor/
+
+# Environment
+.venv/
+dist/
+build/
+*.bak
+./.serena/.gitignore
+/cache
+./templates/docusaurus-site/.gitignore
+# Dependencies
+/site/node_modules/
+
+# Production build
+/site/build/
+
+# Generated files
+/site/docs/**/*.mdx
+!/site/docs/.gitkeep
+/site/docs/weeks/
+/site/docs/index.mdx
+/site/docs/syllabus.mdx
+/site/docs/glossary.mdx
+/site/docs/campusflow.mdx
+/site/docs/style-guide.mdx
+/site/sidebars.ts
+
+# Docusaurus cache
+/site/.docusaurus/
+/site/.cache-loader/
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+codex
+我已经归纳出主要风险：week 11 是提交物命名与 README 模板不一致；week 12 是 Javalin 依赖/端口/API 路径说明不一致。下面只写审计报告，不改章节或 starter 代码。
+apply patch
+patch: completed
+/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week11_12.md
+diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c7dd5282db55a76706420631ad5702a57c565b7e
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week11_12.md
+@@ -0,0 +1,111 @@
++# Week 11-12 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_11` 到 `chapters/week_12`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
++| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
++
++## week_11
++
++### 一致性判断
++
++整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
++
++主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
++   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
++   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
++   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
++
++2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
++   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
++   - 风险：学生误以为基础作业必须完成质量门禁配置。
++   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
++
++### P2
++
++1. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
++
++## week_12
++
++### 一致性判断
++
++初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
++
++但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
++   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
++   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
++   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
++
++2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
++   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
++   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
++   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
++
++3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
++   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
++   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
++   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
++
++### P2
++
++1. README 对当前 starter 的描述不准确。
++   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
++   - 风险：学生误判当前 smoke test 覆盖了服务启动。
++   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
++
++2. 作业与 README 对测试文件路径的明确程度不同。
++   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
++   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
++   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
++- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
++- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
++- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_11/starter_code/target/`
++- `chapters/week_12/starter_code/target/`
+
+diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c7dd5282db55a76706420631ad5702a57c565b7e
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week11_12.md
+@@ -0,0 +1,111 @@
++# Week 11-12 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_11` 到 `chapters/week_12`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
++| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
++
++## week_11
++
++### 一致性判断
++
++整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
++
++主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
++   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
++   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
++   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
++
++2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
++   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
++   - 风险：学生误以为基础作业必须完成质量门禁配置。
++   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
++
++### P2
++
++1. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
++
++## week_12
++
++### 一致性判断
++
++初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
++
++但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
++   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
++   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
++   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
++
++2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
++   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
++   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
++   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
++
++3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
++   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
++   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
++   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
++
++### P2
++
++1. README 对当前 starter 的描述不准确。
++   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
++   - 风险：学生误判当前 smoke test 覆盖了服务启动。
++   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
++
++2. 作业与 README 对测试文件路径的明确程度不同。
++   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
++   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
++   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
++- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
++- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
++- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_11/starter_code/target/`
++- `chapters/week_12/starter_code/target/`
+
+exec
+/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week11_12.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+# Week 11-12 课程作业审稿报告（Codex 分片）
+
+审查范围：`chapters/week_11` 到 `chapters/week_12`
+
+审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
+
+## 测试运行结果
+
+| Week | 命令 | 结果 | 备注 |
+| --- | --- | --- | --- |
+| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
+| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
+
+## week_11
+
+### 一致性判断
+
+整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
+
+主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
+
+### P0
+
+无。
+
+### P1
+
+1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
+   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
+   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
+   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
+
+2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
+   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
+   - 风险：学生误以为基础作业必须完成质量门禁配置。
+   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
+
+### P2
+
+1. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
+   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
+   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
+
+## week_12
+
+### 一致性判断
+
+初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
+
+但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
+
+### P0
+
+无。
+
+### P1
+
+1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
+   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
+   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
+   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
+
+2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
+   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
+   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
+   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
+
+3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
+   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
+   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
+   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
+
+### P2
+
+1. README 对当前 starter 的描述不准确。
+   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
+   - 风险：学生误判当前 smoke test 覆盖了服务启动。
+   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
+
+2. 作业与 README 对测试文件路径的明确程度不同。
+   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
+   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
+   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
+
+3. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
+   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
+   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
+
+## 必须修改的文件清单
+
+我认为发布前必须修改：
+
+- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
+- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
+- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
+- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
+
+发布前还应清理但不属于课程内容修改：
+
+- `chapters/week_11/starter_code/target/`
+- `chapters/week_12/starter_code/target/`
+
+exec
+/bin/bash -lc 'git status --short audit/week09_16/codex_audit_week11_12.md chapters/week_11/starter_code chapters/week_12/starter_code' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+?? audit/week09_16/codex_audit_week11_12.md
+
+diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c7dd5282db55a76706420631ad5702a57c565b7e
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week11_12.md
+@@ -0,0 +1,111 @@
++# Week 11-12 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_11` 到 `chapters/week_12`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
++| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
++
++## week_11
++
++### 一致性判断
++
++整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
++
++主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
++   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
++   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
++   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
++
++2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
++   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
++   - 风险：学生误以为基础作业必须完成质量门禁配置。
++   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
++
++### P2
++
++1. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
++
++## week_12
++
++### 一致性判断
++
++初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
++
++但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
++   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
++   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
++   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
++
++2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
++   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
++   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
++   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
++
++3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
++   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
++   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
++   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
++
++### P2
++
++1. README 对当前 starter 的描述不准确。
++   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
++   - 风险：学生误判当前 smoke test 覆盖了服务启动。
++   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
++
++2. 作业与 README 对测试文件路径的明确程度不同。
++   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
++   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
++   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
++- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
++- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
++- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_11/starter_code/target/`
++- `chapters/week_12/starter_code/target/`
+
+codex
+已完成只读审查，并写入报告：
+
+[audit/week09_16/codex_audit_week11_12.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week11_12.md)
+
+测试结果：
+- week_11：`mvn -B -ntp test` 通过，1 个 smoke test。
+- week_12：`mvn -B -ntp test` 通过，1 个 smoke test。
+
+未修改课程文件。报告中列出了 week_11/12 的一致性判断、P0/P1/P2、建议改 `ASSIGNMENT.md` 还是 `starter_code`，以及必须修改文件清单。主要问题是 week_11 提交物命名不一致，week_12 Javalin 依赖、端口和 API 路径说明不一致。
+diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c7dd5282db55a76706420631ad5702a57c565b7e
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week11_12.md
+@@ -0,0 +1,111 @@
++# Week 11-12 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_11` 到 `chapters/week_12`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
++| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
++
++## week_11
++
++### 一致性判断
++
++整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
++
++主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
++   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
++   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
++   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
++
++2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
++   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
++   - 风险：学生误以为基础作业必须完成质量门禁配置。
++   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
++
++### P2
++
++1. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
++
++## week_12
++
++### 一致性判断
++
++初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
++
++但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
++
++### P0
++
++无。
++
++### P1
++
++1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
++   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
++   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
++   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
++
++2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
++   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
++   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
++   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
++
++3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
++   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
++   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
++   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
++
++### P2
++
++1. README 对当前 starter 的描述不准确。
++   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
++   - 风险：学生误判当前 smoke test 覆盖了服务启动。
++   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
++
++2. 作业与 README 对测试文件路径的明确程度不同。
++   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
++   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
++   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
++   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
++   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
++- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
++- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
++- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_11/starter_code/target/`
++- `chapters/week_12/starter_code/target/`
+
+2026-04-28T13:52:58.556618Z ERROR codex_core::session: failed to record rollout items: thread 019dd45a-6c72-7050-ab2b-efff0cdf916c not found
+tokens used
+104,010
+已完成只读审查，并写入报告：
+
+[audit/week09_16/codex_audit_week11_12.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week11_12.md)
+
+测试结果：
+- week_11：`mvn -B -ntp test` 通过，1 个 smoke test。
+- week_12：`mvn -B -ntp test` 通过，1 个 smoke test。
+
+未修改课程文件。报告中列出了 week_11/12 的一致性判断、P0/P1/P2、建议改 `ASSIGNMENT.md` 还是 `starter_code`，以及必须修改文件清单。主要问题是 week_11 提交物命名不一致，week_12 Javalin 依赖、端口和 API 路径说明不一致。

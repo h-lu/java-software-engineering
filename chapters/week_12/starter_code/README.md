@@ -2,7 +2,7 @@
 
 这个 starter 支持 Week 12：integration tests、Mockito-based tests、contract checks 和 Bug Bash 报告。
 
-API 实现故意很小。它只能证明 Javalin server 可以启动，task API routes 仍是待办占位。你的作业是实现足够的行为，写出有意义的 integration tests，并记录 Bug Bash 发现。
+API 实现故意很小。它使用 JDK `HttpServer` 占位，只能证明 Maven 入口和 health payload 能跑通；task API routes 仍是待办占位。你的作业是添加 Javalin 依赖、实现足够的行为，写出有意义的 integration tests，并记录 Bug Bash 发现。
 
 ## 运行命令
 
