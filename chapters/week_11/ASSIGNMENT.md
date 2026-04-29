@@ -134,7 +134,7 @@ public class Task {
 
 **提交物**：
 - 修复后的代码文件（提交整个项目）
-- `fixes.md`：修复说明文档，每个问题包含：
+- `fixes.md`：修复说明文档。也可以写入 starter 提供的 `TEST_SUMMARY.md` 的"SpotBugs 修复记录"小节，但标题和内容必须能清楚对应下面字段：
   - 问题类型（如 NP_NULL_ON_SOME_PATH）
   - 问题位置（类名、方法名、行号）
   - 问题描述
@@ -195,7 +195,7 @@ JaCoCo（Java Code Coverage）能测量测试执行时覆盖了哪些代码：
 **提交物**：
 - `pom.xml`：添加了 JaCoCo 插件的配置
 - `jacoco_screenshot.png`：覆盖率报告的截图（需显示整体覆盖率数字）
-- `coverage_analysis.md`：覆盖率分析，包含：
+- `coverage_analysis.md`：覆盖率分析。也可以写入 `TEST_SUMMARY.md` 的"覆盖率分析"小节，但必须包含：
   - 当前行覆盖率百分比
   - 当前分支覆盖率百分比
   - 覆盖率最低的 3 个类及其覆盖率
@@ -297,7 +297,7 @@ void getStatus_completed_returnsCompleted() {
 
 **提交物**：
 - 补充的测试类文件（`src/test/java/...`）
-- `new_tests.md`：新测试说明，每个测试包含：
+- `new_tests.md`：新测试说明。也可以写入 `TEST_SUMMARY.md` 的"新增测试"小节，每个测试包含：
   - 测试方法名
   - 对应的未覆盖代码位置
   - 测试目的（测什么边界或异常情况）
@@ -535,9 +535,9 @@ jobs:
 ### 必交文件
 - [ ] `pom.xml`：添加了 SpotBugs 和 JaCoCo 插件
 - [ ] `spotbugs_report.txt`：SpotBugs 扫描结果
-- [ ] `fixes.md`：修复说明文档（至少 3 个问题）
+- [ ] `fixes.md` 或 `TEST_SUMMARY.md` 的"SpotBugs 修复记录"小节：修复说明文档（至少 3 个问题）
 - [ ] `jacoco_screenshot.png`：覆盖率报告截图
-- [ ] `coverage_analysis.md`：覆盖率分析
+- [ ] `coverage_analysis.md` 或 `TEST_SUMMARY.md` 的"覆盖率分析"小节：覆盖率分析
 - [ ] `TECHNICAL_DEBT.md`：技术债 Backlog（至少 10 项）
 - [ ] 修复后的所有源代码文件
 

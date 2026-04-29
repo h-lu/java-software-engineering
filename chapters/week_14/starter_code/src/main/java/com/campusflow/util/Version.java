@@ -9,30 +9,49 @@ public record Version(int major, int minor, int patch) implements Comparable<Ver
     }
 
     public static Version parse(String text) {
-        // 待办：解析 1.0.0 这类 Semantic Versioning 字符串。
-        // 待办：拒绝 null、空白、不完整、非数字版本。
-        throw new UnsupportedOperationException("待办：实现 SemVer parsing");
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException("Version text must not be blank");
+        }
+
+        String[] parts = text.trim().split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Version must use MAJOR.MINOR.PATCH: " + text);
+        }
+
+        try {
+            return new Version(
+                    Integer.parseInt(parts[0]),
+                    Integer.parseInt(parts[1]),
+                    Integer.parseInt(parts[2])
+            );
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Version numbers must be numeric: " + text, e);
+        }
     }
 
     public Version nextMajor() {
-        // 待办：递增 MAJOR，并重置 MINOR/PATCH。
-        throw new UnsupportedOperationException("待办：实现 nextMajor");
+        return new Version(major + 1, 0, 0);
     }
 
     public Version nextMinor() {
-        // 待办：递增 MINOR，并重置 PATCH。
-        throw new UnsupportedOperationException("待办：实现 nextMinor");
+        return new Version(major, minor + 1, 0);
     }
 
     public Version nextPatch() {
-        // 待办：递增 PATCH。
-        throw new UnsupportedOperationException("待办：实现 nextPatch");
+        return new Version(major, minor, patch + 1);
     }
 
     @Override
     public int compareTo(Version other) {
-        // 待办：依次比较 MAJOR、MINOR、PATCH。
-        throw new UnsupportedOperationException("待办：实现 version comparison");
+        int majorComparison = Integer.compare(major, other.major);
+        if (majorComparison != 0) {
+            return majorComparison;
+        }
+        int minorComparison = Integer.compare(minor, other.minor);
+        if (minorComparison != 0) {
+            return minorComparison;
+        }
+        return Integer.compare(patch, other.patch);
     }
 
     @Override

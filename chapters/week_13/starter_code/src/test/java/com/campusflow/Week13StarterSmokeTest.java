@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Week 13 starter package smoke tests")
@@ -15,7 +17,7 @@ class Week13StarterSmokeTest {
     private final Path root = Path.of("").toAbsolutePath();
 
     @Test
-    void starterReadmeExplainsCommandsAndTodoFiles() throws IOException {
+    void starterReadmeExplainsCommandsAndDeliverables() throws IOException {
         String readme = Files.readString(root.resolve("README.md"));
 
         assertTrue(readme.contains("mvn test"));
@@ -24,18 +26,33 @@ class Week13StarterSmokeTest {
     }
 
     @Test
-    void documentationTemplatesExistAndStillContainStudentTodos() throws IOException {
-        assertContainsTodo("openapi.yaml");
-        assertContainsTodo("PROJECT_README_TODO.md");
-        assertContainsTodo("docs/ADR_INDEX.md");
-        assertContainsTodo("docs/ADR/001-domain-model.md");
+    void documentationDeliverablesExistAndHaveContent() throws IOException {
+        assertReadableContent("openapi.yaml", "openapi:");
+        assertAnyReadableContent(List.of("PROJECT_README_TODO.md", "PROJECT_README.md"), "#");
+        assertReadableContent("docs/ADR_INDEX.md", "ADR");
+        assertReadableContent("docs/ADR/001-domain-model.md", "ADR");
     }
 
-    private void assertContainsTodo(String relativePath) throws IOException {
+    private void assertAnyReadableContent(List<String> relativePaths, String expectedText) throws IOException {
+        for (String relativePath : relativePaths) {
+            Path file = root.resolve(relativePath);
+            if (Files.isRegularFile(file)) {
+                String text = Files.readString(file);
+                assertFalse(text.isBlank(), relativePath + " should not be blank");
+                assertTrue(text.contains(expectedText), relativePath + " should contain " + expectedText);
+                return;
+            }
+        }
+
+        throw new AssertionError("One of these files should exist: " + relativePaths);
+    }
+
+    private void assertReadableContent(String relativePath, String expectedText) throws IOException {
         Path file = root.resolve(relativePath);
 
         assertTrue(Files.isRegularFile(file), relativePath + " should exist");
         String text = Files.readString(file);
-        assertTrue(text.contains("TODO") || text.contains("待办"), relativePath + " 应该保留学生可填写的 TODO/待办 标记");
+        assertFalse(text.isBlank(), relativePath + " should not be blank");
+        assertTrue(text.contains(expectedText), relativePath + " should contain " + expectedText);
     }
 }

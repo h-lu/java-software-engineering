@@ -11,8 +11,12 @@ public class ShowcaseReadinessCheck {
             "presentation_script.md",
             "slides_outline.md",
             "poster_checklist.md",
-            "qa_prep.md",
-            "showcase_practice.md"
+            "qa_prep.md"
+    );
+
+    private static final List<String> OPTIONAL_FILES = List.of(
+            "showcase_practice.md",
+            "ai_ppt_review.md"
     );
 
     public static void main(String[] args) throws IOException {
@@ -26,9 +30,14 @@ public class ShowcaseReadinessCheck {
                     : -1;
             System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
         }
+        System.out.println("Optional practice files: " + OPTIONAL_FILES);
     }
 
     public static List<String> requiredFiles() {
         return REQUIRED_FILES;
+    }
+
+    public static List<String> optionalFiles() {
+        return OPTIONAL_FILES;
     }
 }

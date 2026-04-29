@@ -36,15 +36,10 @@ GET    /tasks               - 获取所有任务（返回 {data: [...], total: N
 GET    /tasks/{id}          - 获取指定任务
 POST   /tasks               - 创建任务（请求体: {title, description, dueDate}）
 PUT    /tasks/{id}          - 全量更新任务
-PATCH  /tasks/{id}          - 部分更新任务（如只更新状态字段）
 DELETE /tasks/{id}          - 删除任务
-GET    /stats               - 获取统计信息
 ```
 
-> **注意**：标记任务完成可以用两种方式：
-> - `PATCH /tasks/{id}` + 请求体 `{"status": "completed"}`
-> - 或使用专门的 `POST /tasks/{id}/complete` 端点（后端已实现）
-> 两种方式都有效，选择一种即可。
+> **注意**：上表是 Week 09 必做接口。标记任务完成请使用 `PUT /tasks/{id}` 提交更新后的任务对象；`PATCH /tasks/{id}`、`POST /tasks/{id}/complete`、`GET /stats` 只能作为进阶扩展，不能在基础前端中假设后端已经实现。
 
 **Task 模型结构**：
 ```json
@@ -241,7 +236,7 @@ GET    /stats               - 获取统计信息
 
 **实现要求**：
 
-1. 修改 `App.java`，添加 CORS 配置：
+1. 修改你的 Week 09 后端 `App.java`，添加 CORS 配置。如果你选择让 Week 10 starter 独立运行，也可以在本周 `starter_code/src/main/java/com/campusflow/App.java` 中实现同一组 `/tasks` API 和 CORS；不要只给 `/health` 加 CORS 后就验收任务列表。
    ```java
    import io.javalin.plugin.bundled.CorsPluginConfig;
 
@@ -264,7 +259,7 @@ GET    /stats               - 获取统计信息
    ```
 
 **验证方法**：
-1. 启动后端：`mvn -q compile exec:java`
+1. 启动 Week 09 后端：`cd chapters/week_09/starter_code && mvn -q compile exec:java`
 2. 用浏览器打开 `frontend/index.html`
 3. 打开浏览器开发者工具（F12）
 4. 确认：
@@ -273,7 +268,7 @@ GET    /stats               - 获取统计信息
    - Network 标签能看到成功的 API 请求
 
 **提交物**：
-- `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+- Week 09 后端的 `src/main/java/com/campusflow/App.java`：添加了 CORS 配置。若你选择 Week 10 standalone backend，则提交 Week 10 的 `src/main/java/com/campusflow/App.java`，并确保它也实现 `/tasks`
 - `cors_screenshot.png`：浏览器控制台截图，证明前后端通信正常
 
 **评分要点**：
@@ -351,7 +346,7 @@ GET    /stats               - 获取统计信息
 - [ ] `frontend/index.html`：修复后的前端代码
 - [ ] `REVIEW.md`：AI 审查报告
 - [ ] `AI_TOOL.md`：使用的 AI 工具信息
-- [ ] `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+- [ ] 后端 `src/main/java/com/campusflow/App.java`：添加了 CORS 配置，并且浏览器实际调用的是同一个后端
 - [ ] `cors_screenshot.png`：前后端通信正常的截图
 
 ### 进阶作业文件（如完成）

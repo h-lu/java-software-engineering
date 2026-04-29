@@ -23,7 +23,7 @@ mvn test jacoco:report
 - `src/main/java/com/campusflow/quality/TaskStatusCalculator.java`：用 JaCoCo 找出未覆盖分支并补测试。
 - `src/test/java/com/campusflow/quality/TaskStatusCalculatorTest.java`：根据覆盖率报告扩展测试。
 - `TECHNICAL_DEBT.md`：把 starter rows 替换成你自己的 prioritized backlog。
-- `TEST_SUMMARY.md`：记录 SpotBugs 和 JaCoCo 命令、发现、前后结果。
+- `TEST_SUMMARY.md`：记录 SpotBugs 和 JaCoCo 命令、发现、前后结果。你也可以按作业拆成 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 三个文件；如果不拆分，`TEST_SUMMARY.md` 需要包含同名小节，方便评分时定位。
 
 ## 待办清单
 
@@ -34,6 +34,6 @@ mvn test jacoco:report
 - [ ] 生成并查看覆盖率报告。
 - [ ] 为未覆盖分支至少增加三个测试。
 - [ ] 用至少十个优先级明确的条目更新 `TECHNICAL_DEBT.md`。
-- [ ] 定义你的 quality gate thresholds，并解释取舍。
+- [ ] 进阶/选做：定义你的 quality gate thresholds，并解释取舍。
 
 内置测试只是 smoke test，不足以达到作业要求的覆盖率目标。

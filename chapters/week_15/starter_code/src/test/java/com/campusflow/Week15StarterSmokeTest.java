@@ -21,7 +21,8 @@ class Week15StarterSmokeTest {
             Path file = root.resolve(fileName);
             assertTrue(Files.isRegularFile(file), fileName + " should exist");
             String text = Files.readString(file);
-            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
+            assertFalse(text.isBlank(), fileName + " should not be blank");
+            assertTrue(text.lines().count() >= 3, fileName + " should keep the starter structure");
         }
     }
 
@@ -29,5 +30,7 @@ class Week15StarterSmokeTest {
     void checkerHasRequiredFilesConfigured() {
         assertFalse(ShowcaseReadinessCheck.requiredFiles().isEmpty());
         assertTrue(ShowcaseReadinessCheck.requiredFiles().contains("qa_prep.md"));
+        assertFalse(ShowcaseReadinessCheck.requiredFiles().contains("showcase_practice.md"));
+        assertTrue(ShowcaseReadinessCheck.optionalFiles().contains("showcase_practice.md"));
     }
 }

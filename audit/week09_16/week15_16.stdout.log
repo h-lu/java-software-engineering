@@ -1,0 +1,3824 @@
+Reading additional input from stdin...
+OpenAI Codex v0.125.0 (research preview)
+--------
+workdir: /root/.openclaw/workspace/projects/java-software-engineering
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /root/.codex/memories]
+reasoning effort: high
+reasoning summaries: none
+session id: 019dd45a-72d3-7050-ab17-7d11222e2e8e
+--------
+user
+你是 Java 课程作业审稿 agent（分片 week15_16）。请只审查，不要修改课程文件。范围：chapters/week_15 到 chapters/week_16。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week15_16.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the vendored bubblewrap in the meantime.
+codex
+我会按只读审查处理课程内容，只新增审计报告文件。先核对 week_15/week_16 的作业、代码、测试和构建文件，再分别跑 Maven 测试并把结果汇总到指定报告。
+  → 梳理 week_15/week_16 文件结构与 git 状态
+  • 审查两周 ASSIGNMENT、README、源码、测试、pom 一致性
+  • 运行每周 starter_code Maven 测试
+  • 写入中文审计报告
+exec
+/bin/bash -lc 'rg --files chapters/week_15 chapters/week_16 audit | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_15 chapters/week_16 -maxdepth 4 -type d -name target -print' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 185ms:
+audit/week09_16/week09_10.stdout.log
+audit/week09_16/week11_12.stdout.log
+audit/week09_16/week13_14.stdout.log
+audit/week09_16/week15_16.stdout.log
+chapters/week_15/ANCHORS.yml
+chapters/week_15/ASSIGNMENT.md
+chapters/week_15/CHAPTER.md
+chapters/week_15/QA_REPORT.md
+chapters/week_15/RUBRIC.md
+chapters/week_15/TERMS.yml
+chapters/week_15/examples/15_feedback_form.md
+chapters/week_15/examples/15_presentation_script.md
+chapters/week_15/examples/15_showcase_poster.html
+chapters/week_15/examples/PresentationScriptExample.java
+chapters/week_15/examples/QaStrategyExample.java
+chapters/week_15/examples/README.md
+chapters/week_15/starter_code/README.md
+chapters/week_15/starter_code/ai_ppt_review.md
+chapters/week_15/starter_code/pom.xml
+chapters/week_15/starter_code/poster_checklist.md
+chapters/week_15/starter_code/prepare_demo_data.sh
+chapters/week_15/starter_code/presentation_script.md
+chapters/week_15/starter_code/qa_prep.md
+chapters/week_15/starter_code/showcase_practice.md
+chapters/week_15/starter_code/slides_outline.md
+chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java
+chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java
+chapters/week_15/starter_code/start.bat
+chapters/week_15/starter_code/start.sh
+chapters/week_16/ANCHORS.yml
+chapters/week_16/ASSIGNMENT.md
+chapters/week_16/CHAPTER.md
+chapters/week_16/QA_REPORT.md
+chapters/week_16/RUBRIC.md
+chapters/week_16/TERMS.yml
+chapters/week_16/examples/16_campusflow_roadmap.md
+chapters/week_16/examples/16_career_roadmap.md
+chapters/week_16/examples/16_knowledge_map.md
+chapters/week_16/examples/16_retrospective_report.md
+chapters/week_16/examples/16_showcase_feedback.md
+chapters/week_16/examples/16_skill_radar.md
+chapters/week_16/examples/ANCHORS.yml
+chapters/week_16/examples/CampusFlowFeedbackCollector.java
+chapters/week_16/examples/FILES.txt
+chapters/week_16/examples/README.md
+chapters/week_16/examples/SkillRadarGenerator.java
+chapters/week_16/examples/TERMS.yml
+chapters/week_16/starter_code/01_showcase_feedback_summary.md
+chapters/week_16/starter_code/02_retrospective_report.md
+chapters/week_16/starter_code/03_knowledge_map.md
+chapters/week_16/starter_code/04_career_plan.md
+chapters/week_16/starter_code/README.md
+chapters/week_16/starter_code/pom.xml
+chapters/week_16/starter_code/src/main/java/com/campusflow/Week16ReadinessCheck.java
+chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java
+chapters/week_16/starter_code/submission_checklist.md
+
+ succeeded in 201ms:
+?? .codex
+?? .pct-state.json
+?? audit/
+
+ succeeded in 213ms:
+chapters/week_15/starter_code/target
+chapters/week_16/starter_code/target
+
+codex
+初始状态里 week_15 和 week_16 的 `starter_code/target` 已经存在，我会区分“审查前已存在”和测试运行产生的影响。接下来读取作业、README、pom、源码和测试入口，重点找命名和签名错位。
+exec
+/bin/bash -lc "sed -n '1,220p' chapters/week_15/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,240p' chapters/week_15/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,220p' chapters/week_15/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 607ms:
+# Week 15 Starter Code：项目集市与展示准备
+
+Week 15 主要交付展示材料，不要求新增 CampusFlow 功能代码。这个 starter_code 提供模板和一个小检查器，帮助你整理展示脚本、PPT/海报大纲、问答准备和演练反馈。
+
+## 运行命令
+
+需要 Java 21 和 Maven 3.9+。
+
+```bash
+cd chapters/week_15/starter_code
+mvn test
+mvn -q compile
+java -cp target/classes com.campusflow.ShowcaseReadinessCheck
+```
+
+## 需要编辑的文件
+
+- `presentation_script.md`：TODO 写 8-10 分钟演示脚本关键点。
+- `slides_outline.md`：TODO 规划 12-15 页 PPT。
+- `poster_checklist.md`：TODO 检查 A1 海报信息层级和二维码。
+- `qa_prep.md`：TODO 准备 10-15 个问答。
+- `showcase_practice.md`：TODO 记录跨组演练反馈。
+- `ai_ppt_review.md`：TODO 如果使用 AI 生成 PPT 草稿，记录人工审查。
+- `prepare_demo_data.sh`：TODO 按你真实 API 修改演示数据脚本。
+
+## 使用建议
+
+1. 先完成脚本，再做 PPT。PPT 只承载脚本中的关键证据。
+2. 演示数据要真实、可复现，避免现场临时造数据。
+3. Q&A 回答遵循：直接回答、解释原因、补充边界。
+4. 所有二维码和部署链接在展示前一天、展示当天各验证一次。
+
+ succeeded in 551ms:
+package com.campusflow;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+public class ShowcaseReadinessCheck {
+
+    private static final List<String> REQUIRED_FILES = List.of(
+            "presentation_script.md",
+            "slides_outline.md",
+            "poster_checklist.md",
+            "qa_prep.md",
+            "showcase_practice.md"
+    );
+
+    public static void main(String[] args) throws IOException {
+        Path root = Path.of("").toAbsolutePath();
+
+        System.out.println("Week 15 showcase readiness check");
+        for (String fileName : REQUIRED_FILES) {
+            Path file = root.resolve(fileName);
+            long todoCount = Files.exists(file)
+                    ? Files.readString(file).lines().filter(line -> line.contains("待办")).count()
+                    : -1;
+            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
+        }
+    }
+
+    public static List<String> requiredFiles() {
+        return REQUIRED_FILES;
+    }
+}
+
+ succeeded in 677ms:
+# Week 15 作业：项目集市与展示准备
+
+## 作业说明
+
+本周不涉及新的 Java 代码开发，重点是**为项目集市做准备**。你需要完成以下任务，让你的 CampusFlow 展示更加专业和自信。
+
+---
+
+## 基础作业（必做，100 分满分）
+
+### 任务 1：设计演示脚本（30 分）
+
+为你的 CampusFlow 项目设计一个 8-10 分钟的演示脚本。
+
+**要求**：
+1. 遵循"开场 1 分钟 + 主体 7 分钟 + 结尾 2 分钟"的时间分配
+2. 包含以下五个部分：
+   - 问题背景（为什么做这个项目）
+   - 技术选型与架构（Java + Javalin + SQLite）
+   - 功能演示（核心功能）
+   - 工程实践（测试、文档、部署）
+   - 踩坑与成长（Bug Bash、AI 协作经验）
+3. 选择 3-4 个亮点详细讲，其他内容一句话带过
+4. 准备 10-15 个常见问题的回答（见任务 3）
+
+**提交**：
+- 提交文件：`presentation_script.md`
+- 格式：Markdown，包含每个部分的关键点（不是完整逐字稿）
+
+---
+
+### 任务 2：准备展示材料（40 分）
+
+设计你的展示 PPT 和海报。
+
+**PPT 要求**：
+1. 页数：12-15 页（不含封面和 Q&A）
+2. 设计原则：
+   - 一页一信息（不要堆砌多个概念）
+   - 文字精简（用关键词，不是完整句子）
+   - 图胜于文（用架构图、截图、表格，而不是纯文字）
+   - 配色统一（不超过 3 种主色）
+3. 必须包含：
+   - 封面（项目名、团队、一句话介绍）
+   - 目录
+   - 问题背景（现有工具 vs 你的方案）
+   - 技术选型（技术栈表格 + 架构图）
+   - 功能演示（核心功能列表 + 截图/录屏）
+   - 工程实践（测试覆盖率图表 + CI/CD 截图）
+   - 踩坑与成长（Bug Bash 表格 + AI 协作经验表格）
+   - 项目链接（GitHub 二维码、在线演示二维码）
+   - Q&A 页
+
+**海报要求**：
+1. 尺寸：A1（594 × 841 mm）
+2. 设计原则：
+   - 远距离可读（3 米外能看清标题）
+   - 层级清晰（标题 → 核心内容 → 技术栈 → 亮点 → 二维码）
+   - 字体大小：标题 ≥ 72pt，正文 ≥ 24pt
+3. 必须包含：
+   - 项目标题和一句话介绍
+   - 问题 vs 解决方案对比
+   - 技术栈列表
+   - 核心亮点（3-4 个）
+   - GitHub 和在线演示的二维码
+
+**提交**：
+- 提交文件：`slides.pptx` / `poster.pdf`
+- 或提交设计源文件：`slides.html` / `poster.html`
+
+---
+
+### 任务 3：准备问答应对（30 分）
+
+准备 10-15 个常见问题的答案。
+
+**必须准备的问题类型**：
+1. 技术选型类：
+   - 为什么用 Java？不用 Python 或 Go？
+   - 为什么不用 Spring？
+   - 为什么用 SQLite？不用 MySQL 或 PostgreSQL？
+
+2. 设计决策类：
+   - 你们的架构有什么特色？
+   - 你们的 API 设计遵循 RESTful 吗？
+   - 你们的测试覆盖率为什么是 80%？
+
+3. 工程实践类：
+   - 你们的 CI/CD 流水线是什么样的？
+   - 你们用了 AI 工具吗？效果如何？
+   - Bug Bash 发现了什么问题？
+
+4. 对比与竞争类：
+   - CampusFlow 和 Notion / Todoist 相比有什么优势？
+   - 你们的创新点在哪里？
+
+5. 未来规划类：
+   - 下一步有什么计划？
+   - 你们的项目能商业化吗？
+
+**回答要求**：
+- 每个回答包含三部分：直接回答 + 解释原因 + 补充说明
+- 回答控制在 1-2 分钟（不要啰嗦）
+- 准备"诚实回答"策略：如果被问到没想到的问题，说"这个问题我们确实没有考虑过，感谢您的建议"
+
+**提交**：
+- 提交文件：`qa_prep.md`
+- 格式：Markdown，包含问题和答案
+
+---
+
+## 进阶作业（可选，额外加分）
+
+### 任务 4：跨组展示演练（+20 分）
+
+邀请 1-2 个其他团队观看你的展示演练，并收集反馈。
+
+**要求**：
+1. 进行完整的 8-10 分钟演示
+2. 邀请观看者填写反馈表（见 `examples/15_feedback_form.md`）
+3. 根据反馈调整你的脚本、材料、表达
+
+**提交**：
+- 提交文件：`showcase_practice.md`
+- 包含：演练时间、观看者反馈、你的调整计划
+
+---
+
+### 任务 5：AI 协作练习（+15 分）
+
+使用 AI 工具（如 ChatGPT、Gamma、Beautiful.ai）生成 PPT 草稿，然后进行人工审查和优化。
+
+**要求**：
+1. 使用 AI 生成 PPT 草稿（输入你的演示大纲）
+2. 使用"前端审查检查清单"评估 AI 生成的内容：
+   - 功能正确性：PPT 是否准确反映了你的内容？
+   - 边界情况：AI 是否遗漏了重要内容？
+   - 安全考虑：无（PPT 不涉及安全问题）
+   - 可维护性：是否容易修改和更新？
+   - AI 特定问题：是否有幻觉？（不存在的功能、错误的技术术语）
+3. 记录审查发现的问题，并进行人工优化
+4. 提交审查报告
+
+**提交**：
+- 提交文件：`ai_ppt_review.md`
+- 包含：AI 生成的截图、审查发现的问题、优化后的版本、反思
+
+---
+
+## 提交要求
+
+### 提交文件命名
+- `presentation_script.md` - 演示脚本
+- `slides.pptx` / `slides.html` - 展示 PPT
+- `poster.pdf` / `poster.html` - 展示海报
+- `qa_prep.md` - 问答准备
+- `showcase_practice.md` - 跨组演练（可选）
+- `ai_ppt_review.md` - AI 协作练习（可选）
+
+### 提交方式
+1. 将所有文件打包为 `week_15_assignment_你的学号.zip`
+2. 上传到课程平台（或提交到 Git 仓库并创建 Pull Request）
+3. 截止日期：Week 16 周一 23:59
+
+---
+
+## 评分标准
+
+详见 `RUBRIC.md`。
+
+---
+
+## 常见问题
+
+### Q1：我没有设计经验，怎么做 PPT？
+A1：
+1. 使用提供的 `examples/15_showcase_poster.html` 作为模板
+2. 使用 AI 工具（如 Gamma）生成草稿，然后人工优化
+3. 参考本周第 3 节的 PPT 设计原则
+
+### Q2：我真的很紧张，怕忘词怎么办？
+A2：
+1. 不要逐字背稿，记住结构（开场 → 背景 → 选型 → 演示 → 实践 → 成长 → 结尾）
+2. 练习 5-10 次，从"背词"到"讲故事"
+3. 准备 cue card（只写关键词，不是完整句子）
+4. 邀请同学当观众，模拟真实环境
+
+### Q3：我们的项目很简单，没有亮点怎么办？
+A3：每个项目都有亮点。CampusFlow 的亮点可能是：
+- 极简技术栈（证明不需要 Spring 也能做 Web 开发）
+- 测试驱动（80% 覆盖率）
+- 文档完善（OpenAPI 规范、ADR 记录）
+- 自动化部署（CI/CD 流水线）
+- AI 协作经验（AI 生成 + 人工审查）
+
+选择 3-4 个，详细讲。
+
+### Q4：被问到不会的问题怎么办？
+A4：诚实回答。"这个问题我们确实没有考虑过，感谢您的建议，我们会记录下来，在下一个版本中改进。"评委不会因为你答不上来而扣分，但会因为胡编乱造而扣分。
+
+---
+
+## 资源与参考
+
+- 示例文件：`chapters/week_15/examples/`
+- 本章内容：`chapters/week_15/CHAPTER.md`
+- CampusFlow 代码：`chapters/week_15/starter_code/`
+
+---
+
+**祝你展示成功！记住，代码写得再好，如果没人看见，就失去了影响力。**
+
+ succeeded in 618ms:
+package com.campusflow;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DisplayName("Week 15 starter package smoke tests")
+class Week15StarterSmokeTest {
+
+    private final Path root = Path.of("").toAbsolutePath();
+
+    @Test
+    void requiredPresentationTemplatesExist() throws IOException {
+        for (String fileName : ShowcaseReadinessCheck.requiredFiles()) {
+            Path file = root.resolve(fileName);
+            assertTrue(Files.isRegularFile(file), fileName + " should exist");
+            String text = Files.readString(file);
+            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
+        }
+    }
+
+    @Test
+    void checkerHasRequiredFilesConfigured() {
+        assertFalse(ShowcaseReadinessCheck.requiredFiles().isEmpty());
+        assertTrue(ShowcaseReadinessCheck.requiredFiles().contains("qa_prep.md"));
+    }
+}
+
+ succeeded in 681ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week15-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 15 Starter</name>
+    <description>Presentation preparation templates and checkers</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_16/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,240p' chapters/week_16/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,220p' chapters/week_16/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 146ms:
+# Week 16 Starter Code：项目展示与工程复盘
+
+Week 16 的主要交付物是展示反馈、工程复盘、知识地图和职业规划。本 starter_code 是模板与检查器，不包含完整答案。
+
+## 运行命令
+
+需要 Java 21 和 Maven 3.9+。
+
+```bash
+cd chapters/week_16/starter_code
+mvn test
+```
+
+可选：编译后运行检查器，查看模板中剩余 TODO 数量。
+
+```bash
+mvn -q compile
+java -cp target/classes com.campusflow.Week16ReadinessCheck
+```
+
+## 需要编辑的文件
+
+- `01_showcase_feedback_summary.md`：TODO 汇总项目集市反馈。
+- `02_retrospective_report.md`：TODO 使用 KPT 写工程复盘。
+- `03_knowledge_map.md`：TODO 画出 16 周知识地图和核心概念演进。
+- `04_career_plan.md`：TODO 写职业路线、6 个月计划和技能差距。
+- `submission_checklist.md`：TODO 对照最终压缩包结构逐项检查。
+
+## 注意事项
+
+- 复盘必须基于你自己的真实经历，不要把示例改几个词就提交。
+- 能力评分要解释理由，尤其要说明 Week 01 与 Week 16 的变化。
+- 如果使用 AI 润色，保留 AI 辅助说明，并人工核对所有事实。
+
+exec
+/bin/bash -lc "sed -n '1,280p' chapters/week_16/starter_code/src/main/java/com/campusflow/Week16ReadinessCheck.java" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 206ms:
+# Week 16 作业：项目展示与工程复盘
+
+> "结束只是新的开始。"
+> — 老潘
+
+## 作业背景
+
+恭喜你来到 16 周课程的最后一周！这一周，你将：
+1. **展示你的作品**：在项目集市上展示 CampusFlow
+2. **总结你的成长**：用工程复盘方法回顾一学期的经验
+3. **绘制知识地图**：理解 16 周的课程如何连接成一个体系
+4. **规划你的未来**：确定下一步的学习和职业方向
+
+这不是"课程的结束"，而是你"职业生涯的第一步"。
+
+---
+
+## 作业目标
+
+完成本周作业后，你将能够：
+- 在项目集市上自信展示你的项目作品
+- 使用 KPT 复盘法系统总结一学期的成长
+- 绘制 16 周的知识地图，理解课程的渐进式设计
+- 规划下一步的学习和职业发展路径
+
+---
+
+## 任务清单
+
+### 任务 1：参加项目集市（20 分）
+
+#### 1.1 展示准备
+- 准备 10 分钟展示脚本
+- 准备 PPT（建议 8-12 页）
+- 准备海报（A1 或 A0）
+- 准备演示环境（确保在线演示可访问）
+
+#### 1.2 展示内容
+你的展示应该包含：
+- **问题背景**（1 分钟）：为什么需要 CampusFlow？
+- **技术选型**（2 分钟）：为什么选择 Java + Javalin + SQLite？
+- **功能演示**（3 分钟）：核心功能演示
+- **工程实践**（2 分钟）：测试覆盖率、API 文档、CI/CD
+- **踩坑经验**（1 分钟）：Bug Bash 发现的 bug、AI 协作的经验
+- **未来计划**（1 分钟）：下一步迭代方向
+
+#### 1.3 收集反馈
+- 至少收集 10 位参观者的反馈
+- 使用 `examples/16_showcase_feedback.md` 中的模板
+- 分类整理：正面反馈、改进建议、未来计划讨论
+
+#### 1.4 提交内容
+- 展示 PPT（PDF 格式）
+- 海报（PDF 格式）
+- 反馈汇总表（Markdown 或 PDF）
+
+---
+
+### 任务 2：工程复盘报告（40 分）
+
+#### 2.1 使用 KPT 复盘法
+KPT 复盘法包含三个要素：
+- **Keep（保持）**：哪些做得好，未来继续？
+- **Problem（问题）**：哪些做得不够，未来改进？
+- **Try（尝试）**：哪些新方法下次试试？
+
+#### 2.2 四个维度
+
+**维度 1：技术决策回顾**
+回顾 CampusFlow 的 4 篇 ADR：
+- ADR-001（领域模型设计）
+- ADR-002（数据存储选择 SQLite）
+- ADR-003（API 设计遵循 RESTful）
+- ADR-004（架构演进保持分层）
+
+对每个 ADR：
+- 为什么这么做？
+- 结果评估（成功/需要改进）
+- 如果重来，会如何改进？
+
+**维度 2：AI 协作经验**
+- Week 10 AI 审查训练发现了什么问题？
+- AI 适合做什么？（生成样板代码、测试骨架）
+- AI 不适合做什么？（架构决策、边界情况、安全考虑）
+- 我的判断：哪些我比 AI 更懂？
+
+**维度 3：工程实践成长**
+- 测试策略：从"不写测试"到"80% 覆盖率"的转变
+- Git 协作：从"只会 commit"到"会用 PR 和 Code Review"
+- 文档习惯：从"不写文档"到"OpenAPI + README + ADR"
+- 质量意识：从"能跑就行"到"质量门禁"
+
+**维度 4：软技能提升**
+- 沟通能力：从"讲不清楚代码"到"能展示项目"
+- 团队协作：从"单打独斗"到"团队分工"
+- 时间管理：从"拖延到最后"到"迭代开发"
+- 抗挫折能力：从"报错就慌"到"冷静调试"
+
+#### 2.3 能力雷达图
+- 参考模板：`examples/16_skill_radar.md`
+- 六个维度：编程能力、架构设计、测试能力、沟通能力、文档能力、团队协作
+- 自我评分（1-5 分）并说明理由
+- 对比 Week 01 vs Week 16
+
+#### 2.4 提交内容
+- 工程复盘报告（2000-3000 字，PDF）
+- 能力雷达图（可视化图表，PDF 或图片）
+
+---
+
+### 任务 3：课程知识地图（20 分）
+
+#### 3.1 绘制 16 周知识地图
+参考模板：`examples/16_knowledge_map.md`
+
+你的知识地图应该包含：
+- **四阶段结构**：
+  - 阶段一：思维奠基（Week 01-04）
+  - 阶段二：系统化工程（Week 05-08）
+  - 阶段三：AI 时代工程（Week 09-12）
+  - 阶段四：综合实战（Week 13-16）
+- **两条主线**：
+  - ADR（架构决策记录）：记录设计决策
+  - CampusFlow（贯穿项目）：实践工程能力
+- **概念连接**：标注关键概念之间的关联
+
+#### 3.2 核心概念演进
+选择 3-5 个核心概念，描述它们的演进路径：
+- 测试能力：从"不写测试"到"测试驱动"
+- 协作能力：从"单打独斗"到"团队协作"
+- 文档能力：从"不写文档"到"文档即代码"
+- 质量意识：从"能跑"到"可维护"
+- AI 协作：从"不用 AI"到"批判性使用 AI"
+
+#### 3.3 课程总结
+写 300 字的课程总结：
+- 这门课给你最大的收获是什么？
+- 哪些概念对你最有帮助？
+- 哪些经验你会带到未来的项目中？
+
+#### 3.4 提交内容
+- 知识地图（可视化图表，PDF 或图片）
+- 课程总结（300 字，PDF）
+
+---
+
+### 任务 4：职业规划（20 分）
+
+#### 4.1 选择职业路线
+参考模板：`examples/16_career_roadmap.md`
+
+选择你的职业路线：
+- **技术深度路线**：成为某个领域的专家（如后端架构师、数据库专家）
+- **技术广度路线**：成为全栈工程师或技术 Leader
+- **混合路线**：T 型人才（有广度，也有深度）
+
+说明你的选择理由。
+
+#### 4.2 6 个月学习计划
+基于你的职业路线，制定 6 个月学习计划：
+
+**第 1-2 个月**：巩固基础
+- 深入掌握一门语言（Java / Go / Python）
+- 学习数据结构与算法
+- 熟悉一个 Web 框架
+
+**第 3-4 个月**：深入学习
+- 如果是后端方向：学习系统设计、数据库、分布式系统
+- 如果是全栈方向：学习前端框架（React / Vue）、DevOps
+- 如果是 AI 方向：学习机器学习基础、AI 工程实践
+
+**第 5-6 个月**：实践项目
+- 参与开源项目
+- 做一个完整的独立项目
+- 找实习或工作
+
+#### 4.3 技能差距分析
+对比"当前能力"和"目标能力"，识别：
+- 你已经具备的技能（Keep）
+- 你需要提升的技能（Problem）
+- 你计划学习的新技能（Try）
+
+#### 4.4 提交内容
+- 职业规划报告（1000-1500 字，PDF）
+- 6 个月学习计划（时间表，PDF 或表格）
+
+---
+
+## 提交要求
+
+### 提交格式
+- **文件命名**：`week_16_<学号>_<姓名>.zip`
+- **文件结构**：
+  ```
+  week_16_学号_姓名.zip
+  ├── 01_展示/
+  │   ├── 展示PPT.pdf
+  │   ├── 海报.pdf
+  │   └── 反馈汇总.pdf
+  ├── 02_复盘/
+  │   ├── 工程复盘报告.pdf
+  │   └── 能力雷达图.pdf
+  ├── 03_知识地图/
+  │   ├── 知识地图.pdf
+  │   └── 课程总结.pdf
+  └── 04_职业规划/
+      ├── 职业规划报告.pdf
+      └── 学习计划.pdf
+  ```
+
+### 提交方式
+- 提交到学习平台（Blackboard / Canvas / 钉钉）
+- 或提交到指定邮箱
+
+### 截止时间
+- **周日 23:59**（迟交每天扣 5 分）
+
+---
+
+## 评分标准
+
+详见 `RUBRIC.md`。
+
+---
+
+## AI 协作练习（可选，+5 分额外加分）
+
+使用 AI 工具（如 ChatGPT、Claude）辅助完成工程复盘报告。
+
+### AI 适合的任务
+- 生成复盘报告模板
+- 润色文字表达
+- 检查遗漏项
+
+### AI 不适合的任务
+- 具体经验的总结（必须是你的真实经历）
+- 成长发现的识别（必须是你自己的反思）
+- 职业规划决策（必须是你自己的判断）
+
+### 提交要求
+在复盘报告末尾添加"AI 辅助说明"：
+- 使用了什么 AI 工具
+- 用于什么任务
+- 做了哪些人工修改
+
+### 审查清单
+- [ ] 所有具体经验都来自我的一学期实践
+- [ ] 所有成长发现都是我自己的反思
+- [ ] 所有职业决策都是我自己的判断
+- [ ] 我理解复盘报告中的每一句话
+- [ ] 我能在答辩时解释报告中的任何内容
+
+---
+
+## 常见问题
+
+### Q1: 如果我没有参加项目集市，怎么办？
+A1: 请联系老师，安排补展示或提交录屏版本。
+
+### Q2: 能力雷达图必须用六维模型吗？
+
+ succeeded in 194ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week16-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 16 Starter</name>
+    <description>Retrospective, knowledge map, and career planning templates</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+ succeeded in 211ms:
+package com.campusflow;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DisplayName("Week 16 starter package smoke tests")
+class Week16StarterSmokeTest {
+
+    private final Path root = Path.of("").toAbsolutePath();
+
+    @Test
+    void requiredRetrospectiveTemplatesExist() throws IOException {
+        for (String fileName : Week16ReadinessCheck.requiredFiles()) {
+            Path file = root.resolve(fileName);
+            assertTrue(Files.isRegularFile(file), fileName + " should exist");
+            String text = Files.readString(file);
+            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
+        }
+    }
+
+    @Test
+    void checkerHasSubmissionChecklistConfigured() {
+        assertFalse(Week16ReadinessCheck.requiredFiles().isEmpty());
+        assertTrue(Week16ReadinessCheck.requiredFiles().contains("submission_checklist.md"));
+    }
+}
+
+ succeeded in 197ms:
+package com.campusflow;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+public class Week16ReadinessCheck {
+
+    private static final List<String> REQUIRED_FILES = List.of(
+            "01_showcase_feedback_summary.md",
+            "02_retrospective_report.md",
+            "03_knowledge_map.md",
+            "04_career_plan.md",
+            "submission_checklist.md"
+    );
+
+    public static void main(String[] args) throws IOException {
+        Path root = Path.of("").toAbsolutePath();
+
+        System.out.println("Week 16 retrospective readiness check");
+        for (String fileName : REQUIRED_FILES) {
+            Path file = root.resolve(fileName);
+            long todoCount = Files.exists(file)
+                    ? Files.readString(file).lines().filter(line -> line.contains("待办")).count()
+                    : -1;
+            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
+        }
+    }
+
+    public static List<String> requiredFiles() {
+        return REQUIRED_FILES;
+    }
+}
+
+exec
+/bin/bash -lc "sed -n '260,420p' chapters/week_16/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 434ms:
+### Q2: 能力雷达图必须用六维模型吗？
+A2: 建议使用六维模型，也可以根据你的情况调整维度（至少 5 个）。
+
+### Q3: 知识地图必须手绘吗？
+A3: 可以使用任何工具（手绘、思维导图软件、绘图工具），关键是清晰展示概念连接。
+
+### Q4: 职业规划可以"不确定"吗？
+A4: 可以。如果你不确定，可以写"探索期计划"——尝试不同方向，再做出选择。
+
+### Q5: AI 协作练习是必须的吗？
+A5: 不是必须的，是可选的额外加分。如果你不使用 AI，不会扣分。
+
+---
+
+## 示例文件
+
+- `examples/16_showcase_feedback.md` - 反馈收集模板
+- `examples/16_retrospective_report.md` - 工程复盘报告示例
+- `examples/16_skill_radar.md` - 能力雷达图示例
+- `examples/16_knowledge_map.md` - 知识地图示例
+- `examples/16_career_roadmap.md` - 职业规划示例
+
+---
+
+## 最后的话
+
+16 周的课程即将结束，但你的学习才刚刚开始。
+
+CampusFlow 不只是一个课程项目，它是你职业生涯的第一步——一个完整的、有故事的、能展示的作品。
+
+无论你接下来选择什么方向——继续开发 CampusFlow、开始新的项目、学习新的技术栈、找实习或工作——这个学期学到的工程能力会伴随你。
+
+**结束只是新的开始。**
+
+加油！🎓
+
+codex
+两个 starter 都是极小 Java 检查器加 Markdown 模板，包名统一为 `com.campusflow`。我现在核对作业要求的提交文件名和 starter 实际模板名是否会误导学生，以及 smoke test 是否会因为学生完成 TODO 后反向失败。
+exec
+/bin/bash -lc "for f in chapters/week_16/starter_code/*.md; do printf '\\n### %s\\n' \""'$f"; sed -n '"'1,160p' \""'$f"; done' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "for f in chapters/week_15/starter_code/*.md; do printf '\\n### %s\\n' \""'$f"; sed -n '"'1,140p' \""'$f"; done' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "git ls-files 'chapters/week_15/**/target/**' 'chapters/week_16/**/target/**'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_15/starter_code/target chapters/week_16/starter_code/target -maxdepth 2 -type f | sort | head -80' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 501ms:
+
+### chapters/week_16/starter_code/01_showcase_feedback_summary.md
+# 01 展示反馈汇总
+
+## 展示信息
+
+- 展示时间：TODO
+- 展示地点/形式：TODO
+- 项目版本/部署地址：TODO
+- 收集反馈人数：待办： 至少 10 人
+
+## 反馈明细
+
+| 反馈人 | 正面反馈 | 改进建议 | 我们的回应 |
+|--------|----------|----------|------------|
+| 待办 | TODO | 待办 | TODO |
+
+## 分类总结
+
+### 正面反馈
+
+- TODO
+
+### 改进建议
+
+- TODO
+
+### 未来计划讨论
+
+- TODO
+
+### chapters/week_16/starter_code/02_retrospective_report.md
+# 02 工程复盘报告
+
+目标字数：待办： 2000-3000 字
+
+## 1. KPT 总览
+
+### Keep
+
+- 待办： 哪些实践值得保持？
+
+### Problem
+
+- 待办： 哪些问题需要改进？
+
+### Try
+
+- 待办： 下次准备尝试什么？
+
+## 2. 技术决策回顾
+
+| ADR | 当时为什么这么做 | 结果评估 | 如果重来 |
+|-----|------------------|----------|----------|
+| ADR-001 | 待办 | TODO | 待办 |
+| ADR-002 | 待办 | TODO | 待办 |
+| ADR-003 | 待办 | TODO | 待办 |
+| ADR-004 | 待办 | TODO | 待办 |
+
+## 3. AI 协作经验
+
+- 待办： AI 适合做什么？
+- 待办： AI 不适合做什么？
+- 待办： 哪些判断必须由你负责？
+
+## 4. 工程实践成长
+
+- 测试策略：TODO
+- Git 协作：TODO
+- 文档习惯：TODO
+- 质量意识：TODO
+
+## 5. 软技能提升
+
+- 沟通能力：TODO
+- 团队协作：TODO
+- 时间管理：TODO
+- 抗挫折能力：TODO
+
+## 6. 能力雷达图说明
+
+| 维度 | Week 01 分数 | Week 16 分数 | 证据 |
+|------|--------------|--------------|------|
+| 编程能力 | 待办 | TODO | 待办 |
+| 架构设计 | 待办 | TODO | 待办 |
+| 测试能力 | 待办 | TODO | 待办 |
+| 沟通能力 | 待办 | TODO | 待办 |
+| 文档能力 | 待办 | TODO | 待办 |
+| 团队协作 | 待办 | TODO | 待办 |
+
+## AI 辅助说明
+
+待办： 如果使用了 AI，说明工具、用途和人工修改；如果没有使用，写"未使用"。
+
+### chapters/week_16/starter_code/03_knowledge_map.md
+# 03 课程知识地图
+
+## 四阶段结构
+
+- 阶段一：思维奠基（Week 01-04）TODO
+- 阶段二：系统化工程（Week 05-08）TODO
+- 阶段三：AI 时代工程（Week 09-12）TODO
+- 阶段四：综合实战（Week 13-16）TODO
+
+## 两条主线
+
+### ADR 主线
+
+待办： 说明每篇 ADR 如何帮助你回答"为什么这么设计"。
+
+### CampusFlow 主线
+
+待办： 说明 CampusFlow 从最小模型到发布展示的演进路径。
+
+## 核心概念演进
+
+| 概念 | 起点 | 演进 | 当前理解 |
+|------|------|------|----------|
+| 测试能力 | 待办 | TODO | 待办 |
+| 协作能力 | 待办 | TODO | 待办 |
+| 文档能力 | 待办 | TODO | 待办 |
+| 质量意识 | 待办 | TODO | 待办 |
+| AI 协作 | 待办 | TODO | 待办 |
+
+## 300 字课程总结
+
+待办： 写出这门课最大的收获、最有帮助的概念、会带到未来项目中的经验。
+
+### chapters/week_16/starter_code/04_career_plan.md
+# 04 职业规划
+
+目标字数：待办： 1000-1500 字
+
+## 职业路线选择
+
+- 路线：待办： 技术深度 / 技术广度 / 混合路线 / 探索期
+- 选择理由：TODO
+
+## 技能差距分析
+
+| 能力 | 当前状态 | 目标状态 | 差距 | 行动 |
+|------|----------|----------|------|------|
+| 待办 | TODO | 待办 | TODO | 待办 |
+
+## 6 个月学习计划
+
+### 第 1-2 个月：巩固基础
+
+- TODO
+
+### 第 3-4 个月：深入学习
+
+- TODO
+
+### 第 5-6 个月：实践项目
+
+- TODO
+
+## 风险与调整
+
+- 待办： 哪些情况会导致计划调整？
+- 待办： 如何判断自己真的进步了？
+
+### chapters/week_16/starter_code/README.md
+# Week 16 Starter Code：项目展示与工程复盘
+
+Week 16 的主要交付物是展示反馈、工程复盘、知识地图和职业规划。本 starter_code 是模板与检查器，不包含完整答案。
+
+## 运行命令
+
+需要 Java 21 和 Maven 3.9+。
+
+```bash
+cd chapters/week_16/starter_code
+mvn test
+```
+
+可选：编译后运行检查器，查看模板中剩余 TODO 数量。
+
+```bash
+mvn -q compile
+java -cp target/classes com.campusflow.Week16ReadinessCheck
+```
+
+## 需要编辑的文件
+
+- `01_showcase_feedback_summary.md`：TODO 汇总项目集市反馈。
+- `02_retrospective_report.md`：TODO 使用 KPT 写工程复盘。
+- `03_knowledge_map.md`：TODO 画出 16 周知识地图和核心概念演进。
+- `04_career_plan.md`：TODO 写职业路线、6 个月计划和技能差距。
+- `submission_checklist.md`：TODO 对照最终压缩包结构逐项检查。
+
+## 注意事项
+
+- 复盘必须基于你自己的真实经历，不要把示例改几个词就提交。
+- 能力评分要解释理由，尤其要说明 Week 01 与 Week 16 的变化。
+- 如果使用 AI 润色，保留 AI 辅助说明，并人工核对所有事实。
+
+### chapters/week_16/starter_code/submission_checklist.md
+# Week 16 Submission Checklist
+
+最终压缩包结构：
+
+```text
+week_16_学号_姓名.zip
+├── 01_展示/
+├── 02_复盘/
+├── 03_知识地图/
+└── 04_职业规划/
+```
+
+## 01 展示
+
+- [ ] 待办： 展示 PPT PDF。
+- [ ] 待办： 海报 PDF。
+- [ ] 待办： 反馈汇总。
+
+## 02 复盘
+
+- [ ] 待办： 工程复盘报告。
+- [ ] 待办： 能力雷达图。
+
+## 03 知识地图
+
+- [ ] 待办： 知识地图。
+- [ ] 待办： 课程总结。
+
+## 04 职业规划
+
+- [ ] 待办： 职业规划报告。
+- [ ] 待办： 6 个月学习计划。
+
+## 最终自查
+
+- [ ] 待办： 所有具体经历都是真实的。
+- [ ] 待办： 所有链接、截图、部署地址可访问。
+- [ ] 待办： AI 辅助说明已写清楚。
+
+ succeeded in 515ms:
+
+### chapters/week_15/starter_code/README.md
+# Week 15 Starter Code：项目集市与展示准备
+
+Week 15 主要交付展示材料，不要求新增 CampusFlow 功能代码。这个 starter_code 提供模板和一个小检查器，帮助你整理展示脚本、PPT/海报大纲、问答准备和演练反馈。
+
+## 运行命令
+
+需要 Java 21 和 Maven 3.9+。
+
+```bash
+cd chapters/week_15/starter_code
+mvn test
+mvn -q compile
+java -cp target/classes com.campusflow.ShowcaseReadinessCheck
+```
+
+## 需要编辑的文件
+
+- `presentation_script.md`：TODO 写 8-10 分钟演示脚本关键点。
+- `slides_outline.md`：TODO 规划 12-15 页 PPT。
+- `poster_checklist.md`：TODO 检查 A1 海报信息层级和二维码。
+- `qa_prep.md`：TODO 准备 10-15 个问答。
+- `showcase_practice.md`：TODO 记录跨组演练反馈。
+- `ai_ppt_review.md`：TODO 如果使用 AI 生成 PPT 草稿，记录人工审查。
+- `prepare_demo_data.sh`：TODO 按你真实 API 修改演示数据脚本。
+
+## 使用建议
+
+1. 先完成脚本，再做 PPT。PPT 只承载脚本中的关键证据。
+2. 演示数据要真实、可复现，避免现场临时造数据。
+3. Q&A 回答遵循：直接回答、解释原因、补充边界。
+4. 所有二维码和部署链接在展示前一天、展示当天各验证一次。
+
+### chapters/week_15/starter_code/ai_ppt_review.md
+# AI PPT Review
+
+如果你没有使用 AI 生成 PPT 草稿，可以保留本文件并写明"未使用"。
+
+## 使用记录
+
+- 工具：TODO
+- 输入提示词摘要：TODO
+- 生成结果位置：TODO
+
+## 人工审查
+
+- 功能正确性：TODO
+- 遗漏内容：TODO
+- 术语或事实错误：TODO
+- 幻觉内容：TODO
+- 可维护性：TODO
+
+## 修改记录
+
+| 问题 | 修改方式 | 修改后证据 |
+|------|----------|------------|
+| 待办 | TODO | 待办 |
+
+### chapters/week_15/starter_code/poster_checklist.md
+# Poster Checklist
+
+海报尺寸：待办： A1 / A0
+
+- [ ] 待办： 3 米外能看清项目名。
+- [ ] 待办： 一句话介绍具体、可理解。
+- [ ] 待办： 问题 vs 解决方案对比清楚。
+- [ ] 待办： 技术栈只放关键技术。
+- [ ] 待办： 3-4 个亮点有证据支撑。
+- [ ] 待办： Git 仓库二维码可访问。
+- [ ] 待办： 在线演示二维码可访问。
+- [ ] 待办： API 文档二维码可访问。
+
+## 需要准备的素材
+
+- 待办： 项目截图
+- 待办： 架构图
+- 待办： 覆盖率或 CI 截图
+- 待办： 部署地址
+
+### chapters/week_15/starter_code/presentation_script.md
+# CampusFlow 演示脚本
+
+总时长：待办： 8-10 分钟
+
+## 开场（1 分钟）
+
+- 待办： 团队/项目一句话介绍。
+- 待办： 真实问题背景，说明为什么需要 CampusFlow。
+
+## 主体（约 7 分钟）
+
+### 1. 问题背景
+
+- 待办： 目标用户是谁？
+- 待办： 现有方案哪里不够好？
+
+### 2. 技术选型与架构
+
+- 待办： 为什么是 Java + Javalin + SQLite？
+- 待办： 用一张图说明核心分层。
+
+### 3. 功能演示
+
+- 待办： 选择 3-4 个最能体现价值的操作。
+- 待办： 写出备用演示路径，例如录屏或本地环境。
+
+### 4. 工程实践
+
+- 待办： 测试、文档、部署、质量门禁中最有说服力的证据。
+
+### 5. 踩坑与成长
+
+- 待办： Bug Bash 或 AI 协作中的真实案例。
+
+## 结尾（2 分钟）
+
+- 待办： 总结 CampusFlow 的价值。
+- 待办： 下一步计划。
+- 待办： 引导评委提问。
+
+### chapters/week_15/starter_code/qa_prep.md
+# Q&A Prep
+
+每个回答建议包含：直接回答 + 解释原因 + 补充边界。
+
+| 类型 | 问题 | 回答要点 |
+|------|------|----------|
+| 技术选型 | 待办： 为什么用 Java？ | 待办 |
+| 技术选型 | 待办： 为什么不用 Spring？ | 待办 |
+| 数据存储 | 待办： 为什么用 SQLite？ | 待办 |
+| 架构设计 | 待办： 架构有什么特色？ | 待办 |
+| API 设计 | 待办： RESTful 设计体现在哪里？ | 待办 |
+| 测试实践 | 待办： 测试策略是什么？ | 待办 |
+| CI/CD | 待办： 部署流程是什么？ | 待办 |
+| AI 协作 | 待办： AI 帮了什么，也带来了什么风险？ | 待办 |
+| Bug Bash | 待办： 发现并修复了什么问题？ | 待办 |
+| 对比竞争 | 待办： 和 Notion/Todoist 相比优势是什么？ | 待办 |
+| 未来规划 | 待办： 下一步计划是什么？ | 待办 |
+
+## 诚实回答模板
+
+待办： 写一句你们遇到未知问题时的诚实回答，不要现场编造。
+
+### chapters/week_15/starter_code/showcase_practice.md
+# Showcase Practice
+
+## 演练记录
+
+- 时间：TODO
+- 观众：TODO
+- 版本/部署地址：TODO
+
+## 反馈汇总
+
+| 反馈人 | 做得好的地方 | 需要改进 | 我的调整 |
+|--------|--------------|----------|----------|
+| 待办 | TODO | 待办 | TODO |
+
+## 时间控制
+
+- 实际总时长：TODO
+- 超时或过短原因：TODO
+- 下次调整：TODO
+
+### chapters/week_15/starter_code/slides_outline.md
+# Slides Outline
+
+目标页数：待办： 12-15 页，不含封面和 Q&A。
+
+| 页码 | 页面标题 | 核心信息 | 证据/素材 |
+|------|----------|----------|-----------|
+| 1 | 待办： 封面 | 待办 | TODO |
+| 2 | 待办： 目录 | 待办 | TODO |
+| 3 | 待办： 问题背景 | 待办 | TODO |
+| 4 | 待办： 解决方案 | 待办 | TODO |
+| 5 | 待办： 技术栈 | 待办 | TODO |
+| 6 | 待办： 架构图 | 待办 | TODO |
+| 7 | 待办： 功能演示 1 | 待办 | TODO |
+| 8 | 待办： 功能演示 2 | 待办 | TODO |
+| 9 | 待办： 工程实践 | 待办 | TODO |
+| 10 | 待办： Bug Bash / AI 协作 | 待办 | TODO |
+| 11 | 待办： 未来计划 | 待办 | TODO |
+| 12 | 待办： 项目链接 | 待办 | TODO |
+
+## 设计检查
+
+- [ ] 待办： 一页只讲一个核心信息。
+- [ ] 待办： 每页文字不超过必要关键词。
+- [ ] 待办： 截图、架构图、二维码真实可用。
+- [ ] 待办： 配色不超过 3 种主色。
+
+ succeeded in 458ms:
+ succeeded in 536ms:
+chapters/week_15/starter_code/target/surefire-reports/TEST-com.campusflow.Week15StarterSmokeTest.xml
+chapters/week_15/starter_code/target/surefire-reports/com.campusflow.Week15StarterSmokeTest.txt
+chapters/week_16/starter_code/target/surefire-reports/TEST-com.campusflow.Week16StarterSmokeTest.xml
+chapters/week_16/starter_code/target/surefire-reports/com.campusflow.Week16StarterSmokeTest.txt
+
+exec
+/bin/bash -lc "rg -n \"target/|/target|target\" .gitignore chapters/.gitignore chapters/week_15 chapters/week_16 --glob '"'!**/target/**'"'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_15/ASSIGNMENT.md | sed -n '1,190p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_16/ASSIGNMENT.md | sed -n '1,330p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java | sed -n '1,140p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_15/starter_code/README.md | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 467ms:
+     1	# Week 15 作业：项目集市与展示准备
+     2	
+     3	## 作业说明
+     4	
+     5	本周不涉及新的 Java 代码开发，重点是**为项目集市做准备**。你需要完成以下任务，让你的 CampusFlow 展示更加专业和自信。
+     6	
+     7	---
+     8	
+     9	## 基础作业（必做，100 分满分）
+    10	
+    11	### 任务 1：设计演示脚本（30 分）
+    12	
+    13	为你的 CampusFlow 项目设计一个 8-10 分钟的演示脚本。
+    14	
+    15	**要求**：
+    16	1. 遵循"开场 1 分钟 + 主体 7 分钟 + 结尾 2 分钟"的时间分配
+    17	2. 包含以下五个部分：
+    18	   - 问题背景（为什么做这个项目）
+    19	   - 技术选型与架构（Java + Javalin + SQLite）
+    20	   - 功能演示（核心功能）
+    21	   - 工程实践（测试、文档、部署）
+    22	   - 踩坑与成长（Bug Bash、AI 协作经验）
+    23	3. 选择 3-4 个亮点详细讲，其他内容一句话带过
+    24	4. 准备 10-15 个常见问题的回答（见任务 3）
+    25	
+    26	**提交**：
+    27	- 提交文件：`presentation_script.md`
+    28	- 格式：Markdown，包含每个部分的关键点（不是完整逐字稿）
+    29	
+    30	---
+    31	
+    32	### 任务 2：准备展示材料（40 分）
+    33	
+    34	设计你的展示 PPT 和海报。
+    35	
+    36	**PPT 要求**：
+    37	1. 页数：12-15 页（不含封面和 Q&A）
+    38	2. 设计原则：
+    39	   - 一页一信息（不要堆砌多个概念）
+    40	   - 文字精简（用关键词，不是完整句子）
+    41	   - 图胜于文（用架构图、截图、表格，而不是纯文字）
+    42	   - 配色统一（不超过 3 种主色）
+    43	3. 必须包含：
+    44	   - 封面（项目名、团队、一句话介绍）
+    45	   - 目录
+    46	   - 问题背景（现有工具 vs 你的方案）
+    47	   - 技术选型（技术栈表格 + 架构图）
+    48	   - 功能演示（核心功能列表 + 截图/录屏）
+    49	   - 工程实践（测试覆盖率图表 + CI/CD 截图）
+    50	   - 踩坑与成长（Bug Bash 表格 + AI 协作经验表格）
+    51	   - 项目链接（GitHub 二维码、在线演示二维码）
+    52	   - Q&A 页
+    53	
+    54	**海报要求**：
+    55	1. 尺寸：A1（594 × 841 mm）
+    56	2. 设计原则：
+    57	   - 远距离可读（3 米外能看清标题）
+    58	   - 层级清晰（标题 → 核心内容 → 技术栈 → 亮点 → 二维码）
+    59	   - 字体大小：标题 ≥ 72pt，正文 ≥ 24pt
+    60	3. 必须包含：
+    61	   - 项目标题和一句话介绍
+    62	   - 问题 vs 解决方案对比
+    63	   - 技术栈列表
+    64	   - 核心亮点（3-4 个）
+    65	   - GitHub 和在线演示的二维码
+    66	
+    67	**提交**：
+    68	- 提交文件：`slides.pptx` / `poster.pdf`
+    69	- 或提交设计源文件：`slides.html` / `poster.html`
+    70	
+    71	---
+    72	
+    73	### 任务 3：准备问答应对（30 分）
+    74	
+    75	准备 10-15 个常见问题的答案。
+    76	
+    77	**必须准备的问题类型**：
+    78	1. 技术选型类：
+    79	   - 为什么用 Java？不用 Python 或 Go？
+    80	   - 为什么不用 Spring？
+    81	   - 为什么用 SQLite？不用 MySQL 或 PostgreSQL？
+    82	
+    83	2. 设计决策类：
+    84	   - 你们的架构有什么特色？
+    85	   - 你们的 API 设计遵循 RESTful 吗？
+    86	   - 你们的测试覆盖率为什么是 80%？
+    87	
+    88	3. 工程实践类：
+    89	   - 你们的 CI/CD 流水线是什么样的？
+    90	   - 你们用了 AI 工具吗？效果如何？
+    91	   - Bug Bash 发现了什么问题？
+    92	
+    93	4. 对比与竞争类：
+    94	   - CampusFlow 和 Notion / Todoist 相比有什么优势？
+    95	   - 你们的创新点在哪里？
+    96	
+    97	5. 未来规划类：
+    98	   - 下一步有什么计划？
+    99	   - 你们的项目能商业化吗？
+   100	
+   101	**回答要求**：
+   102	- 每个回答包含三部分：直接回答 + 解释原因 + 补充说明
+   103	- 回答控制在 1-2 分钟（不要啰嗦）
+   104	- 准备"诚实回答"策略：如果被问到没想到的问题，说"这个问题我们确实没有考虑过，感谢您的建议"
+   105	
+   106	**提交**：
+   107	- 提交文件：`qa_prep.md`
+   108	- 格式：Markdown，包含问题和答案
+   109	
+   110	---
+   111	
+   112	## 进阶作业（可选，额外加分）
+   113	
+   114	### 任务 4：跨组展示演练（+20 分）
+   115	
+   116	邀请 1-2 个其他团队观看你的展示演练，并收集反馈。
+   117	
+   118	**要求**：
+   119	1. 进行完整的 8-10 分钟演示
+   120	2. 邀请观看者填写反馈表（见 `examples/15_feedback_form.md`）
+   121	3. 根据反馈调整你的脚本、材料、表达
+   122	
+   123	**提交**：
+   124	- 提交文件：`showcase_practice.md`
+   125	- 包含：演练时间、观看者反馈、你的调整计划
+   126	
+   127	---
+   128	
+   129	### 任务 5：AI 协作练习（+15 分）
+   130	
+   131	使用 AI 工具（如 ChatGPT、Gamma、Beautiful.ai）生成 PPT 草稿，然后进行人工审查和优化。
+   132	
+   133	**要求**：
+   134	1. 使用 AI 生成 PPT 草稿（输入你的演示大纲）
+   135	2. 使用"前端审查检查清单"评估 AI 生成的内容：
+   136	   - 功能正确性：PPT 是否准确反映了你的内容？
+   137	   - 边界情况：AI 是否遗漏了重要内容？
+   138	   - 安全考虑：无（PPT 不涉及安全问题）
+   139	   - 可维护性：是否容易修改和更新？
+   140	   - AI 特定问题：是否有幻觉？（不存在的功能、错误的技术术语）
+   141	3. 记录审查发现的问题，并进行人工优化
+   142	4. 提交审查报告
+   143	
+   144	**提交**：
+   145	- 提交文件：`ai_ppt_review.md`
+   146	- 包含：AI 生成的截图、审查发现的问题、优化后的版本、反思
+   147	
+   148	---
+   149	
+   150	## 提交要求
+   151	
+   152	### 提交文件命名
+   153	- `presentation_script.md` - 演示脚本
+   154	- `slides.pptx` / `slides.html` - 展示 PPT
+   155	- `poster.pdf` / `poster.html` - 展示海报
+   156	- `qa_prep.md` - 问答准备
+   157	- `showcase_practice.md` - 跨组演练（可选）
+   158	- `ai_ppt_review.md` - AI 协作练习（可选）
+   159	
+   160	### 提交方式
+   161	1. 将所有文件打包为 `week_15_assignment_你的学号.zip`
+   162	2. 上传到课程平台（或提交到 Git 仓库并创建 Pull Request）
+   163	3. 截止日期：Week 16 周一 23:59
+   164	
+   165	---
+   166	
+   167	## 评分标准
+   168	
+   169	详见 `RUBRIC.md`。
+   170	
+   171	---
+   172	
+   173	## 常见问题
+   174	
+   175	### Q1：我没有设计经验，怎么做 PPT？
+   176	A1：
+   177	1. 使用提供的 `examples/15_showcase_poster.html` 作为模板
+   178	2. 使用 AI 工具（如 Gamma）生成草稿，然后人工优化
+   179	3. 参考本周第 3 节的 PPT 设计原则
+   180	
+   181	### Q2：我真的很紧张，怕忘词怎么办？
+   182	A2：
+   183	1. 不要逐字背稿，记住结构（开场 → 背景 → 选型 → 演示 → 实践 → 成长 → 结尾）
+   184	2. 练习 5-10 次，从"背词"到"讲故事"
+   185	3. 准备 cue card（只写关键词，不是完整句子）
+   186	4. 邀请同学当观众，模拟真实环境
+   187	
+   188	### Q3：我们的项目很简单，没有亮点怎么办？
+   189	A3：每个项目都有亮点。CampusFlow 的亮点可能是：
+   190	- 极简技术栈（证明不需要 Spring 也能做 Web 开发）
+
+ succeeded in 357ms:
+     1	# Week 15 Starter Code：项目集市与展示准备
+     2	
+     3	Week 15 主要交付展示材料，不要求新增 CampusFlow 功能代码。这个 starter_code 提供模板和一个小检查器，帮助你整理展示脚本、PPT/海报大纲、问答准备和演练反馈。
+     4	
+     5	## 运行命令
+     6	
+     7	需要 Java 21 和 Maven 3.9+。
+     8	
+     9	```bash
+    10	cd chapters/week_15/starter_code
+    11	mvn test
+    12	mvn -q compile
+    13	java -cp target/classes com.campusflow.ShowcaseReadinessCheck
+    14	```
+    15	
+    16	## 需要编辑的文件
+    17	
+    18	- `presentation_script.md`：TODO 写 8-10 分钟演示脚本关键点。
+    19	- `slides_outline.md`：TODO 规划 12-15 页 PPT。
+    20	- `poster_checklist.md`：TODO 检查 A1 海报信息层级和二维码。
+    21	- `qa_prep.md`：TODO 准备 10-15 个问答。
+    22	- `showcase_practice.md`：TODO 记录跨组演练反馈。
+    23	- `ai_ppt_review.md`：TODO 如果使用 AI 生成 PPT 草稿，记录人工审查。
+    24	- `prepare_demo_data.sh`：TODO 按你真实 API 修改演示数据脚本。
+    25	
+    26	## 使用建议
+    27	
+    28	1. 先完成脚本，再做 PPT。PPT 只承载脚本中的关键证据。
+    29	2. 演示数据要真实、可复现，避免现场临时造数据。
+    30	3. Q&A 回答遵循：直接回答、解释原因、补充边界。
+    31	4. 所有二维码和部署链接在展示前一天、展示当天各验证一次。
+
+ succeeded in 395ms:
+     1	package com.campusflow;
+     2	
+     3	import org.junit.jupiter.api.DisplayName;
+     4	import org.junit.jupiter.api.Test;
+     5	
+     6	import java.io.IOException;
+     7	import java.nio.file.Files;
+     8	import java.nio.file.Path;
+     9	
+    10	import static org.junit.jupiter.api.Assertions.assertFalse;
+    11	import static org.junit.jupiter.api.Assertions.assertTrue;
+    12	
+    13	@DisplayName("Week 15 starter package smoke tests")
+    14	class Week15StarterSmokeTest {
+    15	
+    16	    private final Path root = Path.of("").toAbsolutePath();
+    17	
+    18	    @Test
+    19	    void requiredPresentationTemplatesExist() throws IOException {
+    20	        for (String fileName : ShowcaseReadinessCheck.requiredFiles()) {
+    21	            Path file = root.resolve(fileName);
+    22	            assertTrue(Files.isRegularFile(file), fileName + " should exist");
+    23	            String text = Files.readString(file);
+    24	            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
+    25	        }
+    26	    }
+    27	
+    28	    @Test
+    29	    void checkerHasRequiredFilesConfigured() {
+    30	        assertFalse(ShowcaseReadinessCheck.requiredFiles().isEmpty());
+    31	        assertTrue(ShowcaseReadinessCheck.requiredFiles().contains("qa_prep.md"));
+    32	    }
+    33	}
+
+ exited 2 in 673ms:
+rg: chapters/.gitignore: No such file or directory (os error 2)
+.gitignore:10:target/
+chapters/week_15/starter_code/README.md:13:java -cp target/classes com.campusflow.ShowcaseReadinessCheck
+chapters/week_15/starter_code/pom.xml:17:        <maven.compiler.target>21</maven.compiler.target>
+chapters/week_16/starter_code/README.md:18:java -cp target/classes com.campusflow.Week16ReadinessCheck
+chapters/week_16/starter_code/pom.xml:17:        <maven.compiler.target>21</maven.compiler.target>
+
+ succeeded in 686ms:
+     1	# Week 16 作业：项目展示与工程复盘
+     2	
+     3	> "结束只是新的开始。"
+     4	> — 老潘
+     5	
+     6	## 作业背景
+     7	
+     8	恭喜你来到 16 周课程的最后一周！这一周，你将：
+     9	1. **展示你的作品**：在项目集市上展示 CampusFlow
+    10	2. **总结你的成长**：用工程复盘方法回顾一学期的经验
+    11	3. **绘制知识地图**：理解 16 周的课程如何连接成一个体系
+    12	4. **规划你的未来**：确定下一步的学习和职业方向
+    13	
+    14	这不是"课程的结束"，而是你"职业生涯的第一步"。
+    15	
+    16	---
+    17	
+    18	## 作业目标
+    19	
+    20	完成本周作业后，你将能够：
+    21	- 在项目集市上自信展示你的项目作品
+    22	- 使用 KPT 复盘法系统总结一学期的成长
+    23	- 绘制 16 周的知识地图，理解课程的渐进式设计
+    24	- 规划下一步的学习和职业发展路径
+    25	
+    26	---
+    27	
+    28	## 任务清单
+    29	
+    30	### 任务 1：参加项目集市（20 分）
+    31	
+    32	#### 1.1 展示准备
+    33	- 准备 10 分钟展示脚本
+    34	- 准备 PPT（建议 8-12 页）
+    35	- 准备海报（A1 或 A0）
+    36	- 准备演示环境（确保在线演示可访问）
+    37	
+    38	#### 1.2 展示内容
+    39	你的展示应该包含：
+    40	- **问题背景**（1 分钟）：为什么需要 CampusFlow？
+    41	- **技术选型**（2 分钟）：为什么选择 Java + Javalin + SQLite？
+    42	- **功能演示**（3 分钟）：核心功能演示
+    43	- **工程实践**（2 分钟）：测试覆盖率、API 文档、CI/CD
+    44	- **踩坑经验**（1 分钟）：Bug Bash 发现的 bug、AI 协作的经验
+    45	- **未来计划**（1 分钟）：下一步迭代方向
+    46	
+    47	#### 1.3 收集反馈
+    48	- 至少收集 10 位参观者的反馈
+    49	- 使用 `examples/16_showcase_feedback.md` 中的模板
+    50	- 分类整理：正面反馈、改进建议、未来计划讨论
+    51	
+    52	#### 1.4 提交内容
+    53	- 展示 PPT（PDF 格式）
+    54	- 海报（PDF 格式）
+    55	- 反馈汇总表（Markdown 或 PDF）
+    56	
+    57	---
+    58	
+    59	### 任务 2：工程复盘报告（40 分）
+    60	
+    61	#### 2.1 使用 KPT 复盘法
+    62	KPT 复盘法包含三个要素：
+    63	- **Keep（保持）**：哪些做得好，未来继续？
+    64	- **Problem（问题）**：哪些做得不够，未来改进？
+    65	- **Try（尝试）**：哪些新方法下次试试？
+    66	
+    67	#### 2.2 四个维度
+    68	
+    69	**维度 1：技术决策回顾**
+    70	回顾 CampusFlow 的 4 篇 ADR：
+    71	- ADR-001（领域模型设计）
+    72	- ADR-002（数据存储选择 SQLite）
+    73	- ADR-003（API 设计遵循 RESTful）
+    74	- ADR-004（架构演进保持分层）
+    75	
+    76	对每个 ADR：
+    77	- 为什么这么做？
+    78	- 结果评估（成功/需要改进）
+    79	- 如果重来，会如何改进？
+    80	
+    81	**维度 2：AI 协作经验**
+    82	- Week 10 AI 审查训练发现了什么问题？
+    83	- AI 适合做什么？（生成样板代码、测试骨架）
+    84	- AI 不适合做什么？（架构决策、边界情况、安全考虑）
+    85	- 我的判断：哪些我比 AI 更懂？
+    86	
+    87	**维度 3：工程实践成长**
+    88	- 测试策略：从"不写测试"到"80% 覆盖率"的转变
+    89	- Git 协作：从"只会 commit"到"会用 PR 和 Code Review"
+    90	- 文档习惯：从"不写文档"到"OpenAPI + README + ADR"
+    91	- 质量意识：从"能跑就行"到"质量门禁"
+    92	
+    93	**维度 4：软技能提升**
+    94	- 沟通能力：从"讲不清楚代码"到"能展示项目"
+    95	- 团队协作：从"单打独斗"到"团队分工"
+    96	- 时间管理：从"拖延到最后"到"迭代开发"
+    97	- 抗挫折能力：从"报错就慌"到"冷静调试"
+    98	
+    99	#### 2.3 能力雷达图
+   100	- 参考模板：`examples/16_skill_radar.md`
+   101	- 六个维度：编程能力、架构设计、测试能力、沟通能力、文档能力、团队协作
+   102	- 自我评分（1-5 分）并说明理由
+   103	- 对比 Week 01 vs Week 16
+   104	
+   105	#### 2.4 提交内容
+   106	- 工程复盘报告（2000-3000 字，PDF）
+   107	- 能力雷达图（可视化图表，PDF 或图片）
+   108	
+   109	---
+   110	
+   111	### 任务 3：课程知识地图（20 分）
+   112	
+   113	#### 3.1 绘制 16 周知识地图
+   114	参考模板：`examples/16_knowledge_map.md`
+   115	
+   116	你的知识地图应该包含：
+   117	- **四阶段结构**：
+   118	  - 阶段一：思维奠基（Week 01-04）
+   119	  - 阶段二：系统化工程（Week 05-08）
+   120	  - 阶段三：AI 时代工程（Week 09-12）
+   121	  - 阶段四：综合实战（Week 13-16）
+   122	- **两条主线**：
+   123	  - ADR（架构决策记录）：记录设计决策
+   124	  - CampusFlow（贯穿项目）：实践工程能力
+   125	- **概念连接**：标注关键概念之间的关联
+   126	
+   127	#### 3.2 核心概念演进
+   128	选择 3-5 个核心概念，描述它们的演进路径：
+   129	- 测试能力：从"不写测试"到"测试驱动"
+   130	- 协作能力：从"单打独斗"到"团队协作"
+   131	- 文档能力：从"不写文档"到"文档即代码"
+   132	- 质量意识：从"能跑"到"可维护"
+   133	- AI 协作：从"不用 AI"到"批判性使用 AI"
+   134	
+   135	#### 3.3 课程总结
+   136	写 300 字的课程总结：
+   137	- 这门课给你最大的收获是什么？
+   138	- 哪些概念对你最有帮助？
+   139	- 哪些经验你会带到未来的项目中？
+   140	
+   141	#### 3.4 提交内容
+   142	- 知识地图（可视化图表，PDF 或图片）
+   143	- 课程总结（300 字，PDF）
+   144	
+   145	---
+   146	
+   147	### 任务 4：职业规划（20 分）
+   148	
+   149	#### 4.1 选择职业路线
+   150	参考模板：`examples/16_career_roadmap.md`
+   151	
+   152	选择你的职业路线：
+   153	- **技术深度路线**：成为某个领域的专家（如后端架构师、数据库专家）
+   154	- **技术广度路线**：成为全栈工程师或技术 Leader
+   155	- **混合路线**：T 型人才（有广度，也有深度）
+   156	
+   157	说明你的选择理由。
+   158	
+   159	#### 4.2 6 个月学习计划
+   160	基于你的职业路线，制定 6 个月学习计划：
+   161	
+   162	**第 1-2 个月**：巩固基础
+   163	- 深入掌握一门语言（Java / Go / Python）
+   164	- 学习数据结构与算法
+   165	- 熟悉一个 Web 框架
+   166	
+   167	**第 3-4 个月**：深入学习
+   168	- 如果是后端方向：学习系统设计、数据库、分布式系统
+   169	- 如果是全栈方向：学习前端框架（React / Vue）、DevOps
+   170	- 如果是 AI 方向：学习机器学习基础、AI 工程实践
+   171	
+   172	**第 5-6 个月**：实践项目
+   173	- 参与开源项目
+   174	- 做一个完整的独立项目
+   175	- 找实习或工作
+   176	
+   177	#### 4.3 技能差距分析
+   178	对比"当前能力"和"目标能力"，识别：
+   179	- 你已经具备的技能（Keep）
+   180	- 你需要提升的技能（Problem）
+   181	- 你计划学习的新技能（Try）
+   182	
+   183	#### 4.4 提交内容
+   184	- 职业规划报告（1000-1500 字，PDF）
+   185	- 6 个月学习计划（时间表，PDF 或表格）
+   186	
+   187	---
+   188	
+   189	## 提交要求
+   190	
+   191	### 提交格式
+   192	- **文件命名**：`week_16_<学号>_<姓名>.zip`
+   193	- **文件结构**：
+   194	  ```
+   195	  week_16_学号_姓名.zip
+   196	  ├── 01_展示/
+   197	  │   ├── 展示PPT.pdf
+   198	  │   ├── 海报.pdf
+   199	  │   └── 反馈汇总.pdf
+   200	  ├── 02_复盘/
+   201	  │   ├── 工程复盘报告.pdf
+   202	  │   └── 能力雷达图.pdf
+   203	  ├── 03_知识地图/
+   204	  │   ├── 知识地图.pdf
+   205	  │   └── 课程总结.pdf
+   206	  └── 04_职业规划/
+   207	      ├── 职业规划报告.pdf
+   208	      └── 学习计划.pdf
+   209	  ```
+   210	
+   211	### 提交方式
+   212	- 提交到学习平台（Blackboard / Canvas / 钉钉）
+   213	- 或提交到指定邮箱
+   214	
+   215	### 截止时间
+   216	- **周日 23:59**（迟交每天扣 5 分）
+   217	
+   218	---
+   219	
+   220	## 评分标准
+   221	
+   222	详见 `RUBRIC.md`。
+   223	
+   224	---
+   225	
+   226	## AI 协作练习（可选，+5 分额外加分）
+   227	
+   228	使用 AI 工具（如 ChatGPT、Claude）辅助完成工程复盘报告。
+   229	
+   230	### AI 适合的任务
+   231	- 生成复盘报告模板
+   232	- 润色文字表达
+   233	- 检查遗漏项
+   234	
+   235	### AI 不适合的任务
+   236	- 具体经验的总结（必须是你的真实经历）
+   237	- 成长发现的识别（必须是你自己的反思）
+   238	- 职业规划决策（必须是你自己的判断）
+   239	
+   240	### 提交要求
+   241	在复盘报告末尾添加"AI 辅助说明"：
+   242	- 使用了什么 AI 工具
+   243	- 用于什么任务
+   244	- 做了哪些人工修改
+   245	
+   246	### 审查清单
+   247	- [ ] 所有具体经验都来自我的一学期实践
+   248	- [ ] 所有成长发现都是我自己的反思
+   249	- [ ] 所有职业决策都是我自己的判断
+   250	- [ ] 我理解复盘报告中的每一句话
+   251	- [ ] 我能在答辩时解释报告中的任何内容
+   252	
+   253	---
+   254	
+   255	## 常见问题
+   256	
+   257	### Q1: 如果我没有参加项目集市，怎么办？
+   258	A1: 请联系老师，安排补展示或提交录屏版本。
+   259	
+   260	### Q2: 能力雷达图必须用六维模型吗？
+   261	A2: 建议使用六维模型，也可以根据你的情况调整维度（至少 5 个）。
+   262	
+   263	### Q3: 知识地图必须手绘吗？
+   264	A3: 可以使用任何工具（手绘、思维导图软件、绘图工具），关键是清晰展示概念连接。
+   265	
+   266	### Q4: 职业规划可以"不确定"吗？
+   267	A4: 可以。如果你不确定，可以写"探索期计划"——尝试不同方向，再做出选择。
+   268	
+   269	### Q5: AI 协作练习是必须的吗？
+   270	A5: 不是必须的，是可选的额外加分。如果你不使用 AI，不会扣分。
+   271	
+   272	---
+   273	
+   274	## 示例文件
+   275	
+   276	- `examples/16_showcase_feedback.md` - 反馈收集模板
+   277	- `examples/16_retrospective_report.md` - 工程复盘报告示例
+   278	- `examples/16_skill_radar.md` - 能力雷达图示例
+   279	- `examples/16_knowledge_map.md` - 知识地图示例
+   280	- `examples/16_career_roadmap.md` - 职业规划示例
+   281	
+   282	---
+   283	
+   284	## 最后的话
+   285	
+   286	16 周的课程即将结束，但你的学习才刚刚开始。
+   287	
+   288	CampusFlow 不只是一个课程项目，它是你职业生涯的第一步——一个完整的、有故事的、能展示的作品。
+   289	
+   290	无论你接下来选择什么方向——继续开发 CampusFlow、开始新的项目、学习新的技术栈、找实习或工作——这个学期学到的工程能力会伴随你。
+   291	
+   292	**结束只是新的开始。**
+   293	
+   294	加油！🎓
+
+codex
+目前发现一个核心风险：smoke test 要求模板文件仍包含 `TODO/待办`，学生真正完成作业并删掉占位词后，测试会失败。现在按要求分别运行 `mvn -B -ntp test`，验证当前 starter 包状态。
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code
+ succeeded in 20641ms:
+Failed to connect to bus: Operation not permitted
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week15-starter >--------------
+[INFO] Building CampusFlow Week 15 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week15-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week15-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week15-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week15-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week15-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week15StarterSmokeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.482 s -- in com.campusflow.Week15StarterSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.569 s
+[INFO] Finished at: 2026-04-28T21:51:32+08:00
+[INFO] ------------------------------------------------------------------------
+
+ succeeded in 21333ms:
+Failed to connect to bus: Operation not permitted
+[0.003s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week16-starter >--------------
+[INFO] Building CampusFlow Week 16 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week16-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week16-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week16-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week16-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week16-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week16StarterSmokeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in com.campusflow.Week16StarterSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code/target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.290 s
+[INFO] Finished at: 2026-04-28T21:51:33+08:00
+[INFO] ------------------------------------------------------------------------
+
+exec
+/bin/bash -lc "nl -ba chapters/week_16/starter_code/README.md | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java | sed -n '1,140p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short chapters/week_15/starter_code chapters/week_16/starter_code audit/week09_16' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_16/starter_code/src/main/java/com/campusflow/Week16ReadinessCheck.java | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 500ms:
+     1	# Week 16 Starter Code：项目展示与工程复盘
+     2	
+     3	Week 16 的主要交付物是展示反馈、工程复盘、知识地图和职业规划。本 starter_code 是模板与检查器，不包含完整答案。
+     4	
+     5	## 运行命令
+     6	
+     7	需要 Java 21 和 Maven 3.9+。
+     8	
+     9	```bash
+    10	cd chapters/week_16/starter_code
+    11	mvn test
+    12	```
+    13	
+    14	可选：编译后运行检查器，查看模板中剩余 TODO 数量。
+    15	
+    16	```bash
+    17	mvn -q compile
+    18	java -cp target/classes com.campusflow.Week16ReadinessCheck
+    19	```
+    20	
+    21	## 需要编辑的文件
+    22	
+    23	- `01_showcase_feedback_summary.md`：TODO 汇总项目集市反馈。
+    24	- `02_retrospective_report.md`：TODO 使用 KPT 写工程复盘。
+    25	- `03_knowledge_map.md`：TODO 画出 16 周知识地图和核心概念演进。
+    26	- `04_career_plan.md`：TODO 写职业路线、6 个月计划和技能差距。
+    27	- `submission_checklist.md`：TODO 对照最终压缩包结构逐项检查。
+    28	
+    29	## 注意事项
+    30	
+    31	- 复盘必须基于你自己的真实经历，不要把示例改几个词就提交。
+    32	- 能力评分要解释理由，尤其要说明 Week 01 与 Week 16 的变化。
+    33	- 如果使用 AI 润色，保留 AI 辅助说明，并人工核对所有事实。
+
+ succeeded in 338ms:
+     1	package com.campusflow;
+     2	
+     3	import java.io.IOException;
+     4	import java.nio.file.Files;
+     5	import java.nio.file.Path;
+     6	import java.util.List;
+     7	
+     8	public class Week16ReadinessCheck {
+     9	
+    10	    private static final List<String> REQUIRED_FILES = List.of(
+    11	            "01_showcase_feedback_summary.md",
+    12	            "02_retrospective_report.md",
+    13	            "03_knowledge_map.md",
+    14	            "04_career_plan.md",
+    15	            "submission_checklist.md"
+    16	    );
+    17	
+    18	    public static void main(String[] args) throws IOException {
+    19	        Path root = Path.of("").toAbsolutePath();
+    20	
+    21	        System.out.println("Week 16 retrospective readiness check");
+    22	        for (String fileName : REQUIRED_FILES) {
+    23	            Path file = root.resolve(fileName);
+    24	            long todoCount = Files.exists(file)
+    25	                    ? Files.readString(file).lines().filter(line -> line.contains("待办")).count()
+    26	                    : -1;
+    27	            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
+    28	        }
+    29	    }
+    30	
+    31	    public static List<String> requiredFiles() {
+    32	        return REQUIRED_FILES;
+    33	    }
+    34	}
+
+ succeeded in 403ms:
+?? audit/week09_16/
+
+ succeeded in 519ms:
+     1	package com.campusflow;
+     2	
+     3	import org.junit.jupiter.api.DisplayName;
+     4	import org.junit.jupiter.api.Test;
+     5	
+     6	import java.io.IOException;
+     7	import java.nio.file.Files;
+     8	import java.nio.file.Path;
+     9	
+    10	import static org.junit.jupiter.api.Assertions.assertFalse;
+    11	import static org.junit.jupiter.api.Assertions.assertTrue;
+    12	
+    13	@DisplayName("Week 16 starter package smoke tests")
+    14	class Week16StarterSmokeTest {
+    15	
+    16	    private final Path root = Path.of("").toAbsolutePath();
+    17	
+    18	    @Test
+    19	    void requiredRetrospectiveTemplatesExist() throws IOException {
+    20	        for (String fileName : Week16ReadinessCheck.requiredFiles()) {
+    21	            Path file = root.resolve(fileName);
+    22	            assertTrue(Files.isRegularFile(file), fileName + " should exist");
+    23	            String text = Files.readString(file);
+    24	            assertTrue(text.contains("TODO") || text.contains("待办"), fileName + " should contain 学生 TODO/待办项");
+    25	        }
+    26	    }
+    27	
+    28	    @Test
+    29	    void checkerHasSubmissionChecklistConfigured() {
+    30	        assertFalse(Week16ReadinessCheck.requiredFiles().isEmpty());
+    31	        assertTrue(Week16ReadinessCheck.requiredFiles().contains("submission_checklist.md"));
+    32	    }
+    33	}
+
+ succeeded in 444ms:
+     1	package com.campusflow;
+     2	
+     3	import java.io.IOException;
+     4	import java.nio.file.Files;
+     5	import java.nio.file.Path;
+     6	import java.util.List;
+     7	
+     8	public class ShowcaseReadinessCheck {
+     9	
+    10	    private static final List<String> REQUIRED_FILES = List.of(
+    11	            "presentation_script.md",
+    12	            "slides_outline.md",
+    13	            "poster_checklist.md",
+    14	            "qa_prep.md",
+    15	            "showcase_practice.md"
+    16	    );
+    17	
+    18	    public static void main(String[] args) throws IOException {
+    19	        Path root = Path.of("").toAbsolutePath();
+    20	
+    21	        System.out.println("Week 15 showcase readiness check");
+    22	        for (String fileName : REQUIRED_FILES) {
+    23	            Path file = root.resolve(fileName);
+    24	            long todoCount = Files.exists(file)
+    25	                    ? Files.readString(file).lines().filter(line -> line.contains("待办")).count()
+    26	                    : -1;
+    27	            System.out.printf("%s: %s%n", fileName, todoCount >= 0 ? "待办数量=" + todoCount : "missing");
+    28	        }
+    29	    }
+    30	
+    31	    public static List<String> requiredFiles() {
+    32	        return REQUIRED_FILES;
+    33	    }
+    34	}
+
+exec
+/bin/bash -lc "nl -ba chapters/week_15/starter_code/pom.xml | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+     1	<?xml version="1.0" encoding="UTF-8"?>
+     2	<project xmlns="http://maven.apache.org/POM/4.0.0"
+     3	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     4	         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     5	    <modelVersion>4.0.0</modelVersion>
+     6	
+     7	    <groupId>com.campusflow</groupId>
+     8	    <artifactId>campusflow-week15-starter</artifactId>
+     9	    <version>0.1.0-SNAPSHOT</version>
+    10	    <packaging>jar</packaging>
+    11	
+    12	    <name>CampusFlow Week 15 Starter</name>
+    13	    <description>Presentation preparation templates and checkers</description>
+    14	
+    15	    <properties>
+    16	        <maven.compiler.source>21</maven.compiler.source>
+    17	        <maven.compiler.target>21</maven.compiler.target>
+    18	        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    19	        <junit.version>5.11.0</junit.version>
+    20	    </properties>
+    21	
+    22	    <repositories>
+    23	        <repository>
+    24	            <id>aliyunmaven</id>
+    25	            <name>Aliyun Maven Public</name>
+    26	            <url>https://maven.aliyun.com/repository/public</url>
+    27	            <releases>
+    28	                <enabled>true</enabled>
+    29	            </releases>
+    30	            <snapshots>
+    31	                <enabled>true</enabled>
+    32	            </snapshots>
+    33	        </repository>
+    34	    </repositories>
+    35	
+    36	    <pluginRepositories>
+    37	        <pluginRepository>
+    38	            <id>aliyunmaven</id>
+    39	            <name>Aliyun Maven Public</name>
+    40	            <url>https://maven.aliyun.com/repository/public</url>
+    41	            <releases>
+    42	                <enabled>true</enabled>
+    43	            </releases>
+    44	            <snapshots>
+    45	                <enabled>true</enabled>
+    46	            </snapshots>
+    47	        </pluginRepository>
+    48	    </pluginRepositories>
+    49	
+    50	    <dependencies>
+    51	        <dependency>
+    52	            <groupId>org.junit.jupiter</groupId>
+    53	            <artifactId>junit-jupiter</artifactId>
+    54	            <version>${junit.version}</version>
+    55	            <scope>test</scope>
+    56	        </dependency>
+    57	    </dependencies>
+    58	
+    59	    <build>
+    60	        <plugins>
+    61	            <plugin>
+    62	                <groupId>org.apache.maven.plugins</groupId>
+    63	                <artifactId>maven-compiler-plugin</artifactId>
+    64	                <version>3.1</version>
+    65	            </plugin>
+    66	            <plugin>
+    67	                <groupId>org.apache.maven.plugins</groupId>
+    68	                <artifactId>maven-surefire-plugin</artifactId>
+    69	                <version>3.2.5</version>
+    70	            </plugin>
+    71	        </plugins>
+    72	    </build>
+    73	</project>
+
+exec
+/bin/bash -lc "nl -ba chapters/week_16/starter_code/pom.xml | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+     1	<?xml version="1.0" encoding="UTF-8"?>
+     2	<project xmlns="http://maven.apache.org/POM/4.0.0"
+     3	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     4	         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     5	    <modelVersion>4.0.0</modelVersion>
+     6	
+     7	    <groupId>com.campusflow</groupId>
+     8	    <artifactId>campusflow-week16-starter</artifactId>
+     9	    <version>0.1.0-SNAPSHOT</version>
+    10	    <packaging>jar</packaging>
+    11	
+    12	    <name>CampusFlow Week 16 Starter</name>
+    13	    <description>Retrospective, knowledge map, and career planning templates</description>
+    14	
+    15	    <properties>
+    16	        <maven.compiler.source>21</maven.compiler.source>
+    17	        <maven.compiler.target>21</maven.compiler.target>
+    18	        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    19	        <junit.version>5.11.0</junit.version>
+    20	    </properties>
+    21	
+    22	    <repositories>
+    23	        <repository>
+    24	            <id>aliyunmaven</id>
+    25	            <name>Aliyun Maven Public</name>
+    26	            <url>https://maven.aliyun.com/repository/public</url>
+    27	            <releases>
+    28	                <enabled>true</enabled>
+    29	            </releases>
+    30	            <snapshots>
+    31	                <enabled>true</enabled>
+    32	            </snapshots>
+    33	        </repository>
+    34	    </repositories>
+    35	
+    36	    <pluginRepositories>
+    37	        <pluginRepository>
+    38	            <id>aliyunmaven</id>
+    39	            <name>Aliyun Maven Public</name>
+    40	            <url>https://maven.aliyun.com/repository/public</url>
+    41	            <releases>
+    42	                <enabled>true</enabled>
+    43	            </releases>
+    44	            <snapshots>
+    45	                <enabled>true</enabled>
+    46	            </snapshots>
+    47	        </pluginRepository>
+    48	    </pluginRepositories>
+    49	
+    50	    <dependencies>
+    51	        <dependency>
+    52	            <groupId>org.junit.jupiter</groupId>
+    53	            <artifactId>junit-jupiter</artifactId>
+    54	            <version>${junit.version}</version>
+    55	            <scope>test</scope>
+    56	        </dependency>
+    57	    </dependencies>
+    58	
+    59	    <build>
+    60	        <plugins>
+    61	            <plugin>
+    62	                <groupId>org.apache.maven.plugins</groupId>
+    63	                <artifactId>maven-compiler-plugin</artifactId>
+    64	                <version>3.1</version>
+    65	            </plugin>
+    66	            <plugin>
+    67	                <groupId>org.apache.maven.plugins</groupId>
+    68	                <artifactId>maven-surefire-plugin</artifactId>
+    69	                <version>3.2.5</version>
+    70	            </plugin>
+    71	        </plugins>
+    72	    </build>
+    73	</project>
+
+exec
+/bin/bash -lc "java -version 2>&1 | sed -n '1,3p'; mvn -version | sed -n '1,4p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "find chapters/week_15/starter_code/target chapters/week_16/starter_code/target -maxdepth 3 -type f | sort | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+chapters/week_15/starter_code/target/surefire-reports/TEST-com.campusflow.Week15StarterSmokeTest.xml
+chapters/week_15/starter_code/target/surefire-reports/com.campusflow.Week15StarterSmokeTest.txt
+chapters/week_16/starter_code/target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream
+chapters/week_16/starter_code/target/surefire-reports/TEST-com.campusflow.Week16StarterSmokeTest.xml
+chapters/week_16/starter_code/target/surefire-reports/com.campusflow.Week16StarterSmokeTest.txt
+
+ succeeded in 506ms:
+openjdk version "21.0.10-ga" 2026-01-20
+OpenJDK Runtime Environment TencentKonaJDK (build 21.0.10-ga+1)
+OpenJDK 64-Bit Server VM TencentKonaJDK (build 21.0.10-ga+1, mixed mode, sharing)
+Apache Maven 3.8.6 (OpenCloudOS 3.8.6-10)
+Maven home: /usr/share/maven
+Java version: 21.0.10-ga, vendor: Tencent Company, runtime: /usr/lib/jvm/java-21-konajdk-21.0.10-1.oc9
+Default locale: en, platform encoding: UTF-8
+
+codex
+当前 Maven 测试在模板初始状态下通过：week_15 和 week_16 都是 2 个测试全绿。为了确认“完成后反向失败”，我会在 `/tmp` 复制 starter_code，模拟学生清理占位词后再跑一次，不触碰课程目录。
+2026-04-28T13:52:06.444724Z ERROR codex_core::tools::router: error=exec_command failed for `/bin/bash -lc "rm -rf /tmp/week15_starter_sim && cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code /tmp/week15_starter_sim && find /tmp/week15_starter_sim -name '*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} + && mvn -B -ntp test"`: CreateProcess { message: "Rejected(\"`/bin/bash -lc \\\"rm -rf /tmp/week15_starter_sim && cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code /tmp/week15_starter_sim && find /tmp/week15_starter_sim -name '*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} + && mvn -B -ntp test\\\"` rejected: blocked by policy\")" }
+2026-04-28T13:52:06.507745Z ERROR codex_core::tools::router: error=exec_command failed for `/bin/bash -lc "rm -rf /tmp/week16_starter_sim && cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code /tmp/week16_starter_sim && find /tmp/week16_starter_sim -name '*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} + && mvn -B -ntp test"`: CreateProcess { message: "Rejected(\"`/bin/bash -lc \\\"rm -rf /tmp/week16_starter_sim && cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code /tmp/week16_starter_sim && find /tmp/week16_starter_sim -name '*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} + && mvn -B -ntp test\\\"` rejected: blocked by policy\")" }
+codex
+模拟命令里用了清理旧 `/tmp` 目录的写法，被安全策略拦截了；我改用唯一临时目录，不删除任何现有内容，再跑同样的反向验证。
+exec
+/bin/bash -lc 'tmp=$(mktemp -d /tmp/week15_starter_sim.XXXXXX)
+printf '"'%s\\n' \""'$tmp"
+cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code/. "$tmp"/
+find "$tmp" -name '"'*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} +
+mvn -B -ntp test" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'tmp=$(mktemp -d /tmp/week16_starter_sim.XXXXXX)
+printf '"'%s\\n' \""'$tmp"
+cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code/. "$tmp"/
+find "$tmp" -name '"'*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} +
+mvn -B -ntp test" in /root/.openclaw/workspace/projects/java-software-engineering
+ exited 1 in 5092ms:
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.397 s
+[INFO] Finished at: 2026-04-28T21:52:21+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] The goal you specified requires a project to execute but there is no POM in this directory (/root/.openclaw/workspace/projects/java-software-engineering). Please verify you invoked Maven from the correct directory. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MissingProjectException
+
+ exited 1 in 5236ms:
+[0.002s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.310 s
+[INFO] Finished at: 2026-04-28T21:52:21+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] The goal you specified requires a project to execute but there is no POM in this directory (/root/.openclaw/workspace/projects/java-software-engineering). Please verify you invoked Maven from the correct directory. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MissingProjectException
+
+codex
+第一次模拟验证没有切到临时 starter 目录，失败原因是临时验证命令本身找不到 POM，不是课程代码问题。我用 `-f 临时目录/pom.xml` 重新执行。
+exec
+/bin/bash -lc 'tmp=$(mktemp -d /tmp/week15_starter_sim.XXXXXX)
+printf '"'%s\\n' \""'$tmp"
+cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_15/starter_code/. "$tmp"/
+find "$tmp" -name '"'*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} +
+mvn -B -ntp -f \""'$tmp/pom.xml" test' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'tmp=$(mktemp -d /tmp/week16_starter_sim.XXXXXX)
+printf '"'%s\\n' \""'$tmp"
+cp -a /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_16/starter_code/. "$tmp"/
+find "$tmp" -name '"'*.md' -type f -exec perl -0pi -e 's/TODO/已完成/g; s/待办/已完成/g' {} +
+mvn -B -ntp -f \""'$tmp/pom.xml" test' in /root/.openclaw/workspace/projects/java-software-engineering
+ exited 1 in 15709ms:
+[0.004s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week16-starter >--------------
+[INFO] Building CampusFlow Week 16 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week16-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /tmp/week16_starter_sim.zzBpa2/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week16-starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /tmp/week16_starter_sim.zzBpa2/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week16-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /tmp/week16_starter_sim.zzBpa2/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week16-starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /tmp/week16_starter_sim.zzBpa2/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week16-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week16StarterSmokeTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.240 s <<< FAILURE! -- in com.campusflow.Week16StarterSmokeTest
+[ERROR] com.campusflow.Week16StarterSmokeTest.requiredRetrospectiveTemplatesExist -- Time elapsed: 0.035 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 01_showcase_feedback_summary.md should contain 学生 TODO/待办项 ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at com.campusflow.Week16StarterSmokeTest.requiredRetrospectiveTemplatesExist(Week16StarterSmokeTest.java:24)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Week16StarterSmokeTest.requiredRetrospectiveTemplatesExist:24 01_showcase_feedback_summary.md should contain 学生 TODO/待办项 ==> expected: <true> but was: <false>
+[INFO] 
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /tmp/week16_starter_sim.zzBpa2/target/surefire-reports/2026-04-28T21-52-44_606-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.827 s
+[INFO] Finished at: 2026-04-28T21:52:47+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project campusflow-week16-starter: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /tmp/week16_starter_sim.zzBpa2/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+ exited 1 in 15869ms:
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week15-starter >--------------
+[INFO] Building CampusFlow Week 15 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week15-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /tmp/week15_starter_sim.aEpKlk/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week15-starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /tmp/week15_starter_sim.aEpKlk/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week15-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /tmp/week15_starter_sim.aEpKlk/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week15-starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /tmp/week15_starter_sim.aEpKlk/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week15-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week15StarterSmokeTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.317 s <<< FAILURE! -- in com.campusflow.Week15StarterSmokeTest
+[ERROR] com.campusflow.Week15StarterSmokeTest.requiredPresentationTemplatesExist -- Time elapsed: 0.046 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: presentation_script.md should contain 学生 TODO/待办项 ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at com.campusflow.Week15StarterSmokeTest.requiredPresentationTemplatesExist(Week15StarterSmokeTest.java:24)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Week15StarterSmokeTest.requiredPresentationTemplatesExist:24 presentation_script.md should contain 学生 TODO/待办项 ==> expected: <true> but was: <false>
+[INFO] 
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.582 s
+[INFO] Finished at: 2026-04-28T21:52:47+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project campusflow-week15-starter: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /tmp/week15_starter_sim.aEpKlk/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+exec
+/bin/bash -lc 'find audit/week09_16 -maxdepth 1 -type f -print | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week09_10.stdout.log
+audit/week09_16/week11_12.stdout.log
+audit/week09_16/week13_14.stdout.log
+audit/week09_16/week15_16.stdout.log
+
+exec
+/bin/bash -lc "sed -n '1,220p' audit/week09_16/week13_14.stdout.log" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+Reading additional input from stdin...
+OpenAI Codex v0.125.0 (research preview)
+--------
+workdir: /root/.openclaw/workspace/projects/java-software-engineering
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /root/.codex/memories]
+reasoning effort: high
+reasoning summaries: none
+session id: 019dd45a-6cad-7ea3-99a6-0576598f5e9a
+--------
+user
+你是 Java 课程作业审稿 agent（分片 week13_14）。请只审查，不要修改课程文件。范围：chapters/week_13 到 chapters/week_14。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week13_14.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the vendored bubblewrap in the meantime.
+codex
+我会只读检查 `chapters/week_13` 和 `chapters/week_14` 的作业与 starter_code，一边运行各周 Maven 测试，一边记录不一致点。最后只写审稿报告到 `audit/week09_16/codex_audit_week13_14.md`，不改课程文件。
+exec
+/bin/bash -lc 'git status --short' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_13 chapters/week_14 -maxdepth 4 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "find chapters/week_13 chapters/week_14 -type d -name target -o -type f \\( -name '*.class' -o -name '*.jar' \\)" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 107ms:
+?? .codex
+?? .pct-state.json
+?? audit/
+
+ succeeded in 115ms:
+chapters/week_13/.research_cache.md
+chapters/week_13/ANCHORS.yml
+chapters/week_13/ASSIGNMENT.md
+chapters/week_13/CHAPTER.md
+chapters/week_13/DELIVERABLES.md
+chapters/week_13/DESIGN_SUMMARY.md
+chapters/week_13/QA_REPORT.md
+chapters/week_13/RUBRIC.md
+chapters/week_13/TERMS.yml
+chapters/week_13/TEST_DESIGN_README.md
+chapters/week_13/examples/13_README.md
+chapters/week_13/examples/13_adr_index.md
+chapters/week_13/examples/13_documentation_comparison.java
+chapters/week_13/examples/13_examples_README.md
+chapters/week_13/examples/13_openapi_spec.yaml
+chapters/week_13/examples/INDEX.md
+chapters/week_13/starter_code/PROJECT_README_TODO.md
+chapters/week_13/starter_code/README.md
+chapters/week_13/starter_code/TEST_CASES.md
+chapters/week_13/starter_code/TEST_MATRIX.md
+chapters/week_13/starter_code/TEST_SUMMARY.md
+chapters/week_13/starter_code/docs/ADR/001-domain-model.md
+chapters/week_13/starter_code/docs/ADR/INDEX.md
+chapters/week_13/starter_code/docs/ADR_INDEX.md
+chapters/week_13/starter_code/openapi.yaml
+chapters/week_13/starter_code/pom.xml
+chapters/week_13/starter_code/target/surefire-reports/TEST-com.campusflow.Week13StarterSmokeTest.xml
+chapters/week_13/starter_code/target/surefire-reports/com.campusflow.Week13StarterSmokeTest.txt
+chapters/week_14/.research_cache.md
+chapters/week_14/ANCHORS.yml
+chapters/week_14/ASSIGNMENT.md
+chapters/week_14/CHAPTER.md
+chapters/week_14/QA_REPORT.md
+chapters/week_14/RUBRIC.md
+chapters/week_14/TERMS.yml
+chapters/week_14/examples/ConfigExample.java
+chapters/week_14/examples/README.md
+chapters/week_14/examples/ReleaseWorkflowExample.java
+chapters/week_14/examples/VersionComparisonExample.java
+chapters/week_14/examples/campusflow-release-example/.dockerignore
+chapters/week_14/examples/campusflow-release-example/Dockerfile
+chapters/week_14/examples/campusflow-release-example/README.md
+chapters/week_14/examples/campusflow-release-example/pom.xml
+chapters/week_14/examples/campusflow-release-example/start.bat
+chapters/week_14/examples/campusflow-release-example/start.sh
+chapters/week_14/examples/config-management.md
+chapters/week_14/examples/deployment-strategies.md
+chapters/week_14/examples/pom-shade-plugin.xml
+chapters/week_14/examples/semantic-versioning.md
+chapters/week_14/starter_code/CHANGELOG_TODO.md
+chapters/week_14/starter_code/DELIVERY.md
+chapters/week_14/starter_code/DEPLOYMENT_TODO.md
+chapters/week_14/starter_code/README.md
+chapters/week_14/starter_code/TEST_SUMMARY.md
+chapters/week_14/starter_code/pom.xml
+chapters/week_14/starter_code/start.bat
+chapters/week_14/starter_code/start.sh
+chapters/week_14/starter_code/target/classes/config-dev.properties
+chapters/week_14/starter_code/target/classes/config-prod.properties
+chapters/week_14/starter_code/target/classes/config-test.properties
+chapters/week_14/starter_code/target/surefire-reports/TEST-com.campusflow.Week14StarterSmokeTest.xml
+chapters/week_14/starter_code/target/surefire-reports/com.campusflow.Week14StarterSmokeTest.txt
+
+ succeeded in 109ms:
+chapters/week_13/starter_code/target
+chapters/week_13/starter_code/target/test-classes/com/campusflow/Week13StarterSmokeTest.class
+chapters/week_14/starter_code/target
+chapters/week_14/starter_code/target/classes/com/campusflow/Main.class
+chapters/week_14/starter_code/target/classes/com/campusflow/config/Config.class
+chapters/week_14/starter_code/target/classes/com/campusflow/util/Version.class
+chapters/week_14/starter_code/target/test-classes/com/campusflow/Week14StarterSmokeTest.class
+
+codex
+初步目录里两周的 `starter_code/target` 已经存在，这属于需要在报告中标出的构建产物问题。接下来我会读取作业、README、pom 和源/测试文件，并运行每周的 smoke test。
+exec
+/bin/bash -lc 'find chapters/week_13/starter_code/src chapters/week_14/starter_code/src -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_14/starter_code
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_13/starter_code
+ succeeded in 122ms:
+chapters/week_13/starter_code/src/test/java/com/campusflow/Week13StarterSmokeTest.java
+chapters/week_14/starter_code/src/main/java/com/campusflow/Main.java
+chapters/week_14/starter_code/src/main/java/com/campusflow/config/Config.java
+chapters/week_14/starter_code/src/main/java/com/campusflow/util/Version.java
+chapters/week_14/starter_code/src/main/resources/config-dev.properties
+chapters/week_14/starter_code/src/main/resources/config-prod.properties
+chapters/week_14/starter_code/src/main/resources/config-test.properties
+chapters/week_14/starter_code/src/test/java/com/campusflow/Week14StarterSmokeTest.java
+
+ succeeded in 17351ms:
+Failed to connect to bus: Operation not permitted
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week13-starter >--------------
+[INFO] Building CampusFlow Week 13 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week13-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_13/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week13-starter ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week13-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_13/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week13-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week13-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week13StarterSmokeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.371 s -- in com.campusflow.Week13StarterSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.994 s
+[INFO] Finished at: 2026-04-28T21:50:28+08:00
+[INFO] ------------------------------------------------------------------------
+
+ succeeded in 17367ms:
+Failed to connect to bus: Operation not permitted
+[0.031s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week14-starter >--------------
+[INFO] Building CampusFlow Week 14 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week14-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week14-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week14-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_14/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week14-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week14-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.Week14StarterSmokeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.392 s -- in com.campusflow.Week14StarterSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_14/starter_code/target/surefire-reports/2026-04-28T21-50-25_056-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.011 s
+[INFO] Finished at: 2026-04-28T21:50:28+08:00
+[INFO] ------------------------------------------------------------------------
+
+codex
+两周的 Maven 测试都通过了：week_13 是 2 个测试，week_14 是 2 个测试。week_14 的 Surefire 有一个 forked JVM native stream warning，我会作为测试记录说明，但它没有导致失败。
+exec
+/bin/bash -lc 'wc -l chapters/week_13/ASSIGNMENT.md chapters/week_13/starter_code/README.md chapters/week_13/starter_code/pom.xml chapters/week_13/starter_code/src/test/java/com/campusflow/Week13StarterSmokeTest.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'rg -n "class |package |public |void |String |mvn|test|README|pom|src/main|src/test|target|CampusFlow|Config|Version|Main|ADR|openapi|OpenAPI|docs" chapters/week_13/ASSIGNMENT.md chapters/week_13/starter_code/README.md chapters/week_14/ASSIGNMENT.md chapters/week_14/starter_code/README.md' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'wc -l chapters/week_14/ASSIGNMENT.md chapters/week_14/starter_code/README.md chapters/week_14/starter_code/pom.xml chapters/week_14/starter_code/src/main/java/com/campusflow/Main.java chapters/week_14/starter_code/src/main/java/com/campusflow/config/Config.java chapters/week_14/starter_code/src/main/java/com/campusflow/util/Version.java chapters/week_14/starter_code/src/test/java/com/campusflow/Week14StarterSmokeTest.java' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 254ms:
+  848 chapters/week_13/ASSIGNMENT.md
+   36 chapters/week_13/starter_code/README.md
+   73 chapters/week_13/starter_code/pom.xml
+   41 chapters/week_13/starter_code/src/test/java/com/campusflow/Week13StarterSmokeTest.java
+  998 total
+
+
+exec
+/bin/bash -lc 'rg -n "codex_audit" audit/week09_16 audit || true' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+audit/week09_16/week13_14.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week13_14）。请只审查，不要修改课程文件。范围：chapters/week_13 到 chapters/week_14。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week13_14.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week13_14.stdout.log:17:我会只读检查 `chapters/week_13` 和 `chapters/week_14` 的作业与 starter_code，一边运行各周 Maven 测试，一边记录不一致点。最后只写审稿报告到 `audit/week09_16/codex_audit_week13_14.md`，不改课程文件。
+audit/week09_16/week13_14.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week13_14）。请只审查，不要修改课程文件。范围：chapters/week_13 到 chapters/week_14。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week13_14.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week13_14.stdout.log:17:我会只读检查 `chapters/week_13` 和 `chapters/week_14` 的作业与 starter_code，一边运行各周 Maven 测试，一边记录不一致点。最后只写审稿报告到 `audit/week09_16/codex_audit_week13_14.md`，不改课程文件。
+audit/week09_16/week15_16.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week15_16）。请只审查，不要修改课程文件。范围：chapters/week_15 到 chapters/week_16。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week15_16.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week15_16.stdout.log:2643:audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week15_16.stdout.log:2665:你是 Java 课程作业审稿 agent（分片 week13_14）。请只审查，不要修改课程文件。范围：chapters/week_13 到 chapters/week_14。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week13_14.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week15_16.stdout.log:2668:我会只读检查 `chapters/week_13` 和 `chapters/week_14` 的作业与 starter_code，一边运行各周 Maven 测试，一边记录不一致点。最后只写审稿报告到 `audit/week09_16/codex_audit_week13_14.md`，不改课程文件。
+audit/week09_16/week15_16.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week15_16）。请只审查，不要修改课程文件。范围：chapters/week_15 到 chapters/week_16。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week15_16.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week15_16.stdout.log:2643:audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week15_16.stdout.log:2665:你是 Java 课程作业审稿 agent（分片 week13_14）。请只审查，不要修改课程文件。范围：chapters/week_13 到 chapters/week_14。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week13_14.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week15_16.stdout.log:2668:我会只读检查 `chapters/week_13` 和 `chapters/week_14` 的作业与 starter_code，一边运行各周 Maven 测试，一边记录不一致点。最后只写审稿报告到 `audit/week09_16/codex_audit_week13_14.md`，不改课程文件。
+audit/week09_16/week11_12.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week11_12）。请只审查，不要修改课程文件。范围：chapters/week_11 到 chapters/week_12。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week11_12.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week11_12.stdout.log:2360:/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2361:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2365:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2479:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2483:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2598:/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week11_12.md" in /root/.openclaw/workspace/projects/java-software-engineering
+audit/week09_16/week11_12.stdout.log:2713:/bin/bash -lc 'git status --short audit/week09_16/codex_audit_week11_12.md chapters/week_11/starter_code chapters/week_12/starter_code' in /root/.openclaw/workspace/projects/java-software-engineering
+audit/week09_16/week11_12.stdout.log:2715:?? audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2717:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2721:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week11_12）。请只审查，不要修改课程文件。范围：chapters/week_11 到 chapters/week_12。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week11_12.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week11_12.stdout.log:2360:/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2361:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2365:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2479:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2483:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2598:/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week11_12.md" in /root/.openclaw/workspace/projects/java-software-engineering
+audit/week09_16/week11_12.stdout.log:2713:/bin/bash -lc 'git status --short audit/week09_16/codex_audit_week11_12.md chapters/week_11/starter_code chapters/week_12/starter_code' in /root/.openclaw/workspace/projects/java-software-engineering
+audit/week09_16/week11_12.stdout.log:2715:?? audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2717:diff --git a/audit/week09_16/codex_audit_week11_12.md b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week11_12.stdout.log:2721:+++ b/audit/week09_16/codex_audit_week11_12.md
+audit/week09_16/week09_10.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week09_10）。请只审查，不要修改课程文件。范围：chapters/week_09 到 chapters/week_10。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week09_10.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+audit/week09_16/week09_10.stdout.log:14:你是 Java 课程作业审稿 agent（分片 week09_10）。请只审查，不要修改课程文件。范围：chapters/week_09 到 chapters/week_10。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week09_10.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+
+exec
+/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week11_12.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+# Week 11-12 课程作业审稿报告（Codex 分片）
+
+审查范围：`chapters/week_11` 到 `chapters/week_12`
+
+审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
+
+## 测试运行结果
+
+| Week | 命令 | 结果 | 备注 |
+| --- | --- | --- | --- |
+| week_11 | `cd chapters/week_11/starter_code && mvn -B -ntp test` | 通过 | `TaskStatusCalculatorTest` 1 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-01_249-jvmRun1.dumpstream` 警告文件。 |
+| week_12 | `cd chapters/week_12/starter_code && mvn -B -ntp test` | 通过 | `AppSmokeTest` 1 个测试通过。 |
+
+## week_11
+
+### 一致性判断
+
+整体可作为 Week 11 starter 使用：包名 `com.campusflow.quality`、主类 `CodeWithIssues` / `TaskStatusCalculator`、测试入口 `TaskStatusCalculatorTest` 与 README 指向一致；初始 smoke test 通过。作业要求学生补 SpotBugs、JaCoCo、测试和技术债，starter 的 TODO 也能支撑这些任务。
+
+主要不一致集中在“提交物命名/承载文件”：`ASSIGNMENT.md` 要求独立提交 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 等，starter README 却引导学生更新 `TEST_SUMMARY.md` 记录 SpotBugs/JaCoCo 命令、发现和前后结果。学生如果按 README 做，可能在评分时缺必交文件。
+
+### P0
+
+无。
+
+### P1
+
+1. `ASSIGNMENT.md` 与 starter README 的提交物命名不一致，可能导致学生按 README 完成但缺 `fixes.md` / `new_tests.md`。
+   - 证据：`ASSIGNMENT.md` 要求 `fixes.md`、`new_tests.md`、`coverage_analysis.md`；`starter_code/README.md` 要求更新 `TEST_SUMMARY.md`。
+   - 风险：非代码失败，学生完成内容但文件名不符合评分脚本或人工 checklist。
+   - 建议：优先改 `ASSIGNMENT.md`，明确允许把 fixes/new tests/coverage analysis 写入 `TEST_SUMMARY.md` 的指定小节；或者改 starter README，列出 `fixes.md`、`new_tests.md`、`coverage_analysis.md` 这些独立文件。
+
+2. `quality gate thresholds` 在 README 待办中像必做项，但 `ASSIGNMENT.md` 中 `quality-gate.json` 是进阶选做。
+   - 证据：README 待办包含“定义你的 quality gate thresholds”；作业中“设计质量门禁配置”在进阶作业。
+   - 风险：学生误以为基础作业必须完成质量门禁配置。
+   - 建议：改 starter README，把该项标注为“进阶/选做”，或改 `ASSIGNMENT.md` 将轻量 threshold 说明纳入基础作业。
+
+### P2
+
+1. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：`chapters/week_11/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
+   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
+   - 建议：不改课程源码；发布前清理 `chapters/week_11/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `ASSIGNMENT.md` 的提交物说明，统一“独立文件”与 `TEST_SUMMARY.md` 的关系；其次微调 starter README 的选做标注。starter Java 代码和 smoke test 当前不需要修改。
+
+## week_12
+
+### 一致性判断
+
+初始 Maven smoke test 可通过，主包名 `com.campusflow` 及 `model/repository/service` 分层清晰。作业主线要求 Javalin + HttpClient + Mockito，starter README 也要求学生添加 Javalin 和 Mockito。
+
+但 week 12 存在多处会让学生“照说明做仍可能失败或困惑”的一致性问题：Javalin 依赖没有在 `ASSIGNMENT.md` 的依赖任务中显式要求；starter 当前实现是 JDK `HttpServer` 而 README 说能证明 Javalin server；端口在 assignment 示例中是 8080，README/App 使用 7070；进阶 OpenAPI 示例路径是 `/tasks`，基础任务要求 `/api/tasks`。
+
+### P0
+
+无。
+
+### P1
+
+1. `ASSIGNMENT.md` 要求使用 Javalin，但只显式要求添加 Mockito 依赖，未给 Javalin 依赖配置。
+   - 证据：任务 1 示例直接使用 `Javalin app`；任务 2.1 才列出 Mockito 依赖；`pom.xml` 只有 TODO 注释，没有 Javalin 依赖。
+   - 风险：学生按任务 1 创建 `TaskApiIntegrationTest.java` 后会编译失败，除非从 README 或自行搜索补依赖。
+   - 建议：改 `ASSIGNMENT.md`，在任务 1.1 增加 Javalin dependency 片段和版本；或改 starter `pom.xml` 预置 Javalin 依赖，只让学生实现路由。
+
+2. 端口说明不一致：作业示例和 Bug Bash 示例使用 `8080`，starter README/App 使用 `7070`。
+   - 证据：`ASSIGNMENT.md` 多处 `http://localhost:8080/api/tasks`；`starter_code/App.java` 默认 `PORT = 7070`；README curl 也是 7070。
+   - 风险：学生运行 README 的服务再复制 assignment 的 curl/test，会请求错端口；smoke test 本身不覆盖 HTTP 入口，无法提前暴露。
+   - 建议：优先改 `ASSIGNMENT.md` 和 README 统一端口，最好推荐测试中使用随机端口 `start(0)`，手动运行统一用 7070 或 8080 之一。
+
+3. 进阶 OpenAPI 示例路径与基础 API 路径不一致。
+   - 证据：基础任务全程使用 `/api/tasks`；OpenAPI 示例写 `paths: /tasks`。
+   - 风险：学生按进阶示例写契约测试，会与基础集成测试的 API 契约冲突。
+   - 建议：改 `ASSIGNMENT.md`，把 OpenAPI 示例路径改为 `/api/tasks`。
+
+### P2
+
+1. README 对当前 starter 的描述不准确。
+   - 证据：README 写“证明 Javalin server 可以启动”，但 `App.java` 使用 `com.sun.net.httpserver.HttpServer`，`AppSmokeTest` 只断言 `App.healthJson()` 字符串，未启动 server。
+   - 风险：学生误判当前 smoke test 覆盖了服务启动。
+   - 建议：改 starter README，说明当前只是 JDK HttpServer 占位和 health payload smoke test；或改 starter_code 预置 Javalin。
+
+2. 作业与 README 对测试文件路径的明确程度不同。
+   - 证据：`ASSIGNMENT.md` 只说创建 `TaskApiIntegrationTest.java` / `TaskServiceMockTest.java`；README 指向 `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java` 和 `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`。
+   - 风险：学生可能把测试放在默认包或不一致包路径，Maven 仍可能跑，但风格和评分定位不统一。
+   - 建议：改 `ASSIGNMENT.md`，补充推荐包名和完整路径。
+
+3. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：`chapters/week_12/starter_code/target/...` 下有 class、maven-status、surefire reports；`git ls-files` 未显示已跟踪，根 `.gitignore` 已忽略 `target/`。
+   - 风险：若人工打包或绕过 ignore，可能把构建产物带入提交。
+   - 建议：不改课程源码；发布前清理 `chapters/week_12/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `ASSIGNMENT.md`：补 Javalin 依赖、统一端口、修正 OpenAPI 路径、补完整测试路径。若希望降低学生起步成本，可以改 starter_code：在 `pom.xml` 预置 Javalin，或者把 README 描述改成当前 JDK HttpServer 占位的真实状态。
+
+## 必须修改的文件清单
+
+我认为发布前必须修改：
+
+- `chapters/week_11/ASSIGNMENT.md`：统一 `fixes.md` / `new_tests.md` / `coverage_analysis.md` 与 `TEST_SUMMARY.md` 的提交物口径。
+- `chapters/week_11/starter_code/README.md`：同步 Week 11 提交物命名，并标注 quality gate thresholds 是否选做。
+- `chapters/week_12/ASSIGNMENT.md`：补 Javalin 依赖要求，统一端口，修正 OpenAPI 路径为 `/api/tasks`，补测试文件路径。
+- `chapters/week_12/starter_code/README.md`：修正“Javalin server 已可启动”的描述，或与 starter 实现同步。
+
+发布前还应清理但不属于课程内容修改：
+
+- `chapters/week_11/starter_code/target/`
+- `chapters/week_12/starter_code/target/`
+
+codex
+我已经完成两类验证：初始 starter 测试通过；在 `/tmp` 模拟学生清掉占位词后，两周 smoke test 都会失败。接下来只新增审计报告文件，课程目录不做修改。
+  ✓ 梳理 week_15/week_16 文件结构与 git 状态
+  ✓ 审查两周 ASSIGNMENT、README、源码、测试、pom 一致性
+  ✓ 运行每周 starter_code Maven 测试
+  → 写入中文审计报告
+apply patch
+patch: completed
+/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week15_16.md
+diff --git a/audit/week09_16/codex_audit_week15_16.md b/audit/week09_16/codex_audit_week15_16.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..874f5094a9aebb6f796be587033a0a80f1d60345
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week15_16.md
+@@ -0,0 +1,121 @@
++# Week 15-16 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_15` 到 `chapters/week_16`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
++| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
++
++补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
++
++## week_15
++
++### 一致性判断
++
++整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
++
++主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
++   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
++   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
++
++2. README 的编辑文件与作业最终提交物没有明确对应关系。
++   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
++   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
++   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
++
++### P2
++
++1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
++   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
++   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
++   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
++
++2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
++   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
++   - 风险：学生可能误以为脚本也是必交物。
++   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
++
++## week_16
++
++### 一致性判断
++
++主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
++
++主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
++   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
++   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
++
++2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
++   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
++   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
++   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
++
++3. 反馈汇总格式前后不完全一致。
++   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
++   - 风险：学生提交 Markdown 是否合格不够明确。
++   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
++
++### P2
++
++1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
++   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
++   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
++   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
++
++2. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
++- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
++- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
++- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
++- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_15/starter_code/target/`
++- `chapters/week_16/starter_code/target/`
+
+diff --git a/audit/week09_16/codex_audit_week15_16.md b/audit/week09_16/codex_audit_week15_16.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..874f5094a9aebb6f796be587033a0a80f1d60345
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week15_16.md
+@@ -0,0 +1,121 @@
++# Week 15-16 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_15` 到 `chapters/week_16`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
++| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
++
++补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
++
++## week_15
++
++### 一致性判断
++
++整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
++
++主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
++   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
++   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
++
++2. README 的编辑文件与作业最终提交物没有明确对应关系。
++   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
++   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
++   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
++
++### P2
++
++1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
++   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
++   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
++   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
++
++2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
++   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
++   - 风险：学生可能误以为脚本也是必交物。
++   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
++
++## week_16
++
++### 一致性判断
++
++主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
++
++主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
++   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
++   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
++
++2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
++   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
++   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
++   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
++
++3. 反馈汇总格式前后不完全一致。
++   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
++   - 风险：学生提交 Markdown 是否合格不够明确。
++   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
++
++### P2
++
++1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
++   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
++   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
++   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
++
++2. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
++- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
++- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
++- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
++- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_15/starter_code/target/`
++- `chapters/week_16/starter_code/target/`
+
+exec
+/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week15_16.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short audit/week09_16/codex_audit_week15_16.md chapters/week_15/starter_code chapters/week_16/starter_code' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+# Week 15-16 课程作业审稿报告（Codex 分片）
+
+审查范围：`chapters/week_15` 到 `chapters/week_16`
+
+审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
+
+## 测试运行结果
+
+| Week | 命令 | 结果 | 备注 |
+| --- | --- | --- | --- |
+| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
+| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
+
+补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
+
+## week_15
+
+### 一致性判断
+
+整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
+
+主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
+
+### P0
+
+无。
+
+### P1
+
+1. smoke test 会在学生完成模板后反向失败。
+   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
+   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
+   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
+
+2. README 的编辑文件与作业最终提交物没有明确对应关系。
+   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
+   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
+   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
+
+### P2
+
+1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
+   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
+   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
+   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
+
+2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
+   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
+   - 风险：学生可能误以为脚本也是必交物。
+   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
+
+3. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
+   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
+   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
+
+## week_16
+
+### 一致性判断
+
+主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
+
+主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
+
+### P0
+
+无。
+
+### P1
+
+1. smoke test 会在学生完成模板后反向失败。
+   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
+   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
+   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
+
+2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
+   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
+   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
+   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
+
+3. 反馈汇总格式前后不完全一致。
+   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
+   - 风险：学生提交 Markdown 是否合格不够明确。
+   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
+
+### P2
+
+1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
+   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
+   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
+   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
+
+2. `starter_code/target/` 构建产物存在于工作区。
+   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
+   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
+   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
+
+### 建议改 ASSIGNMENT 还是 starter_code
+
+优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
+
+## 必须修改的文件清单
+
+我认为发布前必须修改：
+
+- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
+- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
+- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
+- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
+- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
+- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
+- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
+
+发布前还应清理但不属于课程内容修改：
+
+- `chapters/week_15/starter_code/target/`
+- `chapters/week_16/starter_code/target/`
+
+diff --git a/audit/week09_16/codex_audit_week15_16.md b/audit/week09_16/codex_audit_week15_16.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..874f5094a9aebb6f796be587033a0a80f1d60345
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week15_16.md
+@@ -0,0 +1,121 @@
++# Week 15-16 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_15` 到 `chapters/week_16`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
++| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
++
++补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
++
++## week_15
++
++### 一致性判断
++
++整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
++
++主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
++   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
++   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
++
++2. README 的编辑文件与作业最终提交物没有明确对应关系。
++   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
++   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
++   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
++
++### P2
++
++1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
++   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
++   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
++   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
++
++2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
++   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
++   - 风险：学生可能误以为脚本也是必交物。
++   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
++
++## week_16
++
++### 一致性判断
++
++主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
++
++主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
++   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
++   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
++
++2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
++   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
++   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
++   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
++
++3. 反馈汇总格式前后不完全一致。
++   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
++   - 风险：学生提交 Markdown 是否合格不够明确。
++   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
++
++### P2
++
++1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
++   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
++   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
++   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
++
++2. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
++- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
++- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
++- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
++- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_15/starter_code/target/`
++- `chapters/week_16/starter_code/target/`
+
+ succeeded in 118ms:
+?? audit/week09_16/codex_audit_week15_16.md
+
+  ✓ 梳理 week_15/week_16 文件结构与 git 状态
+  ✓ 审查两周 ASSIGNMENT、README、源码、测试、pom 一致性
+  ✓ 运行每周 starter_code Maven 测试
+  ✓ 写入中文审计报告
+diff --git a/audit/week09_16/codex_audit_week15_16.md b/audit/week09_16/codex_audit_week15_16.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..874f5094a9aebb6f796be587033a0a80f1d60345
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week15_16.md
+@@ -0,0 +1,121 @@
++# Week 15-16 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_15` 到 `chapters/week_16`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
++| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
++
++补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
++
++## week_15
++
++### 一致性判断
++
++整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
++
++主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
++   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
++   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
++
++2. README 的编辑文件与作业最终提交物没有明确对应关系。
++   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
++   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
++   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
++
++### P2
++
++1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
++   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
++   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
++   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
++
++2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
++   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
++   - 风险：学生可能误以为脚本也是必交物。
++   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
++
++## week_16
++
++### 一致性判断
++
++主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
++
++主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
++   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
++   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
++
++2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
++   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
++   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
++   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
++
++3. 反馈汇总格式前后不完全一致。
++   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
++   - 风险：学生提交 Markdown 是否合格不够明确。
++   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
++
++### P2
++
++1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
++   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
++   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
++   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
++
++2. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
++- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
++- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
++- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
++- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_15/starter_code/target/`
++- `chapters/week_16/starter_code/target/`
+
+codex
+已完成只读审查，并写入报告：[codex_audit_week15_16.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week15_16.md)。
+
+结果摘要：week_15 和 week_16 的 `mvn -B -ntp test` 初始状态均通过；但我在 `/tmp` 模拟学生清理 `TODO/待办` 后，两周 smoke test 都会反向失败。报告里已按 week 列出一致性判断、P0/P1/P2、建议改 `ASSIGNMENT` 还是 `starter_code`，末尾也列了必须修改的文件清单。
+
+未修改课程文件；当前只有新增审计报告文件。
+diff --git a/audit/week09_16/codex_audit_week15_16.md b/audit/week09_16/codex_audit_week15_16.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..874f5094a9aebb6f796be587033a0a80f1d60345
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week15_16.md
+@@ -0,0 +1,121 @@
++# Week 15-16 课程作业审稿报告（Codex 分片）
++
++审查范围：`chapters/week_15` 到 `chapters/week_16`
++
++审查口径：只审查，不修改课程文件；逐周核对 `ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`pom.xml`、`README.md` 的类名、包名、方法签名、文件路径、测试入口、依赖和构建产物。
++
++## 测试运行结果
++
++| Week | 命令 | 结果 | 备注 |
++| --- | --- | --- | --- |
++| week_15 | `cd chapters/week_15/starter_code && mvn -B -ntp test` | 通过 | `Week15StarterSmokeTest` 2 个测试通过。运行环境为 Java 21.0.10、Maven 3.8.6；README 写 Maven 3.9+，但当前构建未依赖 3.9 特性。 |
++| week_16 | `cd chapters/week_16/starter_code && mvn -B -ntp test` | 通过 | `Week16StarterSmokeTest` 2 个测试通过；Surefire 生成了 `target/surefire-reports/2026-04-28T21-51-27_935-jvmRun1.dumpstream` 警告文件，但未导致失败。 |
++
++补充验证：我在 `/tmp` 复制 week_15/week_16 的 starter_code，并把 Markdown 模板中的 `TODO` / `待办` 替换为模拟完成内容后重新运行 `mvn -B -ntp test`。两周都失败：week_15 失败在 `Week15StarterSmokeTest.java:24`，报 `presentation_script.md should contain 学生 TODO/待办项`；week_16 失败在 `Week16StarterSmokeTest.java:24`，报 `01_showcase_feedback_summary.md should contain 学生 TODO/待办项`。这证明当前 smoke test 会在学生真正完成并清理占位词后反向失败。
++
++## week_15
++
++### 一致性判断
++
++整体结构很小：主类 `com.campusflow.ShowcaseReadinessCheck`、测试类 `com.campusflow.Week15StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包能编译并通过测试。`ASSIGNMENT.md` 明确 Week 15 不要求新增 Java 功能，starter 也只是模板与检查器，这一点一致。
++
++主要问题是测试目标和学生目标冲突：smoke test 把“模板仍包含 TODO/待办”作为通过条件，而学生完成作业后合理行为正是删除或替换这些占位词。另外，README 引导学生编辑 `slides_outline.md` / `poster_checklist.md`，但作业最终要求提交 `slides.pptx` 或 `slides.html`、`poster.pdf` 或 `poster.html`，两者缺少清晰映射。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java:23-24` 读取每个必需模板并断言内容仍包含 `TODO` 或 `待办`。
++   - 风险：学生按作业完成 `presentation_script.md`、`qa_prep.md` 等文件并清理占位词后，`mvn test` 失败，形成“完成越充分越失败”的反馈。
++   - 建议：改 `starter_code`。学生侧 smoke test 只应检查文件存在、可读取、关键章节/表格仍在；如果需要检查初始模板含占位词，应移到教师侧生成校验，不放在学生运行的 `mvn test`。
++
++2. README 的编辑文件与作业最终提交物没有明确对应关系。
++   - 证据：`ASSIGNMENT.md` 要求 `slides.pptx` / `slides.html` 和 `poster.pdf` / `poster.html`；`starter_code/README.md` 的“需要编辑的文件”列的是 `slides_outline.md`、`poster_checklist.md`，没有提醒这些只是规划材料，不等同最终 PPT/海报。
++   - 风险：学生按 README 完成 starter 文件后，可能缺少真正评分需要的 PPT 和海报成品。
++   - 建议：优先改 `starter_code/README.md`，把 `slides_outline.md` / `poster_checklist.md` 标为准备辅助文件，并明确最终仍要生成 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；也可在 `ASSIGNMENT.md` 中补一句 starter 模板与最终提交物的映射。
++
++### P2
++
++1. `showcase_practice.md` 是可选加分项，但被 `ShowcaseReadinessCheck.requiredFiles()` 作为 required file。
++   - 证据：`ASSIGNMENT.md` 中跨组展示演练是进阶作业；`ShowcaseReadinessCheck.java:10-16` 将 `showcase_practice.md` 放入 `REQUIRED_FILES`。
++   - 风险：如果学生认为可选项可以删除或不提交，测试/检查器语义会与作业语义冲突。
++   - 建议：改 `starter_code`，将 required/optional 分开，或者在 README 写明“文件保留，未做可写未参加”。
++
++2. `prepare_demo_data.sh` 出现在 README 待编辑列表，但不在作业提交要求中。
++   - 证据：`starter_code/README.md` 列出 `prepare_demo_data.sh`；`ASSIGNMENT.md` 提交文件命名没有该脚本。
++   - 风险：学生可能误以为脚本也是必交物。
++   - 建议：改 `starter_code/README.md`，标注为“可选演示辅助脚本，不作为评分提交物”。
++
++3. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_15/starter_code/target/surefire-reports/...`；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_15/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test 的断言方向，拆分 required/optional 文件，并更新 README 对最终交付物的说明。`ASSIGNMENT.md` 只需补充 starter 模板与最终提交文件的映射即可。
++
++## week_16
++
++### 一致性判断
++
++主类 `com.campusflow.Week16ReadinessCheck`、测试类 `com.campusflow.Week16StarterSmokeTest`、JUnit 依赖和 Maven 测试入口一致，初始 starter 包通过测试。`ASSIGNMENT.md` 的主题是展示反馈、工程复盘、知识地图、职业规划，starter Markdown 模板也覆盖了这四类内容。
++
++主要问题同样是 smoke test 反向约束学生必须保留占位词；其次是 starter 的 `.md` 模板和作业最终 zip/PDF/图片目录结构之间缺少交付映射。学生按 README 填完 Markdown，不一定知道哪些内容还要导出为 PDF、图片或放入 `01_展示/`、`02_复盘/` 等目录。
++
++### P0
++
++无。
++
++### P1
++
++1. smoke test 会在学生完成模板后反向失败。
++   - 证据：`starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java:23-24` 断言每个模板文件仍包含 `TODO` 或 `待办`。
++   - 风险：学生把 `01_showcase_feedback_summary.md`、`02_retrospective_report.md` 等模板写成最终稿并删除占位词后，`mvn test` 失败。
++   - 建议：改 `starter_code`。学生侧 smoke test 应验证文件存在、标题/必要章节存在、内容非空，而不是要求保留占位词。
++
++2. starter README 没有把 Markdown 模板映射到最终提交 zip 结构。
++   - 证据：`ASSIGNMENT.md` 要求 `week_16_学号_姓名.zip` 下分 `01_展示/`、`02_复盘/`、`03_知识地图/`、`04_职业规划/`，且多处要求 PDF 或图片；`starter_code/README.md` 只列出 5 个 `.md` 文件需要编辑。
++   - 风险：学生按 README 完成 Markdown 后，可能缺少导出的 PDF/图片和最终目录结构，人工评分或平台提交时不合格。
++   - 建议：优先改 `starter_code/README.md` 和 `submission_checklist.md`，明确每个 `.md` 模板对应哪个最终目录、是否需要导出 PDF/图片；也可在 `ASSIGNMENT.md` 的提交要求中补充“starter Markdown 可作为源文件，最终需按目录导出/整理”。
++
++3. 反馈汇总格式前后不完全一致。
++   - 证据：任务 1.4 允许“反馈汇总表（Markdown 或 PDF）”，但最终 zip 示例写 `反馈汇总.pdf`；starter 提供的是 `01_showcase_feedback_summary.md`。
++   - 风险：学生提交 Markdown 是否合格不够明确。
++   - 建议：改 `ASSIGNMENT.md`，在最终 zip 树中写 `反馈汇总.md 或 反馈汇总.pdf`；或改 README 要求导出为 PDF。
++
++### P2
++
++1. 能力雷达图、知识地图、学习计划等最终成品在 starter 中被合并为 Markdown 小节。
++   - 证据：作业要求能力雷达图为 PDF 或图片、知识地图为 PDF 或图片、6 个月学习计划为 PDF 或表格；starter 分别放在 `02_retrospective_report.md`、`03_knowledge_map.md`、`04_career_plan.md` 中。
++   - 风险：学生可能只写文字说明，未产出可视化图表或独立计划表。
++   - 建议：改 `starter_code/README.md` / `submission_checklist.md`，明确这些 Markdown 是源稿，最终还要导出图表或表格成品。
++
++2. `starter_code/target/` 构建产物存在于工作区。
++   - 证据：审查开始前已存在 `chapters/week_16/starter_code/target/surefire-reports/...`；本次测试又生成了一个 Surefire dumpstream 警告文件；`git ls-files` 未显示跟踪，根 `.gitignore` 已有 `target/`。
++   - 风险：当前不是已跟踪文件问题，但发布打包或人工复制时容易带入构建产物。
++   - 建议：不改课程源码；发布前清理 `chapters/week_16/starter_code/target/`。
++
++### 建议改 ASSIGNMENT 还是 starter_code
++
++优先改 `starter_code`：修正 smoke test、补 README/清单的最终交付映射。`ASSIGNMENT.md` 需要同步修正反馈汇总格式，并说明 starter Markdown 与最终 zip/PDF/图片之间的关系。
++
++## 必须修改的文件清单
++
++我认为发布前必须修改：
++
++- `chapters/week_15/starter_code/src/test/java/com/campusflow/Week15StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_15/starter_code/README.md`：说明 `slides_outline.md` / `poster_checklist.md` 是准备辅助文件，不替代最终 `slides.pptx`/`slides.html` 和 `poster.pdf`/`poster.html`；标注 `prepare_demo_data.sh` 为可选辅助脚本。
++- `chapters/week_15/starter_code/src/main/java/com/campusflow/ShowcaseReadinessCheck.java`：拆分必做与可选文件，避免把 `showcase_practice.md` 表述为 required。
++- `chapters/week_16/starter_code/src/test/java/com/campusflow/Week16StarterSmokeTest.java`：移除“必须保留 TODO/待办”的反向断言，改为检查文件存在、结构完整、内容非空。
++- `chapters/week_16/starter_code/README.md`：补充 5 个 Markdown 模板到最终 zip 目录、PDF/图片/表格成品的映射。
++- `chapters/week_16/starter_code/submission_checklist.md`：明确哪些 Markdown 可直接提交，哪些需要导出 PDF、图片或表格。
++- `chapters/week_16/ASSIGNMENT.md`：统一反馈汇总的 Markdown/PDF 口径，并说明 starter Markdown 可作为源文件但最终需按提交结构整理。
++
++发布前还应清理但不属于课程内容修改：
++
++- `chapters/week_15/starter_code/target/`
++- `chapters/week_16/starter_code/target/`
+
+2026-04-28T13:54:40.410156Z ERROR codex_core::session: failed to record rollout items: thread 019dd45a-72d3-7050-ab17-7d11222e2e8e not found
+tokens used
+150,549
+已完成只读审查，并写入报告：[codex_audit_week15_16.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week15_16.md)。
+
+结果摘要：week_15 和 week_16 的 `mvn -B -ntp test` 初始状态均通过；但我在 `/tmp` 模拟学生清理 `TODO/待办` 后，两周 smoke test 都会反向失败。报告里已按 week 列出一致性判断、P0/P1/P2、建议改 `ASSIGNMENT` 还是 `starter_code`，末尾也列了必须修改的文件清单。
+
+未修改课程文件；当前只有新增审计报告文件。

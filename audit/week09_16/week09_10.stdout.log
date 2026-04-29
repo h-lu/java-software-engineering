@@ -1,0 +1,3342 @@
+Reading additional input from stdin...
+OpenAI Codex v0.125.0 (research preview)
+--------
+workdir: /root/.openclaw/workspace/projects/java-software-engineering
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /root/.codex/memories]
+reasoning effort: high
+reasoning summaries: none
+session id: 019dd45a-6e46-7342-8b79-24d02e6fef39
+--------
+user
+你是 Java 课程作业审稿 agent（分片 week09_10）。请只审查，不要修改课程文件。范围：chapters/week_09 到 chapters/week_10。逐周检查 ASSIGNMENT.md、starter_code/src/main、starter_code/src/test、pom.xml、README 是否一致。重点看类名/包名/方法签名/文件路径/测试入口、学生按作业完成后 smoke test 是否会反向失败、依赖是否缺失、target 等构建产物是否不应提交。请为范围内每周运行 starter_code 的 mvn -B -ntp test（如可行），记录结果。把中文报告写入 audit/week09_16/codex_audit_week09_10.md，按 week 列：一致性判断、P0/P1/P2、建议改 ASSIGNMENT 还是 starter_code。报告末尾给出你认为必须修改的文件清单。
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the vendored bubblewrap in the meantime.
+codex
+我会先只读检查 week_09/week_10 的作业说明、代码、测试和构建文件，再分别跑 Maven 测试。最后只在 `audit/week09_16/` 下写审稿报告，不改章节内容。
+  → 盘点 week_09/week_10 文件结构与关键入口
+  • 运行每周 starter_code Maven 测试
+  • 审查作业说明与代码/测试一致性
+  • 写入审稿报告
+exec
+/bin/bash -lc 'git status --short' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find chapters/week_09 chapters/week_10 -maxdepth 4 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'find audit -maxdepth 3 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 176ms:
+chapters/week_09/.research_cache.md
+chapters/week_09/ANCHORS.yml
+chapters/week_09/ASSIGNMENT.md
+chapters/week_09/CHAPTER.md
+chapters/week_09/QA_REPORT.md
+chapters/week_09/RUBRIC.md
+chapters/week_09/TERMS.yml
+chapters/week_09/examples/01_cli_limitation.java
+chapters/week_09/examples/02_restful_design.java
+chapters/week_09/examples/03_javalin_hello.java
+chapters/week_09/examples/04_javalin_routing.java
+chapters/week_09/examples/05_book_api_crud.java
+chapters/week_09/examples/06_json_handling.java
+chapters/week_09/examples/07_error_handling.java
+chapters/week_09/examples/08_api_testing.java
+chapters/week_09/examples/09_campusflow_api.java
+chapters/week_09/starter_code/README.md
+chapters/week_09/starter_code/pom.xml
+chapters/week_09/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_09/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+chapters/week_10/.research_cache.md
+chapters/week_10/ANCHORS.yml
+chapters/week_10/ASSIGNMENT.md
+chapters/week_10/CHAPTER.md
+chapters/week_10/QA_REPORT.md
+chapters/week_10/RUBRIC.md
+chapters/week_10/TERMS.yml
+chapters/week_10/examples/10_ai_generated_frontend.html
+chapters/week_10/examples/10_ai_prompt_template.md
+chapters/week_10/examples/10_api_client.js
+chapters/week_10/examples/10_cors_config.java
+chapters/week_10/examples/10_review_checklist.md
+chapters/week_10/examples/10_reviewed_frontend.html
+chapters/week_10/examples/README.md
+chapters/week_10/starter_code/AI_TOOL.md
+chapters/week_10/starter_code/PROMPT.md
+chapters/week_10/starter_code/README.md
+chapters/week_10/starter_code/REVIEW.md
+chapters/week_10/starter_code/frontend/ai_generated.html
+chapters/week_10/starter_code/frontend/index.html
+chapters/week_10/starter_code/pom.xml
+chapters/week_10/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_10/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+
+ succeeded in 188ms:
+?? .codex
+?? .pct-state.json
+?? audit/
+
+ succeeded in 155ms:
+audit/week09_16/week09_10.stdout.log
+audit/week09_16/week11_12.stdout.log
+audit/week09_16/week13_14.stdout.log
+audit/week09_16/week15_16.stdout.log
+
+codex
+初步文件盘点显示两个 starter_code 都已经包含 `target/surefire-reports`，这是需要重点判断的提交产物风险。我接下来读作业、README、pom 和源码/测试入口，并把 Maven 结果单独核对。
+exec
+/bin/bash -lc 'rg --files chapters/week_09/starter_code chapters/week_10/starter_code' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,240p' chapters/week_09/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,220p' chapters/week_09/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_10/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 404ms:
+# Week 09 作业：将 CampusFlow 改造为 Web 服务
+
+## 作业目标
+
+将 Week 08 重构后的 CampusFlow CLI 版改造为 REST API Web 服务，学习使用 Javalin 框架实现后端服务。
+
+## 基础作业（必做）
+
+### 1. 创建 Javalin Web 服务（25分）
+
+搭建基础的 Javalin 项目结构：
+
+- [ ] 配置 Maven `pom.xml`，添加 Javalin 6.x 和 Jackson 依赖
+- [ ] 创建 `App` 类作为应用程序入口
+- [ ] 配置 Javalin 实例，启用开发日志插件
+- [ ] 设置服务器端口（默认 7070）
+
+验收标准：
+```bash
+mvn compile exec:java
+# 服务启动，访问 http://localhost:7070/health 返回 200
+```
+
+### 2. 实现 RESTful API 端点（40分）
+
+实现以下端点：
+
+| 方法 | 端点 | 功能 | 状态码 |
+|------|------|------|--------|
+| GET | `/tasks` | 获取所有任务 | 200 OK |
+| GET | `/tasks/{id}` | 获取单个任务 | 200 OK / 404 Not Found |
+| POST | `/tasks` | 创建任务 | 201 Created / 400 Bad Request |
+| PUT | `/tasks/{id}` | 更新任务 | 200 OK / 404 Not Found |
+| DELETE | `/tasks/{id}` | 删除任务 | 204 No Content / 404 Not Found |
+
+要求：
+- [ ] 使用 JSON 作为请求/响应格式
+- [ ] 复用 Week 08 的 Repository 层
+- [ ] 实现请求验证（标题不能为空等）
+- [ ] 使用合适的状态码
+
+### 3. 实现统一异常处理（15分）
+
+- [ ] 创建自定义异常类（`NotFoundException`、`ValidationException`）
+- [ ] 实现全局异常处理器
+- [ ] 返回标准错误响应格式：
+
+```json
+{
+  "error": "ValidationException",
+  "message": "标题不能为空",
+  "timestamp": "2024-01-15T10:30:00",
+  "path": "/tasks"
+}
+```
+
+### 4. 编写 ADR-003（10分）
+
+记录 API 设计决策，包含：
+- [ ] 背景：为什么选择 REST 而非其他风格
+- [ ] 决策：URI 设计、HTTP 方法选择、状态码约定
+- [ ] 后果：正面和负面影响
+- [ ] 替代方案：考虑过 GraphQL/gRPC 吗？
+
+### 5. API 测试（10分）
+
+- [ ] 使用 curl 或 HTTP 客户端测试所有端点
+- [ ] 记录测试用例和结果
+- [ ] 至少包含一个错误情况测试
+
+## 进阶作业（选做，+20分）
+
+选择至少 2 项完成：
+
+### A. 查询参数过滤（10分）
+实现查询参数支持：
+- `GET /tasks?status=pending` - 按状态过滤
+- `GET /tasks?priority=high` - 按优先级过滤
+- `GET /tasks?search=关键词` - 按标题搜索
+
+### B. 分页支持（10分）
+实现分页：
+- `GET /tasks?limit=10&offset=0` - 分页参数
+- 响应包含分页元数据（总数量、当前页等）
+
+### C. API 版本控制（10分）
+实现版本控制：
+- 使用路径版本（`/v1/tasks`）
+- 或 Header 版本（`Accept-Version: v1`）
+
+### D. 逾期费用计算端点（10分）
+复用 Week 08 的策略模式，实现：
+- `GET /tasks/{id}/overdue-fee?days=5` - 计算逾期费用
+
+## 挑战作业（选做，+10分）
+
+### E. 简单认证（10分）
+实现基于 Token 的简单认证：
+- `POST /login` - 返回 token
+- 其他端点需要 `Authorization: Bearer <token>` Header
+
+### F. OpenAPI 规范（10分）
+- 编写 `openapi.yaml` 描述你的 API
+- 或使用注解生成（如 SpringDoc，但 Javalin 需手动编写）
+
+## AI 协作练习（可选）
+
+### 练习 1：AI 辅助 API 设计
+1. 向 AI 描述你的需求（"设计一个任务管理系统的 REST API"）
+2. 记录 AI 的建议（端点设计、URI 命名、状态码选择）
+3. 使用以下检查清单评估 AI 建议：
+   - [ ] 是否使用名词而非动词？
+   - [ ] 是否使用复数形式？
+   - [ ] 状态码是否正确？
+   - [ ] 是否有嵌套资源？
+4. 记录 AI 建议的优点和需要改进的地方
+
+### 练习 2：AI 代码审查
+1. 使用 AI 审查你的 API 实现代码
+2. 记录 AI 发现的问题（如果有）
+3. 判断哪些问题是真的需要修复的
+
+## 提交要求
+
+### 代码提交
+```bash
+# 创建 week-09 分支
+git checkout -b week-09
+
+# 提交代码
+git add .
+git commit -m "feat: week 09 REST API implementation"
+
+# 推送分支
+git push origin week-09
+```
+
+### 提交内容清单
+- [ ] 完整可运行的代码（`mvn test` 通过）
+- [ ] `docs/ADR-003.md` 架构决策记录
+- [ ] `docs/API_TESTING.md` API 测试记录（curl 命令和响应）
+- [ ] （可选）`docs/AI_COLLABORATION.md` AI 协作练习记录
+
+### 提交格式
+```
+week-09/
+├── pom.xml
+├── src/
+│   ├── main/java/com/campusflow/...
+│   └── test/java/com/campusflow/...
+└── docs/
+    ├── ADR-003.md
+    ├── API_TESTING.md
+    └── AI_COLLABORATION.md (可选)
+```
+
+## 评分标准
+
+| 维度 | 占比 | 说明 |
+|------|------|------|
+| 功能完整性 | 40% | 所有基础功能实现，测试通过 |
+| RESTful 规范 | 30% | URI 设计、HTTP 方法、状态码使用正确 |
+| 代码质量 | 20% | 结构清晰，异常处理完善，有测试 |
+| 文档与 ADR | 10% | ADR-003 完整，测试记录清晰 |
+
+## 截止时间
+
+本周作业截止：2026-02-19 23:59
+
+## 参考资源
+
+- 教材 Week 09 章节
+- Javalin 官方文档：https://javalin.io/documentation
+- REST API 教程：https://restfulapi.net/
+- 示例代码：`chapters/week_09/examples/`
+
+## 常见问题
+
+**Q: 我需要保留 Week 08 的所有代码吗？**
+A: 保留 Repository 层和领域模型，将 CLI 界面替换为 HTTP 控制器。
+
+**Q: 可以使用内存数据库吗？**
+A: 可以，本周重点在 API 设计，可以使用内存存储（`InMemoryTaskRepository`）。
+
+**Q: 如何处理 CORS？**
+A: Javalin 内置 CORS 插件：`config.bundledPlugins.enableCors(cors -> cors.addRule(...))`
+
+ succeeded in 486ms:
+# Week 09 Starter Code：Javalin REST API
+
+这是 Week 09 作业的小型待办骨架：把 CampusFlow 从 CLI 程序改造成 Javalin REST API。
+
+## 包含内容
+
+- 一个 Java 21 Maven 项目，已接入 JUnit 5。
+- 可运行的 `App`，包含 `GET /health`。
+- 任务相关占位路由暂时返回 `501 Not Implemented`。
+- 最小版 domain、repository、service、controller 和 exception 类，里面保留了待办标记。
+- smoke tests 用来确认 starter 可以编译，server 基本 wiring 可用。
+- 注释会提示你在哪里加入 Javalin 6.x 和 Jackson 的真实实现。
+
+## 运行命令
+
+```bash
+cd chapters/week_09/starter_code
+mvn test
+mvn compile
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
+curl http://localhost:7070/health
+curl http://localhost:7070/tasks
+kill $SERVER_PID
+```
+
+## 你需要编辑的文件
+
+- `pom.xml`：添加 Javalin 6.x 和 Jackson。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 Javalin routes 和全局错误处理。
+- `src/main/java/com/campusflow/controller/TaskController.java`：把 HTTP 请求转换为 service 调用。
+- `src/main/java/com/campusflow/service/TaskService.java`：实现校验和业务操作。
+- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：实现内存持久化。
+- `src/main/java/com/campusflow/model/Task.java`：根据 Week 08 的模型补充所需字段或行为。
+- `docs/ADR-003.md`：在你的提交中创建该文件，说明 REST API 设计决策。
+- `docs/API_TESTING.md`：创建该文件，记录 curl 或 HTTP client 测试。
+
+## 待办清单
+
+- [ ] 实现 `GET /tasks`。
+- [ ] 实现 `GET /tasks/{id}`，任务不存在时返回 `404`。
+- [ ] 实现 `POST /tasks`，包含请求校验和 `201`。
+- [ ] 实现 `PUT /tasks/{id}`。
+- [ ] 实现 `DELETE /tasks/{id}`，成功时返回 `204`。
+- [ ] 为 validation 和 not-found 错误返回统一 JSON error body。
+- [ ] 为完成后的 routes 增加有意义的 unit 或 integration tests。
+- [ ] 编写 ADR-003 和 API testing notes。
+
+starter tests 故意只做 smoke test。实现作业时，请替换或扩展它们。
+
+ succeeded in 618ms:
+chapters/week_09/starter_code/README.md
+chapters/week_09/starter_code/pom.xml
+chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/App.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/service/TaskService.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/repository/InMemoryTaskRepository.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/repository/TaskRepository.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/model/Task.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/exception/ValidationException.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/exception/NotFoundException.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/dto/TaskRequest.java
+chapters/week_09/starter_code/src/main/java/com/campusflow/controller/TaskController.java
+chapters/week_10/starter_code/README.md
+chapters/week_10/starter_code/REVIEW.md
+chapters/week_10/starter_code/PROMPT.md
+chapters/week_10/starter_code/AI_TOOL.md
+chapters/week_10/starter_code/pom.xml
+chapters/week_10/starter_code/frontend/index.html
+chapters/week_10/starter_code/frontend/ai_generated.html
+chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java
+chapters/week_10/starter_code/src/main/java/com/campusflow/App.java
+
+ succeeded in 549ms:
+# Week 10 作业：AI 生成前端与审查训练
+
+> "AI 能帮你写代码，但不能帮你背锅。"
+> —— 老潘
+
+---
+
+## 作业概述
+
+本周是课程的核心训练周。你将学习如何让 AI 生成前端代码，但更重要的是——掌握一套系统化的 AI 代码审查方法。
+
+**核心任务**：
+1. 使用 Prompt 工程让 AI 生成 CampusFlow 前端代码
+2. 使用审查检查清单系统性地评估 AI 输出
+3. 修复发现的问题并改进用户体验
+4. 配置 CORS 实现前后端联调
+
+---
+
+## 基础作业（必做）
+
+### 任务 1：编写 Prompt 让 AI 生成前端代码（15 分）
+
+**目标**：编写一个清晰、完整的 Prompt，让 AI 生成符合 CampusFlow API 的前端代码。
+
+**要求**：
+- Prompt 必须包含四要素：角色、任务、约束、格式
+- 准确描述 CampusFlow API 端点（基于 Week 09 实现）
+- 明确前端功能需求：任务列表展示、添加任务、删除任务、标记完成
+
+**CampusFlow API 参考**：
+```
+基础 URL: http://localhost:7070
+
+GET    /tasks               - 获取所有任务（返回 {data: [...], total: N}）
+GET    /tasks/{id}          - 获取指定任务
+POST   /tasks               - 创建任务（请求体: {title, description, dueDate}）
+PUT    /tasks/{id}          - 全量更新任务
+PATCH  /tasks/{id}          - 部分更新任务（如只更新状态字段）
+DELETE /tasks/{id}          - 删除任务
+GET    /stats               - 获取统计信息
+```
+
+> **注意**：标记任务完成可以用两种方式：
+> - `PATCH /tasks/{id}` + 请求体 `{"status": "completed"}`
+> - 或使用专门的 `POST /tasks/{id}/complete` 端点（后端已实现）
+> 两种方式都有效，选择一种即可。
+
+**Task 模型结构**：
+```json
+{
+  "id": "uuid-string",
+  "title": "任务标题",
+  "description": "任务描述",
+  "dueDate": "2026-02-20",
+  "completed": false,
+  "overdueDays": 0,
+  "createdAt": "2026-02-12T10:30:00"
+}
+```
+
+**提交物**：
+- `PROMPT.md`：你编写的完整 Prompt
+
+**评分要点**：
+- 角色定义清晰（3 分）
+- 任务描述完整（4 分）
+- 约束条件明确（4 分）
+- 格式要求具体（4 分）
+
+---
+
+### 任务 2：保存 AI 生成的初始代码（5 分）
+
+**目标**：将 AI 生成的原始代码保存下来，作为审查的基准。
+
+**要求**：
+- 不要修改 AI 生成的代码（即使有 obvious 问题）
+- 保存为 `frontend/ai_generated.html`
+- 记录使用的 AI 工具名称和模型版本
+
+**提交物**：
+- `frontend/ai_generated.html`：AI 生成的原始前端代码
+- `AI_TOOL.md`：使用的 AI 工具信息
+
+---
+
+### 任务 3：使用检查清单审查 AI 代码（25 分）
+
+**目标**：使用审查检查清单系统性地评估 AI 代码，找出至少 3 类问题。
+
+**审查检查清单**：
+
+```markdown
+## AI 代码审查检查清单
+
+### 功能正确性
+- [ ] 代码是否实现了需求？
+- [ ] 是否有明显的逻辑错误？
+
+### 边界情况（AI 常遗漏）
+- [ ] 空输入处理了吗？
+- [ ] 空数据状态（列表为空）处理了吗？
+- [ ] 网络错误处理了吗？
+- [ ] 加载状态处理了吗？
+
+### 安全考虑
+- [ ] 有 XSS 风险吗？（直接插入 innerHTML）
+- [ ] 有 CSRF 风险吗？
+- [ ] 敏感信息泄露了吗？
+
+### 可维护性
+- [ ] 命名清晰吗？
+- [ ] 代码重复了吗？
+- [ ] 有必要的注释吗？
+
+### AI 特定问题
+- [ ] 有"幻觉"（不存在的方法/类）吗？
+- [ ] 有过时的 API 使用吗？
+- [ ] 有不符合项目规范的地方吗？
+```
+
+**常见问题类型参考**：
+
+1. **安全问题（XSS）**：
+   ```javascript
+   // 问题代码：直接使用 innerHTML 插入用户输入
+   element.innerHTML = `<div>${task.title}</div>`;
+
+   // 攻击示例：用户输入 <script>alert('hacked')</script> 作为标题
+   ```
+
+2. **边界情况遗漏**：
+   - 任务列表为空时页面空白
+   - 网络错误时没有任何提示
+   - 表单提交时没有验证空输入
+
+3. **API 错误/幻觉**：
+   - 调用不存在的方法如 `response.getJSON()`
+   - 错误的 API 路径（如 `/api/tasks` 而不是 `/tasks`）
+   - 未处理 HTTP 错误状态
+
+4. **健壮性问题**：
+   - 没有加载状态指示
+   - 没有错误边界处理
+   - 硬编码配置（如 API URL）
+
+**提交物**：
+- `REVIEW.md`：审查报告，包含：
+  - 检查清单的勾选结果
+  - 发现的至少 3 类问题，每类包含：
+    - 问题类型（安全/边界/API 错误/健壮性）
+    - 问题位置（代码行号或函数名）
+    - 问题描述
+    - 风险等级（高/中/低）
+
+**评分要点**：
+- 使用了完整的检查清单（5 分）
+- 发现至少 3 类不同问题（15 分）
+- 问题描述准确、有证据（5 分）
+
+---
+
+### 任务 4：修复与改进 AI 代码（25 分）
+
+**目标**：修复审查发现的问题，并添加用户体验优化。
+
+**必须修复的问题**：
+
+1. **XSS 安全防护**：
+   ```javascript
+   // 修复前（有风险）
+   element.innerHTML = `<div>${task.title}</div>`;
+
+   // 修复后（安全）
+   const div = document.createElement('div');
+   div.textContent = task.title;  // textContent 自动转义 HTML
+   element.appendChild(div);
+   ```
+
+2. **空状态处理**：
+   ```javascript
+   // 修复前：列表为空时页面空白
+   function renderTasks(tasks) {
+       container.innerHTML = tasks.map(t => ...).join('');
+   }
+
+   // 修复后：友好的空状态提示
+   function renderTasks(tasks) {
+       if (tasks.length === 0) {
+           container.innerHTML = '<p class="empty">暂无任务，点击"添加"创建第一个任务</p>';
+           return;
+       }
+       // ... 正常渲染
+   }
+   ```
+
+3. **错误处理**：
+   ```javascript
+   // 健壮的 API 调用
+   async function fetchTasks() {
+       try {
+           const response = await fetch('http://localhost:7070/tasks');
+           if (!response.ok) {
+               throw new Error(`HTTP error! status: ${response.status}`);
+           }
+           return await response.json();
+       } catch (error) {
+           console.error('Failed to fetch tasks:', error);
+           showErrorMessage('无法连接到服务器，请检查网络');
+           return { data: [] };
+       }
+   }
+   ```
+
+**用户体验优化（至少 2 项）**：
+- 添加加载指示器（Loading spinner）
+- 添加操作成功提示（Toast 通知）
+- 删除前确认对话框
+- 表单提交后清空输入
+- 任务完成状态视觉反馈
+
+**提交物**：
+- `frontend/index.html`：修复后的前端代码
+- `REVIEW.md` 中补充修复说明
+
+**评分要点**：
+- XSS 漏洞已修复（8 分）
+- 边界情况已处理（8 分）
+- 错误处理已完善（5 分）
+- 用户体验有优化（4 分）
+
+---
+
+### 任务 5：配置 CORS（15 分）
+
+**目标**：在 Javalin 后端启用 CORS，确保前端可以正常调用 API。
+
+**背景知识**：
+当你直接用浏览器打开 HTML 文件（`file://` 协议）时，调用 `http://localhost:7070` 的 API 会被浏览器阻止（CORS 策略）。需要在后端明确允许跨域请求。
+
+**实现要求**：
+
+1. 修改 `App.java`，添加 CORS 配置：
+   ```java
+   import io.javalin.plugin.bundled.CorsPluginConfig;
+
+   var app = Javalin.create(config -> {
+       config.bundledPlugins.enableCors(cors -> {
+           // 开发环境：允许任何来源
+           cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+
+           // 生产环境应该限制具体域名：
+           // cors.addRule(rule -> rule.allowHost("http://localhost:8080"));
+       });
+   }).start(7070);
+   ```
+
+2. 确保前端代码使用完整的 API URL：
+   ```javascript
+
+exec
+/bin/bash -lc "sed -n '261,520p' chapters/week_10/ASSIGNMENT.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_10/starter_code/README.md" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,260p' chapters/week_10/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "sed -n '1,240p' chapters/week_09/starter_code/pom.xml" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 402ms:
+# Week 10 Starter Code：AI Frontend + CORS
+
+这个 starter 支持 Week 10 作业：用 AI 生成 CampusFlow frontend，人工审查、修复，再通过 CORS 接入 backend。
+
+它不是完成版 frontend，也不是完成版 API。Java server 只用来证明 Maven 和 Javalin wiring 能跑通。你的主要工作在 Markdown 报告和 `frontend/` 目录下的文件里。
+
+## 运行命令
+
+```bash
+cd chapters/week_10/starter_code
+mvn test
+mvn compile
+java -cp target/classes com.campusflow.App &
+SERVER_PID=$!
+sleep 1
+curl http://localhost:7070/health
+kill $SERVER_PID
+```
+
+手动测试 frontend 时，先启动你的 Week 09 backend，或扩展这个 starter，然后在浏览器中打开 `frontend/index.html`。
+
+## 你需要编辑的文件
+
+- `PROMPT.md`：写下生成第一版 frontend 使用的 prompt。
+- `AI_TOOL.md`：记录 AI tool 和 model version。
+- `frontend/ai_generated.html`：保存未经修改的 AI 原始输出。
+- `REVIEW.md`：完成 checklist，至少记录三类问题。
+- `frontend/index.html`：实现你审查并修复后的 frontend。
+- `pom.xml`：如果使用这个 starter backend 完成 CORS 任务，添加 Javalin。
+- `src/main/java/com/campusflow/App.java`：把占位 server 替换为浏览器调用需要的 CORS 配置。
+
+## 待办清单
+
+- [ ] 写一个包含 role、task、constraints、output format 的 prompt。
+- [ ] 保存未经修改的 AI generated frontend。
+- [ ] 审查 XSS、empty states、loading/error states、hallucinated APIs。
+- [ ] 修复 frontend，处理用户内容时不要使用不安全的 `innerHTML`。
+- [ ] 至少增加两个 UX improvements。
+- [ ] 配置并验证 demo 使用的 backend CORS。
+- [ ] 按提交要求保存截图和说明。
+
+smoke test 只检查 starter wiring。完成实现后，请增加浏览器或 API 测试。
+
+ succeeded in 481ms:
+   // 不要省略协议和主机
+   const API_BASE = 'http://localhost:7070';
+   fetch(`${API_BASE}/tasks`)
+   ```
+
+**验证方法**：
+1. 启动后端：`mvn -q compile exec:java`
+2. 用浏览器打开 `frontend/index.html`
+3. 打开浏览器开发者工具（F12）
+4. 确认：
+   - 任务列表正常加载
+   - 控制台没有 CORS 错误
+   - Network 标签能看到成功的 API 请求
+
+**提交物**：
+- `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+- `cors_screenshot.png`：浏览器控制台截图，证明前后端通信正常
+
+**评分要点**：
+- CORS 配置正确（8 分）
+- 前后端能正常通信（7 分）
+
+---
+
+## 进阶作业（选做，+20 分）
+
+### 进阶 1：添加更多功能（+8 分）
+
+实现以下功能中的至少 2 个：
+- **任务筛选**：按完成状态筛选（全部/未完成/已完成）
+- **任务搜索**：按标题关键词搜索
+- **任务排序**：按截止日期排序
+- **逾期提醒**：视觉标识逾期任务
+- **统计面板**：显示总任务数、完成率等
+
+### 进阶 2：改进 UI 设计（+6 分）
+
+- 使用 CSS 框架（如 Tailwind CDN）美化界面
+- 添加响应式设计（适配移动端）
+- 添加动画过渡效果
+
+### 进阶 3：添加前端测试（+6 分）
+
+- 使用 Jest 或 Vitest 编写至少 3 个单元测试
+- 测试覆盖：任务渲染、表单验证、API 调用
+
+---
+
+## AI 协作练习（可选但推荐）
+
+**目标**：练习与 AI 协作生成和审查代码，建立"AI 是副驾驶，人是机长"的工作模式。
+
+**步骤**：
+
+1. **使用 AI 生成前端代码**
+   - 使用你编写的 Prompt 让 AI 生成代码
+   - 保存 AI 的原始输出（不要修改）
+
+2. **使用审查检查清单评估代码**
+   - 逐条检查功能正确性、边界情况、安全问题、可维护性
+   - 特别关注 AI 常犯的错误：XSS、空状态、幻觉 API
+
+3. **记录发现的问题**
+   - 至少找出 3 类问题
+   - 对每类问题给出具体代码位置和修复建议
+
+4. **修复问题并解释修复思路**
+   - 不要只是修改代码，要解释为什么这样改
+   - 思考：AI 为什么会犯这个错误？如何避免？
+
+**审查清单**：
+- [ ] 功能正确性：代码是否实现了需求？
+- [ ] 边界情况：空输入、空列表、网络错误处理了吗？
+- [ ] 安全问题：有 XSS 风险吗？敏感信息泄露了吗？
+- [ ] 可维护性：命名清晰吗？有重复代码吗？
+- [ ] AI 特定问题：有幻觉代码吗？有过时 API 吗？
+
+**提交要求**：
+- AI 生成的原始代码
+- 审查报告（列出发现的问题）
+- 修复后的代码
+- 经验总结（AI 擅长/不擅长什么，你的审查心得）
+
+---
+
+## 提交物清单
+
+### 必交文件
+- [ ] `PROMPT.md`：你编写的完整 Prompt
+- [ ] `frontend/ai_generated.html`：AI 生成的原始前端代码
+- [ ] `frontend/index.html`：修复后的前端代码
+- [ ] `REVIEW.md`：AI 审查报告
+- [ ] `AI_TOOL.md`：使用的 AI 工具信息
+- [ ] `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+- [ ] `cors_screenshot.png`：前后端通信正常的截图
+
+### 进阶作业文件（如完成）
+- [ ] `frontend/advanced.html`：包含进阶功能的版本
+- [ ] `frontend/__tests__/app.test.js`：前端测试文件
+
+### 目录结构参考
+```
+week_10_submission/
+├── PROMPT.md
+├── REVIEW.md
+├── AI_TOOL.md
+├── cors_screenshot.png
+├── frontend/
+│   ├── ai_generated.html    # AI 原始输出
+│   └── index.html           # 修复后版本
+└── src/
+    └── main/
+        └── java/
+            └── com/
+                └── campusflow/
+                    └── App.java   # 添加 CORS 配置
+```
+
+---
+
+## 作业截止时间
+
+- **基础作业**：本周日 23:59
+- **进阶作业**：下周三 23:59
+
+---
+
+## 常见问题
+
+### Q1: AI 生成的前端代码运行不了怎么办？
+
+首先检查浏览器控制台（F12）的错误信息：
+- **CORS 错误**：参考任务 5 配置后端 CORS
+- **404 错误**：检查 API URL 是否正确（应该是 `http://localhost:7070/tasks`）
+- **语法错误**：可能是 AI 生成了不兼容的 JavaScript 语法，尝试修复或重新生成
+
+### Q2: 怎么判断有没有 XSS 漏洞？
+
+测试方法：
+1. 在添加任务时，输入 `<script>alert('xss')</script>` 作为标题
+2. 如果弹出了 alert 框，说明有 XSS 漏洞
+3. 修复后应该显示纯文本 `<script>alert('xss')</script>`，而不会执行
+
+### Q3: 审查报告要写多长？
+
+没有字数要求，但要包含：
+- 检查清单的勾选状态（可以用表格或列表）
+- 至少 3 类问题的详细描述（每类 3-5 句话）
+- 修复说明（简述如何修复）
+
+### Q4: 可以用 AI 辅助写审查报告吗？
+
+可以，但注意：
+- 报告内容必须基于你实际发现的问题
+- 不要编造不存在的问题
+- 最终判断和修复方案必须是你自己的
+
+---
+
+## 参考资源
+
+- 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/App.java` 中的 CORS 配置示例
+- Week 09 的 API 文档在 `chapters/week_09/CHAPTER.md` 中
+- AI 审查检查清单模板：`shared/ai_progression.md`
+
+---
+
+## 学习建议
+
+1. **Prompt 工程是关键**：好的 Prompt 能让 AI 生成更好的代码，花时间优化你的 Prompt
+2. **审查比生成更重要**：AI 生成代码只是开始，审查和修复才是价值所在
+3. **记录你的发现**：审查报告不只是作业，更是你 AI 协作能力的证明
+4. **测试边界情况**：不要只测"正常流程"，要故意输入奇怪的数据看代码如何处理
+
+祝作业顺利！记住老潘的话："AI 不能背锅。"
+
+ succeeded in 458ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week10-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 10 Starter</name>
+    <description>TODO skeleton for AI-generated frontend review and CORS wiring</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- TODO: Add Javalin if you use this backend for the CORS task. -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+ succeeded in 438ms:
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.campusflow</groupId>
+    <artifactId>campusflow-week09-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CampusFlow Week 09 Starter</name>
+    <description>TODO skeleton for converting CampusFlow to a Javalin REST API</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.11.0</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>Aliyun Maven Public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- TODO: Add Javalin 6.x and Jackson dependencies for the real Week 09 implementation. -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+exec
+/bin/bash -lc 'nl -ba chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_10/starter_code/src/main/java/com/campusflow/App.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/App.java' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 387ms:
+     1	package com.campusflow;
+     2	
+     3	import org.junit.jupiter.api.Test;
+     4	
+     5	import static org.junit.jupiter.api.Assertions.assertTrue;
+     6	
+     7	class AppSmokeTest {
+     8	    @Test
+     9	    void healthPayloadShowsStarterIsWired() {
+    10	        assertTrue(App.healthJson().contains("CampusFlow"));
+    11	    }
+    12	
+    13	    @Test
+    14	    void taskPayloadRemainsAStudentTodo() {
+    15	        assertTrue(App.tasksPlaceholderJson().contains("待办"));
+    16	    }
+    17	}
+
+ succeeded in 551ms:
+     1	package com.campusflow;
+     2	
+     3	import org.junit.jupiter.api.Test;
+     4	
+     5	import static org.junit.jupiter.api.Assertions.assertTrue;
+     6	
+     7	class AppSmokeTest {
+     8	    @Test
+     9	    void healthPayloadShowsStarterIsWired() {
+    10	        assertTrue(App.healthJson().contains("CampusFlow"));
+    11	    }
+    12	}
+
+ succeeded in 583ms:
+     1	package com.campusflow;
+     2	
+     3	import com.sun.net.httpserver.HttpExchange;
+     4	import com.sun.net.httpserver.HttpServer;
+     5	
+     6	import java.io.IOException;
+     7	import java.net.InetSocketAddress;
+     8	import java.nio.charset.StandardCharsets;
+     9	
+    10	public class App {
+    11	    private static final int PORT = 7070;
+    12	
+    13	    public static void main(String[] args) throws IOException {
+    14	        HttpServer server = createServer(PORT);
+    15	        server.start();
+    16	        System.out.println("CampusFlow Week 09 starter running at http://localhost:" + PORT);
+    17	    }
+    18	
+    19	    public static HttpServer createServer(int port) throws IOException {
+    20	        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+    21	        server.createContext("/health", exchange -> writeJson(exchange, 200, healthJson()));
+    22	        server.createContext("/tasks", exchange -> writeJson(exchange, 501, tasksPlaceholderJson()));
+    23	        return server;
+    24	    }
+    25	
+    26	    public static String healthJson() {
+    27	        return "{\"service\":\"CampusFlow\",\"week\":\"09\",\"status\":\"starter\"}";
+    28	    }
+    29	
+    30	    public static String tasksPlaceholderJson() {
+    31	        return "{\"error\":\"待办\",\"message\":\"把这个占位响应替换成 Javalin task routes\"}";
+    32	    }
+    33	
+    34	    private static void writeJson(HttpExchange exchange, int status, String body) throws IOException {
+    35	        byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+    36	        exchange.getResponseHeaders().add("Content-Type", "application/json; charset=utf-8");
+    37	        exchange.sendResponseHeaders(status, bytes.length);
+    38	        exchange.getResponseBody().write(bytes);
+    39	        exchange.close();
+    40	    }
+    41	}
+
+ succeeded in 622ms:
+     1	package com.campusflow;
+     2	
+     3	import com.sun.net.httpserver.HttpExchange;
+     4	import com.sun.net.httpserver.HttpServer;
+     5	
+     6	import java.io.IOException;
+     7	import java.net.InetSocketAddress;
+     8	import java.nio.charset.StandardCharsets;
+     9	
+    10	public class App {
+    11	    private static final int PORT = 7070;
+    12	
+    13	    public static void main(String[] args) throws IOException {
+    14	        HttpServer server = createServer(PORT);
+    15	        server.start();
+    16	        System.out.println("CampusFlow Week 10 starter running at http://localhost:" + PORT);
+    17	    }
+    18	
+    19	    public static HttpServer createServer(int port) throws IOException {
+    20	        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+    21	        server.createContext("/health", exchange -> {
+    22	            // 待办：如果使用这个 backend，把占位逻辑替换成 Javalin CORS 配置。
+    23	            exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+    24	            writeJson(exchange, 200, healthJson());
+    25	        });
+    26	        return server;
+    27	    }
+    28	
+    29	    public static String healthJson() {
+    30	        return "{\"service\":\"CampusFlow\",\"week\":\"10\",\"status\":\"starter\"}";
+    31	    }
+    32	
+    33	    private static void writeJson(HttpExchange exchange, int status, String body) throws IOException {
+    34	        byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+    35	        exchange.getResponseHeaders().add("Content-Type", "application/json; charset=utf-8");
+    36	        exchange.sendResponseHeaders(status, bytes.length);
+    37	        exchange.getResponseBody().write(bytes);
+    38	        exchange.close();
+    39	    }
+    40	}
+
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/controller/TaskController.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/service/TaskService.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/repository/TaskRepository.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/model/Task.java' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 373ms:
+     1	package com.campusflow.service;
+     2	
+     3	import com.campusflow.dto.TaskRequest;
+     4	import com.campusflow.model.Task;
+     5	import com.campusflow.repository.TaskRepository;
+     6	
+     7	import java.util.List;
+     8	import java.util.Optional;
+     9	
+    10	public class TaskService {
+    11	    private final TaskRepository repository;
+    12	
+    13	    public TaskService(TaskRepository repository) {
+    14	        this.repository = repository;
+    15	    }
+    16	
+    17	    public List<Task> findAll() {
+    18	        return repository.findAll();
+    19	    }
+    20	
+    21	    public Optional<Task> findById(String id) {
+    22	        return repository.findById(id);
+    23	    }
+    24	
+    25	    public Task createTask(TaskRequest request) {
+    26	        // 待办：校验 title，解析 dueDate，创建 Task 并保存。
+    27	        throw new UnsupportedOperationException("待办：实现 createTask");
+    28	    }
+    29	
+    30	    public Task updateTask(String id, TaskRequest request) {
+    31	        // 待办：id 不存在时返回 NotFoundException。
+    32	        throw new UnsupportedOperationException("待办：实现 updateTask");
+    33	    }
+    34	
+    35	    public void deleteTask(String id) {
+    36	        // 待办：删除已有 task；不存在时抛出 NotFoundException。
+    37	        throw new UnsupportedOperationException("待办：实现 deleteTask");
+    38	    }
+    39	}
+
+ succeeded in 481ms:
+     1	package com.campusflow.controller;
+     2	
+     3	import com.campusflow.service.TaskService;
+     4	
+     5	import java.util.Map;
+     6	
+     7	public class TaskController {
+     8	    private final TaskService taskService;
+     9	
+    10	    public TaskController(TaskService taskService) {
+    11	        this.taskService = taskService;
+    12	    }
+    13	
+    14	    public Map<String, Object> getAllTasks() {
+    15	        // 待办：在 Javalin route 中调用 taskService.findAll()，并返回 {"data": [...], "total": n}。
+    16	        return notImplemented("实现 GET /tasks");
+    17	    }
+    18	
+    19	    public Map<String, Object> getTask(String id) {
+    20	        // 待办：在 Javalin route 中读取 ctx.pathParam("id")，找不到时返回 404。
+    21	        return notImplemented("实现 GET /tasks/{id}");
+    22	    }
+    23	
+    24	    public Map<String, Object> createTask() {
+    25	        // 待办：解析 TaskRequest，完成校验，创建 task，并返回 201。
+    26	        return notImplemented("实现 POST /tasks");
+    27	    }
+    28	
+    29	    public Map<String, Object> updateTask(String id) {
+    30	        // 待办：替换已有 task；不存在时返回 404。
+    31	        return notImplemented("实现 PUT /tasks/{id}");
+    32	    }
+    33	
+    34	    public Map<String, Object> deleteTask(String id) {
+    35	        // 待办：删除已有 task 并返回 204；不存在时返回 404。
+    36	        return notImplemented("实现 DELETE /tasks/{id}");
+    37	    }
+    38	
+    39	    private Map<String, Object> notImplemented(String todo) {
+    40	        return Map.of(
+    41	            "error", "NotImplemented",
+    42	            "message", todo,
+    43	            "nextStep", "把这个方法接到 Javalin route 上"
+    44	        );
+    45	    }
+    46	}
+
+ succeeded in 466ms:
+     1	package com.campusflow.repository;
+     2	
+     3	import com.campusflow.model.Task;
+     4	
+     5	import java.util.List;
+     6	import java.util.Optional;
+     7	
+     8	public interface TaskRepository {
+     9	    List<Task> findAll();
+    10	
+    11	    Optional<Task> findById(String id);
+    12	
+    13	    Task save(Task task);
+    14	
+    15	    boolean deleteById(String id);
+    16	}
+
+ succeeded in 448ms:
+     1	package com.campusflow.model;
+     2	
+     3	import java.time.LocalDate;
+     4	import java.util.UUID;
+     5	
+     6	public class Task {
+     7	    private String id = UUID.randomUUID().toString();
+     8	    private String title;
+     9	    private String description;
+    10	    private LocalDate dueDate;
+    11	
+    12	    public Task() {
+    13	    }
+    14	
+    15	    public Task(String title, String description, LocalDate dueDate) {
+    16	        this.title = title;
+    17	        this.description = description;
+    18	        this.dueDate = dueDate;
+    19	    }
+    20	
+    21	    // 待办：如果 API contract 需要，补充 completed/status/createdAt 字段。
+    22	
+    23	    public String getId() {
+    24	        return id;
+    25	    }
+    26	
+    27	    public void setId(String id) {
+    28	        this.id = id;
+    29	    }
+    30	
+    31	    public String getTitle() {
+    32	        return title;
+    33	    }
+    34	
+    35	    public void setTitle(String title) {
+    36	        this.title = title;
+    37	    }
+    38	
+    39	    public String getDescription() {
+    40	        return description;
+    41	    }
+    42	
+    43	    public void setDescription(String description) {
+    44	        this.description = description;
+    45	    }
+    46	
+    47	    public LocalDate getDueDate() {
+    48	        return dueDate;
+    49	    }
+    50	
+    51	    public void setDueDate(LocalDate dueDate) {
+    52	        this.dueDate = dueDate;
+    53	    }
+    54	}
+
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/dto/TaskRequest.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/repository/InMemoryTaskRepository.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/exception/NotFoundException.java' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'nl -ba chapters/week_09/starter_code/src/main/java/com/campusflow/exception/ValidationException.java' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 470ms:
+     1	package com.campusflow.exception;
+     2	
+     3	public class NotFoundException extends RuntimeException {
+     4	    public NotFoundException(String message) {
+     5	        super(message);
+     6	    }
+     7	}
+
+ succeeded in 513ms:
+     1	package com.campusflow.exception;
+     2	
+     3	public class ValidationException extends RuntimeException {
+     4	    public ValidationException(String message) {
+     5	        super(message);
+     6	    }
+     7	}
+
+ succeeded in 580ms:
+     1	package com.campusflow.repository;
+     2	
+     3	import com.campusflow.model.Task;
+     4	
+     5	import java.util.List;
+     6	import java.util.Optional;
+     7	
+     8	public class InMemoryTaskRepository implements TaskRepository {
+     9	    @Override
+    10	    public List<Task> findAll() {
+    11	        // 待办：按插入顺序保存 tasks，并返回防御性副本。
+    12	        return List.of();
+    13	    }
+    14	
+    15	    @Override
+    16	    public Optional<Task> findById(String id) {
+    17	        // 待办：按 id 查找 task。
+    18	        return Optional.empty();
+    19	    }
+    20	
+    21	    @Override
+    22	    public Task save(Task task) {
+    23	        // 待办：保存新增和更新后的 tasks。
+    24	        return task;
+    25	    }
+    26	
+    27	    @Override
+    28	    public boolean deleteById(String id) {
+    29	        // 待办：删除 task，并返回是否真的删除了内容。
+    30	        return false;
+    31	    }
+    32	}
+
+ succeeded in 664ms:
+     1	package com.campusflow.dto;
+     2	
+     3	public class TaskRequest {
+     4	    private String title;
+     5	    private String description;
+     6	    private String dueDate;
+     7	
+     8	    public String getTitle() {
+     9	        return title;
+    10	    }
+    11	
+    12	    public void setTitle(String title) {
+    13	        this.title = title;
+    14	    }
+    15	
+    16	    public String getDescription() {
+    17	        return description;
+    18	    }
+    19	
+    20	    public void setDescription(String description) {
+    21	        this.description = description;
+    22	    }
+    23	
+    24	    public String getDueDate() {
+    25	        return dueDate;
+    26	    }
+    27	
+    28	    public void setDueDate(String dueDate) {
+    29	        this.dueDate = dueDate;
+    30	    }
+    31	}
+
+codex
+源码层面看，week_09 的测试现在只验证 starter 占位响应；week_10 也只验证 `/health` payload helper。现在我分别运行用户指定的 `mvn -B -ntp test`，确认实际构建结果。
+  ✓ 盘点 week_09/week_10 文件结构与关键入口
+  → 运行每周 starter_code Maven 测试
+  • 审查作业说明与代码/测试一致性
+  • 写入审稿报告
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_09/starter_code
+ succeeded in 20662ms:
+Failed to connect to bus: Operation not permitted
+[0.010s][warning][perf,memops] Cannot use file /tmp/hsperfdata_root/2 because it is locked by another process (errno = 11)
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week09-starter >--------------
+[INFO] Building CampusFlow Week 09 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week09-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_09/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week09-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week09-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_09/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week09-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week09-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.AppSmokeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.252 s -- in com.campusflow.AppSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_09/starter_code/target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.205 s
+[INFO] Finished at: 2026-04-28T21:51:34+08:00
+[INFO] ------------------------------------------------------------------------
+
+exec
+/bin/bash -lc 'mvn -B -ntp test' in /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_10/starter_code
+ succeeded in 6893ms:
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.campusflow:campusflow-week10-starter >--------------
+[INFO] Building CampusFlow Week 10 Starter 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ campusflow-week10-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_10/starter_code/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ campusflow-week10-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ campusflow-week10-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /root/.openclaw/workspace/projects/java-software-engineering/chapters/week_10/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ campusflow-week10-starter ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.2.5:test (default-test) @ campusflow-week10-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.campusflow.AppSmokeTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.105 s -- in com.campusflow.AppSmokeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.089 s
+[INFO] Finished at: 2026-04-28T21:51:45+08:00
+[INFO] ------------------------------------------------------------------------
+
+codex
+两周的 Maven 测试都通过了，但 week_09 测试明确断言“待办”占位内容，这会和完成作业后的真实实现冲突。我继续核对前端文件、构建产物和作业 API 契约之间的错位。
+exec
+/bin/bash -lc 'find chapters/week_09/starter_code/target chapters/week_10/starter_code/target -maxdepth 3 -type f | sort' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_10/starter_code/frontend/index.html | sed -n '1,260p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git status --short chapters/week_09/starter_code chapters/week_10/starter_code audit/week09_16' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_10/starter_code/frontend/ai_generated.html | sed -n '1,260p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 184ms:
+chapters/week_09/starter_code/target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream
+chapters/week_09/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_09/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+chapters/week_10/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+chapters/week_10/starter_code/target/surefire-reports/com.campusflow.AppSmokeTest.txt
+
+ succeeded in 236ms:
+     1	<!doctype html>
+     2	<html lang="zh-CN">
+     3	<head>
+     4	  <meta charset="utf-8">
+     5	  <meta name="viewport" content="width=device-width, initial-scale=1">
+     6	  <title>CampusFlow Reviewed Frontend</title>
+     7	  <style>
+     8	    body {
+     9	      font-family: system-ui, sans-serif;
+    10	      margin: 2rem;
+    11	      max-width: 760px;
+    12	    }
+    13	  </style>
+    14	</head>
+    15	<body>
+    16	  <main>
+    17	    <h1>CampusFlow</h1>
+    18	    <p id="status">待办：在这里实现审查并修复后的 frontend。</p>
+    19	    <form id="task-form">
+    20	      <label>
+    21	        Task title
+    22	        <input id="task-title" name="title" autocomplete="off">
+    23	      </label>
+    24	      <button type="submit">Add task</button>
+    25	    </form>
+    26	    <section id="tasks" aria-live="polite"></section>
+    27	  </main>
+    28	  <script>
+    29	    const API_BASE = 'http://localhost:7070';
+    30	
+    31	    document.querySelector('#task-form').addEventListener('submit', (event) => {
+    32	      event.preventDefault();
+    33	      // 待办：校验输入，调用 CampusFlow API，处理错误，再用 textContent 安全渲染。
+    34	      document.querySelector('#status').textContent = `待办：连接到 ${API_BASE}`;
+    35	    });
+    36	  </script>
+    37	</body>
+    38	</html>
+
+ succeeded in 208ms:
+?? audit/week09_16/
+
+ succeeded in 216ms:
+     1	<!doctype html>
+     2	<html lang="zh-CN">
+     3	<head>
+     4	  <meta charset="utf-8">
+     5	  <title>CampusFlow AI Generated Placeholder</title>
+     6	</head>
+     7	<body>
+     8	  <!-- 待办：用 AI tool 生成的未修改 HTML 替换整个文件。 -->
+     9	  <main>
+    10	    <h1>AI generated output 放在这里</h1>
+    11	  </main>
+    12	</body>
+    13	</html>
+
+exec
+/bin/bash -lc "nl -ba chapters/week_09/ASSIGNMENT.md | sed -n '1,90p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_09/starter_code/README.md | sed -n '1,90p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_09/starter_code/pom.xml | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_10/ASSIGNMENT.md | sed -n '1,130p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 354ms:
+     1	# Week 09 作业：将 CampusFlow 改造为 Web 服务
+     2	
+     3	## 作业目标
+     4	
+     5	将 Week 08 重构后的 CampusFlow CLI 版改造为 REST API Web 服务，学习使用 Javalin 框架实现后端服务。
+     6	
+     7	## 基础作业（必做）
+     8	
+     9	### 1. 创建 Javalin Web 服务（25分）
+    10	
+    11	搭建基础的 Javalin 项目结构：
+    12	
+    13	- [ ] 配置 Maven `pom.xml`，添加 Javalin 6.x 和 Jackson 依赖
+    14	- [ ] 创建 `App` 类作为应用程序入口
+    15	- [ ] 配置 Javalin 实例，启用开发日志插件
+    16	- [ ] 设置服务器端口（默认 7070）
+    17	
+    18	验收标准：
+    19	```bash
+    20	mvn compile exec:java
+    21	# 服务启动，访问 http://localhost:7070/health 返回 200
+    22	```
+    23	
+    24	### 2. 实现 RESTful API 端点（40分）
+    25	
+    26	实现以下端点：
+    27	
+    28	| 方法 | 端点 | 功能 | 状态码 |
+    29	|------|------|------|--------|
+    30	| GET | `/tasks` | 获取所有任务 | 200 OK |
+    31	| GET | `/tasks/{id}` | 获取单个任务 | 200 OK / 404 Not Found |
+    32	| POST | `/tasks` | 创建任务 | 201 Created / 400 Bad Request |
+    33	| PUT | `/tasks/{id}` | 更新任务 | 200 OK / 404 Not Found |
+    34	| DELETE | `/tasks/{id}` | 删除任务 | 204 No Content / 404 Not Found |
+    35	
+    36	要求：
+    37	- [ ] 使用 JSON 作为请求/响应格式
+    38	- [ ] 复用 Week 08 的 Repository 层
+    39	- [ ] 实现请求验证（标题不能为空等）
+    40	- [ ] 使用合适的状态码
+    41	
+    42	### 3. 实现统一异常处理（15分）
+    43	
+    44	- [ ] 创建自定义异常类（`NotFoundException`、`ValidationException`）
+    45	- [ ] 实现全局异常处理器
+    46	- [ ] 返回标准错误响应格式：
+    47	
+    48	```json
+    49	{
+    50	  "error": "ValidationException",
+    51	  "message": "标题不能为空",
+    52	  "timestamp": "2024-01-15T10:30:00",
+    53	  "path": "/tasks"
+    54	}
+    55	```
+    56	
+    57	### 4. 编写 ADR-003（10分）
+    58	
+    59	记录 API 设计决策，包含：
+    60	- [ ] 背景：为什么选择 REST 而非其他风格
+    61	- [ ] 决策：URI 设计、HTTP 方法选择、状态码约定
+    62	- [ ] 后果：正面和负面影响
+    63	- [ ] 替代方案：考虑过 GraphQL/gRPC 吗？
+    64	
+    65	### 5. API 测试（10分）
+    66	
+    67	- [ ] 使用 curl 或 HTTP 客户端测试所有端点
+    68	- [ ] 记录测试用例和结果
+    69	- [ ] 至少包含一个错误情况测试
+    70	
+    71	## 进阶作业（选做，+20分）
+    72	
+    73	选择至少 2 项完成：
+    74	
+    75	### A. 查询参数过滤（10分）
+    76	实现查询参数支持：
+    77	- `GET /tasks?status=pending` - 按状态过滤
+    78	- `GET /tasks?priority=high` - 按优先级过滤
+    79	- `GET /tasks?search=关键词` - 按标题搜索
+    80	
+    81	### B. 分页支持（10分）
+    82	实现分页：
+    83	- `GET /tasks?limit=10&offset=0` - 分页参数
+    84	- 响应包含分页元数据（总数量、当前页等）
+    85	
+    86	### C. API 版本控制（10分）
+    87	实现版本控制：
+    88	- 使用路径版本（`/v1/tasks`）
+    89	- 或 Header 版本（`Accept-Version: v1`）
+    90	
+
+ succeeded in 351ms:
+     1	<?xml version="1.0" encoding="UTF-8"?>
+     2	<project xmlns="http://maven.apache.org/POM/4.0.0"
+     3	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     4	         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     5	    <modelVersion>4.0.0</modelVersion>
+     6	
+     7	    <groupId>com.campusflow</groupId>
+     8	    <artifactId>campusflow-week09-starter</artifactId>
+     9	    <version>0.1.0-SNAPSHOT</version>
+    10	    <packaging>jar</packaging>
+    11	
+    12	    <name>CampusFlow Week 09 Starter</name>
+    13	    <description>TODO skeleton for converting CampusFlow to a Javalin REST API</description>
+    14	
+    15	    <properties>
+    16	        <maven.compiler.source>21</maven.compiler.source>
+    17	        <maven.compiler.target>21</maven.compiler.target>
+    18	        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    19	        <junit.version>5.11.0</junit.version>
+    20	    </properties>
+    21	
+    22	    <repositories>
+    23	        <repository>
+    24	            <id>aliyunmaven</id>
+    25	            <name>Aliyun Maven Public</name>
+    26	            <url>https://maven.aliyun.com/repository/public</url>
+    27	            <releases>
+    28	                <enabled>true</enabled>
+    29	            </releases>
+    30	            <snapshots>
+    31	                <enabled>true</enabled>
+    32	            </snapshots>
+    33	        </repository>
+    34	    </repositories>
+    35	
+    36	    <pluginRepositories>
+    37	        <pluginRepository>
+    38	            <id>aliyunmaven</id>
+    39	            <name>Aliyun Maven Public</name>
+    40	            <url>https://maven.aliyun.com/repository/public</url>
+    41	            <releases>
+    42	                <enabled>true</enabled>
+    43	            </releases>
+    44	            <snapshots>
+    45	                <enabled>true</enabled>
+    46	            </snapshots>
+    47	        </pluginRepository>
+    48	    </pluginRepositories>
+    49	
+    50	    <dependencies>
+    51	        <!-- TODO: Add Javalin 6.x and Jackson dependencies for the real Week 09 implementation. -->
+    52	        <dependency>
+    53	            <groupId>org.junit.jupiter</groupId>
+    54	            <artifactId>junit-jupiter</artifactId>
+    55	            <version>${junit.version}</version>
+    56	            <scope>test</scope>
+    57	        </dependency>
+    58	    </dependencies>
+    59	
+    60	    <build>
+    61	        <plugins>
+    62	            <plugin>
+    63	                <groupId>org.apache.maven.plugins</groupId>
+    64	                <artifactId>maven-compiler-plugin</artifactId>
+    65	                <version>3.1</version>
+    66	                <configuration>
+    67	                    <source>21</source>
+    68	                    <target>21</target>
+    69	                </configuration>
+    70	            </plugin>
+    71	            <plugin>
+    72	                <groupId>org.apache.maven.plugins</groupId>
+    73	                <artifactId>maven-surefire-plugin</artifactId>
+    74	                <version>3.2.5</version>
+    75	            </plugin>
+    76	        </plugins>
+    77	    </build>
+    78	</project>
+
+ succeeded in 448ms:
+     1	# Week 09 Starter Code：Javalin REST API
+     2	
+     3	这是 Week 09 作业的小型待办骨架：把 CampusFlow 从 CLI 程序改造成 Javalin REST API。
+     4	
+     5	## 包含内容
+     6	
+     7	- 一个 Java 21 Maven 项目，已接入 JUnit 5。
+     8	- 可运行的 `App`，包含 `GET /health`。
+     9	- 任务相关占位路由暂时返回 `501 Not Implemented`。
+    10	- 最小版 domain、repository、service、controller 和 exception 类，里面保留了待办标记。
+    11	- smoke tests 用来确认 starter 可以编译，server 基本 wiring 可用。
+    12	- 注释会提示你在哪里加入 Javalin 6.x 和 Jackson 的真实实现。
+    13	
+    14	## 运行命令
+    15	
+    16	```bash
+    17	cd chapters/week_09/starter_code
+    18	mvn test
+    19	mvn compile
+    20	java -cp target/classes com.campusflow.App &
+    21	SERVER_PID=$!
+    22	sleep 1
+    23	curl http://localhost:7070/health
+    24	curl http://localhost:7070/tasks
+    25	kill $SERVER_PID
+    26	```
+    27	
+    28	## 你需要编辑的文件
+    29	
+    30	- `pom.xml`：添加 Javalin 6.x 和 Jackson。
+    31	- `src/main/java/com/campusflow/App.java`：把占位 server 替换成 Javalin routes 和全局错误处理。
+    32	- `src/main/java/com/campusflow/controller/TaskController.java`：把 HTTP 请求转换为 service 调用。
+    33	- `src/main/java/com/campusflow/service/TaskService.java`：实现校验和业务操作。
+    34	- `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：实现内存持久化。
+    35	- `src/main/java/com/campusflow/model/Task.java`：根据 Week 08 的模型补充所需字段或行为。
+    36	- `docs/ADR-003.md`：在你的提交中创建该文件，说明 REST API 设计决策。
+    37	- `docs/API_TESTING.md`：创建该文件，记录 curl 或 HTTP client 测试。
+    38	
+    39	## 待办清单
+    40	
+    41	- [ ] 实现 `GET /tasks`。
+    42	- [ ] 实现 `GET /tasks/{id}`，任务不存在时返回 `404`。
+    43	- [ ] 实现 `POST /tasks`，包含请求校验和 `201`。
+    44	- [ ] 实现 `PUT /tasks/{id}`。
+    45	- [ ] 实现 `DELETE /tasks/{id}`，成功时返回 `204`。
+    46	- [ ] 为 validation 和 not-found 错误返回统一 JSON error body。
+    47	- [ ] 为完成后的 routes 增加有意义的 unit 或 integration tests。
+    48	- [ ] 编写 ADR-003 和 API testing notes。
+    49	
+    50	starter tests 故意只做 smoke test。实现作业时，请替换或扩展它们。
+
+ succeeded in 405ms:
+     1	# Week 10 作业：AI 生成前端与审查训练
+     2	
+     3	> "AI 能帮你写代码，但不能帮你背锅。"
+     4	> —— 老潘
+     5	
+     6	---
+     7	
+     8	## 作业概述
+     9	
+    10	本周是课程的核心训练周。你将学习如何让 AI 生成前端代码，但更重要的是——掌握一套系统化的 AI 代码审查方法。
+    11	
+    12	**核心任务**：
+    13	1. 使用 Prompt 工程让 AI 生成 CampusFlow 前端代码
+    14	2. 使用审查检查清单系统性地评估 AI 输出
+    15	3. 修复发现的问题并改进用户体验
+    16	4. 配置 CORS 实现前后端联调
+    17	
+    18	---
+    19	
+    20	## 基础作业（必做）
+    21	
+    22	### 任务 1：编写 Prompt 让 AI 生成前端代码（15 分）
+    23	
+    24	**目标**：编写一个清晰、完整的 Prompt，让 AI 生成符合 CampusFlow API 的前端代码。
+    25	
+    26	**要求**：
+    27	- Prompt 必须包含四要素：角色、任务、约束、格式
+    28	- 准确描述 CampusFlow API 端点（基于 Week 09 实现）
+    29	- 明确前端功能需求：任务列表展示、添加任务、删除任务、标记完成
+    30	
+    31	**CampusFlow API 参考**：
+    32	```
+    33	基础 URL: http://localhost:7070
+    34	
+    35	GET    /tasks               - 获取所有任务（返回 {data: [...], total: N}）
+    36	GET    /tasks/{id}          - 获取指定任务
+    37	POST   /tasks               - 创建任务（请求体: {title, description, dueDate}）
+    38	PUT    /tasks/{id}          - 全量更新任务
+    39	PATCH  /tasks/{id}          - 部分更新任务（如只更新状态字段）
+    40	DELETE /tasks/{id}          - 删除任务
+    41	GET    /stats               - 获取统计信息
+    42	```
+    43	
+    44	> **注意**：标记任务完成可以用两种方式：
+    45	> - `PATCH /tasks/{id}` + 请求体 `{"status": "completed"}`
+    46	> - 或使用专门的 `POST /tasks/{id}/complete` 端点（后端已实现）
+    47	> 两种方式都有效，选择一种即可。
+    48	
+    49	**Task 模型结构**：
+    50	```json
+    51	{
+    52	  "id": "uuid-string",
+    53	  "title": "任务标题",
+    54	  "description": "任务描述",
+    55	  "dueDate": "2026-02-20",
+    56	  "completed": false,
+    57	  "overdueDays": 0,
+    58	  "createdAt": "2026-02-12T10:30:00"
+    59	}
+    60	```
+    61	
+    62	**提交物**：
+    63	- `PROMPT.md`：你编写的完整 Prompt
+    64	
+    65	**评分要点**：
+    66	- 角色定义清晰（3 分）
+    67	- 任务描述完整（4 分）
+    68	- 约束条件明确（4 分）
+    69	- 格式要求具体（4 分）
+    70	
+    71	---
+    72	
+    73	### 任务 2：保存 AI 生成的初始代码（5 分）
+    74	
+    75	**目标**：将 AI 生成的原始代码保存下来，作为审查的基准。
+    76	
+    77	**要求**：
+    78	- 不要修改 AI 生成的代码（即使有 obvious 问题）
+    79	- 保存为 `frontend/ai_generated.html`
+    80	- 记录使用的 AI 工具名称和模型版本
+    81	
+    82	**提交物**：
+    83	- `frontend/ai_generated.html`：AI 生成的原始前端代码
+    84	- `AI_TOOL.md`：使用的 AI 工具信息
+    85	
+    86	---
+    87	
+    88	### 任务 3：使用检查清单审查 AI 代码（25 分）
+    89	
+    90	**目标**：使用审查检查清单系统性地评估 AI 代码，找出至少 3 类问题。
+    91	
+    92	**审查检查清单**：
+    93	
+    94	```markdown
+    95	## AI 代码审查检查清单
+    96	
+    97	### 功能正确性
+    98	- [ ] 代码是否实现了需求？
+    99	- [ ] 是否有明显的逻辑错误？
+   100	
+   101	### 边界情况（AI 常遗漏）
+   102	- [ ] 空输入处理了吗？
+   103	- [ ] 空数据状态（列表为空）处理了吗？
+   104	- [ ] 网络错误处理了吗？
+   105	- [ ] 加载状态处理了吗？
+   106	
+   107	### 安全考虑
+   108	- [ ] 有 XSS 风险吗？（直接插入 innerHTML）
+   109	- [ ] 有 CSRF 风险吗？
+   110	- [ ] 敏感信息泄露了吗？
+   111	
+   112	### 可维护性
+   113	- [ ] 命名清晰吗？
+   114	- [ ] 代码重复了吗？
+   115	- [ ] 有必要的注释吗？
+   116	
+   117	### AI 特定问题
+   118	- [ ] 有"幻觉"（不存在的方法/类）吗？
+   119	- [ ] 有过时的 API 使用吗？
+   120	- [ ] 有不符合项目规范的地方吗？
+   121	```
+   122	
+   123	**常见问题类型参考**：
+   124	
+   125	1. **安全问题（XSS）**：
+   126	   ```javascript
+   127	   // 问题代码：直接使用 innerHTML 插入用户输入
+   128	   element.innerHTML = `<div>${task.title}</div>`;
+   129	
+   130	   // 攻击示例：用户输入 <script>alert('hacked')</script> 作为标题
+
+exec
+/bin/bash -lc "nl -ba chapters/week_10/ASSIGNMENT.md | sed -n '180,360p'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_10/starter_code/README.md | sed -n '1,100p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+     1	# Week 10 Starter Code：AI Frontend + CORS
+     2	
+     3	这个 starter 支持 Week 10 作业：用 AI 生成 CampusFlow frontend，人工审查、修复，再通过 CORS 接入 backend。
+     4	
+     5	它不是完成版 frontend，也不是完成版 API。Java server 只用来证明 Maven 和 Javalin wiring 能跑通。你的主要工作在 Markdown 报告和 `frontend/` 目录下的文件里。
+     6	
+     7	## 运行命令
+     8	
+     9	```bash
+    10	cd chapters/week_10/starter_code
+    11	mvn test
+    12	mvn compile
+    13	java -cp target/classes com.campusflow.App &
+    14	SERVER_PID=$!
+    15	sleep 1
+    16	curl http://localhost:7070/health
+    17	kill $SERVER_PID
+    18	```
+    19	
+    20	手动测试 frontend 时，先启动你的 Week 09 backend，或扩展这个 starter，然后在浏览器中打开 `frontend/index.html`。
+    21	
+    22	## 你需要编辑的文件
+    23	
+    24	- `PROMPT.md`：写下生成第一版 frontend 使用的 prompt。
+    25	- `AI_TOOL.md`：记录 AI tool 和 model version。
+    26	- `frontend/ai_generated.html`：保存未经修改的 AI 原始输出。
+    27	- `REVIEW.md`：完成 checklist，至少记录三类问题。
+    28	- `frontend/index.html`：实现你审查并修复后的 frontend。
+    29	- `pom.xml`：如果使用这个 starter backend 完成 CORS 任务，添加 Javalin。
+    30	- `src/main/java/com/campusflow/App.java`：把占位 server 替换为浏览器调用需要的 CORS 配置。
+    31	
+    32	## 待办清单
+    33	
+    34	- [ ] 写一个包含 role、task、constraints、output format 的 prompt。
+    35	- [ ] 保存未经修改的 AI generated frontend。
+    36	- [ ] 审查 XSS、empty states、loading/error states、hallucinated APIs。
+    37	- [ ] 修复 frontend，处理用户内容时不要使用不安全的 `innerHTML`。
+    38	- [ ] 至少增加两个 UX improvements。
+    39	- [ ] 配置并验证 demo 使用的 backend CORS。
+    40	- [ ] 按提交要求保存截图和说明。
+    41	
+    42	smoke test 只检查 starter wiring。完成实现后，请增加浏览器或 API 测试。
+
+exec
+/bin/bash -lc "rg -n \"PATCH|/stats|complete|completed|overdueDays|createdAt|data|total|CorsPluginConfig|exec:java|healthJson|tasksPlaceholderJson|target\" chapters/week_09 chapters/week_10 -g 'ASSIGNMENT.md' -g 'README.md' -g 'pom.xml' -g '*.java'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "nl -ba chapters/week_10/starter_code/pom.xml | sed -n '1,120p'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+     1	<?xml version="1.0" encoding="UTF-8"?>
+     2	<project xmlns="http://maven.apache.org/POM/4.0.0"
+     3	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     4	         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     5	    <modelVersion>4.0.0</modelVersion>
+     6	
+     7	    <groupId>com.campusflow</groupId>
+     8	    <artifactId>campusflow-week10-starter</artifactId>
+     9	    <version>0.1.0-SNAPSHOT</version>
+    10	    <packaging>jar</packaging>
+    11	
+    12	    <name>CampusFlow Week 10 Starter</name>
+    13	    <description>TODO skeleton for AI-generated frontend review and CORS wiring</description>
+    14	
+    15	    <properties>
+    16	        <maven.compiler.source>21</maven.compiler.source>
+    17	        <maven.compiler.target>21</maven.compiler.target>
+    18	        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    19	        <junit.version>5.11.0</junit.version>
+    20	    </properties>
+    21	
+    22	    <repositories>
+    23	        <repository>
+    24	            <id>aliyunmaven</id>
+    25	            <name>Aliyun Maven Public</name>
+    26	            <url>https://maven.aliyun.com/repository/public</url>
+    27	            <releases>
+    28	                <enabled>true</enabled>
+    29	            </releases>
+    30	            <snapshots>
+    31	                <enabled>true</enabled>
+    32	            </snapshots>
+    33	        </repository>
+    34	    </repositories>
+    35	
+    36	    <pluginRepositories>
+    37	        <pluginRepository>
+    38	            <id>aliyunmaven</id>
+    39	            <name>Aliyun Maven Public</name>
+    40	            <url>https://maven.aliyun.com/repository/public</url>
+    41	            <releases>
+    42	                <enabled>true</enabled>
+    43	            </releases>
+    44	            <snapshots>
+    45	                <enabled>true</enabled>
+    46	            </snapshots>
+    47	        </pluginRepository>
+    48	    </pluginRepositories>
+    49	
+    50	    <dependencies>
+    51	        <!-- TODO: Add Javalin if you use this backend for the CORS task. -->
+    52	        <dependency>
+    53	            <groupId>org.junit.jupiter</groupId>
+    54	            <artifactId>junit-jupiter</artifactId>
+    55	            <version>${junit.version}</version>
+    56	            <scope>test</scope>
+    57	        </dependency>
+    58	    </dependencies>
+    59	
+    60	    <build>
+    61	        <plugins>
+    62	            <plugin>
+    63	                <groupId>org.apache.maven.plugins</groupId>
+    64	                <artifactId>maven-compiler-plugin</artifactId>
+    65	                <version>3.1</version>
+    66	                <configuration>
+    67	                    <source>21</source>
+    68	                    <target>21</target>
+    69	                </configuration>
+    70	            </plugin>
+    71	            <plugin>
+    72	                <groupId>org.apache.maven.plugins</groupId>
+    73	                <artifactId>maven-surefire-plugin</artifactId>
+    74	                <version>3.2.5</version>
+    75	            </plugin>
+    76	        </plugins>
+    77	    </build>
+    78	</project>
+
+ succeeded in 126ms:
+   180	
+   181	2. **空状态处理**：
+   182	   ```javascript
+   183	   // 修复前：列表为空时页面空白
+   184	   function renderTasks(tasks) {
+   185	       container.innerHTML = tasks.map(t => ...).join('');
+   186	   }
+   187	
+   188	   // 修复后：友好的空状态提示
+   189	   function renderTasks(tasks) {
+   190	       if (tasks.length === 0) {
+   191	           container.innerHTML = '<p class="empty">暂无任务，点击"添加"创建第一个任务</p>';
+   192	           return;
+   193	       }
+   194	       // ... 正常渲染
+   195	   }
+   196	   ```
+   197	
+   198	3. **错误处理**：
+   199	   ```javascript
+   200	   // 健壮的 API 调用
+   201	   async function fetchTasks() {
+   202	       try {
+   203	           const response = await fetch('http://localhost:7070/tasks');
+   204	           if (!response.ok) {
+   205	               throw new Error(`HTTP error! status: ${response.status}`);
+   206	           }
+   207	           return await response.json();
+   208	       } catch (error) {
+   209	           console.error('Failed to fetch tasks:', error);
+   210	           showErrorMessage('无法连接到服务器，请检查网络');
+   211	           return { data: [] };
+   212	       }
+   213	   }
+   214	   ```
+   215	
+   216	**用户体验优化（至少 2 项）**：
+   217	- 添加加载指示器（Loading spinner）
+   218	- 添加操作成功提示（Toast 通知）
+   219	- 删除前确认对话框
+   220	- 表单提交后清空输入
+   221	- 任务完成状态视觉反馈
+   222	
+   223	**提交物**：
+   224	- `frontend/index.html`：修复后的前端代码
+   225	- `REVIEW.md` 中补充修复说明
+   226	
+   227	**评分要点**：
+   228	- XSS 漏洞已修复（8 分）
+   229	- 边界情况已处理（8 分）
+   230	- 错误处理已完善（5 分）
+   231	- 用户体验有优化（4 分）
+   232	
+   233	---
+   234	
+   235	### 任务 5：配置 CORS（15 分）
+   236	
+   237	**目标**：在 Javalin 后端启用 CORS，确保前端可以正常调用 API。
+   238	
+   239	**背景知识**：
+   240	当你直接用浏览器打开 HTML 文件（`file://` 协议）时，调用 `http://localhost:7070` 的 API 会被浏览器阻止（CORS 策略）。需要在后端明确允许跨域请求。
+   241	
+   242	**实现要求**：
+   243	
+   244	1. 修改 `App.java`，添加 CORS 配置：
+   245	   ```java
+   246	   import io.javalin.plugin.bundled.CorsPluginConfig;
+   247	
+   248	   var app = Javalin.create(config -> {
+   249	       config.bundledPlugins.enableCors(cors -> {
+   250	           // 开发环境：允许任何来源
+   251	           cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+   252	
+   253	           // 生产环境应该限制具体域名：
+   254	           // cors.addRule(rule -> rule.allowHost("http://localhost:8080"));
+   255	       });
+   256	   }).start(7070);
+   257	   ```
+   258	
+   259	2. 确保前端代码使用完整的 API URL：
+   260	   ```javascript
+   261	   // 不要省略协议和主机
+   262	   const API_BASE = 'http://localhost:7070';
+   263	   fetch(`${API_BASE}/tasks`)
+   264	   ```
+   265	
+   266	**验证方法**：
+   267	1. 启动后端：`mvn -q compile exec:java`
+   268	2. 用浏览器打开 `frontend/index.html`
+   269	3. 打开浏览器开发者工具（F12）
+   270	4. 确认：
+   271	   - 任务列表正常加载
+   272	   - 控制台没有 CORS 错误
+   273	   - Network 标签能看到成功的 API 请求
+   274	
+   275	**提交物**：
+   276	- `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+   277	- `cors_screenshot.png`：浏览器控制台截图，证明前后端通信正常
+   278	
+   279	**评分要点**：
+   280	- CORS 配置正确（8 分）
+   281	- 前后端能正常通信（7 分）
+   282	
+   283	---
+   284	
+   285	## 进阶作业（选做，+20 分）
+   286	
+   287	### 进阶 1：添加更多功能（+8 分）
+   288	
+   289	实现以下功能中的至少 2 个：
+   290	- **任务筛选**：按完成状态筛选（全部/未完成/已完成）
+   291	- **任务搜索**：按标题关键词搜索
+   292	- **任务排序**：按截止日期排序
+   293	- **逾期提醒**：视觉标识逾期任务
+   294	- **统计面板**：显示总任务数、完成率等
+   295	
+   296	### 进阶 2：改进 UI 设计（+6 分）
+   297	
+   298	- 使用 CSS 框架（如 Tailwind CDN）美化界面
+   299	- 添加响应式设计（适配移动端）
+   300	- 添加动画过渡效果
+   301	
+   302	### 进阶 3：添加前端测试（+6 分）
+   303	
+   304	- 使用 Jest 或 Vitest 编写至少 3 个单元测试
+   305	- 测试覆盖：任务渲染、表单验证、API 调用
+   306	
+   307	---
+   308	
+   309	## AI 协作练习（可选但推荐）
+   310	
+   311	**目标**：练习与 AI 协作生成和审查代码，建立"AI 是副驾驶，人是机长"的工作模式。
+   312	
+   313	**步骤**：
+   314	
+   315	1. **使用 AI 生成前端代码**
+   316	   - 使用你编写的 Prompt 让 AI 生成代码
+   317	   - 保存 AI 的原始输出（不要修改）
+   318	
+   319	2. **使用审查检查清单评估代码**
+   320	   - 逐条检查功能正确性、边界情况、安全问题、可维护性
+   321	   - 特别关注 AI 常犯的错误：XSS、空状态、幻觉 API
+   322	
+   323	3. **记录发现的问题**
+   324	   - 至少找出 3 类问题
+   325	   - 对每类问题给出具体代码位置和修复建议
+   326	
+   327	4. **修复问题并解释修复思路**
+   328	   - 不要只是修改代码，要解释为什么这样改
+   329	   - 思考：AI 为什么会犯这个错误？如何避免？
+   330	
+   331	**审查清单**：
+   332	- [ ] 功能正确性：代码是否实现了需求？
+   333	- [ ] 边界情况：空输入、空列表、网络错误处理了吗？
+   334	- [ ] 安全问题：有 XSS 风险吗？敏感信息泄露了吗？
+   335	- [ ] 可维护性：命名清晰吗？有重复代码吗？
+   336	- [ ] AI 特定问题：有幻觉代码吗？有过时 API 吗？
+   337	
+   338	**提交要求**：
+   339	- AI 生成的原始代码
+   340	- 审查报告（列出发现的问题）
+   341	- 修复后的代码
+   342	- 经验总结（AI 擅长/不擅长什么，你的审查心得）
+   343	
+   344	---
+   345	
+   346	## 提交物清单
+   347	
+   348	### 必交文件
+   349	- [ ] `PROMPT.md`：你编写的完整 Prompt
+   350	- [ ] `frontend/ai_generated.html`：AI 生成的原始前端代码
+   351	- [ ] `frontend/index.html`：修复后的前端代码
+   352	- [ ] `REVIEW.md`：AI 审查报告
+   353	- [ ] `AI_TOOL.md`：使用的 AI 工具信息
+   354	- [ ] `src/main/java/com/campusflow/App.java`：添加了 CORS 配置的后端代码
+   355	- [ ] `cors_screenshot.png`：前后端通信正常的截图
+   356	
+   357	### 进阶作业文件（如完成）
+   358	- [ ] `frontend/advanced.html`：包含进阶功能的版本
+   359	- [ ] `frontend/__tests__/app.test.js`：前端测试文件
+   360	
+
+ succeeded in 124ms:
+chapters/week_09/starter_code/README.md:20:java -cp target/classes com.campusflow.App &
+chapters/week_09/starter_code/pom.xml:17:        <maven.compiler.target>21</maven.compiler.target>
+chapters/week_09/starter_code/pom.xml:68:                    <target>21</target>
+chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java:10:        assertTrue(App.healthJson().contains("CampusFlow"));
+chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java:15:        assertTrue(App.tasksPlaceholderJson().contains("待办"));
+chapters/week_09/starter_code/src/main/java/com/campusflow/App.java:21:        server.createContext("/health", exchange -> writeJson(exchange, 200, healthJson()));
+chapters/week_09/starter_code/src/main/java/com/campusflow/App.java:22:        server.createContext("/tasks", exchange -> writeJson(exchange, 501, tasksPlaceholderJson()));
+chapters/week_09/starter_code/src/main/java/com/campusflow/App.java:26:    public static String healthJson() {
+chapters/week_09/starter_code/src/main/java/com/campusflow/App.java:30:    public static String tasksPlaceholderJson() {
+chapters/week_09/starter_code/src/main/java/com/campusflow/model/Task.java:21:    // 待办：如果 API contract 需要，补充 completed/status/createdAt 字段。
+chapters/week_09/starter_code/src/main/java/com/campusflow/controller/TaskController.java:15:        // 待办：在 Javalin route 中调用 taskService.findAll()，并返回 {"data": [...], "total": n}。
+chapters/week_10/ASSIGNMENT.md:35:GET    /tasks               - 获取所有任务（返回 {data: [...], total: N}）
+chapters/week_10/ASSIGNMENT.md:39:PATCH  /tasks/{id}          - 部分更新任务（如只更新状态字段）
+chapters/week_10/ASSIGNMENT.md:41:GET    /stats               - 获取统计信息
+chapters/week_10/ASSIGNMENT.md:45:> - `PATCH /tasks/{id}` + 请求体 `{"status": "completed"}`
+chapters/week_10/ASSIGNMENT.md:46:> - 或使用专门的 `POST /tasks/{id}/complete` 端点（后端已实现）
+chapters/week_10/ASSIGNMENT.md:56:  "completed": false,
+chapters/week_10/ASSIGNMENT.md:57:  "overdueDays": 0,
+chapters/week_10/ASSIGNMENT.md:58:  "createdAt": "2026-02-12T10:30:00"
+chapters/week_10/ASSIGNMENT.md:211:           return { data: [] };
+chapters/week_10/ASSIGNMENT.md:246:   import io.javalin.plugin.bundled.CorsPluginConfig;
+chapters/week_10/ASSIGNMENT.md:251:           cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+chapters/week_10/ASSIGNMENT.md:267:1. 启动后端：`mvn -q compile exec:java`
+chapters/week_10/starter_code/README.md:13:java -cp target/classes com.campusflow.App &
+chapters/week_10/starter_code/pom.xml:17:        <maven.compiler.target>21</maven.compiler.target>
+chapters/week_10/starter_code/pom.xml:68:                    <target>21</target>
+chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java:10:        assertTrue(App.healthJson().contains("CampusFlow"));
+chapters/week_10/starter_code/src/main/java/com/campusflow/App.java:24:            writeJson(exchange, 200, healthJson());
+chapters/week_10/starter_code/src/main/java/com/campusflow/App.java:29:    public static String healthJson() {
+chapters/week_10/examples/README.md:122:# 例如在你的 CampusFlow 项目中运行 mvn compile exec:java
+chapters/week_10/examples/README.md:151:    cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+chapters/week_10/examples/10_cors_config.java:15:import io.javalin.plugin.bundled.CorsPluginConfig;
+chapters/week_10/examples/10_cors_config.java:52:        System.out.println("1. 创建一个 HTML 文件，使用 Fetch API 调用 http://localhost:7070/api/data");
+chapters/week_10/examples/10_cors_config.java:73:                cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+chapters/week_10/examples/10_cors_config.java:76:        .get("/api/data", ctx -> {
+chapters/week_10/examples/10_cors_config.java:84:        .post("/api/data", ctx -> {
+chapters/week_10/examples/10_cors_config.java:115:                    rule.allowMethod("PATCH");
+chapters/week_10/examples/10_cors_config.java:126:        .get("/api/data", ctx -> {
+chapters/week_10/examples/10_cors_config.java:167:        .get("/api/data", ctx -> {
+chapters/week_10/examples/10_cors_config.java:191:                cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+chapters/week_10/examples/10_cors_config.java:201:                //     rule.allowMethod("PATCH");
+chapters/week_10/examples/10_cors_config.java:233: *    curl -I -H "Origin: http://localhost:8080" http://localhost:7070/api/data
+chapters/week_09/examples/09_campusflow_api.java:99:        app.post("/tasks/{id}/complete", controller::completeTask);
+chapters/week_09/examples/09_campusflow_api.java:102:        app.get("/stats", controller::getStats);
+chapters/week_09/examples/09_campusflow_api.java:139:        System.out.println("    GET    /stats               - 统计信息");
+chapters/week_09/examples/09_campusflow_api.java:146:        System.out.println("    PATCH  /tasks/{id}          - 部分更新任务");
+chapters/week_09/examples/09_campusflow_api.java:151:        System.out.println("    POST   /tasks/{id}/complete     - 标记任务完成");
+chapters/week_09/examples/09_campusflow_api.java:202:    private String status;  // pending, in_progress, completed
+chapters/week_09/examples/09_campusflow_api.java:203:    private LocalDateTime createdAt;
+chapters/week_09/examples/09_campusflow_api.java:204:    private LocalDateTime completedAt;
+chapters/week_09/examples/09_campusflow_api.java:214:        this.createdAt = LocalDateTime.now();
+chapters/week_09/examples/09_campusflow_api.java:233:    public LocalDateTime getCreatedAt() { return createdAt; }
+chapters/week_09/examples/09_campusflow_api.java:234:    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+chapters/week_09/examples/09_campusflow_api.java:236:    public LocalDateTime getCompletedAt() { return completedAt; }
+chapters/week_09/examples/09_campusflow_api.java:237:    public void setCompletedAt(LocalDateTime completedAt) { this.completedAt = completedAt; }
+chapters/week_09/examples/09_campusflow_api.java:240:        return !"completed".equals(status) && dueDate.isBefore(LocalDate.now());
+chapters/week_09/examples/09_campusflow_api.java:283:    private final long overdueDays;
+chapters/week_09/examples/09_campusflow_api.java:287:    public OverdueFeeResponse(String taskId, String taskTitle, long overdueDays,
+chapters/week_09/examples/09_campusflow_api.java:291:        this.overdueDays = overdueDays;
+chapters/week_09/examples/09_campusflow_api.java:298:    public long getOverdueDays() { return overdueDays; }
+chapters/week_09/examples/09_campusflow_api.java:412:    public Task completeTask(String id) {
+chapters/week_09/examples/09_campusflow_api.java:416:        task.setStatus("completed");
+chapters/week_09/examples/09_campusflow_api.java:432:        long overdueDays = task.getOverdueDays();
+chapters/week_09/examples/09_campusflow_api.java:435:        FeeCalculationStrategy strategy = selectStrategy(overdueDays);
+chapters/week_09/examples/09_campusflow_api.java:436:        return strategy.calculate(overdueDays);
+chapters/week_09/examples/09_campusflow_api.java:451:    private FeeCalculationStrategy selectStrategy(long overdueDays) {
+chapters/week_09/examples/09_campusflow_api.java:452:        if (overdueDays <= 3) {
+chapters/week_09/examples/09_campusflow_api.java:454:        } else if (overdueDays <= 7) {
+chapters/week_09/examples/09_campusflow_api.java:463:        long total = all.size();
+chapters/week_09/examples/09_campusflow_api.java:466:        long completed = all.stream().filter(t -> "completed".equals(t.getStatus())).count();
+chapters/week_09/examples/09_campusflow_api.java:470:            "total", total,
+chapters/week_09/examples/09_campusflow_api.java:473:            "completed", completed,
+chapters/week_09/examples/09_campusflow_api.java:482:    double calculate(long overdueDays);
+chapters/week_09/examples/09_campusflow_api.java:492:    public double calculate(long overdueDays) {
+chapters/week_09/examples/09_campusflow_api.java:493:        return overdueDays * DAILY_RATE;
+chapters/week_09/examples/09_campusflow_api.java:506:    public double calculate(long overdueDays) {
+chapters/week_09/examples/09_campusflow_api.java:507:        long baseDays = Math.min(overdueDays, ESCALATION_THRESHOLD);
+chapters/week_09/examples/09_campusflow_api.java:508:        long escalatedDays = Math.max(0, overdueDays - ESCALATION_THRESHOLD);
+chapters/week_09/examples/09_campusflow_api.java:518:    public double calculate(long overdueDays) {
+chapters/week_09/examples/09_campusflow_api.java:519:        if (overdueDays <= 3) {
+chapters/week_09/examples/09_campusflow_api.java:520:            return overdueDays * 10.0;
+chapters/week_09/examples/09_campusflow_api.java:521:        } else if (overdueDays <= 7) {
+chapters/week_09/examples/09_campusflow_api.java:522:            return 3 * 10.0 + (overdueDays - 3) * 20.0;
+chapters/week_09/examples/09_campusflow_api.java:524:            return 3 * 10.0 + 4 * 20.0 + (overdueDays - 7) * 50.0;
+chapters/week_09/examples/09_campusflow_api.java:541:            "data", tasks,
+chapters/week_09/examples/09_campusflow_api.java:542:            "total", tasks.size()
+chapters/week_09/examples/09_campusflow_api.java:611:    public void completeTask(Context ctx) {
+chapters/week_09/examples/09_campusflow_api.java:613:        Task completed = taskService.completeTask(id);
+chapters/week_09/examples/09_campusflow_api.java:614:        ctx.json(completed);
+chapters/week_09/examples/04_javalin_routing.java:139:            int total = allBooks.size();
+chapters/week_09/examples/04_javalin_routing.java:140:            int totalPages = (int) Math.ceil((double) total / size);
+chapters/week_09/examples/04_javalin_routing.java:144:            int toIndex = Math.min(fromIndex + size, total);
+chapters/week_09/examples/04_javalin_routing.java:146:            List<Book> pageData = fromIndex < total
+chapters/week_09/examples/04_javalin_routing.java:152:                "data", pageData,
+chapters/week_09/examples/04_javalin_routing.java:155:                "total", total,
+chapters/week_09/examples/04_javalin_routing.java:156:                "totalPages", totalPages
+chapters/week_09/examples/08_api_testing.java:12:import com.fasterxml.jackson.databind.ObjectMapper;
+chapters/week_09/examples/08_api_testing.java:139:        assertTrue(response.body().contains("data"));
+chapters/week_09/examples/08_api_testing.java:140:        assertTrue(response.body().contains("total"));
+chapters/week_09/examples/08_api_testing.java:420:        ctx.json(Map.of("data", books, "total", books.size()));
+chapters/week_09/examples/07_error_handling.java:271:        ctx.json(Map.of("data", books, "total", books.size()));
+chapters/week_09/examples/02_restful_design.java:92:        System.out.println("│ PATCH    │ 部分更新        │ ❌ 否*   │");
+chapters/week_09/examples/02_restful_design.java:95:        System.out.println("* PATCH 的幂等性取决于实现");
+chapters/week_09/examples/02_restful_design.java:137:            new ApiEndpoint("PATCH", "/books/{id}", "部分更新图书", "200 OK", "{year:2024}"),
+chapters/week_09/examples/02_restful_design.java:179:        System.out.println("  □ HTTP 方法是否恰当？（GET/POST/PUT/PATCH/DELETE）");
+chapters/week_09/examples/06_json_handling.java:9: *   - com.fasterxml.jackson.core:jackson-databind:2.17.0
+chapters/week_09/examples/06_json_handling.java:10: *   - com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0 (Java 8 日期时间)
+chapters/week_09/examples/06_json_handling.java:15:import com.fasterxml.jackson.databind.ObjectMapper;
+chapters/week_09/examples/06_json_handling.java:16:import com.fasterxml.jackson.databind.SerializationFeature;
+chapters/week_09/examples/06_json_handling.java:17:import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+chapters/week_09/examples/06_json_handling.java:161:        Map<String, Object> data = Map.of(
+chapters/week_09/examples/06_json_handling.java:162:            "total", 100,
+chapters/week_09/examples/06_json_handling.java:171:        String json = mapper.writeValueAsString(data);
+chapters/week_09/examples/06_json_handling.java:179:        assertEquals(100, parsed.get("total"));
+chapters/week_09/examples/06_json_handling.java:186:        // 场景：JSON 只包含部分字段（如 PATCH 请求）
+chapters/week_09/examples/06_json_handling.java:222:            com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+chapters/week_09/examples/06_json_handling.java:271:        String incompleteJson = """
+chapters/week_09/examples/06_json_handling.java:281:            Book book = mapper.readValue(incompleteJson, Book.class);
+chapters/week_09/examples/06_json_handling.java:372:    private LocalDateTime createdAt;
+chapters/week_09/examples/06_json_handling.java:375:        this.createdAt = LocalDateTime.now();
+chapters/week_09/examples/06_json_handling.java:394:    public LocalDateTime getCreatedAt() { return createdAt; }
+chapters/week_09/examples/06_json_handling.java:395:    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+chapters/week_09/ASSIGNMENT.md:20:mvn compile exec:java
+chapters/week_09/examples/05_book_api_crud.java:97:        System.out.println("  PATCH  /books/{id}     - 部分更新");
+chapters/week_09/examples/05_book_api_crud.java:262:            "data", books,
+chapters/week_09/examples/05_book_api_crud.java:263:            "total", books.size()
+chapters/week_09/examples/05_book_api_crud.java:357:     * PATCH /books/{id} - 部分更新图书。
+chapters/week_09/examples/05_book_api_crud.java:448:            "total", results.size()
+
+exec
+/bin/bash -lc "git ls-files 'chapters/week_09/starter_code/target/*' 'chapters/week_10/starter_code/target/*'" in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc 'git check-ignore -v chapters/week_09/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml chapters/week_10/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml' in /root/.openclaw/workspace/projects/java-software-engineering
+exec
+/bin/bash -lc "rg -n \"target/|\\.class|surefire\" .gitignore chapters/week_09 chapters/week_10 -g '.gitignore' -g '"'!target'"'" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 223ms:
+ succeeded in 277ms:
+.gitignore:10:target/	chapters/week_09/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+.gitignore:10:target/	chapters/week_10/starter_code/target/surefire-reports/TEST-com.campusflow.AppSmokeTest.xml
+
+ succeeded in 286ms:
+.gitignore:9:*.class
+.gitignore:10:target/
+
+codex
+主要问题已经收敛：week_09 的测试会惩罚真实实现；week_10 的作业说明把 Week 09 没有要求的接口当成“已实现”，并且 CORS 后端归属不清。接下来我只写审稿报告到 `audit/week09_16/codex_audit_week09_10.md`。
+  ✓ 盘点 week_09/week_10 文件结构与关键入口
+  ✓ 运行每周 starter_code Maven 测试
+  → 审查作业说明与代码/测试一致性
+  • 写入审稿报告
+exec
+/bin/bash -lc 'test -e audit/week09_16/codex_audit_week09_10.md; echo $?' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+1
+
+apply patch
+patch: completed
+/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week09_10.md
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+  ✓ 盘点 week_09/week_10 文件结构与关键入口
+  ✓ 运行每周 starter_code Maven 测试
+  ✓ 审查作业说明与代码/测试一致性
+  → 写入审稿报告
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+exec
+/bin/bash -lc 'git status --short audit/week09_16/codex_audit_week09_10.md chapters/week_09 chapters/week_10' in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+?? audit/week09_16/codex_audit_week09_10.md
+
+exec
+/bin/bash -lc "sed -n '1,260p' audit/week09_16/codex_audit_week09_10.md" in /root/.openclaw/workspace/projects/java-software-engineering
+ succeeded in 0ms:
+# Week 09-10 作业一致性审稿报告
+
+审查范围：`chapters/week_09` 到 `chapters/week_10`。
+
+审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
+
+优先级约定：
+- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
+- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
+- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
+
+## Week 09
+
+### 一致性判断
+
+部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
+
+Maven 结果：
+- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
+- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
+- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
+
+### P0
+
+1. `AppSmokeTest` 会惩罚完成后的真实实现。
+   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
+   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
+   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
+   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
+
+### P1
+
+1. 作业验收命令和 starter `pom.xml` 不匹配。
+   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
+   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
+   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
+
+2. `/tasks` 响应 envelope 在不同文件中不一致。
+   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
+   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
+   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
+
+### P2
+
+1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
+   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
+   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
+   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
+
+## Week 10
+
+### 一致性判断
+
+不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
+
+Maven 结果：
+- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
+- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
+
+### P0
+
+1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
+   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
+   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
+   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
+
+2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
+   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
+   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
+   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
+
+### P1
+
+1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
+   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
+   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
+   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
+
+2. 作业验收命令和 `pom.xml` 不匹配。
+   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
+   - 风险：学生照验收命令启动后端时可能失败。
+   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
+
+3. CORS 示例可能缺少依赖上下文。
+   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
+   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
+   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
+
+### P2
+
+1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
+   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
+   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
+   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
+
+## 必须修改的文件清单
+
+我认为 release 前必须修改：
+
+1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
+   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
+
+2. `chapters/week_10/ASSIGNMENT.md`
+   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
+   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
+
+3. `chapters/week_10/starter_code/README.md`
+   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
+
+4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
+   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
+
+建议同步修改，但可按教学取舍决定：
+
+5. `chapters/week_09/starter_code/pom.xml`
+   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
+
+6. `chapters/week_10/starter_code/pom.xml`
+   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
+
+7. `chapters/week_09/ASSIGNMENT.md`
+   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+  ✓ 盘点 week_09/week_10 文件结构与关键入口
+  ✓ 运行每周 starter_code Maven 测试
+  ✓ 审查作业说明与代码/测试一致性
+  ✓ 写入审稿报告
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+codex
+已完成只读审查，并把中文报告写入：
+
+[audit/week09_16/codex_audit_week09_10.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week09_10.md)
+
+已按要求分别运行：
+
+- `chapters/week_09/starter_code`: `mvn -B -ntp test` 通过，2 tests
+- `chapters/week_10/starter_code`: `mvn -B -ntp test` 通过，1 test
+
+未修改课程文件。唯一新增文件是审稿报告。报告中标出的核心问题是 week_09 的 smoke test 会反向惩罚真实实现，以及 week_10 把 Week 09 未要求的 API 当成已实现，导致前端联调契约不成立。
+diff --git a/audit/week09_16/codex_audit_week09_10.md b/audit/week09_16/codex_audit_week09_10.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..68f7de06ddc4059e93f58fa5bc076df00408a130
+--- /dev/null
++++ b/audit/week09_16/codex_audit_week09_10.md
+@@ -0,0 +1,122 @@
++# Week 09-10 作业一致性审稿报告
++
++审查范围：`chapters/week_09` 到 `chapters/week_10`。
++
++审查对象：`ASSIGNMENT.md`、`starter_code/src/main`、`starter_code/src/test`、`starter_code/pom.xml`、`starter_code/README.md`，并检查 `target/` 构建产物状态。
++
++优先级约定：
++- P0：会导致学生按作业要求完成后，`mvn test` 或核心验收反向失败。
++- P1：作业说明、starter、测试或运行入口不一致，会明显误导实现。
++- P2：不阻塞完成，但会增加困惑、评审噪音或发布卫生风险。
++
++## Week 09
++
++### 一致性判断
++
++部分一致。`starter_code` 的包名为 `com.campusflow`，入口类为 `App`，源码路径和测试路径符合 Maven 标准目录；当前 starter 可编译，`mvn -B -ntp test` 通过。但测试仍断言占位实现，和 `ASSIGNMENT.md` 要求学生替换为真实 Javalin REST API 的目标冲突。
++
++Maven 结果：
++- 命令：`cd chapters/week_09/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 2, Failures: 0, Errors: 0, Skipped: 0`
++- 备注：Surefire 报告中出现 forked JVM native stream warning，并生成了 `target/surefire-reports/2026-04-28T21-51-31_364-jvmRun1.dumpstream`，不影响测试通过。
++
++### P0
++
++1. `AppSmokeTest` 会惩罚完成后的真实实现。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:13-15` 断言 `App.tasksPlaceholderJson().contains("待办")`。
++   - 冲突：`ASSIGNMENT.md:24-40` 要求实现真实 `/tasks` CRUD；`README.md:31` 也要求把占位 server 替换成 Javalin routes。
++   - 风险：学生按要求删除或替换 `tasksPlaceholderJson()` 后，测试会编译失败或断言失败；如果保留“待办”占位以通过测试，又没有真正完成作业。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`。删除对占位文案的断言，改为不依赖 TODO helper 的 smoke test，例如只验证 `App` 可加载，或改成完成作业后也成立的 `/health`/route wiring 测试。若希望保留 starter 阶段测试，则在 README 明确要求学生提交前必须替换该测试。
++
++### P1
++
++1. 作业验收命令和 starter `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:18-21` 写 `mvn compile exec:java`；`pom.xml:60-77` 只有 compiler 和 surefire，没有配置 `exec-maven-plugin` 和 `mainClass`；`README.md:18-25` 改用 `mvn compile` 加 `java -cp target/classes com.campusflow.App`。
++   - 风险：学生照 ASSIGNMENT 跑验收命令可能无法启动服务，和 README 给出的入口不一致。
++   - 建议修改：优先改 `starter_code/pom.xml`，加入 `exec-maven-plugin` 并配置 `com.campusflow.App`；或改 `ASSIGNMENT.md`，统一为 README 中的 `java -cp` 启动方式。
++
++2. `/tasks` 响应 envelope 在不同文件中不一致。
++   - 证据：`ASSIGNMENT.md:28-34` 只列 CRUD 状态码，没有说明 `GET /tasks` 返回 `{data, total}`；但 `TaskController.java:14-16` 注释要求返回 `{"data": [...], "total": n}`，Week 10 又把 `{data: [...], total: N}` 当作 API 契约。
++   - 风险：学生实现成裸数组也符合 Week 09 作业表述，但 Week 10 前端按 `{data,total}` 读取会失败。
++   - 建议修改：改 `ASSIGNMENT.md`，明确 Week 09 的 `GET /tasks` 响应结构；或者降低 Week 10 对 envelope 的硬依赖。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_09/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_09/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前执行清理或确保打包只取 Git tracked files。
++
++## Week 10
++
++### 一致性判断
++
++不一致风险较高。当前 Maven starter 可编译，包名、入口类和测试路径符合 Maven 标准目录；但 `ASSIGNMENT.md` 把 Week 09 未必存在的后端 API 当成已实现，并要求通过 CORS 联调任务列表。`starter_code/src/main` 只有 `/health`，没有 `/tasks`，README 又让学生“先启动 Week 09 backend，或扩展这个 starter”，导致后端归属和验收入口不清。
++
++Maven 结果：
++- 命令：`cd chapters/week_10/starter_code && mvn -B -ntp test`
++- 结果：BUILD SUCCESS，`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0`
++
++### P0
++
++1. Week 10 API 参考声明了 Week 09 不要求实现的接口，学生按 Week 09 完成后前端 smoke test 会失败。
++   - 证据：`ASSIGNMENT.md:35-46` 要求或声明 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete`，并写“后端已实现”；Week 09 `ASSIGNMENT.md:28-34` 只要求 `GET/POST/PUT/DELETE /tasks` 这组基础 CRUD，没有 `PATCH`、`/stats`、`/complete`。
++   - 风险：学生照 Week 10 prompt 生成“标记完成”或统计面板，会调用不存在的端点；这不是学生实现错误，而是跨周契约错误。
++   - 建议修改：改 `ASSIGNMENT.md`。把 Week 10 API 参考收敛到 Week 09 必做接口，或明确 Week 10 需要新增哪些后端接口并把它们列为本周后端任务。不要写“后端已实现”，除非 Week 09 作业同步要求这些接口。
++
++2. CORS 验收使用的后端不明确，且 Week 10 starter backend 不能支撑任务列表联调。
++   - 证据：`ASSIGNMENT.md:235-277` 要求修改 `src/main/java/com/campusflow/App.java` 并验证任务列表正常加载；Week 10 `App.java:19-26` 只注册 `/health`；`README.md:20` 又说手动测试 frontend 时先启动 Week 09 backend，或扩展这个 starter。
++   - 风险：学生如果只给 Week 10 starter 加 CORS，`frontend/index.html` 调 `/tasks` 会 404；如果改 Week 09 backend，则 Week 10 提交物清单中的 `src/main/java/com/campusflow/App.java` 又容易指向错误目录。
++   - 建议修改：改 `ASSIGNMENT.md` 和 `starter_code/README.md` 二选一统一口径。推荐写明“本周前端联调使用 Week 09 backend，在 Week 09 的 App.java 中开启 CORS”；若要 Week 10 独立提交，则 starter 必须复制或实现最小 `/tasks` API。
++
++### P1
++
++1. `AppSmokeTest` 依赖实现细节 helper，学生替换为 Javalin 后容易反向失败。
++   - 证据：`src/test/java/com/campusflow/AppSmokeTest.java:8-10` 调用 `App.healthJson()`；`README.md:29-30` 要求把占位 server 替换为 CORS 配置；`ASSIGNMENT.md:244-256` 给的是 Javalin `Javalin.create(...).start(7070)` 风格。
++   - 风险：学生写出正常的 Javalin `main` 后，如果删除 `healthJson()`，测试会编译失败；保留这个 helper 不是作业要求。
++   - 建议修改：改 `starter_code/src/test/java/com/campusflow/AppSmokeTest.java`，不要依赖 `healthJson()` 这种占位 helper。可改成检查 `App.class` 可加载，或提供明确的可保留公共 factory 方法并在 README/ASSIGNMENT 中写入要求。
++
++2. 作业验收命令和 `pom.xml` 不匹配。
++   - 证据：`ASSIGNMENT.md:266-267` 写 `mvn -q compile exec:java`；`pom.xml:60-77` 没有 `exec-maven-plugin` 和 `mainClass`。
++   - 风险：学生照验收命令启动后端时可能失败。
++   - 建议修改：优先改 `starter_code/pom.xml`，配置 `exec-maven-plugin`；或改 `ASSIGNMENT.md`，统一为 README 的 `java -cp target/classes com.campusflow.App`。
++
++3. CORS 示例可能缺少依赖上下文。
++   - 证据：`ASSIGNMENT.md:244-256` 直接给出 Javalin CORS 代码；`pom.xml:50-57` 只有 JUnit，并仅注释“如果使用这个 backend 添加 Javalin”。
++   - 风险：初学者复制 CORS 示例后会遇到 `io.javalin...` import 缺失，且不清楚需要同时加哪些依赖。
++   - 建议修改：改 `ASSIGNMENT.md` 或 `README.md`，在 CORS 任务旁明确需要 Javalin 依赖；更好是改 `starter_code/pom.xml` 预置 Javalin，减少非核心阻塞。
++
++### P2
++
++1. `target/` 构建产物存在于工作区，但当前未被 Git 跟踪。
++   - 证据：存在 `chapters/week_10/starter_code/target/surefire-reports/...`；`git ls-files 'chapters/week_10/starter_code/target/*'` 无输出；`.gitignore:10` 的 `target/` 生效。
++   - 风险：不会被 Git 提交，但 release 打包若不清理工作区，可能混入构建产物。
++   - 建议修改：不需要改课程文件；release 前清理或确保打包只取 Git tracked files。
++
++## 必须修改的文件清单
++
++我认为 release 前必须修改：
++
++1. `chapters/week_09/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `tasksPlaceholderJson()` 和“待办”占位内容的断言。
++
++2. `chapters/week_10/ASSIGNMENT.md`
++   - 对齐 Week 09 实际 API 契约，移除或改写 `PATCH /tasks/{id}`、`GET /stats`、`POST /tasks/{id}/complete` 的“已实现”表述。
++   - 明确 CORS 联调用的是 Week 09 backend 还是 Week 10 starter backend。
++
++3. `chapters/week_10/starter_code/README.md`
++   - 与 Week 10 ASSIGNMENT 统一后端归属说明。
++
++4. `chapters/week_10/starter_code/src/test/java/com/campusflow/AppSmokeTest.java`
++   - 移除对 `App.healthJson()` helper 的实现细节依赖，避免学生替换为 Javalin 后测试编译失败。
++
++建议同步修改，但可按教学取舍决定：
++
++5. `chapters/week_09/starter_code/pom.xml`
++   - 如果保留 `mvn compile exec:java` 验收方式，则配置 `exec-maven-plugin`。
++
++6. `chapters/week_10/starter_code/pom.xml`
++   - 如果保留 `mvn -q compile exec:java` 验收方式，则配置 `exec-maven-plugin`；如果要求在 Week 10 starter 内实现 CORS，则预置 Javalin 依赖。
++
++7. `chapters/week_09/ASSIGNMENT.md`
++   - 明确 `GET /tasks` 响应是否必须为 `{data, total}`，避免 Week 10 前端契约漂移。
+
+2026-04-28T13:54:33.364741Z ERROR codex_core::session: failed to record rollout items: thread 019dd45a-6e46-7342-8b79-24d02e6fef39 not found
+tokens used
+164,023
+已完成只读审查，并把中文报告写入：
+
+[audit/week09_16/codex_audit_week09_10.md](/root/.openclaw/workspace/projects/java-software-engineering/audit/week09_16/codex_audit_week09_10.md)
+
+已按要求分别运行：
+
+- `chapters/week_09/starter_code`: `mvn -B -ntp test` 通过，2 tests
+- `chapters/week_10/starter_code`: `mvn -B -ntp test` 通过，1 test
+
+未修改课程文件。唯一新增文件是审稿报告。报告中标出的核心问题是 week_09 的 smoke test 会反向惩罚真实实现，以及 week_10 把 Week 09 未要求的 API 当成已实现，导致前端联调契约不成立。

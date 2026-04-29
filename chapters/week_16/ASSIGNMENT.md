@@ -196,7 +196,7 @@ KPT 复盘法包含三个要素：
   ├── 01_展示/
   │   ├── 展示PPT.pdf
   │   ├── 海报.pdf
-  │   └── 反馈汇总.pdf
+  │   └── 反馈汇总.md 或 反馈汇总.pdf
   ├── 02_复盘/
   │   ├── 工程复盘报告.pdf
   │   └── 能力雷达图.pdf
@@ -205,8 +205,10 @@ KPT 复盘法包含三个要素：
   │   └── 课程总结.pdf
   └── 04_职业规划/
       ├── 职业规划报告.pdf
-      └── 学习计划.pdf
+      └── 学习计划.pdf 或 学习计划表格
   ```
+
+starter_code 中的 Markdown 文件可作为源稿：`01_showcase_feedback_summary.md` 对应 `01_展示/反馈汇总`，`02_retrospective_report.md` 对应工程复盘报告，`03_knowledge_map.md` 对应知识地图和课程总结，`04_career_plan.md` 对应职业规划和学习计划。最终提交仍需按上面的目录结构整理；需要可视化的雷达图、知识地图和学习计划应导出为 PDF、图片或表格。
 
 ### 提交方式
 - 提交到学习平台（Blackboard / Canvas / 钉钉）
