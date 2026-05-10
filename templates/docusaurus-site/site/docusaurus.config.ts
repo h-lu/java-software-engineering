@@ -14,11 +14,11 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // 站点 URL 配置（部署时根据实际情况修改）
-  url: 'https://java-software-engineering.netlify.app',
-  baseUrl: '/',
+  url: 'https://hblu.top',
+  baseUrl: '/java/',
 
   // GitHub 配置
-  organizationName: 'wangxq',
+  organizationName: 'h-lu',
   projectName: 'java-software-engineering',
 
   // 错误处理配置
@@ -38,7 +38,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/wangxq/java-software-engineering/tree/main/templates/docusaurus-site/site/',
+          editUrl: 'https://github.com/h-lu/java-software-engineering/tree/main/templates/docusaurus-site/site/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           breadcrumbs: true,
@@ -85,7 +85,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/wangxq/java-software-engineering',
+          href: 'https://github.com/h-lu/java-software-engineering',
           label: 'GitHub',
           position: 'right',
         },
@@ -127,7 +127,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/wangxq/java-software-engineering',
+              href: 'https://github.com/h-lu/java-software-engineering',
             },
           ],
         },
