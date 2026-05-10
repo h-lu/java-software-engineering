@@ -37,7 +37,7 @@ import java.util.Optional;
  *   <li>H2 内存数据库测试</li>
  * </ul>
  */
-public class _07_campusflow_jdbc_repository {
+class _07_campusflow_jdbc_repository {
 
     private static final String TEST_DB_URL = "jdbc:h2:mem:campusflow_test;DB_CLOSE_DELAY=-1";
 

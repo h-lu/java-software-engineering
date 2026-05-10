@@ -1,0 +1,10 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.integration.TaskApiIntegrationTemplateTest#getTasksShouldReturnJsonListFromLiveServer"
+      reason: "Integration template: remove @Disabled after the live /api/tasks route is implemented."
+    - id: "com.campusflow.integration.TaskApiIntegrationTemplateTest#createTaskShouldRejectBlankTitle"
+      reason: "Integration template: remove @Disabled after request validation exists."
+    - id: "com.campusflow.mock.TaskServiceIsolationTemplateTest#createTaskShouldPersistIntoRepository"
+      reason: "Isolation template: remove @Disabled after TaskService#createTask is implemented."
+    - id: "com.campusflow.mock.TaskServiceIsolationTemplateTest#getTaskShouldDelegateToRepository"
+      reason: "Isolation template: remove @Disabled after students replace the fake with Mockito or equivalent assertions."

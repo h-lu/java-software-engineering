@@ -1,15 +1,15 @@
 # ============================================================================
-# 《Python 程序设计（Agentic Coding）》教材工厂 — 快捷命令
+# 《Java 软件工程与 Agentic 开发》教材工厂 — 快捷命令
 #
 # 常用：
 #   make help                                 # 查看所有命令
 #   make setup                                # 一键环境搭建
-#   make scaffold                             # 批量创建 14 周目录
+#   make scaffold                             # 批量创建 16 周目录
 #   make new W=01 T="你的第一个程序"           # 创建新周
 #   make draft W=01                           # 写正文初稿（完整流水线）
 #   make polish W=01                          # 深度润色
 #   make validate W=01                        # 校验（默认 release 模式）
-#   make test W=01                            # 跑测试
+#   make test W=01                            # 跑该周 Maven/JUnit 或 pytest 测试
 #   make release W=01                         # 发布
 #   make book-check                           # 全书一致性检查
 # ============================================================================
@@ -30,7 +30,7 @@ help: ## 显示所有可用命令
 setup: ## 一键创建 venv 并安装依赖
 	bash $(SCRIPTS)/setup_env.sh
 
-scaffold: ## 批量创建 week_01..week_14 目录（从 TOC.md 读标题）
+scaffold: ## 批量创建 week_01..week_16 目录（从 TOC.md 读标题）
 	$(PYTHON) $(SCRIPTS)/scaffold_book.py
 
 # ---------------------------------------------------------------------------
@@ -56,7 +56,15 @@ validate: ## 校验某周 (W=01, MODE=release|task|idle, V=1 开启详细输出)
 
 test: ## 跑某周测试 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make test W=01)"; exit 1; }
-	$(PYTHON) -m pytest chapters/week_$$(printf '%02d' $(W))/tests -q
+	@week_dir=chapters/week_$$(printf '%02d' $(W)); \
+	if [ -f "$$week_dir/starter_code/pom.xml" ]; then \
+		mvn -q -f "$$week_dir/starter_code/pom.xml" test; \
+	elif [ -d "$$week_dir/tests" ]; then \
+		$(PYTHON) -m pytest "$$week_dir/tests" -q; \
+	else \
+		echo "error: no supported test target found under $$week_dir"; \
+		exit 1; \
+	fi
 
 release: ## 发布某周 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make release W=01)"; exit 1; }

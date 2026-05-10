@@ -19,7 +19,7 @@ import java.util.List;
  *
  * <p>对比：持久化存储（如 SQLite）将数据写入磁盘，程序重启后依然存在。
  */
-public class _01_memory_storage_problem {
+class _01_memory_storage_problem {
 
     // 内存中的图书列表 - 程序关闭后全部丢失！
     private static List<Book> books = new ArrayList<>();

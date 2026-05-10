@@ -8,6 +8,10 @@
  * 预期输出：无（本文件用于教学对比）
  */
 
+final class DocumentationComparisonExample {
+    private DocumentationComparisonExample() {
+    }
+
 /**
  * ┌─────────────────────────────────────────────────────────────────┐
  * │ 示例 1：README 对比                                    │
@@ -215,39 +219,43 @@ Week 07 时，CampusFlow 需要持久化存储。团队有两个选择：
  * ❌ 坏的 Javadoc：只重复方法名，没有附加价值
  */
 
-/**
- * 创建任务。
- *
- * @param request 创建请求
- * @return 创建的任务
- */
-public Task createTask(TaskRequest request) {
-    // ...
-}
+    /**
+     * 创建任务。
+     *
+     * @param request 创建请求
+     * @return 创建的任务
+     */
+    static final class BadTaskServiceSnippet {
+        Task createTask(TaskRequest request) {
+            return null;
+        }
+    }
 
 /*
  * ✅ 好的 Javadoc：说明"为什么"、"注意什么"
  */
 
-/**
- * 创建新任务。
- *
- * <p>业务规则：
- * <ul>
- *   <li>标题必填，长度 1-100 字符</li>
- *   <li>截止日期必须是未来日期</li>
- * </ul>
- *
- * <p>注意：此方法会自动生成任务 ID。
- *
- * @param request 创建任务请求，标题必填
- * @return 创建后的任务，包含生成的 ID
- * @throws ValidationException 如果标题为空或超过长度限制
- * @throws ValidationException 如果日期格式错误或不是未来日期
- */
-public Task createTask(TaskRequest request) {
-    // ...
-}
+    /**
+     * 创建新任务。
+     *
+     * <p>业务规则：
+     * <ul>
+     *   <li>标题必填，长度 1-100 字符</li>
+     *   <li>截止日期必须是未来日期</li>
+     * </ul>
+     *
+     * <p>注意：此方法会自动生成任务 ID。
+     *
+     * @param request 创建任务请求，标题必填
+     * @return 创建后的任务，包含生成的 ID
+     * @throws ValidationException 如果标题为空或超过长度限制
+     * @throws ValidationException 如果日期格式错误或不是未来日期
+     */
+    static final class GoodTaskServiceSnippet {
+        Task createTask(TaskRequest request) {
+            return null;
+        }
+    }
 
 /**
  * ┌─────────────────────────────────────────────────────────────────┐
@@ -302,3 +310,16 @@ public Task createTask(TaskRequest request) {
  *    - 决策依赖图展示"涟漪效应"
  *    - 人会忘，但 ADR 能保留设计意图
  */
+
+    static final class Task {
+    }
+
+    static final class TaskRequest {
+    }
+
+    static final class ValidationException extends RuntimeException {
+        ValidationException(String message) {
+            super(message);
+        }
+    }
+}

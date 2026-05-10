@@ -27,7 +27,7 @@ import java.sql.Statement;
  *   <li>Schema 版本管理思路</li>
  * </ul>
  */
-public class _05_schema_migration {
+class _05_schema_migration {
 
     private static final String DB_URL = "jdbc:sqlite:library_schema.db";
 

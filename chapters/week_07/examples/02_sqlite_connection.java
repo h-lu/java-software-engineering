@@ -33,7 +33,7 @@ import java.sql.Statement;
  *   <li>嵌入式：直接嵌入到应用程序中</li>
  * </ul>
  */
-public class _02_sqlite_connection {
+class _02_sqlite_connection {
 
     // JDBC URL 格式：jdbc:sqlite:文件名.db
     // 如果文件不存在，SQLite 会自动创建

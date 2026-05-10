@@ -1,0 +1,6 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.contract.TaskApiContractTemplateTest#getTasksShouldReturnEnvelopeWithTotal"
+      reason: "Acceptance template: remove @Disabled after /tasks returns the Week 09 list envelope contract."
+    - id: "com.campusflow.contract.TaskApiContractTemplateTest#createTaskShouldRejectBlankTitleWithErrorBody"
+      reason: "Acceptance template: remove @Disabled after validation and error handling are implemented."

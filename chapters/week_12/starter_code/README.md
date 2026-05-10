@@ -24,8 +24,8 @@ kill $SERVER_PID
 - `src/main/java/com/campusflow/App.java`：把占位 server 替换成 integration tests 需要的 Javalin API routes。
 - `src/main/java/com/campusflow/service/TaskService.java`：补充 task operations 的业务行为。
 - `src/main/java/com/campusflow/repository/InMemoryTaskRepository.java`：提供一个内存版 test repository。
-- `src/test/java/com/campusflow/integration/TaskApiIntegrationTest.java`：创建真实 HTTP tests。
-- `src/test/java/com/campusflow/mock/TaskServiceMockTest.java`：创建 Mockito tests。
+- `src/test/java/com/campusflow/integration/TaskApiIntegrationTemplateTest.java`：禁用的真实 HTTP 验收模板。
+- `src/test/java/com/campusflow/mock/TaskServiceIsolationTemplateTest.java`：禁用的 service/repository 隔离模板；完成作业后可替换成 Mockito 版本。
 - `BUG_BASH_REPORT.md`：记录 Bug Bash 中发现的至少两个 bug。
 - `ROOT_CAUSE_ANALYSIS.md`：对一个 bug 做超出表面修复的分析。
 
@@ -40,4 +40,4 @@ kill $SERVER_PID
 - [ ] 完成 Bug Bash report。
 - [ ] 完成一个 bug 的 root cause analysis。
 
-内置 smoke test 只验证 server setup，不算作作业要求的 integration test suite。
+内置 smoke test 只验证 server setup，不算作作业要求的 integration test suite。建议先移除两个模板测试上的 `@Disabled`，再扩展成完整的集成测试和 Mockito 套件。

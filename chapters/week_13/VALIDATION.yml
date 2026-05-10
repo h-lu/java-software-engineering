@@ -1,0 +1,16 @@
+java:
+  examples:
+    - path: "examples/13_documentation_comparison.java"
+      kind: "compile"
+    - path: "examples/13_README.md"
+      kind: "read-only"
+      reason: "Reference document for README writing."
+    - path: "examples/13_adr_index.md"
+      kind: "read-only"
+      reason: "Reference document for ADR indexing."
+    - path: "examples/13_examples_README.md"
+      kind: "read-only"
+      reason: "Reference document for examples folder documentation."
+    - path: "examples/13_openapi_spec.yaml"
+      kind: "read-only"
+      reason: "Reference OpenAPI artifact for reading and comparison."

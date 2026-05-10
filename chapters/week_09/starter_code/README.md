@@ -9,6 +9,7 @@
 - 任务相关占位路由暂时返回 `501 Not Implemented`。
 - 最小版 domain、repository、service、controller 和 exception 类，里面保留了待办标记。
 - smoke tests 用来确认 starter 可以编译，server 基本 wiring 可用。
+- `src/test/java/com/campusflow/contract/TaskApiContractTemplateTest.java` 提供了禁用的验收模板，等你实现 `/tasks` 合同后移除 `@Disabled`。
 - 注释会提示你在哪里加入 Javalin 6.x 和 Jackson 的真实实现。
 
 ## 运行命令
@@ -44,7 +45,7 @@ kill $SERVER_PID
 - [ ] 实现 `PUT /tasks/{id}`。
 - [ ] 实现 `DELETE /tasks/{id}`，成功时返回 `204`。
 - [ ] 为 validation 和 not-found 错误返回统一 JSON error body。
-- [ ] 为完成后的 routes 增加有意义的 unit 或 integration tests。
+- [ ] 先启用 `TaskApiContractTemplateTest`，再继续补充你自己的 unit 或 integration tests。
 - [ ] 编写 ADR-003 和 API testing notes。
 
 starter tests 故意只做 smoke test。实现作业时，请替换或扩展它们。

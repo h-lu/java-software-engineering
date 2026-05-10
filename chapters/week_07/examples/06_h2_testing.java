@@ -42,7 +42,7 @@ import java.util.Optional;
  * &lt;/dependency&gt;
  * &lt;/pre>
  */
-public class _06_h2_testing {
+class _06_h2_testing {
 
     // H2 内存数据库 URL
     // DB_CLOSE_DELAY=-1 表示连接关闭后不立即删除数据库

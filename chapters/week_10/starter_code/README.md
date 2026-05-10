@@ -19,6 +19,8 @@ kill $SERVER_PID
 
 手动测试 frontend 时，先启动你的 Week 09 backend，然后在浏览器中打开 `frontend/index.html`。如果扩展这个 starter，请同时实现 `/tasks` API 和 CORS，避免前端只连到一个只有 `/health` 的 server。
 
+`src/test/java/com/campusflow/contract/CorsContractTemplateTest.java` 提供了禁用的 CORS 验收模板。选择 standalone backend 方案时，完成 `/tasks` 和 CORS 后移除 `@Disabled`。
+
 ## 你需要编辑的文件
 
 - `PROMPT.md`：写下生成第一版 frontend 使用的 prompt。

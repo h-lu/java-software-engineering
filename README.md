@@ -1,6 +1,6 @@
 # Java 软件工程与 Agentic 开发（教材项目）
 
-> 一本面向有 Python 基础学生的 Java 进阶教材，采用 Agentic Coding 方式自动生成。
+> 一本面向有 Python 基础学生的 Java 软件工程教材，采用 Agentic Coding 方式生成每周章包与 starter code。
 
 ## 核心理念
 
@@ -42,14 +42,14 @@
 git clone <repo-url> && cd java-software-engineering
 
 # 2. 一键环境搭建
-make setup            # 创建环境
+make setup            # 创建校验脚本所需环境
 
 # 3. 批量创建 16 周目录
 make scaffold         # 从 TOC.md 读取标题，生成所有周的模板
 
-# 4. 校验
+# 4. 校验与测试
 make validate W=01    # 校验第 1 周
-make test W=01        # 跑第 1 周测试
+make test W=01        # 跑第 1 周 starter_code Maven/JUnit 测试
 make book-check       # 全书一致性检查
 ```
 
@@ -82,9 +82,10 @@ chapters/
     QA_REPORT.md           #   质量报告
     ANCHORS.yml            #   可验证断言
     TERMS.yml              #   本周新术语
-    examples/              #   示例代码（.java）
-    starter_code/          #   作业起始代码
-    tests/                 #   JUnit 测试用例
+    VALIDATION.yml         #   可选：本周 validator contract / skipped allowlist
+    examples/              #   示例代码或阅读型示例（.java/.md/.yaml）
+    starter_code/          #   Maven starter project
+      src/test/java/       #   JUnit 测试与模板测试
 
 shared/
   style_guide.md           # Java 代码风格规范

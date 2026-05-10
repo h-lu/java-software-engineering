@@ -1,0 +1,8 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.quality.TaskStatusCalculatorCoverageTodoTest#statusReturnsCompletedForFinishedTask"
+      reason: "Coverage template: remove @Disabled after students add the completed-branch assertion."
+    - id: "com.campusflow.quality.TaskStatusCalculatorCoverageTodoTest#statusReturnsUnscheduledWhenDueDateMissing"
+      reason: "Coverage template: remove @Disabled after students add the unscheduled-branch assertion."
+    - id: "com.campusflow.quality.TaskStatusCalculatorCoverageTodoTest#statusReturnsOverdueWhenPastDue"
+      reason: "Coverage template: remove @Disabled after students add the overdue-branch assertion."

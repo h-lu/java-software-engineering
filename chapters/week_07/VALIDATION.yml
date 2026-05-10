@@ -1,0 +1,18 @@
+java:
+  examples:
+    - path: "examples/01_memory_storage_problem.java"
+      kind: "compile"
+    - path: "examples/02_sqlite_connection.java"
+      kind: "compile"
+    - path: "examples/03_try_with_resources.java"
+      kind: "compile"
+    - path: "examples/04_jdbc_crud.java"
+      kind: "compile"
+    - path: "examples/05_schema_migration.java"
+      kind: "compile"
+    - path: "examples/06_h2_testing.java"
+      kind: "maven-dependent"
+      reason: "JUnit-based teaching example; compiled through starter dependencies when students migrate it into Maven."
+    - path: "examples/07_campusflow_jdbc_repository.java"
+      kind: "maven-dependent"
+      reason: "JUnit-based repository example; treated as Maven-dependent rather than standalone javac."

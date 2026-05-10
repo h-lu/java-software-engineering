@@ -1,0 +1,6 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.contract.CorsContractTemplateTest#healthEndpointShouldExposeCorsHeaderForFrontendOrigin"
+      reason: "Acceptance template: remove @Disabled after standalone CORS flow is wired."
+    - id: "com.campusflow.contract.CorsContractTemplateTest#tasksEndpointShouldShareTheSameCorsPolicy"
+      reason: "Acceptance template: remove @Disabled after /tasks is implemented with the same CORS policy."

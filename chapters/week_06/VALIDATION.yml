@@ -1,0 +1,10 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.LibraryTrackerTest#shouldBorrowAndReturnBook"
+      reason: "Starter acceptance template: implement borrow/return flow before enabling."
+    - id: "com.campusflow.LibraryTrackerTest#shouldThrowWhenBorrowingMissingBook"
+      reason: "Starter acceptance template: add not-found branch coverage before enabling."
+    - id: "com.campusflow.LibraryTrackerTest#shouldRejectInvalidBorrower(String)"
+      reason: "Starter acceptance template: add parameterized validation assertions before enabling."
+    - id: "com.campusflow.LibraryTrackerTest#shouldProtectListAllBooksFromExternalModification"
+      reason: "Starter acceptance template: verify defensive-copy behavior after repository implementation."

@@ -130,6 +130,20 @@ def _run_validate_week(root: Path, week: str, mode: str, errors: list[str]) -> N
         verbose(f"validate_week OK: {week}")
 
 
+def _run_root_smoke_make_test(root: Path, errors: list[str]) -> None:
+    cmd = ["make", "test", "W=01"]
+    verbose(f"running root smoke: {' '.join(cmd)}")
+    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+    if proc.returncode != 0:
+        add_error(errors, "root smoke failed: make test W=01")
+        if proc.stdout.strip():
+            add_error(errors, "root smoke stdout:\n" + proc.stdout.rstrip())
+        if proc.stderr.strip():
+            add_error(errors, "root smoke stderr:\n" + proc.stderr.rstrip())
+    else:
+        verbose("root smoke OK: make test W=01")
+
+
 def _check_glossary(root: Path, expected_weeks: set[str], errors: list[str], warnings: list[str]) -> None:
     glossary_path = root / "shared" / "glossary.yml"
     if not glossary_path.exists():
@@ -240,6 +254,9 @@ def main() -> int:
                     add_error(errors, msg)
                 else:
                     add_warning(warnings, msg + " (week not released yet)")
+
+    if args.mode == "release":
+        _run_root_smoke_make_test(root, errors)
 
     _check_glossary(root, expected_weeks=expected, errors=errors, warnings=warnings)
 

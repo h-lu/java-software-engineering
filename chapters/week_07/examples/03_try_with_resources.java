@@ -22,7 +22,7 @@ import java.sql.Statement;
  * <p>数据库连接、语句和结果集都是昂贵的资源，必须确保关闭。
  * Java 7 引入的 try-with-resources 让资源管理变得简洁安全。
  */
-public class _03_try_with_resources {
+class _03_try_with_resources {
 
     private static final String DB_URL = "jdbc:sqlite:demo.db";
 

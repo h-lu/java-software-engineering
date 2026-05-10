@@ -18,8 +18,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
+import re
 import subprocess
 import sys
+import tempfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from _common import (
@@ -51,6 +55,30 @@ def _detect_language(week_dir: Path) -> str:
             return "java"
     # Default to Python
     return "python"
+
+
+def _load_validation_config(week_dir: Path) -> dict:
+    config_path = week_dir / "VALIDATION.yml"
+    if not config_path.is_file():
+        return {}
+
+    config = load_yaml(config_path)
+    if config in (None, ""):
+        return {}
+    if not isinstance(config, dict):
+        raise RuntimeError(f"VALIDATION.yml must be a mapping/dict: {config_path}")
+    return config
+
+
+def _java_validation_config(validation_config: dict) -> dict:
+    if not validation_config:
+        return {}
+    java_config = validation_config.get("java", {})
+    if java_config in (None, ""):
+        return {}
+    if not isinstance(java_config, dict):
+        raise RuntimeError("VALIDATION.yml 'java' section must be a mapping/dict")
+    return java_config
 
 
 # ---------------------------------------------------------------------------
@@ -117,24 +145,135 @@ def _check_required_paths(errors: list[str], week_dir: Path, root: Path, mode: s
                     verbose(f"Java tests: found {len(java_test_files)} *Test.java file(s)")
 
 
-def _check_examples_exist(errors: list[str], week_dir: Path, root: Path, lang: str = "python") -> None:
-    """examples/ must contain at least one code file (.py or .java)."""
+def _check_examples_exist(
+    errors: list[str],
+    week_dir: Path,
+    root: Path,
+    lang: str = "python",
+    validation_config: dict | None = None,
+) -> None:
+    """examples/ must contain at least one expected artifact."""
     examples_dir = week_dir / "examples"
     if not examples_dir.is_dir():
         return  # already caught by _check_required_paths
 
-    if lang == "java":
-        ext = ".java"
-        lang_name = "Java"
-    else:
+    if lang != "java":
         ext = ".py"
-        lang_name = "Python"
+        code_files = [f for f in examples_dir.iterdir() if f.suffix == ext]
+        if not code_files:
+            add_error(errors, f"examples/ has no {ext} files: {examples_dir.relative_to(root)}")
+        else:
+            verbose(f"examples/ has {len(code_files)} {ext} file(s)")
+        return
 
-    code_files = [f for f in examples_dir.iterdir() if f.suffix == ext]
-    if not code_files:
-        add_error(errors, f"examples/ has no {ext} files: {examples_dir.relative_to(root)}")
+    java_config = _java_validation_config(validation_config or {})
+    example_entries = java_config.get("examples", [])
+    if example_entries:
+        if not isinstance(example_entries, list):
+            add_error(errors, f"VALIDATION.yml java.examples must be a list: {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+            return
+        missing_paths: list[str] = []
+        for entry in example_entries:
+            if not isinstance(entry, dict):
+                add_error(errors, f"VALIDATION.yml java.examples item must be a mapping/dict: {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+                continue
+            rel_path = entry.get("path")
+            if not isinstance(rel_path, str) or not rel_path.strip():
+                add_error(errors, f"VALIDATION.yml java.examples item missing non-empty 'path': {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+                continue
+            if not (week_dir / rel_path).is_file():
+                missing_paths.append(rel_path)
+        if missing_paths:
+            add_error(errors, f"VALIDATION.yml example entries refer to missing files: {missing_paths}")
+        else:
+            verbose(f"examples contract has {len(example_entries)} item(s)")
+        return
+
+    artifacts = [f for f in examples_dir.iterdir() if f.is_file()]
+    if not artifacts:
+        add_error(errors, f"examples/ has no files: {examples_dir.relative_to(root)}")
     else:
-        verbose(f"examples/ has {len(code_files)} {ext} file(s)")
+        verbose(f"examples/ has {len(artifacts)} file artifact(s)")
+
+
+def _expand_classpath_entries(root: Path, classpath_entries: list[str]) -> list[str]:
+    expanded: list[str] = []
+    for item in classpath_entries:
+        if not isinstance(item, str) or not item.strip():
+            raise RuntimeError("VALIDATION.yml compile example classpath entries must be non-empty strings")
+        path = Path(item).expanduser()
+        if not path.is_absolute():
+            path = root / item
+        expanded.append(str(path))
+    return expanded
+
+
+def _check_java_examples_contract(
+    errors: list[str],
+    week_dir: Path,
+    root: Path,
+    validation_config: dict,
+    mode: str,
+) -> None:
+    if mode != "release":
+        return
+
+    java_config = _java_validation_config(validation_config)
+    example_entries = java_config.get("examples", [])
+    if not example_entries:
+        return
+    if not isinstance(example_entries, list):
+        add_error(errors, f"VALIDATION.yml java.examples must be a list: {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+        return
+
+    for entry in example_entries:
+        if not isinstance(entry, dict):
+            continue
+        rel_path = entry.get("path")
+        kind = entry.get("kind", "read-only")
+        if not isinstance(rel_path, str) or not rel_path.strip():
+            continue
+
+        example_path = week_dir / rel_path
+        if not example_path.is_file():
+            continue
+
+        if kind in {"read-only", "maven-dependent"}:
+            verbose(f"example skipped by contract ({kind}): {rel_path}")
+            continue
+        if kind != "compile":
+            add_error(errors, f"unsupported example contract kind for {rel_path}: {kind!r}")
+            continue
+
+        classpath_entries = entry.get("classpath", [])
+        if classpath_entries in (None, ""):
+            classpath_entries = []
+        if not isinstance(classpath_entries, list):
+            add_error(errors, f"example contract classpath must be a list for {rel_path}")
+            continue
+
+        try:
+            expanded_classpath = _expand_classpath_entries(root, classpath_entries)
+        except RuntimeError as e:
+            add_error(errors, str(e))
+            continue
+
+        with tempfile.TemporaryDirectory(prefix="java-example-compile-") as tmpdir:
+            cmd = ["javac", "--release", "21", "-d", tmpdir]
+            if expanded_classpath:
+                cmd.extend(["-cp", os.pathsep.join(expanded_classpath)])
+            cmd.append(str(example_path))
+
+            verbose(f"checking Java example contract: {' '.join(cmd)}")
+            proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+            if proc.returncode != 0:
+                add_error(errors, f"Java example failed contract compile: {rel_path}")
+                if proc.stdout:
+                    add_error(errors, "javac stdout:\n" + proc.stdout.rstrip())
+                if proc.stderr:
+                    add_error(errors, "javac stderr:\n" + proc.stderr.rstrip())
+            else:
+                verbose(f"example compile passed: {rel_path}")
 
 
 def _check_chapter_dod(errors: list[str], chapter_path: Path) -> None:
@@ -498,11 +637,104 @@ def _check_review_bridges(errors: list[str], chapter_path: Path, root: Path, wee
         verbose(f"review bridges OK: {len(found)}/{len(bridge_targets)} targets mentioned")
 
 
-def _run_tests(errors: list[str], root: Path, week: str, lang: str = "python") -> None:
+def _allowed_skipped_test_ids(root: Path, week_dir: Path, validation_config: dict) -> dict[str, str]:
+    java_config = _java_validation_config(validation_config)
+    entries = java_config.get("allowed_skipped_tests", [])
+    if entries in (None, ""):
+        return {}
+    if not isinstance(entries, list):
+        raise RuntimeError(f"VALIDATION.yml java.allowed_skipped_tests must be a list: {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+
+    allowed: dict[str, str] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise RuntimeError(f"VALIDATION.yml allowed_skipped_tests items must be mappings: {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+        test_id = entry.get("id")
+        reason = entry.get("reason")
+        if not isinstance(test_id, str) or not test_id.strip():
+            raise RuntimeError(f"VALIDATION.yml allowed_skipped_tests items need non-empty 'id': {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+        if not isinstance(reason, str) or not reason.strip():
+            raise RuntimeError(f"VALIDATION.yml allowed_skipped_tests items need non-empty 'reason': {(week_dir / 'VALIDATION.yml').relative_to(root)}")
+        allowed[test_id] = reason
+    return allowed
+
+
+def _parse_surefire_report_fallback(report: Path) -> tuple[int, set[str]]:
+    text = report.read_text(encoding="utf-8", errors="ignore")
+    tests_match = re.search(r'\btests="(\d+)"', text)
+    total_tests = int(tests_match.group(1)) if tests_match else 0
+
+    skipped_ids: set[str] = set()
+    testcase_re = re.compile(r"<testcase\b([^>]*)>(.*?)</testcase>", re.DOTALL)
+    for attrs, body in testcase_re.findall(text):
+        if "<skipped" not in body:
+            continue
+        name_match = re.search(r'\bname="([^"]+)"', attrs)
+        class_match = re.search(r'\bclassname="([^"]+)"', attrs)
+        name = name_match.group(1) if name_match else "?"
+        classname = class_match.group(1) if class_match else "?"
+        skipped_ids.add(f"{classname}#{name}")
+
+    return total_tests, skipped_ids
+
+
+def _check_java_surefire_reports(errors: list[str], root: Path, week_dir: Path, validation_config: dict) -> None:
+    report_dir = week_dir / "starter_code" / "target" / "surefire-reports"
+    if not report_dir.is_dir():
+        add_error(errors, f"missing surefire reports after mvn test: {report_dir.relative_to(root)}")
+        return
+
+    xml_reports = sorted(report_dir.glob("TEST-*.xml"))
+    if not xml_reports:
+        add_error(errors, f"no surefire XML reports found: {report_dir.relative_to(root)}")
+        return
+
+    skipped_ids: set[str] = set()
+    total_tests = 0
+    for report in xml_reports:
+        try:
+            suite = ET.parse(report).getroot()
+            total_tests += int(suite.attrib.get("tests", "0"))
+            for testcase in suite.iter("testcase"):
+                if testcase.find("skipped") is None:
+                    continue
+                classname = testcase.attrib.get("classname", "?")
+                name = testcase.attrib.get("name", "?")
+                skipped_ids.add(f"{classname}#{name}")
+        except ET.ParseError:
+            fallback_total, fallback_skipped = _parse_surefire_report_fallback(report)
+            total_tests += fallback_total
+            skipped_ids.update(fallback_skipped)
+
+    if total_tests == 0:
+        add_error(errors, f"mvn test produced zero executed tests: {report_dir.relative_to(root)}")
+        return
+
+    if len(skipped_ids) >= total_tests:
+        add_error(errors, f"all Java tests were skipped in {week_dir.name}; release mode requires at least one executed test")
+
+    allowed = _allowed_skipped_test_ids(root, week_dir, validation_config)
+    unexpected_skips = sorted(skipped_ids - set(allowed))
+    if unexpected_skips:
+        add_error(errors, f"unexpected skipped Java tests in {week_dir.name}: {unexpected_skips}")
+    elif skipped_ids:
+        verbose(f"skipped Java tests allowed by contract: {sorted(skipped_ids)}")
+    else:
+        verbose("no skipped Java tests detected")
+
+
+def _run_tests(
+    errors: list[str],
+    root: Path,
+    week: str,
+    lang: str = "python",
+    validation_config: dict | None = None,
+) -> None:
     """Run tests based on language: pytest for Python, mvn test for Java."""
     if lang == "java":
         # Java: use Maven
-        starter_code = root / "chapters" / week / "starter_code"
+        week_dir = root / "chapters" / week
+        starter_code = week_dir / "starter_code"
         pom_xml = starter_code / "pom.xml"
         if not pom_xml.is_file():
             add_error(errors, "Java project missing pom.xml for running tests")
@@ -518,6 +750,7 @@ def _run_tests(errors: list[str], root: Path, week: str, lang: str = "python") -
                 add_error(errors, "mvn stderr:\n" + proc.stderr.rstrip())
         else:
             verbose("mvn test passed")
+            _check_java_surefire_reports(errors, root, week_dir, validation_config or {})
     else:
         # Python: use pytest
         week_tests = root / "chapters" / week / "tests"
@@ -571,6 +804,11 @@ def main() -> int:
     else:
         # Detect language (Python vs Java)
         lang = _detect_language(week_dir)
+        try:
+            validation_config = _load_validation_config(week_dir)
+        except RuntimeError as e:
+            add_error(errors, str(e).strip())
+            validation_config = {}
         verbose(f"detected language: {lang}")
 
         verbose(f"validating {week} (mode={args.mode}, lang={lang})")
@@ -584,7 +822,12 @@ def main() -> int:
 
         # --- Examples (skip for drafting) ---
         if args.mode != "drafting":
-            _check_examples_exist(errors, week_dir, root, lang)
+            try:
+                _check_examples_exist(errors, week_dir, root, lang, validation_config)
+                if lang == "java":
+                    _check_java_examples_contract(errors, week_dir, root, validation_config, args.mode)
+            except RuntimeError as e:
+                add_error(errors, str(e).strip())
 
         # --- Solution customization (release only) ---
         if args.mode == "release":
@@ -627,7 +870,10 @@ def main() -> int:
 
         # --- tests (release only) ---
         if args.mode == "release":
-            _run_tests(errors, root, week, lang)
+            try:
+                _run_tests(errors, root, week, lang, validation_config)
+            except RuntimeError as e:
+                add_error(errors, str(e).strip())
 
     if errors:
         print(f"[validate-week] FAILED (mode={args.mode})", file=sys.stderr)

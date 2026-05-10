@@ -1,0 +1,6 @@
+java:
+  allowed_skipped_tests:
+    - id: "com.campusflow.DiscountStrategyTodoTest#shouldApplyVipAndCouponStrategiesInOrder"
+      reason: "Starter acceptance template: enable after strategy composition is implemented."
+    - id: "com.campusflow.DiscountStrategyTodoTest#factoryShouldReturnOnlyApplicableStrategies"
+      reason: "Starter acceptance template: enable after factory selection logic exists."

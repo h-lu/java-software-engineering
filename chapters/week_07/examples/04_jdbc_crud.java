@@ -27,7 +27,7 @@ import java.util.Optional;
  * <p>使用 PreparedStatement 防止 SQL 注入攻击，
  * 这是生产环境必须遵守的安全准则。
  */
-public class _04_jdbc_crud {
+class _04_jdbc_crud {
 
     private static final String DB_URL = "jdbc:sqlite:crud_demo.db";
 
