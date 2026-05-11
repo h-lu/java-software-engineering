@@ -1,13 +1,12 @@
 package com.campusflow.contract;
 
 import com.campusflow.App;
-import com.sun.net.httpserver.HttpServer;
+import io.javalin.Javalin;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,22 +15,21 @@ import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled("Acceptance template: wire standalone CORS and /tasks support, then remove @Disabled.")
+@Disabled("Acceptance template: remove @Disabled if you want to run the CORS contract manually.")
 class CorsContractTemplateTest {
-    private HttpServer server;
+    private Javalin app;
     private int port;
 
     @BeforeEach
-    void setUp() throws IOException {
-        server = App.createServer(0);
-        server.start();
-        port = server.getAddress().getPort();
+    void setUp() {
+        app = App.createApp().start(0);
+        port = app.port();
     }
 
     @AfterEach
     void tearDown() {
-        if (server != null) {
-            server.stop(0);
+        if (app != null) {
+            app.stop();
         }
     }
 
@@ -61,7 +59,7 @@ class CorsContractTemplateTest {
             HttpResponse.BodyHandlers.ofString()
         );
 
-        assertTrue(response.statusCode() < 500, "实现后至少要让 /tasks 端点存在并返回可解释的 HTTP 状态码");
+        assertTrue(response.statusCode() < 500, "至少要让 /tasks 端点存在并返回可解释的 HTTP 状态码");
         assertEquals("*", response.headers().firstValue("Access-Control-Allow-Origin").orElse(""));
     }
 

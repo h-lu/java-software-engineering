@@ -25,7 +25,7 @@
 
 **要求**：
 - Prompt 必须包含四要素：角色、任务、约束、格式
-- 准确描述 CampusFlow API 端点（基于 Week 09 实现）
+- 准确描述 CampusFlow API 端点（基于本周 `starter_code` 提供的官方 backend base；它对齐 Week 09 必做接口）
 - 明确前端功能需求：任务列表展示、添加任务、删除任务、标记完成
 
 **CampusFlow API 参考**：
@@ -39,7 +39,7 @@ PUT    /tasks/{id}          - 全量更新任务
 DELETE /tasks/{id}          - 删除任务
 ```
 
-> **注意**：上表是 Week 09 必做接口。标记任务完成请使用 `PUT /tasks/{id}` 提交更新后的任务对象；`PATCH /tasks/{id}`、`POST /tasks/{id}/complete`、`GET /stats` 只能作为进阶扩展，不能在基础前端中假设后端已经实现。
+> **注意**：上表是官方 Week 10 backend base 已实现的基础接口，也对齐 Week 09 必做接口。标记任务完成请使用 `PUT /tasks/{id}` 提交更新后的任务对象；`PATCH /tasks/{id}`、`POST /tasks/{id}/complete`、`GET /stats` 只能作为进阶扩展，不能在基础前端中假设后端已经实现。
 
 **Task 模型结构**：
 ```json
@@ -236,20 +236,22 @@ DELETE /tasks/{id}          - 删除任务
 
 **实现要求**：
 
-1. 修改你的 Week 09 后端 `App.java`，添加 CORS 配置。如果你选择让 Week 10 starter 独立运行，也可以在本周 `starter_code/src/main/java/com/campusflow/App.java` 中实现同一组 `/tasks` API 和 CORS；不要只给 `/health` 加 CORS 后就验收任务列表。
+1. 使用本周 `starter_code` 提供的官方 backend base。它已经实现 `/tasks` API，并在 `src/main/java/com/campusflow/App.java` 中开启了开发环境 CORS：
    ```java
    import io.javalin.plugin.bundled.CorsPluginConfig;
 
-   var app = Javalin.create(config -> {
+   Javalin app = Javalin.create(config -> {
        config.bundledPlugins.enableCors(cors -> {
-           // 开发环境：允许任何来源
+           // 开发环境：允许 file:// / localhost 前端访问
            cors.addRule(CorsPluginConfig.CorsRule::anyHost);
 
            // 生产环境应该限制具体域名：
            // cors.addRule(rule -> rule.allowHost("http://localhost:8080"));
        });
-   }).start(7070);
+   });
    ```
+
+   如果你坚持使用自己的 Week 09 后端，也必须实现同一组 `/tasks` API，并添加等价 CORS 配置；不要只给 `/health` 加 CORS 后就验收任务列表。
 
 2. 确保前端代码使用完整的 API URL：
    ```javascript
@@ -259,7 +261,7 @@ DELETE /tasks/{id}          - 删除任务
    ```
 
 **验证方法**：
-1. 启动 Week 09 后端：`cd chapters/week_09/starter_code && mvn -q compile exec:java`
+1. 启动官方 Week 10 backend base：`cd chapters/week_10/starter_code && mvn -q compile exec:java`
 2. 用浏览器打开 `frontend/index.html`
 3. 打开浏览器开发者工具（F12）
 4. 确认：
@@ -268,7 +270,7 @@ DELETE /tasks/{id}          - 删除任务
    - Network 标签能看到成功的 API 请求
 
 **提交物**：
-- Week 09 后端的 `src/main/java/com/campusflow/App.java`：添加了 CORS 配置。若你选择 Week 10 standalone backend，则提交 Week 10 的 `src/main/java/com/campusflow/App.java`，并确保它也实现 `/tasks`
+- `src/main/java/com/campusflow/App.java`：使用官方 Week 10 backend base 的 CORS 配置；若你改用自己的 Week 09 后端，也必须提交等价配置，并确保它实现 `/tasks`
 - `cors_screenshot.png`：浏览器控制台截图，证明前后端通信正常
 
 **评分要点**：
@@ -415,7 +417,7 @@ week_10_submission/
 ## 参考资源
 
 - 如果你遇到困难，可以参考 `starter_code/src/main/java/com/campusflow/App.java` 中的 CORS 配置示例
-- Week 09 的 API 文档在 `chapters/week_09/CHAPTER.md` 中
+- 本周官方 backend base 的 API contract 见 `chapters/week_10/starter_code/README.md`；Week 09 的 API 设计背景在 `chapters/week_09/CHAPTER.md` 中
 - AI 审查检查清单模板：`shared/ai_progression.md`
 
 ---

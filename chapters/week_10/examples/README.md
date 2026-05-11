@@ -50,12 +50,13 @@
 8. 表单提交后清空
 9. 按钮禁用防止重复提交
 
-**使用方式**：在浏览器中打开（需要配合你已经完成的 Week 09 backend；Week 10 starter 只提供 `/health` smoke endpoint）
+**使用方式**：在浏览器中打开（推荐配合 Week 10 `starter_code` 提供的官方 backend base）
 
 **运行步骤**：
-1. 启动你已经完成的 Week 09 backend，确认 `/tasks` 等 API 可访问
-2. 双击打开 `10_reviewed_frontend.html`
-3. 测试所有功能
+1. 启动 Week 10 官方 backend base：`cd chapters/week_10/starter_code && mvn -q compile exec:java`
+2. 确认 `/tasks` 等 API 可访问
+3. 双击打开 `10_reviewed_frontend.html`
+4. 测试所有功能
 
 ---
 
@@ -70,7 +71,7 @@
 
 **使用方式**：参考配置方式，集成到自己的项目
 
-**运行方式**：这是配置片段示例，不在 Week 10 starter Maven 项目中直接编译；请复制到你的 Javalin backend 中验证。
+**运行方式**：这是配置片段示例。Week 10 `starter_code` 已经内置等价 CORS 配置；如果你改用自己的 backend，请复制到自己的 Javalin backend 中验证。
 
 ---
 
@@ -118,8 +119,8 @@
 
 ### 4. 运行完整示例
 ```bash
-# 终端 1：启动已完成的 Week 09 backend
-# 例如在你的 CampusFlow 项目中运行 mvn compile exec:java
+# 终端 1：启动 Week 10 官方 backend base
+cd chapters/week_10/starter_code && mvn -q compile exec:java
 
 # 终端 2：测试 API
 curl http://localhost:7070/health

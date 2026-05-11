@@ -176,7 +176,7 @@ class _10_cors_config {
     }
 
     /**
-     * CampusFlow 集成示例：为 Week 09 的 CampusFlow 添加 CORS 支持。
+     * CampusFlow 集成示例：为 Week 10 官方 backend base 或自己的 CampusFlow backend 添加 CORS 支持。
      *
      * <p>使用方法：将 CORS 配置添加到 App.java 的 Javalin 创建代码中。
      */
