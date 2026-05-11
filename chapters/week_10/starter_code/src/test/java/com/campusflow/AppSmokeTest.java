@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -45,6 +46,32 @@ class AppSmokeTest {
             assertEquals(200, tasks.statusCode());
             assertTrue(tasks.body().contains("\"data\""));
             assertTrue(tasks.body().contains("\"total\":1"));
+            assertTrue(tasks.headers().firstValue("Content-Type").orElse("").toLowerCase().contains("charset=utf-8"));
+        } finally {
+            app.stop();
+        }
+    }
+
+    @Test
+    void backendBaseAcceptsWindowsChineseJsonBody() throws Exception {
+        Javalin app = App.createApp().start(0);
+        try {
+            String baseUrl = "http://localhost:" + app.port();
+            HttpClient client = HttpClient.newHttpClient();
+            byte[] gb18030Body = "{\"title\":\"中文任务\",\"description\":\"来自 Windows 命令行\",\"dueDate\":\"2026-05-11\"}"
+                .getBytes(Charset.forName("GB18030"));
+
+            HttpResponse<String> created = client.send(
+                HttpRequest.newBuilder(URI.create(baseUrl + "/tasks"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(gb18030Body))
+                    .build(),
+                HttpResponse.BodyHandlers.ofString()
+            );
+
+            assertEquals(201, created.statusCode());
+            assertTrue(created.body().contains("中文任务"));
+            assertTrue(created.body().contains("来自 Windows 命令行"));
         } finally {
             app.stop();
         }

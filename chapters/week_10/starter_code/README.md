@@ -37,6 +37,24 @@ curl -X POST http://localhost:7070/tasks \
 curl http://localhost:7070/tasks
 ```
 
+### Windows 中文说明
+
+这个 backend 会按 UTF-8 返回 JSON，并且兼容 Windows 命令行可能发出的 GBK/GB18030 中文请求体。
+
+如果你在 Windows `cmd` 或 PowerShell 里直接看 `curl` 输出仍然乱码，通常是终端显示编码问题，不是 API 数据坏了。建议先执行：
+
+```bat
+chcp 65001
+```
+
+或者在 PowerShell / 浏览器 DevTools 里查看响应。发送请求时也推荐显式声明 UTF-8：
+
+```bash
+curl -X POST http://localhost:7070/tasks \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -d '{"title":"中文任务","description":"检查 Windows 中文","dueDate":"2026-05-11"}'
+```
+
 然后在浏览器中打开：
 
 ```text
